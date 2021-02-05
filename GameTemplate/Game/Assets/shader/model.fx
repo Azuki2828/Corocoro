@@ -13,6 +13,12 @@ cbuffer ModelCb : register(b0){
 	float4x4 mProj;
 };
 
+cbuffer DirectionLightCb : register(b1) {
+	float3 ligDirection;
+	float3 ligColor;
+	float3 eyePos;
+}
+
 ////////////////////////////////////////////////
 // 構造体
 ////////////////////////////////////////////////
@@ -24,12 +30,14 @@ struct SSkinVSIn{
 //頂点シェーダーへの入力。
 struct SVSIn{
 	float4 pos 		: POSITION;		//モデルの頂点座標。
+	float3 normal	: NORMAL;
 	float2 uv 		: TEXCOORD0;	//UV座標。
 	SSkinVSIn skinVert;				//スキン用のデータ。
 };
 //ピクセルシェーダーへの入力。
 struct SPSIn{
 	float4 pos 			: SV_POSITION;	//スクリーン空間でのピクセルの座標。
+	float3 normal		: NORMAL;
 	float2 uv 			: TEXCOORD0;	//uv座標。
 };
 
@@ -37,6 +45,9 @@ struct SPSIn{
 // グローバル変数。
 ////////////////////////////////////////////////
 Texture2D<float4> g_albedo : register(t0);				//アルベドマップ
+Texture2D<float4> g_normalMap : register(t1);
+Texture2D<float4> g_specularMap : register(t2);
+
 StructuredBuffer<float4x4> g_boneMatrix : register(t3);	//ボーン行列。
 sampler g_sampler : register(s0);	//サンプラステート。
 
@@ -79,6 +90,8 @@ SPSIn VSMainCore(SVSIn vsIn, uniform bool hasSkin)
 	psIn.pos = mul(mView, psIn.pos);
 	psIn.pos = mul(mProj, psIn.pos);
 
+	psIn.normal = mul(m, vsIn.normal);
+
 	psIn.uv = vsIn.uv;
 
 	return psIn;
@@ -101,8 +114,74 @@ SPSIn VSSkinMain( SVSIn vsIn )
 /// <summary>
 /// ピクセルシェーダーのエントリー関数。
 /// </summary>
-float4 PSMain( SPSIn psIn ) : SV_Target0
+float4 PSMain(SPSIn psIn) : SV_Target0
 {
+
+	//拡散反射光の影響
+	float t = dot(psIn.normal,ligDirection);
+
+	t *= -1.0f;
+
+	if (t < 0.0f) {
+		t = 0.0f;
+	}
+
+	float3 diffuseLig = ligColor * t;
+	diffuseLig /= 3.1415926;
+
+
+	//鏡面反射光の影響
+	//float3 refvec = reflect(ligDirection, psIn.normal);
+
+	float3 toEye = eyePos - psIn.pos;
+	toEye = normalize( toEye );
+
+	//t = dot(refvec, toEye);
+
+	//if (t < 0.0f) {
+	//	t = 0.0f;
+	//}
+
+	//t = pow(t, 5.0f);
+
+	//float3 specularLig = ligColor * t;
+
+	//float3 lig = diffuseLig;// + specularLig;
+
+	//環境光の影響
+	//lig.x += 0.2f;
+	//lig.y += 0.2f;
+	//lig.z += 0.2f;
+
+	//クックトランス
+	//float3 spec = CookTrranceSpecular(-ligDirection, toEye, psIn.normal, metaric) * ligColor;
+
+	//float specTerm = length(specColor.xyz);
+	//spec *= lerp(float3(specTerm, specTerm, specTerm), specColor, metaric);
+
+
+
 	float4 albedoColor = g_albedo.Sample(g_sampler, psIn.uv);
+
+	//albedoColor.xyz *= lig;
+	
+
+
+
+	//float3 specColor = g_specularMap.SampleLevel(g_sampler, psIn.uv, 0).rgb;
+
+	//float3 metaric = g_specularMap.Sample(g_sampler, psIn.uv).a;
+
+
+	//フレネル反射
+	float3 H = normalize(ligDirection + toEye);
+	float dotLH = saturate(dot(ligDirection, H));
+	float dotNL = saturate(dot(psIn.normal, ligDirection));
+
+	float3 lig = diffuseLig + (dotLH * dotNL);// / 3.1415926;
+	//float3 lig = (dotLH * dotNL) / 3.1415926; //* (1.0 - specTerm) + spec;
+	//return albedoColor;
+	albedoColor.xyz *= lig;
+
 	return albedoColor;
 }

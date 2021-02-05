@@ -287,7 +287,12 @@
     <ClCompile Include="..\..\MiniEngine\tkFile\TkmFile.cpp" />
     <ClCompile Include="..\..\MiniEngine\tkFile\TksFile.cpp" />
     <ClCompile Include="..\..\MiniEngine\VertexBuffer.cpp" />
+    <ClCompile Include="Background.cpp" />
+    <ClCompile Include="DirectionLight.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="MainCamera.cpp" />
+    <ClCompile Include="Player.cpp" />
+    <ClCompile Include="SkinModelRender.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
@@ -355,6 +360,11 @@
     <ClInclude Include="..\..\MiniEngine\tkFile\TkmFile.h" />
     <ClInclude Include="..\..\MiniEngine\tkFile\TksFile.h" />
     <ClInclude Include="..\..\MiniEngine\VertexBuffer.h" />
+    <ClInclude Include="Background.h" />
+    <ClInclude Include="DirectionLight.h" />
+    <ClInclude Include="MainCamera.h" />
+    <ClInclude Include="Player.h" />
+    <ClInclude Include="SkinModelRender.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="system\system.h" />
   </ItemGroup>

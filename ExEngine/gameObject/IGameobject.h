@@ -113,6 +113,7 @@ public:
 			}
 		}
 	}
+	std::string GetName() { return m_name; }
 
 		
 	friend class CGameObjectManager;

@@ -1,5 +1,8 @@
 #include "stdafx.h"
 #include "system/system.h"
+#include "Player.h"
+#include "Background.h"
+#include "MainCamera.h"
 
 ///////////////////////////////////////////////////////////////////
 // ウィンドウプログラムのメイン関数。
@@ -16,6 +19,12 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	//ゲームオブジェクトマネージャーのインスタンスを作成する。
 	GameObjectManager::CreateInstance();
 	PhysicsWorld::CreateInstance();
+
+	//プレイヤーを生成。
+	NewGO<Player>(0,"player");
+	//NewGO<MainCamera>(0);
+	//背景を生成。
+	//NewGO<Background>(0);
 	
 
 	//////////////////////////////////////
