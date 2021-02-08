@@ -15,13 +15,13 @@ class DirectionLight : public IGameObject
 	void Update() override final;
 public:
 	void Init();
-	void SetLigDirection(float _x, float _y, float _z) {
+	void SetLigDirection(float _x = 1.0f, float _y = 1.0f, float _z = 1.0f) {
 		m_ligData.Dir.x = _x;
 		m_ligData.Dir.y = _y;
 		m_ligData.Dir.z = _z;
 	}
 
-	void SetLigColor(float _x, float _y, float _z) {
+	void SetLigColor(float _x = 0.5f, float _y = 0.5f, float _z = 0.5f) {
 		m_ligData.Col.x = _x;
 		m_ligData.Col.y = _y;
 		m_ligData.Col.z = _z;

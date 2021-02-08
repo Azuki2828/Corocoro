@@ -6,7 +6,7 @@ class SkinModelRender : public IGameObject
 {
 public:
 	SkinModelRender() {}
-	void Init(const char* ModelFileName);
+	void Init(const char* ModelFileName, bool DirectionFlg = false, bool PointLightFlg = false);
 
 	void InitSkeleton();
 	void InitModel(void* data);
@@ -20,6 +20,11 @@ public:
 	DirectionLight* m_directionLight = nullptr;
 
 private:
-	const char* m_modelFileName;
+	const char* m_modelFileName = nullptr;
+	struct DirectionLightData {
+		Vector3 Direction;
+		Vector3 Color;
+	};
+	DirectionLightData m_directionLightData;
 };
 
