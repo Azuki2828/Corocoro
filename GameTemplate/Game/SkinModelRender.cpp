@@ -54,10 +54,11 @@ void SkinModelRender::Init(bool DirectionFlg = false, bool PointLightFlg = false
 		m_directionLight->SetLigDirection(1.0f, 1.0f, 1.0f);
 		m_directionLight->SetLigColor(0.5f, 0.5f, 0.5f);
 		m_directionLight->SetEyePos();
+
+		initData.m_expandConstantBuffer = m_directionLight->GetLigData();
+		initData.m_expandConstantBufferSize = 44;
 	}
-}
 
-
-void SkinModelRender::InitSkeleton() {
-	
+	//作成した初期化データをもとにモデルを初期化する、
+	m_model.Init(initData);
 }
