@@ -11,6 +11,12 @@ public:
 	void InitAnimation(AnimationClip* animClip, int animNum) {
 		m_animation.Init(m_skeleton, animClip, animNum);
 	}
+	void SetPosition(Vector3 pos) { m_pos = pos; }
+	void SetRotation(Quaternion rot) { m_rot = rot; }
+	void SetScale(Vector3 sca) { m_sca = sca; }
+	void Render(RenderContext& rc) override;
+
+	void Update()override final;
 
 	Model m_model;			//ÉÇÉfÉãï\é¶èàóùÅB
 	ModelInitData initData;
@@ -23,6 +29,10 @@ public:
 private:
 	const char* m_fileNametkm = nullptr;
 	const char* m_fileNametks = nullptr;
+
+	Vector3 m_pos = Vector3::Zero;
+	Vector3 m_sca = Vector3::One;
+	Quaternion m_rot = Quaternion::Identity;
 	//struct DirectionLightData {
 	//	Vector3 Direction;
 	//	Vector3 Color;

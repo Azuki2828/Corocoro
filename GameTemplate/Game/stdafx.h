@@ -3,3 +3,4 @@
 
 #include "MiniEngine.h"
 #include "ExEngine.h"
+#include "SkinModelRender.h"

@@ -1,8 +1,7 @@
 #include "stdafx.h"
-#include "SkinModelRender.h"
 #include "DirectionLight.h"
 
-void SkinModelRender::Init(bool DirectionFlg = false, bool PointLightFlg = false) {
+void SkinModelRender::Init(bool DirectionFlg, bool PointLightFlg) {
 
 	//char textureDir[256];
 	//strncpy_s(textureDir, ModelFileName, 256);
@@ -61,4 +60,20 @@ void SkinModelRender::Init(bool DirectionFlg = false, bool PointLightFlg = false
 
 	//作成した初期化データをもとにモデルを初期化する、
 	m_model.Init(initData);
+}
+
+void SkinModelRender::Update() {
+
+	//スケルトンを更新。
+	m_skeleton.Update(m_model.GetWorldMatrix());
+	//アニメーションを進める。
+	m_animation.Progress(1.0f / 60.0f);
+
+	
+	m_model.UpdateWorldMatrix(m_pos, m_rot, m_sca);
+}
+
+void SkinModelRender::Render(RenderContext& rc)
+{
+	m_model.Draw(rc);
 }
