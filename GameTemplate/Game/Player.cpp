@@ -19,10 +19,9 @@ bool Player::Start()
 	m_animationClips[enAnimClip_Run].SetLoopFlag(true);
 
 	m_skinModelRender->InitAnimation(m_animationClips, enAnimClip_Num);
-	m_skinModelRender->Init(true, false);
 	//ƒLƒƒƒ‰ƒRƒ“‚ğ‰Šú‰»B
 	m_charaCon.Init(40.0f, 100.0f, g_vec3Zero);
-
+	m_skinModelRender->Init(true, false);
 
 	return true;
 }
