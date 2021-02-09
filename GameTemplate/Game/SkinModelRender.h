@@ -9,7 +9,8 @@ public:
 	void SetFileNametkm(const char* name) { m_fileNametkm = name; }
 	void SetFileNametks(const char* name) { m_fileNametks = name; }
 	void InitAnimation(AnimationClip* animClip, int animNum) {
-		m_animation.Init(m_skeleton, animClip, animNum);
+		m_animClip = animClip;
+		m_animNum = animNum;
 	}
 	void SetPosition(Vector3 pos) { m_pos = pos; }
 	void SetRotation(Quaternion rot) { m_rot = rot; }
@@ -21,12 +22,13 @@ public:
 	Model m_model;			//モデル表示処理。
 	ModelInitData initData;
 	Animation m_animation;	//アニメション再生処理。
-	AnimationClip m_animClip;
+	AnimationClip* m_animClip;
 	Skeleton m_skeleton;	//スケルトン。
 
 	DirectionLight* m_directionLight = nullptr;
 
 private:
+	int m_animNum;
 	const char* m_fileNametkm = nullptr;
 	const char* m_fileNametks = nullptr;
 

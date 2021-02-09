@@ -5,22 +5,24 @@
 
 bool Player::Start()
 {
-
-	m_skinModelRender = NewGO<SkinModelRender>(0);
-	m_skinModelRender->SetFileNametkm("Assets/modelData/unityChan.tkm");
-	m_skinModelRender->SetFileNametks("Assets/modelData/unityChan.tks");
-
-
-
 	//アニメーションクリップをロードする。
 	m_animationClips[enAnimClip_Idle].Load("Assets/animData/idle.tka");
 	m_animationClips[enAnimClip_Idle].SetLoopFlag(true);
 	m_animationClips[enAnimClip_Run].Load("Assets/animData/walk.tka");
 	m_animationClips[enAnimClip_Run].SetLoopFlag(true);
 
-	m_skinModelRender->InitAnimation(m_animationClips, enAnimClip_Num);
-	//キャラコンを初期化。
 	m_charaCon.Init(40.0f, 100.0f, g_vec3Zero);
+
+
+	//SkinModelRenderをNewGO。
+	m_skinModelRender = NewGO<SkinModelRender>(0);
+	//tkmファイルをロード。
+	m_skinModelRender->SetFileNametkm("Assets/modelData/unityChan.tkm");
+	//tksファイルをロード。
+	m_skinModelRender->SetFileNametks("Assets/modelData/unityChan.tks");
+	//アニメーションを設定。
+	m_skinModelRender->InitAnimation(m_animationClips, enAnimClip_Num);
+	//最終的な初期化。
 	m_skinModelRender->Init(true, false);
 
 	return true;

@@ -60,6 +60,8 @@ void SkinModelRender::Init(bool DirectionFlg, bool PointLightFlg) {
 
 	//作成した初期化データをもとにモデルを初期化する、
 	m_model.Init(initData);
+
+	m_animation.Init(m_skeleton, m_animClip, m_animNum);
 }
 
 void SkinModelRender::Update() {
