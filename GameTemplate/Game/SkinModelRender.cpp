@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "DirectionLight.h"
 
+
 void SkinModelRender::Init(bool DirectionFlg, bool PointLightFlg) {
 
 	//char textureDir[256];

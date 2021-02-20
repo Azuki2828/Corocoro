@@ -5,6 +5,7 @@ class DirectionLight;
 class SkinModelRender : public IGameObject
 {
 public:
+	SkinModelRender();
 	void Init(bool directionFlg = false, bool pointLightFlg = false);
 	void SetFileNametkm(const char* name) { m_fileNametkm = name; }
 	void SetFileNametks(const char* name) { m_fileNametks = name; }
@@ -19,6 +20,11 @@ public:
 
 	void Update()override final;
 
+private:
+	int m_animNum;
+	const char* m_fileNametkm = nullptr;
+	const char* m_fileNametks = nullptr;
+
 	Model m_model;			//モデル表示処理。
 	ModelInitData initData;
 	Animation m_animation;	//アニメション再生処理。
@@ -27,14 +33,10 @@ public:
 
 	DirectionLight* m_directionLight = nullptr;
 
-private:
-	int m_animNum;
-	const char* m_fileNametkm = nullptr;
-	const char* m_fileNametks = nullptr;
-
 	Vector3 m_pos = Vector3::Zero;
 	Vector3 m_sca = Vector3::One;
 	Quaternion m_rot = Quaternion::Identity;
+
 	//struct DirectionLightData {
 	//	Vector3 Direction;
 	//	Vector3 Color;

@@ -32,9 +32,9 @@ void MainCamera::Update() {
 	m_rotX.Apply(toPos);
 
 	//新しい注視点をティーポットの少し上に設定する。
-	//if (m_player != nullptr) {
+	if (m_player != nullptr) {
 		m_tar = m_player->GetPosition();
-	//}
+	}
 	m_tar.y += 50.0f;
 	//新しい視点を、「新しい注視点　＋　toCameraPos」で求める。
 	m_pos = m_tar + toPos;
