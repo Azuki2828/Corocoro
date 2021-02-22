@@ -40,7 +40,7 @@
 	/*!
 	 *@brief	ƒŒƒxƒ‹B
 	 */
-	class CLevel{
+	class CLevel : Noncopyable{
 	private:
 		using CMapChipPtr = std::unique_ptr<CMapChip>;
 		using CMapChipRenderPtr = std::unique_ptr<CMapChipRender>;

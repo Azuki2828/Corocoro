@@ -7,7 +7,6 @@
 #include "tkEngine/physics/tkPhysicsStaticObject.h"
 #include "tkMapChipRender.h"
 
-namespace tkEngine{
 	struct LevelObjectData;
 	class CMapChipRender;
 	/*!
@@ -34,4 +33,3 @@ namespace tkEngine{
 		CMapChipRender* m_mapChipRender = nullptr;			//マップチップレンダラー。
 		CPhysicsStaticObject m_physicsStaticObject;			//!<静的物理オブジェクト。
 	};
-}
