@@ -2,7 +2,6 @@
 
 #include "tkUtil.h"
 
-namespace tkEngine {
 	
 	template<class T>
 	class TNameKey {
@@ -38,4 +37,3 @@ namespace tkEngine {
 
 	using NameKey = TNameKey<char>;
 	using WNameKey = TNameKey<wchar_t>;
-}

@@ -359,6 +359,8 @@
     <ClInclude Include="..\..\MiniEngine\tkFile\TkaFile.h" />
     <ClInclude Include="..\..\MiniEngine\tkFile\TkmFile.h" />
     <ClInclude Include="..\..\MiniEngine\tkFile\TksFile.h" />
+    <ClInclude Include="..\..\MiniEngine\tkNameKey.h" />
+    <ClInclude Include="..\..\MiniEngine\tkUtil.h" />
     <ClInclude Include="..\..\MiniEngine\VertexBuffer.h" />
     <ClInclude Include="Background.h" />
     <ClInclude Include="DirectionLight.h" />

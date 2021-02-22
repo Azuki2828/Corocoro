@@ -1,4 +1,5 @@
 #include "stdafx.h"
+#include "SkinModelRender.h"
 #include "DirectionLight.h"
 
 

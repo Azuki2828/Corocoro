@@ -5,7 +5,7 @@ class DirectionLight;
 class SkinModelRender : public IGameObject
 {
 public:
-	SkinModelRender();
+	//SkinModelRender();
 	void Init(bool directionFlg = false, bool pointLightFlg = false);
 	void SetFileNametkm(const char* name) { m_fileNametkm = name; }
 	void SetFileNametks(const char* name) { m_fileNametks = name; }
