@@ -1,9 +1,10 @@
 /*!
  *@brief	レベル。
  */
-#pragma once
-#include "MiniEngine.h"
 
+#pragma once
+
+namespace tkEngine{
 	class CMapChip;
 	class CMapChipRender;
 	/*!
@@ -74,3 +75,4 @@
 		std::vector<CMapChipPtr> m_mapChipPtrs;			//マップチップの可変長配列。
 		std::map< unsigned int, CMapChipRender*> m_mapChipRenderPtrs;	//マップチップレンダラーの可変長配列。
 	};
+}

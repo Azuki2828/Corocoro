@@ -13,6 +13,9 @@ public:
 		m_animClip = animClip;
 		m_animNum = animNum;
 	}
+	Model* GetModel() { return &m_model; }
+	Skeleton* GetSkeleton() { return &m_skeleton; }
+	
 	void SetPosition(Vector3 pos) { m_pos = pos; }
 	void SetRotation(Quaternion rot) { m_rot = rot; }
 	void SetScale(Vector3 sca) { m_sca = sca; }

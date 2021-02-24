@@ -2,40 +2,38 @@
  *@brief	レベル。
  */
 
-#include "tkEnginePreCompile.h"
-#include "ExEngine.h"
+//#include "tkEngine/tkEnginePreCompile.h"
+#include "MiniEngine.h"
 #include "tkLevel.h"
 #include "tkMapChip.h"
-#include "tkMapChipRender.h"
-#include "tkNameKey.h"
+//#include "tkEngine/level/tkMapChipRender.h"
 
-
-
+namespace tkEngine{
 	CLevel::~CLevel()
 	{
-		for (auto mapChipRender : m_mapChipRenderPtrs) {
-			DeleteGO(mapChipRender.second);
-		}
+		//for (auto mapChipRender : m_mapChipRenderPtrs) {
+		//	DeleteGO(mapChipRender.second);
+		//}
 	}
-	CMapChipRender* CLevel::CreateMapChipRenderOrAddRenderObject(const LevelObjectData& objData)
-	{
-		WNameKey nameKey(objData.name);
-
-		auto itFind = m_mapChipRenderPtrs.find(nameKey.GetHashCode());
-		CMapChipRender* pMapChipRender = nullptr;
-		if (itFind == m_mapChipRenderPtrs.end()) {
-			//登録されていないオブジェクト。
-			auto mapChipRender = NewGO<CMapChipRender>(0);
-			pMapChipRender = mapChipRender;
-			m_mapChipRenderPtrs.insert({ nameKey.GetHashCode(),mapChipRender });
-		}
-		else {
-			//描画すべきオブジェクトのインクリメント。
-			pMapChipRender = itFind->second;
-		}
-		pMapChipRender->AddRenderObject(objData);
-		return pMapChipRender;
-	}
+	//CMapChipRender* CLevel::CreateMapChipRenderOrAddRenderObject(const LevelObjectData& objData)
+	//{
+	//	WNameKey nameKey(objData.name);
+	//
+	//	auto itFind = m_mapChipRenderPtrs.find(nameKey.GetHashCode());
+	//	CMapChipRender* pMapChipRender = nullptr;
+	//	if (itFind == m_mapChipRenderPtrs.end()) {
+	//		//登録されていないオブジェクト。
+	//		auto mapChipRender = NewGO<CMapChipRender>(0);
+	//		pMapChipRender = mapChipRender;
+	//		m_mapChipRenderPtrs.insert({ nameKey.GetHashCode(),mapChipRender });
+	//	}
+	//	else {
+	//		//描画すべきオブジェクトのインクリメント。
+	//		pMapChipRender = itFind->second;
+	//	}
+	//	pMapChipRender->AddRenderObject(objData);
+	//	return pMapChipRender;
+	//}
 	void CLevel::Init( 
 		const char* filePath, 
 		std::function<bool(LevelObjectData& objData)> hookFunc
@@ -50,7 +48,7 @@
 		for (auto i = 1; i < skeleton.GetNumBones(); i++) {
 			//骨を取得。
 			auto bone = skeleton.GetBone(i);
-			if (bone->GetParentId() == 0) {	//親がルートの場合だけマップチップを生成する。
+			if (bone->GetParentBoneNo() == 0) {	//親がルートの場合だけマップチップを生成する。
 				LevelObjectData objData;
 				Vector3 scale;
 				bone->CalcWorldTRS(objData.position, objData.rotation, objData.scale);
@@ -78,12 +76,13 @@
 			}
 		}
 		//マップチップレンダラーを初期化する。
-		for (auto& mapChipRender : m_mapChipRenderPtrs) {
-			mapChipRender.second->InitAfterAddAllRenderObjects();
-			mapChipRender.second->QueryRenderObjDatas([&](const LevelObjectData& objData) {
-				//フックされなかったので、マップチップを作成する。
-				auto mapChip = std::make_unique<CMapChip>(objData, mapChipRender.second);
-				m_mapChipPtrs.push_back(std::move(mapChip));
-			});
-		}
+		//for (auto& mapChipRender : m_mapChipRenderPtrs) {
+		//	mapChipRender.second->InitAfterAddAllRenderObjects();
+		//	mapChipRender.second->QueryRenderObjDatas([&](const LevelObjectData& objData) {
+		//		//フックされなかったので、マップチップを作成する。
+		//		auto mapChip = std::make_unique<CMapChip>(objData, mapChipRender.second);
+		//		m_mapChipPtrs.push_back(std::move(mapChip));
+		//	});
+		//}
 	}	
+}
