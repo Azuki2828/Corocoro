@@ -14,12 +14,12 @@ namespace tkEngine{
 		
 		//ファイルパスを作成。
 		wchar_t filePath[256];
-		swprintf_s(filePath, L"modelData/%s.cmo", objData.name);
+		swprintf_s(filePath, L"modelData/%s.tkm", objData.name);
 		//m_mapChipRender = mapChipRender;
 		m_physicsStaticObject.CreateMesh( 
 			objData.position, 
 			objData.rotation,
-			objData.scale,
+			objData.scale
 			//mapChipRender->GetSkinModelRender()
 		);
 	}

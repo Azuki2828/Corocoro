@@ -1,7 +1,11 @@
 #pragma once
+#include "Level.h"
 /// <summary>
 /// 背景クラス。
 /// </summary>
+
+class Level;
+
 class Background : public IGameObject
 {
 public:
@@ -11,5 +15,6 @@ public:
 private:
 	Model m_model;								//モデル
 	PhysicsStaticObject m_physicsStaticObject;	//静的物理オブジェクト・
+	Level m_level;
 };
 

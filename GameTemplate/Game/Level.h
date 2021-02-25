@@ -1,7 +1,7 @@
 #pragma once
 
-#include "MiniEngine.h"
-class MapChip;
+#include "MapChip.h"
+#include "TklFile.h"
 
 struct LevelObjectData {
 	Vector3 position;		//<座標。
@@ -36,7 +36,9 @@ class Level
 {
 public:
 	void Init(const char* filePath, std::function<bool(LevelObjectData& objData)> hookFunc);
+	void Draw(RenderContext& rc);
 private:
+	TklFile m_tklFile;
 	std::vector<std::unique_ptr<MapChip>> m_mapChipPtrs;			//マップチップの可変長配列。
 };
 

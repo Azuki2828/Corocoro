@@ -289,9 +289,11 @@
     <ClCompile Include="..\..\MiniEngine\VertexBuffer.cpp" />
     <ClCompile Include="Background.cpp" />
     <ClCompile Include="DirectionLight.cpp" />
+    <ClCompile Include="Level.cpp" />
     <ClCompile Include="Magnet.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MainCamera.cpp" />
+    <ClCompile Include="MapChip.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="SkinModelRender.cpp" />
     <ClCompile Include="stdafx.cpp">
@@ -303,6 +305,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Preview|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="system\system.cpp" />
+    <ClCompile Include="TklFile.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\ExEngine\ExEngine.h" />
@@ -365,12 +368,15 @@
     <ClInclude Include="..\..\MiniEngine\VertexBuffer.h" />
     <ClInclude Include="Background.h" />
     <ClInclude Include="DirectionLight.h" />
+    <ClInclude Include="Level.h" />
     <ClInclude Include="Magnet.h" />
     <ClInclude Include="MainCamera.h" />
+    <ClInclude Include="MapChip.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="SkinModelRender.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="system\system.h" />
+    <ClInclude Include="TklFile.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -147,7 +147,7 @@ public:
 
 	Skeleton();
 	~Skeleton();
-		
+	
 	/// <summary>
 	/// ボーンのローカル行列を設定。
 	/// </summary>
@@ -249,7 +249,7 @@ public:
 	static 	void UpdateBoneWorldMatrix(Bone& bone, const Matrix& parentMatrix);
 
 private:
-	TksFile m_tksFile;										//TKSファイル。
+	TksFile m_tksFile;//TKSファイル
 	static const int BONE_MAX = 512;				//ボーンの最大数。
 	using BonePtr = std::unique_ptr<Bone>;
 	std::vector<BonePtr>	m_bones;				//ボーンの配列。

@@ -48,10 +48,13 @@ bool Skeleton::Init(const char* tksFilePath)
 {
 	//tksファイルをロードする。
 	m_tksFile.Load(tksFilePath);
-	//ボーン行列を構築する。
-	BuildBoneMatrices();
+	if (m_tksFile.IsInited()) {
+		//ボーン行列を構築する。
+		BuildBoneMatrices();
+	}
 	return true;
 }
+
 void Skeleton::BuildBoneMatrices()
 {
 	m_tksFile.QueryBone([&](TksFile::SBone & tksBone) {

@@ -41,7 +41,7 @@ namespace tkEngine{
 	/*!
 	 *@brief	レベル。
 	 */
-	class CLevel : Noncopyable{
+	class CLevel{
 	private:
 		using CMapChipPtr = std::unique_ptr<CMapChip>;
 		using CMapChipRenderPtr = std::unique_ptr<CMapChipRender>;
@@ -70,9 +70,9 @@ namespace tkEngine{
 		/// インクリメントされます。
 		/// </remarks>
 		/// <returns></returns>
-		CMapChipRender* CreateMapChipRenderOrAddRenderObject( const LevelObjectData& objData );
+		//CMapChipRender* CreateMapChipRenderOrAddRenderObject( const LevelObjectData& objData );
 	private:
 		std::vector<CMapChipPtr> m_mapChipPtrs;			//マップチップの可変長配列。
-		std::map< unsigned int, CMapChipRender*> m_mapChipRenderPtrs;	//マップチップレンダラーの可変長配列。
+		//std::map< unsigned int, CMapChipRender*> m_mapChipRenderPtrs;	//マップチップレンダラーの可変長配列。
 	};
 }

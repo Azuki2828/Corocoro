@@ -71,7 +71,7 @@ namespace tkEngine{
 				}
 				if (isHook == false) {
 					//マップチップレンダラーを作成する。
-					CreateMapChipRenderOrAddRenderObject(objData);
+					//CreateMapChipRenderOrAddRenderObject(objData);
 				}
 			}
 		}

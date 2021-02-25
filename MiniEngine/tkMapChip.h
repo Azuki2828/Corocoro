@@ -17,9 +17,6 @@ namespace tkEngine{
 	class CMapChip{
 	public:
 		CMapChip(const LevelObjectData& objData/*, CMapChipRender* mapChipRender*/);
-		~CMapChip()
-		{
-		}
 		/*!
 		*@brief	スキンモデルレンダラーを取得。
 		*/

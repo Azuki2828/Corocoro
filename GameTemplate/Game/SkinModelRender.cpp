@@ -45,7 +45,9 @@ void SkinModelRender::Init(bool DirectionFlg, bool PointLightFlg) {
 
 	initData.m_vsEntryPointFunc = "VSMain";
 	initData.m_vsSkinEntryPointFunc = "VSSkinMain";
-	initData.m_skeleton = &m_skeleton;
+	if (m_skeleton.IsInited()) {
+		initData.m_skeleton = &m_skeleton;
+	}
 	initData.m_modelUpAxis = enModelUpAxisY;
 
 	//ディレクションライトの設定。

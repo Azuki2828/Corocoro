@@ -28,4 +28,7 @@ void TksFile::Load(const char* filePath)
 	}
 
 	fclose(fp);
+
+	m_isInited = true;
+
 }

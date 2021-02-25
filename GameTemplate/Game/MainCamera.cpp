@@ -16,7 +16,8 @@ void MainCamera::Update() {
 
 	m_pos = g_camera3D->GetPosition();
 	m_tar = g_camera3D->GetTarget();
-	toPos = m_tar - m_pos;
+	//toPos = m_tar - m_pos;
+	toPos = { 0.0f,50.0f,500.0f };
 	//コントローラーの入力でY軸周りに回転するカメラを作成する。
 	
 	//g_pad[0]->GetRStickXF()はコントローラーの右スティックの入力量が取得できる関数。
