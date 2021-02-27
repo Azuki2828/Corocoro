@@ -42,6 +42,8 @@ public:
 		return m_bones2[boneNo]->GetName();
 	 }
 
+	 Bone* GetBonePtr(int num) { return m_bones2[num].get(); }
+
 	 int GetBoneNum() { return m_numBone; }
 private:
 	int m_numBone = 0;			//œ‚Ì”B

@@ -34,7 +34,7 @@ void Player::Update()
 	//moveSpeed.z = g_pad[0]->GetLStickYF() * -3.0f;
 	//m_pos = m_charaCon.Execute(moveSpeed, 1.0f);
 	//m_skinModelRender->SetPosition(m_pos);
-
+	m_movePower.y= 1.0f;
 	m_pos = m_charaCon.Execute(m_movePower, 1.0f);
 	m_skinModelRender->SetPosition(m_pos);
 

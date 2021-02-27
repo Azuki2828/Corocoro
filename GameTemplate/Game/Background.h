@@ -16,5 +16,6 @@ private:
 	Model m_model;								//モデル
 	PhysicsStaticObject m_physicsStaticObject;	//静的物理オブジェクト・
 	Level m_level;
+	SpriteRender* m_spriteRender = nullptr;
 };
 

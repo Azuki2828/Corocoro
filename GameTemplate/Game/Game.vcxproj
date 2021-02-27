@@ -296,6 +296,7 @@
     <ClCompile Include="MapChip.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="SkinModelRender.cpp" />
+    <ClCompile Include="SpriteRender.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
@@ -374,6 +375,7 @@
     <ClInclude Include="MapChip.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="SkinModelRender.h" />
+    <ClInclude Include="SpriteRender.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="system\system.h" />
     <ClInclude Include="TklFile.h" />

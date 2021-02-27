@@ -4,6 +4,9 @@
 bool Background::Start()
 {
 
+	m_spriteRender = NewGO<SpriteRender>(0);
+	m_spriteRender->Init("Assets/Image/sample.dds", 1980.0f, 1080.0f);
+
 	//これがlevelのLoadの基盤。
 	//特定のオブジェクトを指定する（ここでいうフック）場合は、名前検索するなのね。
 	m_level.Init("Assets/level/stage_00.tkl", [&](LevelObjectData& objData) {
@@ -36,5 +39,6 @@ void Background::Update()
 }
 void Background::Render(RenderContext& rc)
 {
+	m_level.Draw(rc);
 	m_model.Draw(rc);
 }

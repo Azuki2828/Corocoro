@@ -26,6 +26,10 @@ MapChip::MapChip(const LevelObjectData& objData) {
 
 	m_skinModelRender->Init(true, false);
 
+	m_skinModelRender->SetPosition(objData.position);
+	m_skinModelRender->SetRotation(objData.rotation);
+	m_skinModelRender->SetScale(objData.scale);
+
 
 	m_physicsStaticObject.CreateFromModel(
 		*m_skinModelRender->GetModel(),
@@ -34,10 +38,11 @@ MapChip::MapChip(const LevelObjectData& objData) {
 }
 
 void MapChip::Draw(RenderContext& rc) {
-	Draw(rc,
-		m_skinModelRender->GetModel()->GetWorldMatrix(),
-		g_camera3D->GetViewMatrix(),
-		g_camera3D->GetProjectionMatrix());
+	//Draw(rc,
+	//	m_skinModelRender->GetModel()->GetWorldMatrix(),
+	//	g_camera3D->GetViewMatrix(),
+	//	g_camera3D->GetProjectionMatrix());
+	
 }
 
 void MapChip::Draw(RenderContext& rc,
