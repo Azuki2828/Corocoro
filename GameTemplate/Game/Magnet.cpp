@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "Magnet.h"
-#include "Player.h"
+#include "PlayerManager.h"
 
 bool Magnet::Start() {
 
@@ -14,7 +14,7 @@ bool Magnet::Start() {
 	}
 
 	//プレイヤーのオブジェクトを探す。
-	m_player = FindGO<Player>("player");
+	m_player = FindGO<PlayerManager>("player");
 	return true;
 }
 

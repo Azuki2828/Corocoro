@@ -17,11 +17,11 @@ MapChip::MapChip(const LevelObjectData& objData) {
 
 
 	char filePathtkm[256];
-	sprintf(filePathtkm, "Assets/modelData/%s.tkm", objName);
+	sprintf(filePathtkm, "Assets/modelData/level/%s.tkm", objName);
 	m_skinModelRender->SetFileNametkm(static_cast<const char*>(filePathtkm));
 
 	char filePathtks[256];
-	sprintf(filePathtks, "Assets/modelData/%s.tks", objName);
+	sprintf(filePathtks, "Assets/modelData/level/%s.tks", objName);
 	m_skinModelRender->SetFileNametks(static_cast<const char*>(filePathtks));
 
 	m_skinModelRender->Init(true, false);

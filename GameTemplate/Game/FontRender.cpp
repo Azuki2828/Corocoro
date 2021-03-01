@@ -3,11 +3,11 @@
 
 void FontRender::Init(
 	const wchar_t* text,
-	const Vector2 position = { 0.0f,0.0f },
-	Vector4 color = { 0.0f,0.0f,0.0f,1.0f },
-	float rotation = 0.0f,
-	float scale = 1.0f,
-	Vector2 pivot = { 0.5f,0.5f }
+	const Vector2 position,
+	Vector4 color,
+	float rotation,
+	float scale,
+	Vector2 pivot
 ) {
 	m_fontValue.text = text;
 	m_fontValue.position = position;

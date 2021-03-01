@@ -66,6 +66,10 @@ public:
 	{
 		m_isActive = true;
 	}
+
+	void SetActiveFlag(bool flg) {
+		m_isActive = flg;
+	}
 	/// <summary>
 	/// ゲームオブジェクトを非アクティブにする。
 	/// </summary>

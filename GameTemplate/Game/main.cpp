@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "system/system.h"
-#include "Player.h"
+#include "PlayerManager.h"
 #include "Background.h"
 #include "MainCamera.h"
 
@@ -21,7 +21,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	PhysicsWorld::CreateInstance();
 
 	//プレイヤーを生成。
-	NewGO<Player>(0,"player");
+	NewGO<PlayerManager>(0,"playerManager");
 	NewGO<MainCamera>(0);
 	//背景を生成。
 	NewGO<Background>(0);

@@ -1,6 +1,6 @@
 #pragma once
 
-class Player;
+class PlayerManager;
 
 class Magnet : public IGameObject
 {
@@ -23,6 +23,6 @@ private:
 
 	Magnet_State mState;
 
-	Player* m_player = nullptr;
+	PlayerManager* m_player = nullptr;
 };
 

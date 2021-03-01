@@ -5,26 +5,40 @@
 
 bool Player::Start()
 {
+	char objName[64];
+	wcstombs(objName, name, 64);
+
 	////アニメーションクリップをロードする。
 	//m_animationClips[enAnimClip_Idle].Load("Assets/animData/idle.tka");
 	//m_animationClips[enAnimClip_Idle].SetLoopFlag(true);
 	//m_animationClips[enAnimClip_Run].Load("Assets/animData/walk.tka");
 	//m_animationClips[enAnimClip_Run].SetLoopFlag(true);
 
-	m_charaCon.Init(40.0f, 100.0f, g_vec3Zero);
-	m_movePower = { 0.0f,0.0f,0.0f };
+	//m_charaCon.Init(40.0f, 100.0f, g_vec3Zero);
+	//m_movePower = { 0.0f,0.0f,0.0f };
 
 	//SkinModelRenderをNewGO。
 	m_skinModelRender = NewGO<SkinModelRender>(0);
+
+
 	//tkmファイルをロード。
-	m_skinModelRender->SetFileNametkm("Assets/modelData/Player_N.tkm");
+	char filePathtkm[64];
+	sprintf(filePathtkm, "Assets/modelData/%s.tkm", objName);
+	m_skinModelRender->SetFileNametkm(static_cast<const char*>(filePathtkm));
+
 	//tksファイルをロード。
-	m_skinModelRender->SetFileNametks("Assets/modelData/Player_N.tks");
+	char filePathtks[64];
+	sprintf(filePathtks, "Assets/modelData/%s.tks", objName);
+	m_skinModelRender->SetFileNametkm(static_cast<const char*>(filePathtks));
+
 	//アニメーションを設定。
 	//m_skinModelRender->InitAnimation(m_animationClips, enAnimClip_Num);
 	//最終的な初期化。
 	m_skinModelRender->Init(true, false);
 
+
+	m_fontRender = NewGO<FontRender>(1);
+	m_fontRender->Init(L"hello!!");
 	return true;
 }
 void Player::Update()
@@ -34,38 +48,16 @@ void Player::Update()
 	//moveSpeed.z = g_pad[0]->GetLStickYF() * -3.0f;
 	//m_pos = m_charaCon.Execute(moveSpeed, 1.0f);
 	//m_skinModelRender->SetPosition(m_pos);
-	m_movePower.y= 1.0f;
-	m_pos = m_charaCon.Execute(m_movePower, 1.0f);
+	//m_movePower.y= 1.0f;
+	//m_pos = m_charaCon.Execute(m_movePower, 1.0f);
 	m_skinModelRender->SetPosition(m_pos);
-
-	//Aボタンでプレイヤーの磁力を反転させる
-	if (g_pad[0]->IsTrigger(enButtonA)) {
-		if (pState == State_N) {
-			pState = State_S;
-		}
-		else if (pState == State_S) {
-			pState = State_N;
-		}
-	}
 }
 
-void Player::Render(RenderContext& rc) {
-
-	wchar_t numtext[5][64];
-
-	swprintf_s(numtext[0], L"State:%d", pState);
-	//swprintf_s(numtext[1], L"vit+%d", m_plus_vit);
-
-	m_font.Begin(rc);
-
-	m_font.Draw(
-		numtext[0],
-		{ 120.0f, 10.0f },
-		{ 0.55f,0.0f,0.0f,1.0f },
-		0.0f,
-		0.4f,
-		{ 0.5f,0.5f }
-	);
-
-	m_font.End(rc);
-}
+//void Player::ChangeState() {
+//	if (pState == State_N) {
+//		pState = State_S;
+//	}
+//	else if (pState == State_S) {
+//		pState = State_N;
+//	}
+//}
