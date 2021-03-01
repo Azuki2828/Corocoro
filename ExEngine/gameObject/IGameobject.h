@@ -67,6 +67,8 @@ public:
 		m_isActive = true;
 	}
 
+	//bool& GetActive() { return m_isActive; }
+
 	void SetActiveFlag(bool flg) {
 		m_isActive = flg;
 	}

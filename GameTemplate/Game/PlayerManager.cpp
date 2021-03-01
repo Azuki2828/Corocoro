@@ -4,6 +4,12 @@
 
 bool PlayerManager::Start() {
 	
+	//m_font = NewGO<FontRender>(1);
+	//wchar_t numtext[2][64];
+	//
+	//swprintf_s(numtext[0], L"HP+%d", m_player[0]->GetActive());
+	//swprintf_s(numtext[1], L"HP+%d", m_player[1]->GetActive());
+	//m_font->Init(numtext[0]);
 	m_player[0] = NewGO<Player>(0, "Player_N");
 	m_player[1] = NewGO<Player>(0, "Player_S");
 	

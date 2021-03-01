@@ -29,7 +29,7 @@ bool Player::Start()
 	//tksファイルをロード。
 	char filePathtks[64];
 	sprintf(filePathtks, "Assets/modelData/%s.tks", objName);
-	m_skinModelRender->SetFileNametkm(static_cast<const char*>(filePathtks));
+	m_skinModelRender->SetFileNametks(static_cast<const char*>(filePathtks));
 
 	//アニメーションを設定。
 	//m_skinModelRender->InitAnimation(m_animationClips, enAnimClip_Num);

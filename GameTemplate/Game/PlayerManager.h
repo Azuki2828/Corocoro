@@ -23,5 +23,7 @@ private:
 	Player* m_player[2] = { nullptr };
 	Vector3 m_position;
 	Vector3 m_power;
+
+	FontRender* m_font = nullptr;
 };
 
