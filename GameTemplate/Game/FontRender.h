@@ -28,7 +28,7 @@ public:
 	}
 
 	//void Draw(FontValue& fontValue);
-	void Render(RenderContext& rc)override;
+	void Render(RenderContext& rc)override final;
 private:
 	Font m_font;
 	FontValue m_fontValue;
