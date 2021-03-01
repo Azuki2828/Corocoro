@@ -255,6 +255,7 @@
     <ClCompile Include="..\..\MiniEngine\Camera.cpp" />
     <ClCompile Include="..\..\MiniEngine\ConstantBuffer.cpp" />
     <ClCompile Include="..\..\MiniEngine\DescriptorHeap.cpp" />
+    <ClCompile Include="..\..\MiniEngine\font\Font.cpp" />
     <ClCompile Include="..\..\MiniEngine\font\FontEngine.cpp" />
     <ClCompile Include="..\..\MiniEngine\GPUBuffer.cpp" />
     <ClCompile Include="..\..\MiniEngine\GraphicsEngine.cpp" />

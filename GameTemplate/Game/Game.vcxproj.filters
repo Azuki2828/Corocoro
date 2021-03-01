@@ -194,9 +194,6 @@
     <ClCompile Include="..\..\ExEngine\physics\PhysicsStaticObject.cpp">
       <Filter>ExEngine\physics</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\MiniEngine\font\FontEngine.cpp">
-      <Filter>MiniEngine\font</Filter>
-    </ClCompile>
     <ClCompile Include="Player.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
@@ -225,6 +222,12 @@
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="SpriteRender.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\MiniEngine\font\Font.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\MiniEngine\font\FontEngine.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
@@ -397,12 +400,6 @@
     <ClInclude Include="..\..\ExEngine\physics\PhysicsStaticObject.h">
       <Filter>ExEngine\physics</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\MiniEngine\font\FontEngine.h">
-      <Filter>MiniEngine\font</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\MiniEngine\font\Font.h">
-      <Filter>MiniEngine\font</Filter>
-    </ClInclude>
     <ClInclude Include="Background.h">
       <Filter>ソース ファイル</Filter>
     </ClInclude>
@@ -437,6 +434,12 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="SpriteRender.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MiniEngine\font\FontEngine.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MiniEngine\font\Font.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

@@ -48,3 +48,24 @@ void Player::Update()
 		}
 	}
 }
+
+void Player::Render(RenderContext& rc) {
+
+	wchar_t numtext[5][64];
+
+	swprintf_s(numtext[0], L"State:%d", pState);
+	//swprintf_s(numtext[1], L"vit+%d", m_plus_vit);
+
+	m_font.Begin(rc);
+
+	m_font.Draw(
+		numtext[0],
+		{ 120.0f, 10.0f },
+		{ 0.55f,0.0f,0.0f,1.0f },
+		0.0f,
+		0.4f,
+		{ 0.5f,0.5f }
+	);
+
+	m_font.End(rc);
+}

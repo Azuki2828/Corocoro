@@ -18,6 +18,8 @@ public:
 	//pow：力の大きさ
 	void ReceivePower(Vector3 pow)const { m_movePower += pow; }
 
+	void Render(RenderContext& rc)override;
+
 private:
 	/// <summary>
 	/// アニメーションクリップ。
@@ -48,6 +50,6 @@ private:
 	mutable Vector3 m_movePower;
 
 	SkinModelRender* m_skinModelRender = nullptr;
-
+	Font m_font;
 };
 
