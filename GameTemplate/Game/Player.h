@@ -9,18 +9,17 @@ public:
 	void Update() override;
 
 	//現在のステートを取得する関数。
-	//const int GetPlayerState()const { return pState; }
-	//void ChangeState();
+	const int GetPlayerState()const { return pState; }
+
 	//現在の座標を取得する関数。
-	const Vector3& GetPosition()const { return m_charaCon.GetPosition(); }
+	const Vector3 GetPosition()const { return m_charaCon.GetPosition(); }
 
 	//外部から力を受け取る関数。
 	//pow：力の大きさ
 	void ReceivePower(Vector3 pow)const { m_movePower += pow; }
 
-	void SetPosition(Vector3& pos) { m_pos = pos; }
+	void Render(RenderContext& rc)override;
 
-	void SetPlayerName(const wchar_t* playerName) { name = playerName; }
 private:
 	/// <summary>
 	/// アニメーションクリップ。
@@ -31,15 +30,14 @@ private:
 		enAnimClip_Num,
 	};
 
-	//typedef enum {
-	//	State_N,
-	//	State_S,
-	//}Player_State;
+	typedef enum {
+		State_N,
+		State_S,
+	}Player_State;
 	
 	//プレイヤーのステート。
-	//Player_State pState = State_N;
+	Player_State pState = State_N;
 
-	const wchar_t* name;
 	Model m_model;			//モデル表示処理。
 	ModelInitData initData;
 	Animation m_animation;	//アニメション再生処理。
@@ -52,6 +50,6 @@ private:
 	mutable Vector3 m_movePower;
 
 	SkinModelRender* m_skinModelRender = nullptr;
-	FontRender* m_fontRender = nullptr;
+	Font m_font;
 };
 

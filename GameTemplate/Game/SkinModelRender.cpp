@@ -80,7 +80,5 @@ void SkinModelRender::Update() {
 
 void SkinModelRender::Render(RenderContext& rc)
 {
-	if (m_isActive) {
-		m_model.Draw(rc);
-	}
+	m_model.Draw(rc);
 }
