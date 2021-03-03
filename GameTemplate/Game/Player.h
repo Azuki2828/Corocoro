@@ -18,6 +18,8 @@ public:
 	//powF—Í‚Ì‘å‚«‚³
 	void ReceivePower(Vector3 pow)const { m_movePower += pow; }
 
+	void ChangeState();
+
 	void Render(RenderContext& rc)override;
 
 private:
@@ -49,7 +51,7 @@ private:
 	Vector3 m_pos;
 	mutable Vector3 m_movePower;
 
-	SkinModelRender* m_skinModelRender = nullptr;
+	SkinModelRender* m_skinModelRender[2] = { nullptr };
 	Font m_font;
 };
 

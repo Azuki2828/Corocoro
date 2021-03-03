@@ -290,6 +290,7 @@
     <ClCompile Include="..\..\MiniEngine\VertexBuffer.cpp" />
     <ClCompile Include="Background.cpp" />
     <ClCompile Include="DirectionLight.cpp" />
+    <ClCompile Include="FontRender.cpp" />
     <ClCompile Include="Level.cpp" />
     <ClCompile Include="Magnet.cpp" />
     <ClCompile Include="main.cpp" />
@@ -370,6 +371,7 @@
     <ClInclude Include="..\..\MiniEngine\VertexBuffer.h" />
     <ClInclude Include="Background.h" />
     <ClInclude Include="DirectionLight.h" />
+    <ClInclude Include="FontRender.h" />
     <ClInclude Include="Level.h" />
     <ClInclude Include="Magnet.h" />
     <ClInclude Include="MainCamera.h" />
