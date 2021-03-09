@@ -309,7 +309,6 @@
     </ClCompile>
     <ClCompile Include="system\system.cpp" />
     <ClCompile Include="TklFile.cpp" />
-    <ClCompile Include="Ukun.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\ExEngine\ExEngine.h" />
@@ -383,7 +382,6 @@
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="system\system.h" />
     <ClInclude Include="TklFile.h" />
-    <ClInclude Include="Ukun.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
