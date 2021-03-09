@@ -10,8 +10,14 @@ bool Background::Start()
 	//これがlevelのLoadの基盤。
 	//特定のオブジェクトを指定する（ここでいうフック）場合は、名前検索するなのね。
 	m_level.Init("Assets/level/stage02.tkl", [&](LevelObjectData& objData) {
-		if (objData.EqualObjectName(L"Star") == true) {
-			
+		if (objData.EqualObjectName(L"stage02_goal") == true) {
+			return true;
+		}
+		else if (objData.EqualObjectName(L"") == true) {
+			return true;
+		}
+		else if (objData.EqualObjectName(L"KeyBox") == true) {
+			return true;
 		}
 		else if (objData.EqualObjectName(L"UnityChan") == true) {
 			//UnityChan
