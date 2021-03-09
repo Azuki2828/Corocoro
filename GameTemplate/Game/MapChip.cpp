@@ -17,7 +17,7 @@ MapChip::MapChip(const LevelObjectData& objData) {
 
 
 	char filePathtkm[256];
-	sprintf(filePathtkm, "Assets/modelData/%s.tkm", objName);
+	sprintf(filePathtkm, "Assets/modelData/tkm/%s.tkm", objName);
 	m_skinModelRender->SetFileNametkm(static_cast<const char*>(filePathtkm));
 
 	char filePathtks[256];
@@ -29,7 +29,7 @@ MapChip::MapChip(const LevelObjectData& objData) {
 	m_skinModelRender->SetPosition(objData.position);
 	m_skinModelRender->SetRotation(objData.rotation);
 	m_skinModelRender->SetScale(objData.scale);
-
+	m_skinModelRender->UpdateWorldMatrix();
 
 	m_physicsStaticObject.CreateFromModel(
 		*m_skinModelRender->GetModel(),

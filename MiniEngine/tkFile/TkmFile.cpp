@@ -300,6 +300,7 @@ void TkmFile::BuildTangentAndBiNormal()
 void TkmFile::Load(const char* filePath)
 {
 	FILE* fp = fopen(filePath, "rb");
+
 	if (fp == nullptr) {
 		MessageBoxA(nullptr, "tkmファイルが開けません。", "エラー", MB_OK);
 		return ;

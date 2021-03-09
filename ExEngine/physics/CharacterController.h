@@ -90,6 +90,7 @@ private:
 	Vector3 			m_position;						//!<座標。
 	bool 				m_isJump = false;				//!<ジャンプ中？
 	bool				m_isOnGround = true;			//!<地面の上にいる？
+	bool				m_isOnCeiling = true;			//!<天井に当たっている？
 	CCapsuleCollider	m_collider;						//!<コライダー。
 	float				m_radius = 0.0f;				//!<カプセルコライダーの半径。
 	float				m_height = 0.0f;				//!<カプセルコライダーの高さ。

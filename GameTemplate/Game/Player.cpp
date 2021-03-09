@@ -11,27 +11,39 @@ bool Player::Start()
 	//m_animationClips[enAnimClip_Run].Load("Assets/animData/walk.tka");
 	//m_animationClips[enAnimClip_Run].SetLoopFlag(true);
 
-	m_charaCon.Init(40.0f, 100.0f, g_vec3Zero);
-	m_movePower = { 0.0f,0.0f,0.0f };
-
-	for (int i = 0; i < 2; i++) {
+	m_charaCon.Init(100.0f, 200.0f, m_pos);
+	//m_movePower = { 0.0f,0.0f,0.0f };
+	const char* tkmFilePaths[] = {
+		"Assets/modelData/tkm/Player_N.tkm",
+		"Assets/modelData/tkm/Player_S.tkm"
+	};
+	const char* tksFilePaths[] = {
+		"Assets/modelData/tkm/Player_N.tks",
+		"Assets/modelData/tkm/Player_S.tks"
+	};
+	for (int i = 0; i < enPlayer_Num; i++) {
 		//SkinModelRenderをNewGO。
 		m_skinModelRender[i] = NewGO<SkinModelRender>(1);
+		//tkmファイルをロード。
+		m_skinModelRender[i]->SetFileNametkm(tkmFilePaths[i]);
+		//tksファイルをロード。
+		m_skinModelRender[i]->SetFileNametks(tksFilePaths[i]);
+		m_skinModelRender[i]->Init(true, false);
+		if (i == enPlayer_1) {
+			//プレイヤー1は最初は非アクティブ。
+			m_skinModelRender[i]->Deactivate();
+		}
 	}
-	//tkmファイルをロード。
-	m_skinModelRender[0]->SetFileNametkm("Assets/modelData/Player_N.tkm");
-	//tksファイルをロード。
-	m_skinModelRender[0]->SetFileNametks("Assets/modelData/Player_N.tks");
+	
 
-	m_skinModelRender[1]->SetFileNametkm("Assets/modelData/Player_S.tkm");
-	m_skinModelRender[1]->SetFileNametks("Assets/modelData/Player_S.tks");
 
 		//アニメーションを設定。
 	//m_skinModelRender->InitAnimation(m_animationClips, enAnimClip_Num);
 	//最終的な初期化。
-	m_skinModelRender[0]->Init(true, false);
-	m_skinModelRender[1]->Init(true, false);
-	m_skinModelRender[1]->Deactivate();
+
+	for (int i = 0; i < enPlayer_Num; i++) {
+		m_skinModelRender[i]->SetPosition(m_pos);
+	}
 
 	return true;
 }
@@ -42,17 +54,19 @@ void Player::Update()
 	//moveSpeed.z = g_pad[0]->GetLStickYF() * -3.0f;
 	//m_pos = m_charaCon.Execute(moveSpeed, 1.0f);
 	//m_skinModelRender->SetPosition(m_pos);
-	m_movePower.y= 1.0f;
+	m_movePower.y -= 0.1f;
 	m_pos = m_charaCon.Execute(m_movePower, 1.0f);
 
-	for (int i = 0; i < 2; i++) {
+	//Vector3 samplePos = m_pos;
+	//samplePos.y += 100.0f;
+	for (int i = 0; i < enPlayer_Num; i++) {
 		m_skinModelRender[i]->SetPosition(m_pos);
 	}
 
 	//Aボタンでプレイヤーの磁力を反転させる
 	if (g_pad[0]->IsTrigger(enButtonA)) {
 		ChangeState();
-		for (int i = 0; i < 2; i++) {
+		for (int i = 0; i < enPlayer_Num; i++) {
 			if (m_skinModelRender[i]->IsActive() == true) {
 				m_skinModelRender[i]->Deactivate();
 			}

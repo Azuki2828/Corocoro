@@ -226,6 +226,9 @@ const Vector3& CharacterController::Execute( Vector3& moveSpeed, float deltaTime
 	//XZの移動は確定。
 	m_position.x = nextPosition.x;
 	m_position.z = nextPosition.z;
+
+	//Vector3 upNextPos = nextPosition;
+
 	//下方向を調べる。
 	{
 		Vector3 addPos;
@@ -268,6 +271,7 @@ const Vector3& CharacterController::Execute( Vector3& moveSpeed, float deltaTime
 		if(fabsf(endPos.y - callback.startPos.y) > FLT_EPSILON){
 			PhysicsWorld::GetInstance()->ConvexSweepTest((const btConvexShape*)m_collider.GetBody(), start, end, callback);
 			if (callback.isHit) {
+
 				//当たった。
 				moveSpeed.y = 0.0f;
 				m_isJump = false;
@@ -281,6 +285,62 @@ const Vector3& CharacterController::Execute( Vector3& moveSpeed, float deltaTime
 			}
 		}
 	}
+
+	//上方向を調べる。
+	//{
+	//	Vector3 addPos;
+	//	addPos.Subtract(upNextPos, m_position);
+
+	//	m_position = upNextPos;	//移動の仮確定。
+	//								//レイを作成する。
+	//	btTransform start, end;
+	//	start.setIdentity();
+	//	end.setIdentity();
+	//	//始点はカプセルコライダーの中心。
+	//	start.setOrigin(btVector3(m_position.x, m_position.y + m_height * 0.5f + m_radius, m_position.z));
+	//	//終点は天井上にいない場合は1m上を見る。
+	//	//天井上にいなくてジャンプで上昇中の場合はそのまま上昇先を調べる。
+	//	//天井上にいなくて降下中の場合は上昇量の0.01倍上を見る。
+	//	Vector3 endPos;
+	//	Vector3CopyFrom(endPos, start.getOrigin());
+
+	//	if (m_isOnCeiling == false) {
+	//		if (addPos.y > 0.0f) {
+	//			//ジャンプ中とかで上昇中。
+	//			//上昇中でもXZに移動した結果めり込んでいる可能性があるので下を調べる。
+	//			endPos.y -= addPos.y;
+	//		}
+	//		else {
+	//			//落下している場合はそのまま上を調べる。
+	//			endPos.y += addPos.y * 0.01f;
+	//		}
+	//	}
+	//	else {
+	//		//地面上にいない場合は1m上を見る。
+	//		endPos.y += 100.0f;
+	//	}
+	//	end.setOrigin(btVector3(endPos.x, endPos.y, endPos.z));
+	//	SweepResultGround callback;
+	//	callback.me = m_rigidBody.GetBody();
+	//	Vector3CopyFrom(callback.startPos, start.getOrigin());
+
+	//	//衝突検出。
+	//	if (fabsf(endPos.y - callback.startPos.y) > FLT_EPSILON) {
+	//		PhysicsWorld::GetInstance()->ConvexSweepTest((const btConvexShape*)m_collider.GetBody(), start, end, callback);
+	//		if (callback.isHit) {
+	//			//当たった。
+	//			moveSpeed.y = 0.0f;
+	//			//m_isJump = true;
+	//			m_isOnCeiling = true;
+	//			nextPosition.y = callback.hitPos.y;
+	//		}
+	//		else {
+	//			//地面上にいない。
+	//			//m_isOnGround = false;
+
+	//		}
+	//	}
+	//}
 	//移動確定。
 	m_position = nextPosition;
 	btRigidBody* btBody = m_rigidBody.GetBody();

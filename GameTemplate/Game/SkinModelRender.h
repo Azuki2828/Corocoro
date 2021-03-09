@@ -22,7 +22,14 @@ public:
 	void Render(RenderContext& rc) override;
 
 	void Update()override final;
-
+	//ワールド行列を更新する。
+	//ワールド行列の更新は、毎フレーム一度行われていますが、
+	//このクスの使用者の任意のタイミングで更新したいときは、
+	//この関数を利用してください。
+	void UpdateWorldMatrix()
+	{
+		m_model.UpdateWorldMatrix(m_pos, m_rot, m_sca);
+	}
 private:
 	int m_animNum;
 	const char* m_fileNametkm = nullptr;

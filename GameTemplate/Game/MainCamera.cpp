@@ -4,7 +4,7 @@
 
 bool MainCamera::Start() {
 
-	//m_player = FindGO<Player>("player");
+	m_player = FindGO<Player>("player");
 
 	m_pos = { 0.0f,0.0f,1000.0f };
 	g_camera3D->SetPosition(m_pos);
@@ -19,11 +19,10 @@ void MainCamera::Update() {
 	//m_pos = g_camera3D->GetPosition();
 	//m_tar = g_camera3D->GetTarget();
 	//toPos = m_tar - m_pos;
-	toPos = { 0.0f,50.0f,500.0f };
 	//コントローラーの入力でY軸周りに回転するカメラを作成する。
 	
 	//g_pad[0]->GetRStickXF()はコントローラーの右スティックの入力量が取得できる関数。
-	m_rotY.SetRotationY(g_pad[0]->GetRStickXF() * 0.005f);
+	m_rotY.SetRotationY(g_pad[0]->GetRStickXF() * 0.05f);
 	//回転クォータニオンでtoCameraPosを回す。
 	m_rotY.Apply(toPos);
 
@@ -31,16 +30,16 @@ void MainCamera::Update() {
 	rotAxis.Cross(g_vec3AxisY, toPos);
 	rotAxis.Normalize();
 	
-	m_rotX.SetRotation(rotAxis, g_pad[0]->GetRStickYF() * 0.005f);
+	m_rotX.SetRotation(rotAxis, g_pad[0]->GetRStickYF() * 0.05f);
 	m_rotX.Apply(toPos);
 
 	//新しい注視点をティーポットの少し上に設定する。
-	//if (m_player != nullptr) {
-	//	m_tar = m_player->GetPosition();
-	//}
-	//m_tar.y += 50.0f;
-	////新しい視点を、「新しい注視点　＋　toCameraPos」で求める。
-	//m_pos = m_tar + toPos;
+	if (m_player != nullptr) {
+		m_tar = m_player->GetPosition();
+	}
+	m_tar.y += 50.0f;
+	//新しい視点を、「新しい注視点　＋　toCameraPos」で求める。
+	m_pos = m_tar + toPos;
 
 	//m_pos.x -= 2.0f;
 	//新しい視点と注視点をカメラに設定する。

@@ -11,6 +11,9 @@ void MeshCollider::CreateFromModel(const Model& model, const Matrix& worldMatrix
 	int numMesh = 0;
 	const auto& tkmFile = model.GetTkmFile();
 	const auto& meshParts = tkmFile.GetMeshParts();
+	Vector3 vmax, vmin;
+	vmax.Set(-FLT_MAX, -FLT_MAX, -FLT_MAX);
+	vmin.Set(FLT_MAX, FLT_MAX, FLT_MAX);
 	//メッシュを一つづつ調べていく。
 	for (const auto& mesh : meshParts) {
 		//まずは頂点バッファを構築する。
@@ -19,6 +22,8 @@ void MeshCollider::CreateFromModel(const Model& model, const Matrix& worldMatrix
 			auto pos = vertex.pos;
 			//ワールド行列を乗算する。
 			worldMatrix.Apply(pos);
+			vmax.Max(pos);
+			vmin.Min(pos);
 			vb->push_back(pos);
 		}
 		m_vertexBufferArray.push_back(std::move(vb));

@@ -48,7 +48,7 @@ void SkinModelRender::Init(bool DirectionFlg, bool PointLightFlg) {
 	if (m_skeleton.IsInited()) {
 		initData.m_skeleton = &m_skeleton;
 	}
-	initData.m_modelUpAxis = enModelUpAxisY;
+//	initData.m_modelUpAxis = enModelUpAxisY;
 
 	//ディレクションライトの設定。
 	if (DirectionFlg) {
