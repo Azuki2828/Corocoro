@@ -5,13 +5,13 @@
 bool Magnet::Start() {
 
 
-	//自身の名前によってステートを分けて初期化する。
-	if (strcmp(this->m_name.c_str(), "N_Magnet") == 0) {
-		mState = State_N;
-	}
-	else if (strcmp(this->m_name.c_str(), "S_Magnet") == 0) {
-		mState = State_S;
-	}
+	////自身の名前によってステートを分けて初期化する。
+	//if (strcmp(this->m_name.c_str(), "N_Magnet") == 0) {
+	//	mState = State_N;
+	//}
+	//else if (strcmp(this->m_name.c_str(), "S_Magnet") == 0) {
+	//	mState = State_S;
+	//}
 
 	//プレイヤーのオブジェクトを探す。
 	m_player = FindGO<Player>("player");
@@ -24,7 +24,7 @@ void Magnet::Update() {
 	m_length = m_player->GetPosition() - m_pos;
 
 	//プレイヤーとの距離が10m以内だったら力を与える関数を呼び出す。
-	if (m_length.Length() <= 1000.0f) {
+	if (m_length.Length() <= 2000.0f) {
 		SetMagnetPower();
 	}
 }
@@ -38,12 +38,14 @@ void Magnet::SetMagnetPower()const {
 	}
 
 	//力を定数倍する。
-	float power = (1 / m_length.Length()) * 5.0f;
+	float power = (1 / m_length.Length()) * 150.0f;
 
 	//ベクトルを正規化する。
 	m_length.Normalize();
 
+	m_length *= power;
+	m_length.z = 0.0f;
 
 	//プレイヤーに力を与える。
-	m_player->ReceivePower(m_length * power);
+	m_player->ReceivePower(m_length);
 }
