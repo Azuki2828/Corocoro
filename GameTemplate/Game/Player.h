@@ -5,7 +5,6 @@ class DirectionLight;
 class Player : public IGameObject
 {
 public:
-	int a;
 	bool Start() override;
 	void Update() override;
 
