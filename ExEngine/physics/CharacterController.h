@@ -68,6 +68,13 @@ public:
 		return m_isOnGround;
 	}
 	/*!
+	* @brief	壁に当たっているか判定。
+	*/
+	bool IsOnWall() const
+	{
+		return m_isOnWall;
+	}
+	/*!
 	* @brief	コライダーを取得。
 	*/
 	CCapsuleCollider* GetCollider()
@@ -91,6 +98,7 @@ private:
 	bool 				m_isJump = false;				//!<ジャンプ中？
 	bool				m_isOnGround = true;			//!<地面の上にいる？
 	bool				m_isOnCeiling = true;			//!<天井に当たっている？
+	bool				m_isOnWall = false;				//!<壁に当たっている？
 	CCapsuleCollider	m_collider;						//!<コライダー。
 	float				m_radius = 0.0f;				//!<カプセルコライダーの半径。
 	float				m_height = 0.0f;				//!<カプセルコライダーの高さ。

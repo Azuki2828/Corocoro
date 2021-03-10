@@ -38,6 +38,7 @@ void Magnet::Update() {
 
 void Magnet::SetMagnetPower()const {
 
+	float magnetPower = 60.0f;
 
 	//プレイヤーと自身の磁磁極が同じなら自身に向かって伸びるベクトルにする。
 	if (mState != m_player->GetPlayerState()) {
@@ -45,7 +46,7 @@ void Magnet::SetMagnetPower()const {
 	}
 
 	//力を定数倍する。
-	float power = (1 / m_length.Length()) * 100.0f;
+	float power = (1 / m_length.Length()) * magnetPower;
 
 	//ベクトルを正規化する。
 	m_length.Normalize();

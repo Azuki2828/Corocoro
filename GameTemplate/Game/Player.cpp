@@ -54,9 +54,14 @@ void Player::Update()
 	//moveSpeed.z = g_pad[0]->GetLStickYF() * -3.0f;
 	//m_pos = m_charaCon.Execute(moveSpeed, 1.0f);
 	//m_skinModelRender->SetPosition(m_pos);
-	m_movePower.y -= 0.4f;
+	m_movePower.y -= 0.2f;
+	m_movePower.z = 0.0f;
 	//m_movePower.x += 2.0f;
 	m_pos = m_charaCon.Execute(m_movePower, 1.0f);
+
+	if (m_charaCon.IsOnWall()) {
+		m_movePower.x = 0.0f;
+	}
 
 	//Vector3 samplePos = m_pos;
 	//samplePos.y += 100.0f;
