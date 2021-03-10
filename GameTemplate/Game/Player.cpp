@@ -11,7 +11,7 @@ bool Player::Start()
 	//m_animationClips[enAnimClip_Run].Load("Assets/animData/walk.tka");
 	//m_animationClips[enAnimClip_Run].SetLoopFlag(true);
 
-	m_charaCon.Init(100.0f, 200.0f, m_pos);
+	m_charaCon.Init(50.0f, 100.0f, m_pos);
 	//m_movePower = { 0.0f,0.0f,0.0f };
 	const char* tkmFilePaths[] = {
 		"Assets/modelData/tkm/Player_N.tkm",
@@ -49,7 +49,6 @@ bool Player::Start()
 }
 void Player::Update()
 {
-	m_movePower.x = 0.0f;
 	//Vector3 moveSpeed;
 	//moveSpeed.x = g_pad[0]->GetLStickXF() * -3.0f;
 	//moveSpeed.z = g_pad[0]->GetLStickYF() * -3.0f;

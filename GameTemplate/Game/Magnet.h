@@ -9,10 +9,14 @@ public:
 	void Update() override final;
 	void SetState_N() { mState = State_N; }
 	void SetState_S() { mState = State_S; }
+	void SetPosition(Vector3 pos) { m_pos = pos; }
 	void Init(const char* magnetName)
 	{
+		char filePathtkm[256];
+
+		sprintf(filePathtkm, "Assets/modelData/tkm/%s.tkm", magnetName);
 		m_skinModelRender = NewGO<SkinModelRender>(0);
-		m_skinModelRender->SetFileNametkm(magnetName);
+		m_skinModelRender->SetFileNametkm(filePathtkm);
 		m_skinModelRender->Init(true, false);
 	}
 private:
@@ -34,5 +38,6 @@ private:
 	Player* m_player = nullptr;
 
 	SkinModelRender* m_skinModelRender = nullptr;
+	PhysicsStaticObject m_physicsStaticObject;
 };
 

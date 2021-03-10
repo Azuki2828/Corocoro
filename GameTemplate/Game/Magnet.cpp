@@ -3,8 +3,7 @@
 #include "Player.h"
 
 bool Magnet::Start() {
-
-
+	m_skinModelRender->SetPosition(m_pos);
 	////自身の名前によってステートを分けて初期化する。
 	//if (strcmp(this->m_name.c_str(), "N_Magnet") == 0) {
 	//	mState = State_N;
@@ -12,6 +11,11 @@ bool Magnet::Start() {
 	//else if (strcmp(this->m_name.c_str(), "S_Magnet") == 0) {
 	//	mState = State_S;
 	//}
+	m_skinModelRender->UpdateWorldMatrix();
+	m_physicsStaticObject.CreateFromModel(
+		*m_skinModelRender->GetModel(),
+		m_skinModelRender->GetModel()->GetWorldMatrix()
+	);
 
 	//プレイヤーのオブジェクトを探す。
 	m_player = FindGO<Player>("player");
@@ -24,9 +28,12 @@ void Magnet::Update() {
 	m_length = m_player->GetPosition() - m_pos;
 
 	//プレイヤーとの距離が10m以内だったら力を与える関数を呼び出す。
-	if (m_length.Length() <= 2000.0f) {
+	if (m_length.Length() <= 600.0f) {
 		SetMagnetPower();
 	}
+
+	//m_skinModelRender->SetPosition(m_pos);
+
 }
 
 void Magnet::SetMagnetPower()const {
@@ -38,7 +45,7 @@ void Magnet::SetMagnetPower()const {
 	}
 
 	//力を定数倍する。
-	float power = (1 / m_length.Length()) * 150.0f;
+	float power = (1 / m_length.Length()) * 100.0f;
 
 	//ベクトルを正規化する。
 	m_length.Normalize();

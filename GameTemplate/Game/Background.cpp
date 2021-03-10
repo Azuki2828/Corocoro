@@ -6,42 +6,167 @@ bool Background::Start()
 {
 	m_magnet.resize(1);
 	int sampleNum = 0;
-	const char* MagnetName[] = {
-		"Assets/modelData/tkm/SampleMagnet_N_01.tkm",
-		"Assets/modelData/tkm/SampleMagnet_S_01.tkm"
-	};
+
+	/*const char* MagnetName[] = {
+		"Magnet_N_01",
+		"Magnet_N_02",
+		"Magnet_N_03",
+		"Magnet_N_04",
+		"Magnet_N_05",
+		"Magnet_N_06",
+		"Magnet_N_move_01",
+		"Magnet_Nplus_01",
+		"Magnet_S_01",
+		"Magnet_S_02",
+		"Magnet_S_03",
+		"Magnet_Splus_01",
+		"MagnetHoge",
+	};*/
 	//m_spriteRender = NewGO<SpriteRender>(0);
 	//m_spriteRender->Init("Assets/Image/sample.dds", 1980.0f, 1080.0f);
 
+
 	//これがlevelのLoadの基盤。
 	//特定のオブジェクトを指定する（ここでいうフック）場合は、名前検索するなのね。
-	m_level.Init("Assets/level/SampleLevel.tkl", [&](LevelObjectData& objData) {
-		if (objData.EqualObjectName(L"SampleMagnet_N_01") == true) {
-			m_magnet.push_back(*(m_magnet.end()-1));
+	m_level.Init("Assets/level/stage02.tkl", [&](LevelObjectData& objData) {
+
+		/*if (objData.EqualObjectName(L"SampleMagnet_N_01") == true) {
+			m_magnet.push_back(*(m_magnet.end() - 1));
 			m_magnet[sampleNum] = NewGO<Magnet>(0);
 			m_magnet[sampleNum]->SetState_N();
 			m_magnet[sampleNum]->Init(MagnetName[sampleNum]);
+			m_magnet[sampleNum]->SetPosition(objData.position);
 			sampleNum++;
 			return true;
 		}
-		/*else if (objData.EqualObjectName(L"SampleMagnet_S_01") == true) {
+		else if (objData.EqualObjectName(L"SampleMagnet_S_01") == true) {
 			m_magnet.push_back(*(m_magnet.end() - 1));
 			m_magnet[sampleNum] = NewGO<Magnet>(0);
 			m_magnet[sampleNum]->SetState_S();
 			m_magnet[sampleNum]->Init(MagnetName[sampleNum]);
+			m_magnet[sampleNum]->SetPosition(objData.position);
 			sampleNum++;
 			return true;
 		}*/
 
-		//if (objData.EqualObjectName(L"stage02_goal") == true) {
+		if (objData.EqualObjectName(L"stage02_goal") == true) {
+			return true;
+		}
+		//else if (objData.EqualObjectName(L"") == true) {
 		//	return true;
 		//}
-		////else if (objData.EqualObjectName(L"") == true) {
-		////	return true;
-		////}
-		//else if (objData.EqualObjectName(L"KeyBox") == true) {
-		//	return true;
-		//}
+		else if (objData.EqualObjectName(L"Magnet_N_01") == true) {
+			m_magnet.push_back(*(m_magnet.end() - 1));
+			m_magnet[sampleNum] = NewGO<Magnet>(0);
+			m_magnet[sampleNum]->SetState_N();
+			m_magnet[sampleNum]->Init("Magnet_N_01");
+			m_magnet[sampleNum]->SetPosition(objData.position);
+			sampleNum++;
+			return true;
+		}
+		else if (objData.EqualObjectName(L"Magnet_N_02") == true) {
+			m_magnet.push_back(*(m_magnet.end() - 1));
+			m_magnet[sampleNum] = NewGO<Magnet>(0);
+			m_magnet[sampleNum]->SetState_N();
+			m_magnet[sampleNum]->Init("Magnet_N_02");
+			m_magnet[sampleNum]->SetPosition(objData.position);
+			sampleNum++;
+			return true;
+		}
+		else if (objData.EqualObjectName(L"Magnet_N_03") == true) {
+			m_magnet.push_back(*(m_magnet.end() - 1));
+			m_magnet[sampleNum] = NewGO<Magnet>(0);
+			m_magnet[sampleNum]->SetState_N();
+			m_magnet[sampleNum]->Init("Magnet_N_03");
+			m_magnet[sampleNum]->SetPosition(objData.position);
+			sampleNum++;
+			return true;
+		}
+		else if (objData.EqualObjectName(L"Magnet_N_04") == true) {
+			m_magnet.push_back(*(m_magnet.end() - 1));
+			m_magnet[sampleNum] = NewGO<Magnet>(0);
+			m_magnet[sampleNum]->SetState_N();
+			m_magnet[sampleNum]->Init("Magnet_N_04");
+			m_magnet[sampleNum]->SetPosition(objData.position);
+			sampleNum++;
+			return true;
+		}
+		else if (objData.EqualObjectName(L"Magnet_N_05") == true) {
+			m_magnet.push_back(*(m_magnet.end() - 1));
+			m_magnet[sampleNum] = NewGO<Magnet>(0);
+			m_magnet[sampleNum]->SetState_N();
+			m_magnet[sampleNum]->Init("Magnet_N_05");
+			m_magnet[sampleNum]->SetPosition(objData.position);
+			sampleNum++;
+			return true;
+		}
+		else if (objData.EqualObjectName(L"Magnet_N_06") == true) {
+			m_magnet.push_back(*(m_magnet.end() - 1));
+			m_magnet[sampleNum] = NewGO<Magnet>(0);
+			m_magnet[sampleNum]->SetState_N();
+			m_magnet[sampleNum]->Init("Magnet_N_06");
+			m_magnet[sampleNum]->SetPosition(objData.position);
+			sampleNum++;
+			return true;
+		}
+		else if (objData.EqualObjectName(L"Magnet_N_move_01") == true) {
+			m_magnet.push_back(*(m_magnet.end() - 1));
+			m_magnet[sampleNum] = NewGO<Magnet>(0);
+			m_magnet[sampleNum]->SetState_N();
+			m_magnet[sampleNum]->Init("Magnet_N_move_01");
+			m_magnet[sampleNum]->SetPosition(objData.position);
+			sampleNum++;
+			return true;
+		}
+		else if (objData.EqualObjectName(L"Magnet_Nplus_01") == true) {
+			m_magnet.push_back(*(m_magnet.end() - 1));
+			m_magnet[sampleNum] = NewGO<Magnet>(0);
+			m_magnet[sampleNum]->SetState_N();
+			m_magnet[sampleNum]->Init("Magnet_Nplus_01");
+			m_magnet[sampleNum]->SetPosition(objData.position);
+			sampleNum++;
+			return true;
+		}
+		else if (objData.EqualObjectName(L"Magnet_S_01") == true) {
+			m_magnet.push_back(*(m_magnet.end() - 1));
+			m_magnet[sampleNum] = NewGO<Magnet>(0);
+			m_magnet[sampleNum]->SetState_S();
+			m_magnet[sampleNum]->Init("Magnet_S_01");
+			m_magnet[sampleNum]->SetPosition(objData.position);
+			sampleNum++;
+			return true;
+		}
+		else if (objData.EqualObjectName(L"Magnet_S_02") == true) {
+			m_magnet.push_back(*(m_magnet.end() - 1));
+			m_magnet[sampleNum] = NewGO<Magnet>(0);
+			m_magnet[sampleNum]->SetState_S();
+			m_magnet[sampleNum]->Init("Magnet_S_02");
+			m_magnet[sampleNum]->SetPosition(objData.position);
+			sampleNum++;
+			return true;
+		}
+		else if (objData.EqualObjectName(L"Magnet_S_03") == true) {
+			m_magnet.push_back(*(m_magnet.end() - 1));
+			m_magnet[sampleNum] = NewGO<Magnet>(0);
+			m_magnet[sampleNum]->SetState_S();
+			m_magnet[sampleNum]->Init("Magnet_S_03");
+			m_magnet[sampleNum]->SetPosition(objData.position);
+			sampleNum++;
+			return true;
+		}
+		else if (objData.EqualObjectName(L"Magnet_Splus_01") == true) {
+			m_magnet.push_back(*(m_magnet.end() - 1));
+			m_magnet[sampleNum] = NewGO<Magnet>(0);
+			m_magnet[sampleNum]->SetState_S();
+
+			m_magnet[sampleNum]->Init("Magnet_Splus_01");
+			m_magnet[sampleNum]->SetPosition(objData.position);
+			sampleNum++;
+			return true;
+		}
+		else if (objData.EqualObjectName(L"KeyBox") == true) {
+			return true;
+		}
 		return false;//levelのオブジェクトをそのままロード。
 	});
 	//ModelInitData initData;

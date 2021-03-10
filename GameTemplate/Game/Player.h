@@ -40,7 +40,7 @@ private:
 	enum EnPlayer {
 		enPlayer_0,
 		enPlayer_1,
-		enPlayer_Num = 1
+		enPlayer_Num
 	};
 	//プレイヤーのステート。
 	Player_State pState = State_N;
@@ -53,7 +53,7 @@ private:
 	CharacterController m_charaCon;
 
 	DirectionLight* m_dirLight = nullptr;
-	Vector3 m_pos = { 0.0f,1000.0f,20.0f };
+	Vector3 m_pos = { 1000.0f,1500.0f,20.0f };
 	mutable Vector3 m_movePower;
 
 	SkinModelRender* m_skinModelRender[enPlayer_Num] = { nullptr };

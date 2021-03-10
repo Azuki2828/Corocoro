@@ -218,7 +218,7 @@ const Vector3& CharacterController::Execute( Vector3& moveSpeed, float deltaTime
 				break;
 			}
 			loopCount++;
-			if (loopCount == 5) {
+			if (loopCount == 1) {
 				break;
 			}
 		}
