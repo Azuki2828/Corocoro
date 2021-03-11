@@ -3,6 +3,7 @@
 #include "Player.h"
 
 bool Magnet::Start() {
+
 	m_skinModelRender->SetPosition(m_pos);
 	////自身の名前によってステートを分けて初期化する。
 	//if (strcmp(this->m_name.c_str(), "N_Magnet") == 0) {
@@ -48,6 +49,9 @@ void Magnet::SetMagnetPower()const {
 	//力を定数倍する。
 	float power = (1 / m_length.Length()) * magnetPower;
 
+	if (plusFlg) {
+		power *= 1.5f;
+	}
 	//ベクトルを正規化する。
 	m_length.Normalize();
 

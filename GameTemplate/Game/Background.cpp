@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "Background.h"
 #include "Magnet.h"
+#include "Key.h"
 
 bool Background::Start()
 {
@@ -49,7 +50,20 @@ bool Background::Start()
 			return true;
 		}*/
 
-		if (objData.EqualObjectName(L"stage02_goal") == true) {
+		if (objData.EqualObjectName(L"Key") == true) {
+			if (m_key == nullptr) {
+				m_key = NewGO<Key>(0);
+			}
+			m_key->InitKey("Key");
+			m_key->SetPositionKey(objData.position);
+			return true;
+		}
+		else if (objData.EqualObjectName(L"KeyBox") == true) {
+			if (m_key == nullptr) {
+				m_key = NewGO<Key>(0);
+			}
+			m_key->InitDoor("KeyBox");
+			m_key->SetPositionDoor(objData.position);
 			return true;
 		}
 		//else if (objData.EqualObjectName(L"") == true) {
@@ -109,11 +123,11 @@ bool Background::Start()
 			sampleNum++;
 			return true;
 		}
-		else if (objData.EqualObjectName(L"Magnet_N_move_01") == true) {
+		else if (objData.EqualObjectName(L"Magnet_Nplus_move_01") == true) {
 			m_magnet.push_back(*(m_magnet.end() - 1));
 			m_magnet[sampleNum] = NewGO<Magnet>(0);
-			m_magnet[sampleNum]->SetState_N();
-			m_magnet[sampleNum]->Init("Magnet_N_move_01");
+			m_magnet[sampleNum]->SetState_N(true);
+			m_magnet[sampleNum]->Init("Magnet_Nplus_move_01");
 			m_magnet[sampleNum]->SetPosition(objData.position);
 			sampleNum++;
 			return true;
@@ -121,7 +135,7 @@ bool Background::Start()
 		else if (objData.EqualObjectName(L"Magnet_Nplus_01") == true) {
 			m_magnet.push_back(*(m_magnet.end() - 1));
 			m_magnet[sampleNum] = NewGO<Magnet>(0);
-			m_magnet[sampleNum]->SetState_N();
+			m_magnet[sampleNum]->SetState_N(true);
 			m_magnet[sampleNum]->Init("Magnet_Nplus_01");
 			m_magnet[sampleNum]->SetPosition(objData.position);
 			sampleNum++;
@@ -157,7 +171,7 @@ bool Background::Start()
 		else if (objData.EqualObjectName(L"Magnet_Splus_01") == true) {
 			m_magnet.push_back(*(m_magnet.end() - 1));
 			m_magnet[sampleNum] = NewGO<Magnet>(0);
-			m_magnet[sampleNum]->SetState_S();
+			m_magnet[sampleNum]->SetState_S(true);
 
 			m_magnet[sampleNum]->Init("Magnet_Splus_01");
 			m_magnet[sampleNum]->SetPosition(objData.position);

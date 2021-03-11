@@ -7,8 +7,18 @@ class Magnet : public IGameObject
 public:
 	bool Start() override final;
 	void Update() override final;
-	void SetState_N() { mState = State_N; }
-	void SetState_S() { mState = State_S; }
+	void SetState_N(bool plusflg = false) {
+		mState = State_N;
+		if (plusflg) {
+			plusFlg = true;
+		}
+	}
+	void SetState_S(bool plusflg = false) {
+		mState = State_S; 
+		if (plusflg) {
+			plusFlg = true;
+		}
+	}
 	void SetPosition(Vector3 pos) { m_pos = pos; }
 	void Init(const char* magnetName)
 	{
@@ -24,13 +34,15 @@ private:
 	//プレイヤーに力を与える関数。
 	void SetMagnetPower()const;
 
-
+	bool plusFlg = false;
 	mutable Vector3 m_length;
 	Vector3 m_pos;
 
 	typedef enum {
 		State_N,
 		State_S,
+		State_Nplus,
+		State_Splus,
 	}Magnet_State;
 
 	Magnet_State mState;

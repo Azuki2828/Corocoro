@@ -6,6 +6,7 @@
 
 class Level;
 class Magnet;
+class Key;
 
 class Background : public IGameObject
 {
@@ -20,5 +21,6 @@ private:
 	SpriteRender* m_spriteRender = nullptr;
 
 	std::vector<Magnet*> m_magnet;
+	Key* m_key = nullptr;
 };
 
