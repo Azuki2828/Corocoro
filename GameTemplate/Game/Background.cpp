@@ -168,6 +168,15 @@ bool Background::Start()
 			sampleNum++;
 			return true;
 		}
+		else if (objData.EqualObjectName(L"Magnet_S_05") == true) {
+		m_magnet.push_back(*(m_magnet.end() - 1));
+		m_magnet[sampleNum] = NewGO<Magnet>(0);
+		m_magnet[sampleNum]->SetState_S();
+		m_magnet[sampleNum]->Init("Magnet_S_05");
+		m_magnet[sampleNum]->SetPosition(objData.position);
+		sampleNum++;
+		return true;
+		}
 		else if (objData.EqualObjectName(L"Magnet_Splus_01") == true) {
 			m_magnet.push_back(*(m_magnet.end() - 1));
 			m_magnet[sampleNum] = NewGO<Magnet>(0);

@@ -50,7 +50,7 @@ void Key::Update() {
 	Vector3 keyLength;
 
 	keyLength = m_player->GetPosition() - m_keyPos;
-	if (keyLength.Length() <= 50.0f) {
+	if (keyLength.Length() <= 300.0f) {
 		DeleteGO(m_skinModelRender_Key);
 		getKeyFlg = true;
 	}
@@ -58,8 +58,9 @@ void Key::Update() {
 	if (getKeyFlg) {
 		Vector3 doorLength;
 		doorLength = m_player->GetPosition() - m_doorPos;
-		if (doorLength.Length() <= 100.0f) {
+		if (doorLength.Length() <= 200.0f) {
 			DeleteGO(m_skinModelRender_Door);
+			m_physicsStaticObject.Release();
 		}
 	}
 }

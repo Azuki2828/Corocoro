@@ -53,7 +53,8 @@ private:
 	CharacterController m_charaCon;
 
 	DirectionLight* m_dirLight = nullptr;
-	Vector3 m_pos = { 500.0f,300.0f,20.0f };
+	//Vector3 m_pos = { 500.0f,500.0f,0.0f };
+	Vector3 m_pos = { 1500.0f,2800.0f,20.0f };
 	mutable Vector3 m_movePower;
 
 	SkinModelRender* m_skinModelRender[enPlayer_Num] = { nullptr };
