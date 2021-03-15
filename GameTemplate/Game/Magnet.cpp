@@ -12,12 +12,17 @@ bool Magnet::Start() {
 	//else if (strcmp(this->m_name.c_str(), "S_Magnet") == 0) {
 	//	mState = State_S;
 	//}
-	m_skinModelRender->UpdateWorldMatrix();
-	m_physicsStaticObject.CreateFromModel(
-		*m_skinModelRender->GetModel(),
-		m_skinModelRender->GetModel()->GetWorldMatrix()
-	);
+	if (!moveFlg) {
+		m_skinModelRender->UpdateWorldMatrix();
+		m_physicsStaticObject.CreateFromModel(
+			*m_skinModelRender->GetModel(),
+			m_skinModelRender->GetModel()->GetWorldMatrix()
+		);
+	}
 
+	if (moveFlg) {
+		moveSpeed = (moveRange_back - moveRange_front) /= 150.0f;
+	}
 	//プレイヤーのオブジェクトを探す。
 	m_player = FindGO<Player>("player");
 	return true;
@@ -25,6 +30,19 @@ bool Magnet::Start() {
 
 void Magnet::Update() {
 	
+
+	if (moveFlg) {
+		m_pos += moveSpeed;
+		if (m_pos.x > moveRange_back.x) {
+			m_pos.x = moveRange_back.x;
+			moveSpeed *= -1.0f;
+		}
+		if (m_pos.x < moveRange_front.x) {
+			m_pos.x = moveRange_front.x;
+			moveSpeed *= -1.0f;
+		}
+	}
+	m_skinModelRender->SetPosition(m_pos);
 	//プレイヤーに向かって伸びるベクトル(長さ)。
 	m_length = m_player->GetPosition() - m_pos;
 

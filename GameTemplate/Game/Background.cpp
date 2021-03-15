@@ -23,8 +23,8 @@ bool Background::Start()
 		"Magnet_Splus_01",
 		"MagnetHoge",
 	};*/
-	//m_spriteRender = NewGO<SpriteRender>(0);
-	//m_spriteRender->Init("Assets/Image/sample.dds", 1980.0f, 1080.0f);
+	m_spriteRender = NewGO<SpriteRender>(0);
+	m_spriteRender->Init("Assets/Image/sample.dds", 1980.0f, 1080.0f);
 
 
 	//Ç±ÇÍÇ™levelÇÃLoadÇÃäÓî’ÅB
@@ -123,12 +123,50 @@ bool Background::Start()
 			sampleNum++;
 			return true;
 		}
+		else if (objData.EqualObjectName(L"Magnet_N_07") == true) {
+			m_magnet.push_back(*(m_magnet.end() - 1));
+			m_magnet[sampleNum] = NewGO<Magnet>(0);
+			m_magnet[sampleNum]->SetState_N(true);
+			m_magnet[sampleNum]->Init("Magnet_N_07");
+			m_magnet[sampleNum]->SetPosition(objData.position);
+			sampleNum++;
+			return true;
+		}
+		else if (objData.EqualObjectName(L"Magnet_Nplus_02") == true) {
+			m_magnet.push_back(*(m_magnet.end() - 1));
+			m_magnet[sampleNum] = NewGO<Magnet>(0);
+			m_magnet[sampleNum]->SetState_N(true);
+
+			m_magnet[sampleNum]->Init("Magnet_Nplus_02");
+			m_magnet[sampleNum]->SetPosition(objData.position);
+			sampleNum++;
+			return true;
+		}
 		else if (objData.EqualObjectName(L"Magnet_Nplus_move_01") == true) {
 			m_magnet.push_back(*(m_magnet.end() - 1));
 			m_magnet[sampleNum] = NewGO<Magnet>(0);
 			m_magnet[sampleNum]->SetState_N(true);
 			m_magnet[sampleNum]->Init("Magnet_Nplus_move_01");
-			m_magnet[sampleNum]->SetPosition(objData.position);
+
+			Vector3 movePos_front = objData.position;
+			movePos_front.x -= 900.0f;
+			Vector3 movePos_back = objData.position;
+			m_magnet[sampleNum]->SetMove(movePos_front, movePos_back);
+			m_magnet[sampleNum]->SetPosition(movePos_front);
+			sampleNum++;
+			return true;
+		}
+		else if (objData.EqualObjectName(L"Magnet_Nplus_move_02") == true) {
+			m_magnet.push_back(*(m_magnet.end() - 1));
+			m_magnet[sampleNum] = NewGO<Magnet>(0);
+			m_magnet[sampleNum]->SetState_N(true);
+			m_magnet[sampleNum]->Init("Magnet_Nplus_move_02");
+
+			Vector3 movePos_front = objData.position;
+			movePos_front.x -= 400.0f;
+			Vector3 movePos_back = objData.position;
+			m_magnet[sampleNum]->SetMove(movePos_front, movePos_back);
+			m_magnet[sampleNum]->SetPosition(movePos_front);
 			sampleNum++;
 			return true;
 		}
@@ -168,11 +206,22 @@ bool Background::Start()
 			sampleNum++;
 			return true;
 		}
-		else if (objData.EqualObjectName(L"Magnet_S_05") == true) {
+		else if (objData.EqualObjectName(L"Magnet_S_04") == true) {
 		m_magnet.push_back(*(m_magnet.end() - 1));
+
+		m_magnet[sampleNum] = NewGO<Magnet>(0);
+		m_magnet[sampleNum]->SetState_S(true);
+		m_magnet[sampleNum]->Init("Magnet_S_04");
+		m_magnet[sampleNum]->SetPosition(objData.position);
+		sampleNum++;
+		return true;
+		}
+		else if (objData.EqualObjectName(L"magnet_S_05") == true) {
+		m_magnet.push_back(*(m_magnet.end() - 1));
+
 		m_magnet[sampleNum] = NewGO<Magnet>(0);
 		m_magnet[sampleNum]->SetState_S();
-		m_magnet[sampleNum]->Init("Magnet_S_05");
+		m_magnet[sampleNum]->Init("magnet_S_05");
 		m_magnet[sampleNum]->SetPosition(objData.position);
 		sampleNum++;
 		return true;
@@ -185,6 +234,9 @@ bool Background::Start()
 			m_magnet[sampleNum]->Init("Magnet_Splus_01");
 			m_magnet[sampleNum]->SetPosition(objData.position);
 			sampleNum++;
+			return true;
+		}
+		else if (objData.EqualObjectName(L"move_01") == true) {
 			return true;
 		}
 		else if (objData.EqualObjectName(L"KeyBox") == true) {

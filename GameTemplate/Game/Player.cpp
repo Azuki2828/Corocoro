@@ -60,15 +60,28 @@ void Player::Update()
 	m_pos = m_charaCon.Execute(m_movePower, 1.0f);
 
 	if (m_charaCon.IsOnWall()) {
-		m_movePower.x = 0.0f;
+		m_movePower.x *=  -0.5f;	//1/2の力で跳ね返る。
 	}
+	if (m_charaCon.IsOnGround()) {
+		if (m_movePower.x >= 0.0f) {
+			m_movePower.x -= 0.02f;
+			if (m_movePower.x < 0.0f) {
+				m_movePower.x = 0.0f;
+			}
+		}
+		else {
+			m_movePower.x += 0.02f;
+			if (m_movePower.x > 0.0f) {
+				m_movePower.x = 0.0f;
+			}
+		}
 
+	}
 	//Vector3 samplePos = m_pos;
 	//samplePos.y += 100.0f;
 	for (int i = 0; i < enPlayer_Num; i++) {
 		m_skinModelRender[i]->SetPosition(m_pos);
 	}
-
 	//Aボタンでプレイヤーの磁力を反転させる
 	if (g_pad[0]->IsTrigger(enButtonA)) {
 		ChangeState();

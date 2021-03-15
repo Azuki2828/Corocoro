@@ -19,6 +19,7 @@ public:
 			plusFlg = true;
 		}
 	}
+	void SetMove(Vector3 front, Vector3 back) { moveRange_front = front, moveRange_back = back, moveFlg = true; }
 	void SetPosition(Vector3 pos) { m_pos = pos; }
 	void Init(const char* magnetName)
 	{
@@ -35,8 +36,11 @@ private:
 	void SetMagnetPower()const;
 
 	bool plusFlg = false;
+	bool moveFlg = false;
 	mutable Vector3 m_length;
 	Vector3 m_pos;
+	Vector3 moveRange_front, moveRange_back;
+	Vector3 moveSpeed;
 
 	typedef enum {
 		State_N,
