@@ -23,6 +23,9 @@ bool Background::Start()
 		"Magnet_Splus_01",
 		"MagnetHoge",
 	};*/
+
+
+	//”wŒi‰æ‘œ‚ğ‰Šú‰»B
 	m_spriteRender = NewGO<SpriteRender>(0);
 	m_spriteRender->Init("Assets/Image/sample.dds", 1980.0f, 1080.0f);
 

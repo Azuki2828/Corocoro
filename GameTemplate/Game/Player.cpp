@@ -11,8 +11,10 @@ bool Player::Start()
 	//m_animationClips[enAnimClip_Run].Load("Assets/animData/walk.tka");
 	//m_animationClips[enAnimClip_Run].SetLoopFlag(true);
 
+	//キャラコンの初期化。
 	m_charaCon.Init(50.0f, 100.0f, m_pos);
-	//m_movePower = { 0.0f,0.0f,0.0f };
+
+	//プレイヤーのtkmとtksをロードする種。
 	const char* tkmFilePaths[] = {
 		"Assets/modelData/tkm/Player_N.tkm",
 		"Assets/modelData/tkm/Player_S.tkm"
@@ -21,6 +23,8 @@ bool Player::Start()
 		"Assets/modelData/tkm/Player_N.tks",
 		"Assets/modelData/tkm/Player_S.tks"
 	};
+
+	//プレイヤーの初期化。
 	for (int i = 0; i < enPlayer_Num; i++) {
 		//SkinModelRenderをNewGO。
 		m_skinModelRender[i] = NewGO<SkinModelRender>(1);
@@ -39,8 +43,8 @@ bool Player::Start()
 
 		//アニメーションを設定。
 	//m_skinModelRender->InitAnimation(m_animationClips, enAnimClip_Num);
-	//最終的な初期化。
 
+	//座標を登録。
 	for (int i = 0; i < enPlayer_Num; i++) {
 		m_skinModelRender[i]->SetPosition(m_pos);
 	}
@@ -49,42 +53,55 @@ bool Player::Start()
 }
 void Player::Update()
 {
-	//Vector3 moveSpeed;
-	//moveSpeed.x = g_pad[0]->GetLStickXF() * -3.0f;
-	//moveSpeed.z = g_pad[0]->GetLStickYF() * -3.0f;
-	//m_pos = m_charaCon.Execute(moveSpeed, 1.0f);
-	//m_skinModelRender->SetPosition(m_pos);
+	//重力を設定。
 	m_movePower.y -= 0.2f;
+
+	//z方向には動かない。
 	m_movePower.z = 0.0f;
-	//m_movePower.x += 2.0f;
+
+	//座標を設定。
 	m_pos = m_charaCon.Execute(m_movePower, 1.0f);
 
+	//壁に当たっているなら
 	if (m_charaCon.IsOnWall()) {
-		m_movePower.x *=  -0.5f;	//1/2の力で跳ね返る。
+
+		//1/2の力で跳ね返る。
+		m_movePower.x *= -0.5f;
 	}
+
+	//地面上にいるなら
 	if (m_charaCon.IsOnGround()) {
+
+		//右に動いてたら
 		if (m_movePower.x >= 0.0f) {
+			//摩擦。
 			m_movePower.x -= 0.02f;
+			//もし減らしすぎたら０にする。
 			if (m_movePower.x < 0.0f) {
 				m_movePower.x = 0.0f;
 			}
-		}
+		}//左に動いてたら
 		else {
+			//摩擦。
 			m_movePower.x += 0.02f;
+			//もし増やしすぎたら０にする。
 			if (m_movePower.x > 0.0f) {
 				m_movePower.x = 0.0f;
 			}
 		}
 
 	}
-	//Vector3 samplePos = m_pos;
-	//samplePos.y += 100.0f;
+	
+	//座標を登録。
 	for (int i = 0; i < enPlayer_Num; i++) {
 		m_skinModelRender[i]->SetPosition(m_pos);
 	}
+
 	//Aボタンでプレイヤーの磁力を反転させる
 	if (g_pad[0]->IsTrigger(enButtonA)) {
 		ChangeState();
+
+		//アクティブフラグを更新。
 		for (int i = 0; i < enPlayer_Num; i++) {
 			if (m_skinModelRender[i]->IsActive() == true) {
 				m_skinModelRender[i]->Deactivate();

@@ -4,7 +4,12 @@
 
 bool Magnet::Start() {
 
+	//座標を登録。
+
 	m_skinModelRender->SetPosition(m_pos);
+
+	/*
+	名前分けしようとしてたときのやつ。
 	////自身の名前によってステートを分けて初期化する。
 	//if (strcmp(this->m_name.c_str(), "N_Magnet") == 0) {
 	//	mState = State_N;
@@ -12,6 +17,10 @@ bool Magnet::Start() {
 	//else if (strcmp(this->m_name.c_str(), "S_Magnet") == 0) {
 	//	mState = State_S;
 	//}
+
+	*/
+
+	//動く物体じゃないなら座標を更新して当たり判定を付ける。
 	if (!moveFlg) {
 		m_skinModelRender->UpdateWorldMatrix();
 		m_physicsStaticObject.CreateFromModel(
@@ -20,6 +29,8 @@ bool Magnet::Start() {
 		);
 	}
 
+
+	//動く物体じゃないなら動く速さだけ設定。
 	if (moveFlg) {
 		moveSpeed = (moveRange_back - moveRange_front) /= 150.0f;
 	}
@@ -30,23 +41,30 @@ bool Magnet::Start() {
 
 void Magnet::Update() {
 	
-
+	//動く物体なら
 	if (moveFlg) {
+
+
 		m_pos += moveSpeed;
+
+		//設定された右端まできたら動く向きを逆にする。
 		if (m_pos.x > moveRange_back.x) {
 			m_pos.x = moveRange_back.x;
 			moveSpeed *= -1.0f;
 		}
+		//設定された左端まできたら動く向きを逆にする。
 		if (m_pos.x < moveRange_front.x) {
 			m_pos.x = moveRange_front.x;
 			moveSpeed *= -1.0f;
 		}
 	}
+
+	//座標を登録。
 	m_skinModelRender->SetPosition(m_pos);
 	//プレイヤーに向かって伸びるベクトル(長さ)。
 	m_length = m_player->GetPosition() - m_pos;
 
-	//プレイヤーとの距離が10m以内だったら力を与える関数を呼び出す。
+	//プレイヤーとの距離が６m以内だったら力を与える関数を呼び出す。
 	if (m_length.Length() <= 600.0f) {
 		SetMagnetPower();
 	}
@@ -57,6 +75,7 @@ void Magnet::Update() {
 
 void Magnet::SetMagnetPower()const {
 
+	//基礎磁力の強さ。
 	float magnetPower = 60.0f;
 
 	//プレイヤーと自身の磁磁極が同じなら自身に向かって伸びるベクトルにする。
@@ -67,13 +86,17 @@ void Magnet::SetMagnetPower()const {
 	//力を定数倍する。
 	float power = (1 / m_length.Length()) * magnetPower;
 
+	//強い磁石なら磁力を1.5倍に。
 	if (plusFlg) {
 		power *= 1.5f;
 	}
 	//ベクトルを正規化する。
 	m_length.Normalize();
 
+	//正規化したベクトルに磁力を掛ける。
 	m_length *= power;
+
+	//Z方向への力を０にする。
 	m_length.z = 0.0f;
 
 	//プレイヤーに力を与える。

@@ -22,6 +22,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 
 	//プレイヤーを生成。
 	NewGO<Player>(0,"player");
+	//カメラを生成。
 	NewGO<MainCamera>(0);
 	//背景を生成。
 	NewGO<Background>(0);

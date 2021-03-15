@@ -424,12 +424,6 @@
     <ClInclude Include="SkinModelRender.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\MiniEngine\tkNameKey.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\MiniEngine\tkUtil.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="Magnet.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
