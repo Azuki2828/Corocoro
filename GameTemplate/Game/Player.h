@@ -60,7 +60,7 @@ private:
 	CharacterController m_charaCon;						//キャラコン。
 
 	DirectionLight* m_dirLight = nullptr;				//ディレクションライト。
-	Vector3 m_pos = { 500.0f,300.0f,0.0f };				//初期座標。
+	Vector3 m_pos = { 300.0f,300.0f,0.0f };				//初期座標。
 	//Vector3 m_pos = { 1500.0f,2800.0f,0.0f };
 	//Vector3 m_pos = { 1500.0f,2800.0f,20.0f };
 	mutable Vector3 m_movePower;						//動く力。

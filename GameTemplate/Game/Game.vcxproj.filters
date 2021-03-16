@@ -224,12 +224,6 @@
     <ClCompile Include="SpriteRender.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\MiniEngine\font\Font.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\MiniEngine\font\FontEngine.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="FontRender.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
@@ -238,6 +232,12 @@
     </ClCompile>
     <ClCompile Include="MoveObject.cpp">
       <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\MiniEngine\font\Font.cpp">
+      <Filter>MiniEngine\font</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\MiniEngine\font\FontEngine.cpp">
+      <Filter>MiniEngine\font</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -439,12 +439,6 @@
     <ClInclude Include="SpriteRender.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\MiniEngine\font\FontEngine.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\MiniEngine\font\Font.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="FontRender.h">
       <Filter>ソース ファイル</Filter>
     </ClInclude>
@@ -453,6 +447,12 @@
     </ClInclude>
     <ClInclude Include="MoveObject.h">
       <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MiniEngine\font\Font.h">
+      <Filter>MiniEngine\font</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MiniEngine\font\FontEngine.h">
+      <Filter>MiniEngine\font</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
