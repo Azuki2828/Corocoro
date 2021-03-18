@@ -181,7 +181,7 @@ float4 PSMain(SPSIn psIn) : SV_Target0
 	float3 lig = diffuseLig + (dotLH * dotNL);// / 3.1415926;
 	//float3 lig = (dotLH * dotNL) / 3.1415926; //* (1.0 - specTerm) + spec;
 	//return albedoColor;
-	albedoColor.xyz *= lig;
+	//albedoColor.xyz *= lig;
 
 	return albedoColor;
 }

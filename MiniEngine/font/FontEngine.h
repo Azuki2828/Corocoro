@@ -1,6 +1,5 @@
 #pragma once
 
-#include "stdafx.h"
 /// <summary>
 /// フォントエンジン。
 /// </summary>

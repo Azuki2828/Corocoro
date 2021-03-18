@@ -20,11 +20,12 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	GameObjectManager::CreateInstance();
 	PhysicsWorld::CreateInstance();
 
+	//背景を生成。
+	NewGO<Background>(0,"background");
 	//プレイヤーを生成。
 	NewGO<Player>(0,"player");
+	//カメラを生成。
 	NewGO<MainCamera>(0);
-	//背景を生成。
-	NewGO<Background>(0);
 	
 
 	//////////////////////////////////////

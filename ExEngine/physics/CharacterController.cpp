@@ -212,13 +212,15 @@ const Vector3& CharacterController::Execute( Vector3& moveSpeed, float deltaTime
 					nextPosition.z = m_position.z;
 					break;
 				}
+				m_isOnWall = true;
 			}
 			else {
 				//Ç«Ç±Ç∆Ç‡ìñÇΩÇÁÇ»Ç¢ÇÃÇ≈èIÇÌÇËÅB
+				m_isOnWall = false;
 				break;
 			}
 			loopCount++;
-			if (loopCount == 5) {
+			if (loopCount == 1) {
 				break;
 			}
 		}
