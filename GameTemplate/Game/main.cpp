@@ -1,8 +1,7 @@
 #include "stdafx.h"
 #include "system/system.h"
-#include "Player.h"
-#include "Background.h"
-#include "MainCamera.h"
+#include "TitleScene.h"
+
 
 ///////////////////////////////////////////////////////////////////
 // ウィンドウプログラムのメイン関数。
@@ -20,12 +19,9 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	GameObjectManager::CreateInstance();
 	PhysicsWorld::CreateInstance();
 
-	//プレイヤーを生成。
-	NewGO<Player>(0,"player");
-	NewGO<MainCamera>(0);
-	//背景を生成。
-	NewGO<Background>(0);
-	
+	//タイトルを生成。
+	NewGO<TitleScene>(0);
+
 
 	//////////////////////////////////////
 	// 初期化を行うコードを書くのはここまで！！！
@@ -37,12 +33,12 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	{
 		//レンダリング開始。
 		g_engine->BeginFrame();
-		
+
 
 		//////////////////////////////////////
 		//ここから絵を描くコードを記述する。
 		//////////////////////////////////////
-		
+
 		GameObjectManager::GetInstance()->ExecuteUpdate();
 		GameObjectManager::GetInstance()->ExecuteRender(renderContext);
 

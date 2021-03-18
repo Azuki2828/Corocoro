@@ -224,13 +224,22 @@
     <ClCompile Include="SpriteRender.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\MiniEngine\font\Font.cpp">
+    <ClCompile Include="FontRender.cpp">
       <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Key.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="MoveObject.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\MiniEngine\font\Font.cpp">
+      <Filter>MiniEngine\font</Filter>
     </ClCompile>
     <ClCompile Include="..\..\MiniEngine\font\FontEngine.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>MiniEngine\font</Filter>
     </ClCompile>
-    <ClCompile Include="FontRender.cpp">
+    <ClCompile Include="TitleScene.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
@@ -418,12 +427,6 @@
     <ClInclude Include="SkinModelRender.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\MiniEngine\tkNameKey.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\MiniEngine\tkUtil.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="Magnet.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
@@ -439,14 +442,23 @@
     <ClInclude Include="SpriteRender.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\MiniEngine\font\FontEngine.h">
+    <ClInclude Include="FontRender.h">
+      <Filter>ソース ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Key.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="MoveObject.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="..\..\MiniEngine\font\Font.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>MiniEngine\font</Filter>
     </ClInclude>
-    <ClInclude Include="FontRender.h">
-      <Filter>ソース ファイル</Filter>
+    <ClInclude Include="..\..\MiniEngine\font\FontEngine.h">
+      <Filter>MiniEngine\font</Filter>
+    </ClInclude>
+    <ClInclude Include="TitleScene.h">
+      <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -6,6 +6,7 @@ bool MainCamera::Start() {
 
 	m_player = FindGO<Player>("player");
 
+	//初期設定。値は適当。
 	m_pos = { 0.0f,0.0f,1000.0f };
 	g_camera3D->SetPosition(m_pos);
 	g_camera3D->SetTarget({ 0.0f, 0.0f, 0.0f });

@@ -27,7 +27,7 @@ public:
 	{
 		delete m_instance;
 	}
-	
+
 	void Update(float deltaTime);
 	void DebubDrawWorld(RenderContext& rc);
 	void Release();
@@ -54,7 +54,7 @@ public:
 		m_dynamicWorld->addRigidBody(rb.GetBody());
 	}
 
-	
+
 	/*!
 	* @brief	„‘Ì‚ð”jŠüB
 	*/
@@ -89,7 +89,7 @@ public:
 	{
 		m_dynamicWorld->removeCollisionObject(&colliObj);
 	}
-	
+
 	void ContactTest(
 		btCollisionObject* colObj,
 		std::function<void(const btCollisionObject& contactCollisionObject)> cb
@@ -98,15 +98,15 @@ public:
 		CRigidBody& rb,
 		std::function<void(const btCollisionObject& contactCollisionObject)> cb
 	);
-		
+
 	void ContactTest(
 		CCharacterController& charaCon,
 		std::function<void(const btCollisionObject& contactCollisionObject)> cb
 	);
-#endif		
+#endif
 private:
 	PhysicsWorld();
 	~PhysicsWorld();
 	void Init();
 };
-	
+
