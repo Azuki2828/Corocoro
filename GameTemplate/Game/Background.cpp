@@ -27,6 +27,7 @@ bool Background::Start()
 
 	//”wŒi‰æ‘œ‚ğ‰Šú‰»B
 	m_spriteRender = NewGO<SpriteRender>(0);
+	m_spriteRender->SetPosition({ 500.0f,100.0f,0.0f });
 	m_spriteRender->Init("Assets/Image/sample.dds", 1980.0f, 1080.0f);
 
 
@@ -238,6 +239,20 @@ bool Background::Start()
 			m_magnet[sampleNum]->SetPosition(objData.position);
 			sampleNum++;
 			return true;
+		}
+		else if (objData.EqualObjectName(L"Magnet_Splus_Move_01") == true) {
+		m_magnet.push_back(*(m_magnet.end() - 1));
+		m_magnet[sampleNum] = NewGO<Magnet>(0);
+		m_magnet[sampleNum]->SetState_S(true);
+		m_magnet[sampleNum]->Init("Magnet_Splus_Move_01");
+
+		Vector3 movePos_front = objData.position;
+		Vector3 movePos_back = objData.position;
+		movePos_back.x += 400.0f;
+		m_magnet[sampleNum]->SetMove(movePos_front, movePos_back);
+		m_magnet[sampleNum]->SetPosition(movePos_front);
+		sampleNum++;
+		return true;
 		}
 		else if (objData.EqualObjectName(L"move_01") == true) {
 			return true;

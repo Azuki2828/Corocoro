@@ -15,6 +15,7 @@ PhysicsStaticObject::~PhysicsStaticObject()
 	
 }
 void PhysicsStaticObject::Release() {
+
 	PhysicsWorld::GetInstance()->RemoveRigidBody(m_rigidBody);
 }
 void PhysicsStaticObject::CreateFromModel(Model& model, const Matrix& worldMatrix)

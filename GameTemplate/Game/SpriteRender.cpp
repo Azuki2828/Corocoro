@@ -11,6 +11,10 @@ void SpriteRender::Init(const char* filepath, float width, float height) {
 	m_sprite.Init(m_initData);
 }
 
+void SpriteRender::Update() {
+	m_sprite.Update(m_pos, Quaternion::Identity, Vector3::One);
+}
+
 void SpriteRender::Render(RenderContext& rc) {
 	m_sprite.Draw(rc);
 }
