@@ -3,10 +3,11 @@
  */
 
 //#include "tkEngine/tkEnginePreCompile.h"
+#include "stdafx.h"
+#include "tkUtil.h"
 #include "tkWaveFile.h"
 #include "tkWaveFileBank.h"
 
-namespace tkEngine{
 	CWaveFileBank::CWaveFileBank()
 	{
 	}
@@ -40,13 +41,12 @@ namespace tkEngine{
 		}
 		return CWaveFilePtr();
 	}
-	CWaveFilePtr CWaveFileBank::FindWaveFile(int groupID, const WNameKey& nameKey)
-	{
-		//TK_ASSERT(groupID < MAX_GROUP, "groupID is invalid");
-		auto value = m_waveFileMap[groupID].find(nameKey.GetHashCode());
-		if (value != m_waveFileMap[groupID].end()) {
-			return value->second;
-		}
-		return CWaveFilePtr();
-	}
-}
+	//CWaveFilePtr CWaveFileBank::FindWaveFile(int groupID, const WNameKey& nameKey)
+	//{
+	//	//TK_ASSERT(groupID < MAX_GROUP, "groupID is invalid");
+	//	auto value = m_waveFileMap[groupID].find(nameKey.GetHashCode());
+	//	if (value != m_waveFileMap[groupID].end()) {
+	//		return value->second;
+	//	}
+	//	return CWaveFilePtr();
+	//}

@@ -37,14 +37,13 @@ public:
 			m_frameDeltaTimeQue.pop_front();
 		}
 	}
+	static GameTime& GameTimeFunc() {
+
+		return GameTime::GetInstance();
+	}
 
 	private:
 	std::list<float> m_frameDeltaTimeQue;
 	float		m_frameDeltaTime = 1.0f / 60.0f;		//1フレームの経過時間。
-
-	static GameTime& GameTimeFunc(){
-
-		return GameTime::GetInstance();
-	}
 };
 

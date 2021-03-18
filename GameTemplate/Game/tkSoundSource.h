@@ -6,7 +6,6 @@
 #include "stdafx.h"
 #include "tkWaveFile.h"
 
-namespace tkEngine{
 	/*!
 	 * @brief	音源クラス。
 	 *@details
@@ -61,7 +60,7 @@ namespace tkEngine{
 		 *@param[in]	nameKey		名前キー。
 		 *@param[in]	is3DSound	3Dサウンド？
 		 */
-		void Init(const WNameKey& nameKey, bool is3DSound = false);
+		void Init(const wchar_t* filename, bool is3DSound = false);
 		/*!
 		* @brief	初期化。
 		*@details
@@ -243,4 +242,3 @@ namespace tkEngine{
 		bool m_isSetPositionFirst = true;	//!<一番最初のsetPosition?
 		bool m_isAvailable = false;			//!<インスタンスが利用可能？
 	};
-}

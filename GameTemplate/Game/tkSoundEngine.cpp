@@ -4,13 +4,14 @@
 
 //#include "tkEngine/tkEnginePreCompile.h"
 #include "stdafx.h"
+#include "GameTime.h"
 #include "tkSoundEngine.h"
 #include "tkWaveFile.h"
 #include "tkSoundSource.h"
 
 
 #define NUM_PRESETS 30
-namespace tkEngine{
+
 	namespace {
 		//マイクロソフトのサンプルから引っ張ってきたサウンドコーン。
 		// Specify sound cone to add directionality to listener for artistic effect:
@@ -66,11 +67,17 @@ namespace tkEngine{
 			XAUDIO2FX_I3DL2_PRESET_PLATE,
 		};
 	}
+	CSoundEngine* CSoundEngine::m_soundEngine = nullptr;
 	/*!
 	 * @brief	コンストラクタ。
 	 */
 	CSoundEngine::CSoundEngine()
 	{
+		if (m_soundEngine != nullptr) {
+			//インスタンスがすでに作られている。
+			std::abort();
+		}
+		m_soundEngine = this;
 		memset(m_hx3DAudio, 0, sizeof(m_hx3DAudio));
 	}
 	/*!
@@ -185,12 +192,14 @@ namespace tkEngine{
 	*/
 	IXAudio2SourceVoice* CSoundEngine::CreateXAudio2SourceVoice(CWaveFile* waveFile, bool is3DSound)
 	{
+
 		//TK_ASSERT(waveFile->GetFormat()->nChannels <= INPUTCHANNELS, "Channel over");
 		IXAudio2SourceVoice* pSourceVoice;
 		if (is3DSound == false) {
 			//2Dサウンド。
 			if (FAILED(m_xAudio2->CreateSourceVoice(&pSourceVoice, waveFile->GetFormat())))
 			{
+
 				//TK_WARNING("Failed CreateSourceVoice");
 				return nullptr;
 			}
@@ -241,10 +250,10 @@ namespace tkEngine{
 				m_listener.pCone = NULL;
 			}
 		}
-		float deltaTime = GameTime().GetFrameDeltaTime();
+		float deltaTime = GameTime::GameTimeFunc().GetFrameDeltaTime();
 		if (deltaTime > 0.0f) {
 			//リスナーの移動速度を計算する。
-			CVector3 vel;
+			Vector3 vel;
 			vel.Set(m_listener.Position);
 			vel.Subtract(m_listenerPosition, vel);
 			vel.Div(deltaTime);
@@ -334,4 +343,3 @@ namespace tkEngine{
 			}
 		}
 	}
-}

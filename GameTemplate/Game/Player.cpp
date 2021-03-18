@@ -53,6 +53,14 @@ bool Player::Start()
 }
 void Player::Update()
 {
+
+	if (g_pad[0]->IsTrigger(enButtonB)) {
+		m_sound = NewGO<CSoundSource>(0);
+
+		m_sound->Init(L"Assets/sound/nextvoice.wav");
+		m_sound->SetVolume(1.0f);
+		m_sound->Play(false);
+	}
 	//d—Í‚ğİ’èB
 	m_movePower.y -= 0.2f;
 

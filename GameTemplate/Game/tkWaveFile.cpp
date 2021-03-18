@@ -5,9 +5,9 @@
 //#include "tkEngine/tkEnginePreCompile.h"
 #include "stdafx.h"
 #include "tkWaveFile.h"
+#include "tkUtil.h"
 
 
-namespace tkEngine{
 
 	CWaveFile::CWaveFile()
 	{
@@ -223,4 +223,3 @@ namespace tkEngine{
 		delete[] m_pwfx;
 		m_pwfx = NULL;
 	}
-}

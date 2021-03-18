@@ -242,17 +242,20 @@
     <ClCompile Include="..\..\MiniEngine\font\FontEngine.cpp">
       <Filter>MiniEngine\font</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\MiniEngine\Sound\tkSoundSource.cpp">
-      <Filter>MiniEngine\sound</Filter>
+    <ClCompile Include="tkSoundSource.cpp">
+      <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\MiniEngine\Sound\tkWaveFile.cpp">
-      <Filter>MiniEngine\sound</Filter>
+    <ClCompile Include="tkWaveFile.cpp">
+      <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\MiniEngine\Sound\tkWaveFileBank.cpp">
-      <Filter>MiniEngine\sound</Filter>
+    <ClCompile Include="tkWaveFileBank.cpp">
+      <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\MiniEngine\Sound\tkSoundEngine.cpp">
-      <Filter>MiniEngine\sound</Filter>
+    <ClCompile Include="tkSoundEngine.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="GameTime.cpp">
+      <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -469,17 +472,23 @@
     <ClInclude Include="..\..\MiniEngine\font\FontEngine.h">
       <Filter>MiniEngine\font</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\MiniEngine\Sound\tkSoundSource.h">
-      <Filter>MiniEngine\sound</Filter>
+    <ClInclude Include="tkSoundEngine.h">
+      <Filter>ソース ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\MiniEngine\Sound\tkWaveFile.h">
-      <Filter>MiniEngine\sound</Filter>
+    <ClInclude Include="tkSoundSource.h">
+      <Filter>ソース ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\MiniEngine\Sound\tkWaveFileBank.h">
-      <Filter>MiniEngine\sound</Filter>
+    <ClInclude Include="tkWaveFile.h">
+      <Filter>ソース ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\MiniEngine\Sound\tkSoundEngine.h">
-      <Filter>MiniEngine\sound</Filter>
+    <ClInclude Include="tkWaveFileBank.h">
+      <Filter>ソース ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="GameTime.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="tkUtil.h">
+      <Filter>ソース ファイル</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

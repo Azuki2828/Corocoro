@@ -4,7 +4,6 @@
 #pragma once
 
 #include <map>
-namespace tkEngine{
 	class CWaveFile;
 	typedef std::shared_ptr<CWaveFile>	CWaveFilePtr;
 	typedef std::map<unsigned int , CWaveFilePtr>	CWaveFilePtrMap;
@@ -39,7 +38,7 @@ namespace tkEngine{
 		*@param[in]	nameyKey	名前キー。。
 		*@return 波形データ。登録されていない場合はNULLが返る。
 		*/
-		CWaveFilePtr FindWaveFile(int groupID, const WNameKey& nameKey);
+		//CWaveFilePtr FindWaveFile(int groupID, const WNameKey& nameKey);
 		/*!
 		*@brief	波形データをバンクから登録解除。
 		*@param[in]	groupID		グループＩＤ。指定できるＩＤの最大値はMAX_GROUP-1。
@@ -63,4 +62,3 @@ namespace tkEngine{
 		static const int MAX_GROUP = 256;
 		CWaveFilePtrMap	m_waveFileMap[MAX_GROUP];		//!<waveファイルのリスト。
 	};
-}
