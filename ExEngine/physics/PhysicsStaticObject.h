@@ -21,6 +21,8 @@ public:
 	/// デストラクタ
 	/// </summary>
 	~PhysicsStaticObject();
+
+	void Release();
 	/// <summary>
 	/// モデルからの静的オブジェクトの作成。
 	/// </summary>

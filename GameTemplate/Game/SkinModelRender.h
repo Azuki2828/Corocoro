@@ -6,14 +6,27 @@ class SkinModelRender : public IGameObject
 {
 public:
 	//SkinModelRender();
+	//初期化。
+	//directionFlg:ディレクションライトの影響を受けるか。
+	//pointLightFlg:ポイントライトの影響を受けるか。
 	void Init(bool directionFlg = false, bool pointLightFlg = false);
+
+	//tkmファイルのロード。
 	void SetFileNametkm(const char* name) { m_fileNametkm = name; }
+
+	//tksファイルのロード。
 	void SetFileNametks(const char* name) { m_fileNametks = name; }
+
+	//アニメーション初期化関数。
 	void InitAnimation(AnimationClip* animClip, int animNum) {
 		m_animClip = animClip;
 		m_animNum = animNum;
 	}
+
+	//モデルを取得。
 	Model* GetModel() { return &m_model; }
+
+	//スケルトンを取得。
 	Skeleton* GetSkeleton() { return &m_skeleton; }
 	
 	void SetPosition(Vector3 pos) { m_pos = pos; }
