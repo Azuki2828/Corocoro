@@ -55,7 +55,7 @@ bool Background::Start()
 
 		if (objData.EqualObjectName(L"Key") == true) {
 			if (m_key == nullptr) {
-				m_key = NewGO<Key>(0);
+				m_key = NewGO<Key>(0,"key");
 			}
 			m_key->InitKey("Key");
 			m_key->SetPositionKey(objData.position);
@@ -63,7 +63,7 @@ bool Background::Start()
 		}
 		else if (objData.EqualObjectName(L"KeyBox") == true) {
 			if (m_key == nullptr) {
-				m_key = NewGO<Key>(0);
+				m_key = NewGO<Key>(0,"key");
 			}
 			m_key->InitDoor("KeyBox");
 			m_key->SetPositionDoor(objData.position);

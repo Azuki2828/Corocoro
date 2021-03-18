@@ -7,6 +7,7 @@ class Player : public IGameObject
 public:
 	bool Start() override;
 	void Update() override;
+	~Player();
 
 	//現在のステートを取得する関数。
 	const int GetPlayerState()const { return pState; }
@@ -67,5 +68,17 @@ private:
 
 	SkinModelRender* m_skinModelRender[enPlayer_Num] = { nullptr };
 	Font m_font;
-};
 
+	Quaternion m_rotation;
+	//正面を向かせる変数
+	float rot = 180.0f;
+	//正面を向かせる変数に合成させるボールの転がりの変数
+	Quaternion m_rotation1;
+	float rot1 = 0.0f;
+
+	bool RespornFlag = false;
+	int RespornCount = 0;
+
+	bool PushBFlag = true;
+	int PushBCount = 0;
+};

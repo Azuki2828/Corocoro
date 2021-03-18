@@ -40,7 +40,7 @@ bool Magnet::Start() {
 }
 
 void Magnet::Update() {
-	
+
 	//動く物体なら
 	if (moveFlg) {
 
@@ -66,6 +66,7 @@ void Magnet::Update() {
 
 	//プレイヤーとの距離が６m以内だったら力を与える関数を呼び出す。
 	if (m_length.Length() <= 600.0f) {
+
 		SetMagnetPower();
 	}
 

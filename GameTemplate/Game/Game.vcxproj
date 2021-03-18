@@ -310,6 +310,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Preview|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="system\system.cpp" />
+    <ClCompile Include="TitleScene.cpp" />
     <ClCompile Include="TklFile.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -383,6 +384,7 @@
     <ClInclude Include="SpriteRender.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="system\system.h" />
+    <ClInclude Include="TitleScene.h" />
     <ClInclude Include="TklFile.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
