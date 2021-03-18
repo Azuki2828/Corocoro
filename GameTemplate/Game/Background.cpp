@@ -35,6 +35,8 @@ bool Background::Start()
 	//特定のオブジェクトを指定する（ここでいうフック）場合は、名前検索するなのね。
 	m_level.Init("Assets/level/stage02.tkl", [&](LevelObjectData& objData) {
 
+		deathPosY = -500.0f;		//state02では-500.0fで死ぬ！
+
 		/*if (objData.EqualObjectName(L"SampleMagnet_N_01") == true) {
 			m_magnet.push_back(*(m_magnet.end() - 1));
 			m_magnet[sampleNum] = NewGO<Magnet>(0);
@@ -56,7 +58,7 @@ bool Background::Start()
 
 		if (objData.EqualObjectName(L"Key") == true) {
 			if (m_key == nullptr) {
-				m_key = NewGO<Key>(0);
+				m_key = NewGO<Key>(0,"key");
 			}
 			m_key->InitKey("Key");
 			m_key->SetPositionKey(objData.position);
@@ -64,7 +66,7 @@ bool Background::Start()
 		}
 		else if (objData.EqualObjectName(L"KeyBox") == true) {
 			if (m_key == nullptr) {
-				m_key = NewGO<Key>(0);
+				m_key = NewGO<Key>(0,"key");
 			}
 			m_key->InitDoor("KeyBox");
 			m_key->SetPositionDoor(objData.position);

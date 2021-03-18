@@ -62,12 +62,12 @@ void Key::Update() {
 		DeleteGO(m_skinModelRender_Key);
 
 		//鍵取得フラグをtrueに。
-		getKeyFlg = true;
+		m_player->SetKeyFlg(true);
 	}
 
 
 	//鍵を取得しているうえでドアとの距離が2m以内ならドアを破壊。
-	if (getKeyFlg) {
+	if (m_player->GetKeyFlg()) {
 		Vector3 doorLength;
 		doorLength = m_player->GetPosition() - m_doorPos;
 		if (doorLength.Length() <= 200.0f) {

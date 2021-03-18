@@ -50,12 +50,22 @@ void Magnet::Update() {
 		//設定された右端まできたら動く向きを逆にする。
 		if (m_pos.x > moveRange_back.x) {
 			m_pos.x = moveRange_back.x;
+		
+		m_timer++;								//
+		if (m_timer == 60) {					//<変更>動く磁石が1秒間一時停止するようにif文追加
 			moveSpeed *= -1.0f;
+			m_timer = 0;						//
+			}
 		}
 		//設定された左端まできたら動く向きを逆にする。
 		if (m_pos.x < moveRange_front.x) {
 			m_pos.x = moveRange_front.x;
+
+		m_timer++;								//
+		if (m_timer == 60) {					//<変更>動く磁石が1秒間停止するようにif文追加
 			moveSpeed *= -1.0f;
+			m_timer = 0;						//
+			}
 		}
 	}
 

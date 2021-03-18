@@ -1,9 +1,14 @@
 #pragma once
 
 class DirectionLight;
+class Key;
+class Background;
 
 class Player : public IGameObject
 {
+private:
+	bool getKeyFlg = false;		//Œ®æ“¾ƒtƒ‰ƒOB
+
 public:
 	bool Start() override;
 	void Update() override;
@@ -22,6 +27,9 @@ public:
 	void ChangeState();
 
 	void Render(RenderContext& rc)override;
+
+	void SetKeyFlg(bool flg) { getKeyFlg = flg; }
+	bool GetKeyFlg() { return getKeyFlg; }
 
 private:
 	/// <summary>
@@ -67,5 +75,7 @@ private:
 
 	SkinModelRender* m_skinModelRender[enPlayer_Num] = { nullptr };
 	Font m_font;
+	Key* m_key = nullptr;
+	Background* m_backGround = nullptr;
 };
 
