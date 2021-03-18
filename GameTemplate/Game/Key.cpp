@@ -54,9 +54,14 @@ void Key::InitDoor(const char* name) {
 void Key::Update() {
 
 
+
+	
+	
 	//3m以内なら鍵取得。
 	Vector3 keyLength;
 
+
+	//マージテスト用
 	keyLength = m_player->GetPosition() - m_keyPos;
 	if (keyLength.Length() <= 300.0f) {
 		DeleteGO(m_skinModelRender_Key);
