@@ -23,6 +23,9 @@
 #include <dxgi.h>
 #include <dxgitype.h>
 #include <dxgiformat.h>
+#include <xaudio2.h>
+#include <x3daudio.h>
+#include <xaudio2fx.h>
 
 #include "DirectXTK/Inc/CommonStates.h"
 #include "DirectXTK/Inc/SpriteBatch.h"

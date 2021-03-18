@@ -48,6 +48,9 @@
     <Filter Include="MiniEngine\level">
       <UniqueIdentifier>{e1504122-61be-4cdc-a39b-03b27447760c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="MiniEngine\sound">
+      <UniqueIdentifier>{7e6dafc7-a650-4fef-acc4-e648994b0dc9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -238,6 +241,18 @@
     </ClCompile>
     <ClCompile Include="..\..\MiniEngine\font\FontEngine.cpp">
       <Filter>MiniEngine\font</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\MiniEngine\Sound\tkSoundSource.cpp">
+      <Filter>MiniEngine\sound</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\MiniEngine\Sound\tkWaveFile.cpp">
+      <Filter>MiniEngine\sound</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\MiniEngine\Sound\tkWaveFileBank.cpp">
+      <Filter>MiniEngine\sound</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\MiniEngine\Sound\tkSoundEngine.cpp">
+      <Filter>MiniEngine\sound</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -453,6 +468,18 @@
     </ClInclude>
     <ClInclude Include="..\..\MiniEngine\font\FontEngine.h">
       <Filter>MiniEngine\font</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MiniEngine\Sound\tkSoundSource.h">
+      <Filter>MiniEngine\sound</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MiniEngine\Sound\tkWaveFile.h">
+      <Filter>MiniEngine\sound</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MiniEngine\Sound\tkWaveFileBank.h">
+      <Filter>MiniEngine\sound</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MiniEngine\Sound\tkSoundEngine.h">
+      <Filter>MiniEngine\sound</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -280,6 +280,10 @@
     <ClCompile Include="..\..\MiniEngine\RWStructuredBuffer.cpp" />
     <ClCompile Include="..\..\MiniEngine\Shader.cpp" />
     <ClCompile Include="..\..\MiniEngine\Skeleton.cpp" />
+    <ClCompile Include="..\..\MiniEngine\Sound\tkSoundEngine.cpp" />
+    <ClCompile Include="..\..\MiniEngine\Sound\tkSoundSource.cpp" />
+    <ClCompile Include="..\..\MiniEngine\Sound\tkWaveFile.cpp" />
+    <ClCompile Include="..\..\MiniEngine\Sound\tkWaveFileBank.cpp" />
     <ClCompile Include="..\..\MiniEngine\Sprite.cpp" />
     <ClCompile Include="..\..\MiniEngine\StructuredBuffer.cpp" />
     <ClCompile Include="..\..\MiniEngine\Texture.cpp" />
@@ -361,6 +365,10 @@
     <ClInclude Include="..\..\MiniEngine\RWStructuredBuffer.h" />
     <ClInclude Include="..\..\MiniEngine\Shader.h" />
     <ClInclude Include="..\..\MiniEngine\Skeleton.h" />
+    <ClInclude Include="..\..\MiniEngine\Sound\tkSoundEngine.h" />
+    <ClInclude Include="..\..\MiniEngine\Sound\tkSoundSource.h" />
+    <ClInclude Include="..\..\MiniEngine\Sound\tkWaveFile.h" />
+    <ClInclude Include="..\..\MiniEngine\Sound\tkWaveFileBank.h" />
     <ClInclude Include="..\..\MiniEngine\Sprite.h" />
     <ClInclude Include="..\..\MiniEngine\StructuredBuffer.h" />
     <ClInclude Include="..\..\MiniEngine\Texture.h" />

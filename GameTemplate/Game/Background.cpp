@@ -32,7 +32,7 @@ bool Background::Start()
 
 
 	//これがlevelのLoadの基盤。
-	//特定のオブジェクトを指定する（ここでいうフック）場合は、名前検索するなのね。
+	//特定のオブジェクトを指定する（ここでいうフック）場合は、名前検索する。
 	m_level.Init("Assets/level/stage02.tkl", [&](LevelObjectData& objData) {
 
 		/*if (objData.EqualObjectName(L"SampleMagnet_N_01") == true) {
