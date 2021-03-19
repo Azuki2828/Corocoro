@@ -11,6 +11,8 @@ bool Player::Start()
 	//m_animationClips[enAnimClip_Run].Load("Assets/animData/walk.tka");
 	//m_animationClips[enAnimClip_Run].SetLoopFlag(true);
 
+	m_fontRender = NewGO<FontRender>(0);
+	m_fontRender->Init(L"hello");
 	//ƒLƒƒƒ‰ƒRƒ“‚Ì‰Šú‰»B
 	m_charaCon.Init(50.0f, 100.0f, m_pos);
 
@@ -55,6 +57,7 @@ void Player::Update()
 {
 
 	if (g_pad[0]->IsTrigger(enButtonB)) {
+
 		m_sound = NewGO<CSoundSource>(0);
 
 		m_sound->Init(L"Assets/sound/nextvoice.wav");

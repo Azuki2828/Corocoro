@@ -9,6 +9,8 @@
 #include "physics/CollisionAttr.h"
 #include "physics/CharacterController.h"
 #include "physics/PhysicsStaticObject.h"
+#include "physics/BoxCollider.h"
+#include "physics/SphereCollider.h"
 
 #include "gameObject/GameObjectManager.h"
 #include "gameObject/IGameObject.h"

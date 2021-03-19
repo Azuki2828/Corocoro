@@ -288,7 +288,9 @@
     <ClCompile Include="..\..\MiniEngine\tkFile\TkmFile.cpp" />
     <ClCompile Include="..\..\MiniEngine\tkFile\TksFile.cpp" />
     <ClCompile Include="..\..\MiniEngine\VertexBuffer.cpp" />
-    <ClCompile Include="Background.cpp" />
+    <ClCompile Include="Background2.cpp" />
+    <ClCompile Include="C:\Users\kbc20b02\Desktop\tkEngineMini-master\ExEngine\physics\BoxCollider.cpp" />
+    <ClCompile Include="C:\Users\kbc20b02\Desktop\tkEngineMini-master\ExEngine\physics\SphereCollider.cpp" />
     <ClCompile Include="DirectionLight.cpp" />
     <ClCompile Include="FontRender.cpp" />
     <ClCompile Include="GameTime.cpp" />
@@ -299,7 +301,9 @@
     <ClCompile Include="MainCamera.cpp" />
     <ClCompile Include="MapChip.cpp" />
     <ClCompile Include="MoveObject.cpp" />
+    <ClCompile Include="PhysicsBall.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="Seesaw.cpp" />
     <ClCompile Include="SkinModelRender.cpp" />
     <ClCompile Include="SpriteRender.cpp" />
     <ClCompile Include="stdafx.cpp">
@@ -374,7 +378,9 @@
     <ClInclude Include="..\..\MiniEngine\tkFile\TkmFile.h" />
     <ClInclude Include="..\..\MiniEngine\tkFile\TksFile.h" />
     <ClInclude Include="..\..\MiniEngine\VertexBuffer.h" />
-    <ClInclude Include="Background.h" />
+    <ClInclude Include="Background2.h" />
+    <ClInclude Include="C:\Users\kbc20b02\Desktop\tkEngineMini-master\ExEngine\physics\BoxCollider.h" />
+    <ClInclude Include="C:\Users\kbc20b02\Desktop\tkEngineMini-master\ExEngine\physics\SphereCollider.h" />
     <ClInclude Include="DirectionLight.h" />
     <ClInclude Include="FontRender.h" />
     <ClInclude Include="GameTime.h" />
@@ -384,7 +390,9 @@
     <ClInclude Include="MainCamera.h" />
     <ClInclude Include="MapChip.h" />
     <ClInclude Include="MoveObject.h" />
+    <ClInclude Include="PhysicsBall.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="Seesaw.h" />
     <ClInclude Include="SkinModelRender.h" />
     <ClInclude Include="SpriteRender.h" />
     <ClInclude Include="stdafx.h" />

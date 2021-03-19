@@ -200,9 +200,6 @@
     <ClCompile Include="Player.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Background.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="DirectionLight.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
@@ -256,6 +253,21 @@
     </ClCompile>
     <ClCompile Include="GameTime.cpp">
       <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="PhysicsBall.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Seesaw.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Background2.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\kbc20b02\Desktop\tkEngineMini-master\ExEngine\physics\BoxCollider.cpp">
+      <Filter>ExEngine\physics</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\kbc20b02\Desktop\tkEngineMini-master\ExEngine\physics\SphereCollider.cpp">
+      <Filter>ExEngine\physics</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -427,9 +439,6 @@
     <ClInclude Include="..\..\ExEngine\physics\PhysicsStaticObject.h">
       <Filter>ExEngine\physics</Filter>
     </ClInclude>
-    <ClInclude Include="Background.h">
-      <Filter>ソース ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="Player.h">
       <Filter>ソース ファイル</Filter>
     </ClInclude>
@@ -489,6 +498,21 @@
     </ClInclude>
     <ClInclude Include="tkUtil.h">
       <Filter>ソース ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Background2.h">
+      <Filter>ソース ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="PhysicsBall.h">
+      <Filter>ソース ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Seesaw.h">
+      <Filter>ソース ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\kbc20b02\Desktop\tkEngineMini-master\ExEngine\physics\BoxCollider.h">
+      <Filter>ExEngine\physics</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\kbc20b02\Desktop\tkEngineMini-master\ExEngine\physics\SphereCollider.h">
+      <Filter>ExEngine\physics</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
