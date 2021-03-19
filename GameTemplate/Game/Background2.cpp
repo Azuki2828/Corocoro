@@ -13,7 +13,7 @@ bool Background::Start()
 
 	//メッシュコライダーを作成。
 	m_physicsStaticObject.CreateFromModel(m_model, m_model.GetWorldMatrix());
-	m_physicsStaticObject.SetFriction(10.0f);
+	m_physicsStaticObject.SetFrictionFunc(10.0f);
 	return true;
 }
 void Background::Update()

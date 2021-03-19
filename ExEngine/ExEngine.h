@@ -11,6 +11,7 @@
 #include "physics/PhysicsStaticObject.h"
 #include "physics/BoxCollider.h"
 #include "physics/SphereCollider.h"
+#include "physics/ICollider.h"
 
 #include "gameObject/GameObjectManager.h"
 #include "gameObject/IGameObject.h"

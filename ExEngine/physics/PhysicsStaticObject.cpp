@@ -4,7 +4,6 @@
 
 
 #include "stdafx.h"
-#include "Physics.h"
 #include "physics/PhysicsStaticObject.h"
 
 PhysicsStaticObject::PhysicsStaticObject()
@@ -12,11 +11,6 @@ PhysicsStaticObject::PhysicsStaticObject()
 }
 PhysicsStaticObject::~PhysicsStaticObject()
 {
-	
-}
-void PhysicsStaticObject::Release() {
-
-	PhysicsWorld::GetInstance()->RemoveRigidBody(m_rigidBody);
 }
 void PhysicsStaticObject::CreateFromModel(Model& model, const Matrix& worldMatrix)
 {
