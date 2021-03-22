@@ -1,11 +1,8 @@
 #include "stdafx.h"
 #include "system/system.h"
 #include "Player.h"
-//#include "Background.h"
+#include "Background.h"
 #include "MainCamera.h"
-#include "Background2.h"
-#include "PhysicsBall.h"
-#include "Seesaw.h"
 
 ///////////////////////////////////////////////////////////////////
 // ウィンドウプログラムのメイン関数。
@@ -25,16 +22,13 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	CSoundEngine::CreateInstance();
 	CSoundEngine::GetInstance()->Init();
 
-	////プレイヤーを生成。
-	//NewGO<Player>(0,"player");
-	////カメラを生成。
-	//NewGO<MainCamera>(0);
-	////背景を生成。
-	//NewGO<Background>(0);
-	NewGO<PhysicsBall>(0);
-	NewGO<Seesaw>(0);
+	//プレイヤーを生成。
+	NewGO<Player>(0,"player");
+	//カメラを生成。
+	NewGO<MainCamera>(0);
+	//背景を生成。
 	NewGO<Background>(0);
-
+	
 
 	//////////////////////////////////////
 	// 初期化を行うコードを書くのはここまで！！！

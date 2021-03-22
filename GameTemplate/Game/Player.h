@@ -1,5 +1,4 @@
 #pragma once
-#include "FontRender.h"
 
 class DirectionLight;
 
@@ -69,6 +68,5 @@ private:
 	SkinModelRender* m_skinModelRender[enPlayer_Num] = { nullptr };
 	Font m_font;
 	CSoundSource* m_sound = nullptr;
-	FontRender* m_fontRender = nullptr;
 };
 

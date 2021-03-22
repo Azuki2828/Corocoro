@@ -34,6 +34,7 @@ bool Magnet::Start() {
 	if (moveFlg) {
 		moveSpeed = (moveRange_back - moveRange_front) /= 150.0f;
 	}
+
 	//プレイヤーのオブジェクトを探す。
 	m_player = FindGO<Player>("player");
 	return true;

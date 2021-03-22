@@ -21,20 +21,14 @@ public:
 	/// デストラクタ
 	/// </summary>
 	~PhysicsStaticObject();
+
+	void Release();
 	/// <summary>
 	/// モデルからの静的オブジェクトの作成。
 	/// </summary>
 	/// <param name="model">モデル</param>
 	/// <param name="worldMatrix">ワールド行列</param>
 	void CreateFromModel(Model& model, const Matrix& worldMatrix);
-	/// <summary>
-	/// 摩擦力を設定する。
-	/// </summary>
-	/// <param name="friction">摩擦力。10が最大値。</param>
-	void SetFrictionFunc(float friction)
-	{
-		m_rigidBody.SetFriction(friction);
-	}
 private:
 	MeshCollider m_meshCollider;		//メッシュコライダー。
 	RigidBody m_rigidBody;				//剛体。
