@@ -5,7 +5,7 @@ bool PhysicsBall::Start()
 {
 	//モデルを初期化。
 	ModelInitData initData;
-	initData.m_tkmFilePath = "Assets/modelData/ball.tkm";
+	initData.m_tkmFilePath = "Assets/modelData/tkm/ball.tkm";
 	initData.m_fxFilePath = "Assets/shader/model.fx";
 	m_model.Init(initData);
 
@@ -25,6 +25,7 @@ bool PhysicsBall::Start()
 		0.5f
 	);
 	m_rigidBody.Init(rbInitData);
+
 	//摩擦力を設定する。0～10
 	m_rigidBody.SetFriction(10.0f);
 	//線形移動する要素を設定する。

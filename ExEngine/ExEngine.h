@@ -1,5 +1,7 @@
 #pragma once
 
+#include "../GameTemplate/Game/GameTime.h"
+#include "../GameTemplate/Game/stdafx.h"
 #include "btBulletDynamicsCommon.h"
 #include "BulletCollision\CollisionDispatch\btGhostObject.h"
 
@@ -9,6 +11,11 @@
 #include "physics/CollisionAttr.h"
 #include "physics/CharacterController.h"
 #include "physics/PhysicsStaticObject.h"
+#include "physics/BoxCollider.h"
+#include "physics/CapsuleCollider.h"
+#include "physics/SphereCollider.h"
 
 #include "gameObject/GameObjectManager.h"
 #include "gameObject/IGameObject.h"
+
+extern GameTime* g_gameTime;

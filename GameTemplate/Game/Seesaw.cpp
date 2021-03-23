@@ -5,7 +5,7 @@ bool Seesaw::Start()
 {
 	//ƒ‚ƒfƒ‹‚ğ‰Šú‰»B
 	ModelInitData initData;
-	initData.m_tkmFilePath = "Assets/modelData/seesaw.tkm";
+	initData.m_tkmFilePath = "Assets/modelData/tkm/seesaw.tkm";
 	initData.m_fxFilePath = "Assets/shader/model.fx";
 	m_model.Init(initData);
 

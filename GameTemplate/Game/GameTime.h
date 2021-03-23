@@ -3,12 +3,6 @@
 
 class GameTime
 {
-	GameTime() {
-
-	}
-	~GameTime() {
-
-	}
 public:
 	static GameTime& GetInstance()
 	{
@@ -37,6 +31,18 @@ public:
 			m_frameDeltaTimeQue.pop_front();
 		}
 	}
+	/// <summary>
+	/// 計測開始
+	/// </summary>
+	/// <remark>
+	/// 本関数はエンジン内でのみ使用します。
+	/// ユーザーは使用しないでください。
+	/// </remark>
+	//void BeginMeasurement()
+	//{
+	//	//計測開始。
+	//	m_sw.Start();
+	//}
 	static GameTime& GameTimeFunc() {
 
 		return GameTime::GetInstance();

@@ -1,7 +1,7 @@
 #pragma once
 #include "stdafx.h"
 
-class FontRender : IGameObject
+class FontRender : public IGameObject
 {
 public:
 	struct FontValue {

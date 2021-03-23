@@ -3,7 +3,7 @@
 /// <summary>
 /// ”wŒiƒNƒ‰ƒXB
 /// </summary>
-class Background : public IGameObject
+class Background2 : public IGameObject
 {
 public:
 	bool Start() override;

@@ -19,7 +19,7 @@ bool Magnet::Start() {
 	//}
 
 	*/
-
+	
 	//動く物体じゃないなら座標を更新して当たり判定を付ける。
 	if (!moveFlg) {
 		m_skinModelRender->UpdateWorldMatrix();

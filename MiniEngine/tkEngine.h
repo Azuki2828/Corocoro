@@ -1,6 +1,7 @@
 #pragma once
 
 #include "HID/GamePad.h"
+#include "../GameTemplate/Game/GameTime.h"
 
 class GraphicsEngine;
 
@@ -25,6 +26,7 @@ public:
 private:
 	GraphicsEngine* m_graphicsEngine = nullptr;		//グラフィックエンジン。
 	GamePad m_pad[GamePad::CONNECT_PAD_MAX];		//ゲームパッド。
+	GameTime m_gameTime;
 	
 };
 

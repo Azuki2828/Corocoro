@@ -1,5 +1,4 @@
 #pragma once
-
 class PhysicsBall : public IGameObject
 {
 public:
