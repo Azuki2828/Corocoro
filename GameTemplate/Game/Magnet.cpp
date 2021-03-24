@@ -27,6 +27,7 @@ bool Magnet::Start() {
 			*m_skinModelRender->GetModel(),
 			m_skinModelRender->GetModel()->GetWorldMatrix()
 		);
+		m_physicsStaticObject.SetFriction(10.0f);
 	}
 
 
@@ -66,7 +67,7 @@ void Magnet::Update() {
 	m_length = m_player->GetPosition() - m_pos;
 
 	//プレイヤーとの距離が６m以内だったら力を与える関数を呼び出す。
-	if (m_length.Length() <= 600.0f) {
+	if (m_length.Length() <= 1000.0f) {
 		SetMagnetPower();
 	}
 
@@ -77,7 +78,7 @@ void Magnet::Update() {
 void Magnet::SetMagnetPower()const {
 
 	//基礎磁力の強さ。
-	float magnetPower = 60.0f;
+	float magnetPower = 120000.0f;
 
 	//プレイヤーと自身の磁磁極が同じなら自身に向かって伸びるベクトルにする。
 	if (mState != m_player->GetPlayerState()) {

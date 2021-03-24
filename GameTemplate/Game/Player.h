@@ -12,7 +12,7 @@ public:
 	const int GetPlayerState()const { return pState; }
 
 	//現在の座標を取得する関数。
-	const Vector3 GetPosition()const { return m_charaCon.GetPosition(); }
+	const Vector3 GetPosition()const { return m_pos; }
 
 	//外部から力を受け取る関数。
 	//pow：力の大きさ
@@ -61,6 +61,7 @@ private:
 
 	DirectionLight* m_dirLight = nullptr;				//ディレクションライト。
 	Vector3 m_pos = { 300.0f,300.0f,0.0f };				//初期座標。
+	Quaternion m_rot = Quaternion::Identity;
 	//Vector3 m_pos = { 1500.0f,2800.0f,0.0f };
 	//Vector3 m_pos = { 1500.0f,2800.0f,20.0f };
 	mutable Vector3 m_movePower;						//動く力。
