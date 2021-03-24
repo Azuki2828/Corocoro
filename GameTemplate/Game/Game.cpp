@@ -7,7 +7,7 @@
 bool Game::Start() {
 
 	//地形を生成。
-	m_backGround = NewGO<Background>(0);
+	m_backGround = NewGO<Background>(0,"background");
 	//プレイヤーを生成。
 	m_player = NewGO<Player>(0, "player");
 	//カメラを生成。
