@@ -299,7 +299,6 @@
     <ClCompile Include="MapChip.cpp" />
     <ClCompile Include="MoveObject.cpp" />
     <ClCompile Include="Player.cpp" />
-    <ClCompile Include="SaveData.cpp" />
     <ClCompile Include="SkinModelRender.cpp" />
     <ClCompile Include="SpriteRender.cpp" />
     <ClCompile Include="stdafx.cpp">
@@ -380,7 +379,6 @@
     <ClInclude Include="MapChip.h" />
     <ClInclude Include="MoveObject.h" />
     <ClInclude Include="Player.h" />
-    <ClInclude Include="SaveData.h" />
     <ClInclude Include="SkinModelRender.h" />
     <ClInclude Include="SpriteRender.h" />
     <ClInclude Include="stdafx.h" />
