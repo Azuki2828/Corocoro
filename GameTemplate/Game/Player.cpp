@@ -7,16 +7,16 @@
 
 bool Player::Start()
 {
-	////ƒAƒjƒ[ƒVƒ‡ƒ“ƒNƒŠƒbƒv‚ğƒ[ƒh‚·‚éB
+	////ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ã‚¯ãƒªãƒƒãƒ—ã‚’ãƒ­ãƒ¼ãƒ‰ã™ã‚‹ã€‚
 	//m_animationClips[enAnimClip_Idle].Load("Assets/animData/idle.tka");
 	//m_animationClips[enAnimClip_Idle].SetLoopFlag(true);
 	//m_animationClips[enAnimClip_Run].Load("Assets/animData/walk.tka");
 	//m_animationClips[enAnimClip_Run].SetLoopFlag(true);
 
-	//ƒLƒƒƒ‰ƒRƒ“‚Ì‰Šú‰»B
+	//ã‚­ãƒ£ãƒ©ã‚³ãƒ³ã®åˆæœŸåŒ–ã€‚
 	//m_charaCon.Init(50.0f, 100.0f, m_pos);
 
-	//ƒvƒŒƒCƒ„[‚Ìtkm‚Ætks‚ğƒ[ƒh‚·‚éíB
+	//ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®tkmã¨tksã‚’ãƒ­ãƒ¼ãƒ‰ã™ã‚‹ç¨®ã€‚
 	const char* tkmFilePaths[] = {
 		"Assets/modelData/tkm/Player_N.tkm",
 		"Assets/modelData/tkm/Player_S.tkm"
@@ -26,35 +26,36 @@ bool Player::Start()
 		"Assets/modelData/tkm/Player_S.tks"
 	};
 
-	//ƒvƒŒƒCƒ„[‚Ì‰Šú‰»B
+
+	//ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®åˆæœŸåŒ–ã€‚
 	for (int i = 0; i < enPlayer_Num; i++) {
-		//SkinModelRender‚ğNewGOB
+		//SkinModelRenderã‚’NewGOã€‚
 		m_skinModelRender[i] = NewGO<SkinModelRender>(1);
-		//tkmƒtƒ@ƒCƒ‹‚ğƒ[ƒhB
+		//tkmãƒ•ã‚¡ã‚¤ãƒ«ã‚’ãƒ­ãƒ¼ãƒ‰ã€‚
 		m_skinModelRender[i]->SetFileNametkm(tkmFilePaths[i]);
-		//tksƒtƒ@ƒCƒ‹‚ğƒ[ƒhB
+		//tksãƒ•ã‚¡ã‚¤ãƒ«ã‚’ãƒ­ãƒ¼ãƒ‰ã€‚
 		m_skinModelRender[i]->SetFileNametks(tksFilePaths[i]);
 		m_skinModelRender[i]->Init(true, false);
 		if (i == enPlayer_1) {
-			//ƒvƒŒƒCƒ„[1‚ÍÅ‰‚Í”ñƒAƒNƒeƒBƒuB
+			//ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼1ã¯æœ€åˆã¯éã‚¢ã‚¯ãƒ†ã‚£ãƒ–ã€‚
 			m_skinModelRender[i]->Deactivate();
 		}
 	}
 
-	//ƒAƒjƒ[ƒVƒ‡ƒ“‚ğİ’èB
+	//ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ã‚’è¨­å®šã€‚
 	//m_skinModelRender->InitAnimation(m_animationClips, enAnimClip_Num);
 
-	//ƒRƒ‰ƒCƒ_[‚ğ‰Šú‰»B
+	//ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ã‚’åˆæœŸåŒ–ã€‚
 	m_sphereCollider.Create(50.0f);
 
-	//„‘Ì‚ğ‰Šú‰»B
+	//å‰›ä½“ã‚’åˆæœŸåŒ–ã€‚
 	RigidBodyInitData rbInitData;
-	//¿—Ê‚ğİ’è‚·‚éB
+	//è³ªé‡ã‚’è¨­å®šã™ã‚‹ã€‚
 	rbInitData.mass = 1.0f;
 	rbInitData.collider = &m_sphereCollider;
 	//rbInitData.pos.y = 100.0f;
 	rbInitData.pos = m_pos;
-	//‰ñ“]‚Ì‚µ‚â‚·‚³‚ğİ’è‚·‚éB0`1
+	//å›è»¢ã®ã—ã‚„ã™ã•ã‚’è¨­å®šã™ã‚‹ã€‚0ï½1
 	rbInitData.localInteria.Set(
 		0.5f,
 		0.5f,
@@ -62,14 +63,14 @@ bool Player::Start()
 	);
 	m_rigidBody.Init(rbInitData);
 
-	//–€C—Í‚ğİ’è‚·‚éB0`10
+	//æ‘©æ“¦åŠ›ã‚’è¨­å®šã™ã‚‹ã€‚0ï½10
 	m_rigidBody.SetFriction(10.0f);
-	//üŒ`ˆÚ“®‚·‚é—v‘f‚ğİ’è‚·‚éB
-	//0‚ğw’è‚µ‚½²‚ÍˆÚ“®‚µ‚È‚¢B
+	//ç·šå½¢ç§»å‹•ã™ã‚‹è¦ç´ ã‚’è¨­å®šã™ã‚‹ã€‚
+	//0ã‚’æŒ‡å®šã—ãŸè»¸ã¯ç§»å‹•ã—ãªã„ã€‚
 	m_rigidBody.SetLinearFactor(1.0f, 1.0f, 0.0f);
 
 
-	//À•W‚ğ“o˜^B
+	//åº§æ¨™ã‚’ç™»éŒ²ã€‚
 	for (int i = 0; i < enPlayer_Num; i++) {
 		m_skinModelRender[i]->SetPosition(m_pos);
 	}
@@ -89,43 +90,43 @@ void Player::Update()
 		m_sound->SetVolume(1.0f);
 		m_sound->Play(false);
 	}
-	//d—Í‚ğİ’èB
+	//é‡åŠ›ã‚’è¨­å®šã€‚
 	//m_movePower.y -= 0.2f;
 
-	//z•ûŒü‚É‚Í“®‚©‚È‚¢B
+	//zæ–¹å‘ã«ã¯å‹•ã‹ãªã„ã€‚
 	m_movePower.z = 0.0f;
 
-	//À•W‚ğİ’èB
+	//åº§æ¨™ã‚’è¨­å®šã€‚
 	//m_pos = m_charaCon.Execute(m_movePower, 1.0f);
+
 
 	float deathPosY = -1000.0f;
 	if (m_backGround != nullptr) {
 		deathPosY = m_backGround->GetDeathPosY();
-	}
-	
-	//•Ç‚É“–‚½‚Á‚Ä‚¢‚é‚È‚ç
+  }	
+	//å£ã«å½“ãŸã£ã¦ã„ã‚‹ãªã‚‰
 	//if (m_charaCon.IsOnWall()) {
 	//
-	//	//1/2‚Ì—Í‚Å’µ‚Ë•Ô‚éB
+	//	//1/2ã®åŠ›ã§è·³ã­è¿”ã‚‹ã€‚
 	//	m_movePower.x *= -0.5f;
 	//}
 
-	//’n–Êã‚É‚¢‚é‚È‚ç
+	//åœ°é¢ä¸Šã«ã„ã‚‹ãªã‚‰
 	//if (m_charaCon.IsOnGround()) {
 	//
-	//	//‰E‚É“®‚¢‚Ä‚½‚ç
+	//	//å³ã«å‹•ã„ã¦ãŸã‚‰
 	//	if (m_movePower.x >= 0.0f) {
-	//		//–€CB
+	//		//æ‘©æ“¦ã€‚
 	//		m_movePower.x -= 0.02f;
-	//		//‚à‚µŒ¸‚ç‚µ‚·‚¬‚½‚ç‚O‚É‚·‚éB
+	//		//ã‚‚ã—æ¸›ã‚‰ã—ã™ããŸã‚‰ï¼ã«ã™ã‚‹ã€‚
 	//		if (m_movePower.x < 0.0f) {
 	//			m_movePower.x = 0.0f;
 	//		}
-	//	}//¶‚É“®‚¢‚Ä‚½‚ç
+	//	}//å·¦ã«å‹•ã„ã¦ãŸã‚‰
 	//	else {
-	//		//–€CB
+	//		//æ‘©æ“¦ã€‚
 	//		m_movePower.x += 0.02f;
-	//		//‚à‚µ‘‚â‚µ‚·‚¬‚½‚ç‚O‚É‚·‚éB
+	//		//ã‚‚ã—å¢—ã‚„ã—ã™ããŸã‚‰ï¼ã«ã™ã‚‹ã€‚
 	//		if (m_movePower.x > 0.0f) {
 	//			m_movePower.x = 0.0f;
 	//		}
@@ -133,11 +134,11 @@ void Player::Update()
 	//
 	//}
 	
-	//„‘Ì‚ÌÀ•W‚Æ‰ñ“]‚ğæ“¾B
+	//å‰›ä½“ã®åº§æ¨™ã¨å›è»¢ã‚’å–å¾—ã€‚
 	Vector3 pos;
 	Quaternion rot;
 	m_rigidBody.GetPositionAndRotation(pos, rot);
-	//„‘Ì‚ÌÀ•W‚Æ‰ñ“]‚ğƒ‚ƒfƒ‹‚É”½‰fB
+	//å‰›ä½“ã®åº§æ¨™ã¨å›è»¢ã‚’ãƒ¢ãƒ‡ãƒ«ã«åæ˜ ã€‚
 
 	for (int i = 0; i < enPlayer_Num; i++) {
 		m_pos = pos;
@@ -149,7 +150,7 @@ void Player::Update()
 				m_pos = m_key->GetKeyPos();
 			}
 			else {
-				m_pos = { 300.0f,300.0f,0.0f };		//<•ÏX>y‚ª500ˆÈ‰º‚É‚È‚Á‚½‚ç‰ŠúˆÊ’u‚É–ß‚é‚æ‚¤‚Éif•¶’Ç‰Á
+				m_pos = { 300.0f,300.0f,0.0f };		//<å¤‰æ›´>yãŒ500ä»¥ä¸‹ã«ãªã£ãŸã‚‰åˆæœŸä½ç½®ã«æˆ»ã‚‹ã‚ˆã†ã«ifæ–‡è¿½åŠ 
 			}
 			//for (int i = 0; i < enPlayer_Num; i++) {
 			//	m_skinModelRender[i]->SetPosition(m_pos);
@@ -160,21 +161,21 @@ void Player::Update()
 		m_skinModelRender[i]->SetRotation(m_rot);
 	}
 	//m_model.UpdateWorldMatrix(pos, rot, g_vec3One);
-	//„‘Ì‚É—Í‚ğ‰Á‚¦‚éB
+	//å‰›ä½“ã«åŠ›ã‚’åŠ ãˆã‚‹ã€‚
 	Vector3 force;
 	force.x = g_pad[0]->GetLStickXF() * 500.0f;
 	force.z = g_pad[0]->GetLStickYF() * 500.0f;
-	//—Í‚ğ‰Á‚¦‚é
+	//åŠ›ã‚’åŠ ãˆã‚‹
 	m_rigidBody.AddForce(
-		m_movePower,		//—Í
-		g_vec3Zero	//—Í‚ğ‰Á‚¦‚é„‘Ì‚Ì‘Š‘ÎˆÊ’u
+		m_movePower,		//åŠ›
+		g_vec3Zero	//åŠ›ã‚’åŠ ãˆã‚‹å‰›ä½“ã®ç›¸å¯¾ä½ç½®
 	);
 	m_movePower = { 0.0f,0.0f,0.0f };
-	//Aƒ{ƒ^ƒ“‚ÅƒvƒŒƒCƒ„[‚Ì¥—Í‚ğ”½“]‚³‚¹‚é
+	//Aãƒœã‚¿ãƒ³ã§ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®ç£åŠ›ã‚’åè»¢ã•ã›ã‚‹
 	if (g_pad[0]->IsTrigger(enButtonA)) {
 		ChangeState();
 
-		//ƒAƒNƒeƒBƒuƒtƒ‰ƒO‚ğXVB
+		//ã‚¢ã‚¯ãƒ†ã‚£ãƒ–ãƒ•ãƒ©ã‚°ã‚’æ›´æ–°ã€‚
 		for (int i = 0; i < enPlayer_Num; i++) {
 			if (m_skinModelRender[i]->IsActive() == true) {
 				m_skinModelRender[i]->Deactivate();
