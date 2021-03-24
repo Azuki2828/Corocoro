@@ -1,7 +1,9 @@
 #include "stdafx.h"
 #include "Player.h"
+#include "Key.h"
 #include "DirectionLight.h"
 #include "MainCamera.h"
+#include "Background.h"
 
 bool Player::Start()
 {
@@ -39,9 +41,9 @@ bool Player::Start()
 		}
 	}
 	
+	m_backGround = FindGO<Background>("background");
 
-
-		//アニメーションを設定。
+	//アニメーションを設定。
 	//m_skinModelRender->InitAnimation(m_animationClips, enAnimClip_Num);
 
 	//コライダーを初期化。
@@ -95,6 +97,19 @@ void Player::Update()
 	//座標を設定。
 	//m_pos = m_charaCon.Execute(m_movePower, 1.0f);
 
+	float deathPosY = m_backGround->GetDeathPosY();
+
+	if (m_pos.y < deathPosY) {
+		if (getKeyFlg) {
+			m_key = FindGO<Key>("key");
+			m_pos = m_key->GetKeyPos();
+		}
+		else {
+			m_pos = { 300.0f,300.0f,300.0f };		//<変更>yが500以下になったら初期位置に戻るようにif文追加
+		}
+		m_charaCon.SetPosition(m_pos);			//
+	}
+	
 	//壁に当たっているなら
 	//if (m_charaCon.IsOnWall()) {
 	//

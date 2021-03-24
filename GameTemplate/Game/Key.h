@@ -13,6 +13,9 @@ public:
 	//ドアを初期化する関数。
 	void InitDoor(const char* name);
 
+	//鍵の座標を取得する関数。
+	const Vector3 GetKeyPos() { return m_keyPos; }
+
 	//鍵の座標を設定する関数。
 	void SetPositionKey(Vector3 pos) { m_keyPos = pos; }
 
@@ -21,7 +24,6 @@ public:
 
 	void Update()override final;
 private:
-	bool getKeyFlg = false;
 	SkinModelRender* m_skinModelRender_Key = nullptr;
 	SkinModelRender* m_skinModelRender_Door = nullptr;
 	PhysicsStaticObject m_physicsStaticObject;

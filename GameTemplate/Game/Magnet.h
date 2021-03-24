@@ -4,10 +4,12 @@ class Player;
 
 class Magnet : public IGameObject
 {
+private:
+	int m_timer = 0;			//<•ÏX>“®‚­¥Î‚Ìˆê’â~‚Ì‚½‚ßm_timer‚ğ’Ç‰Á
 public:
 	bool Start() override final;
 	void Update() override final;
-
+	
 	//¥—Í‚ğN‚É‚·‚éŠÖ”B
 	void SetState_N(bool plusflg = false) {
 		mState = State_N;

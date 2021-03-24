@@ -6,22 +6,23 @@
 #include "Seesaw.h"
 
 ///////////////////////////////////////////////////////////////////
-// ƒEƒBƒ“ƒhƒEƒvƒƒOƒ‰ƒ€‚ÌƒƒCƒ“ŠÖ”B
+// ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ãƒ—ãƒ­ã‚°ãƒ©ãƒ ã®ãƒ¡ã‚¤ãƒ³é–¢æ•°ã€‚
 ///////////////////////////////////////////////////////////////////
 int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLine, int nCmdShow)
 {
-	//ƒQ[ƒ€‚Ì‰Šú‰»B
+	//ã‚²ãƒ¼ãƒ ã®åˆæœŸåŒ–ã€‚
 	InitGame(hInstance, hPrevInstance, lpCmdLine, nCmdShow, TEXT("Game"));
 
 	//////////////////////////////////////
-	// ‚±‚±‚©‚ç‰Šú‰»‚ğs‚¤ƒR[ƒh‚ğ‹Lq‚·‚éB
+	// ã“ã“ã‹ã‚‰åˆæœŸåŒ–ã‚’è¡Œã†ã‚³ãƒ¼ãƒ‰ã‚’è¨˜è¿°ã™ã‚‹ã€‚
 	//////////////////////////////////////
 
-	//ƒQ[ƒ€ƒIƒuƒWƒFƒNƒgƒ}ƒl[ƒWƒƒ[‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚ğì¬‚·‚éB
+	//ã‚²ãƒ¼ãƒ ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãƒãƒãƒ¼ã‚¸ãƒ£ãƒ¼ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’ä½œæˆã™ã‚‹ã€‚
 	GameObjectManager::CreateInstance();
 	PhysicsWorld::CreateInstance();
 	CSoundEngine::CreateInstance();
 	CSoundEngine::GetInstance()->Init();
+
 
 	//NewGO<Background2>(0);
 	//NewGO<PhysicsBall>(0);
@@ -30,32 +31,32 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	
 
 	//////////////////////////////////////
-	// ‰Šú‰»‚ğs‚¤ƒR[ƒh‚ğ‘‚­‚Ì‚Í‚±‚±‚Ü‚ÅIII
+	// åˆæœŸåŒ–ã‚’è¡Œã†ã‚³ãƒ¼ãƒ‰ã‚’æ›¸ãã®ã¯ã“ã“ã¾ã§ï¼ï¼ï¼
 	//////////////////////////////////////
 	auto& renderContext = g_graphicsEngine->GetRenderContext();
 
-	// ‚±‚±‚©‚çƒQ[ƒ€ƒ‹[ƒvB
+	// ã“ã“ã‹ã‚‰ã‚²ãƒ¼ãƒ ãƒ«ãƒ¼ãƒ—ã€‚
 	while (DispatchWindowMessage())
 	{
-		//ƒŒƒ“ƒ_ƒŠƒ“ƒOŠJnB
+		//ãƒ¬ãƒ³ãƒ€ãƒªãƒ³ã‚°é–‹å§‹ã€‚
 		g_engine->BeginFrame();
 		
 
 		//////////////////////////////////////
-		//‚±‚±‚©‚çŠG‚ğ•`‚­ƒR[ƒh‚ğ‹Lq‚·‚éB
+		//ã“ã“ã‹ã‚‰çµµã‚’æãã‚³ãƒ¼ãƒ‰ã‚’è¨˜è¿°ã™ã‚‹ã€‚
 		//////////////////////////////////////
 		
 		GameObjectManager::GetInstance()->ExecuteUpdate();
-		//•¨—ƒ[ƒ‹ƒh‚ÌXVB
+		//ç‰©ç†ãƒ¯ãƒ¼ãƒ«ãƒ‰ã®æ›´æ–°ã€‚
 		PhysicsWorld::GetInstance()->Update(g_gameTime->GetFrameDeltaTime());
 		GameObjectManager::GetInstance()->ExecuteRender(renderContext);
 
 		//////////////////////////////////////
-		//ŠG‚ğ•`‚­ƒR[ƒh‚ğ‘‚­‚Ì‚Í‚±‚±‚Ü‚ÅIII
+		//çµµã‚’æãã‚³ãƒ¼ãƒ‰ã‚’æ›¸ãã®ã¯ã“ã“ã¾ã§ï¼ï¼ï¼
 		//////////////////////////////////////
 		g_engine->EndFrame();
 	}
-	//ƒQ[ƒ€ƒIƒuƒWƒFƒNƒgƒ}ƒl[ƒWƒƒ[‚ğíœB
+	//ã‚²ãƒ¼ãƒ ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãƒãƒãƒ¼ã‚¸ãƒ£ãƒ¼ã‚’å‰Šé™¤ã€‚
 	GameObjectManager::DeleteInstance();
 	return 0;
 }
