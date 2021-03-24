@@ -40,8 +40,6 @@ bool Player::Start()
 			m_skinModelRender[i]->Deactivate();
 		}
 	}
-	
-	m_backGround = FindGO<Background>("background");
 
 	//アニメーションを設定。
 	//m_skinModelRender->InitAnimation(m_animationClips, enAnimClip_Num);
@@ -81,6 +79,9 @@ bool Player::Start()
 void Player::Update()
 {
 
+	if (m_backGround == nullptr) {
+		m_backGround = FindGO<Background>("background");
+	}
 	if (g_pad[0]->IsTrigger(enButtonB)) {
 		m_sound = NewGO<CSoundSource>(0);
 
@@ -97,17 +98,9 @@ void Player::Update()
 	//座標を設定。
 	//m_pos = m_charaCon.Execute(m_movePower, 1.0f);
 
-	float deathPosY = m_backGround->GetDeathPosY();
-
-	if (m_pos.y < deathPosY) {
-		if (getKeyFlg) {
-			m_key = FindGO<Key>("key");
-			m_pos = m_key->GetKeyPos();
-		}
-		else {
-			m_pos = { 300.0f,300.0f,300.0f };		//<変更>yが500以下になったら初期位置に戻るようにif文追加
-		}
-		m_charaCon.SetPosition(m_pos);			//
+	float deathPosY = -1000.0f;
+	if (m_backGround != nullptr) {
+		deathPosY = m_backGround->GetDeathPosY();
 	}
 	
 	//壁に当たっているなら
@@ -149,6 +142,19 @@ void Player::Update()
 	for (int i = 0; i < enPlayer_Num; i++) {
 		m_pos = pos;
 		m_rot = rot;
+		if (m_pos.y < deathPosY) {
+
+			if (getKeyFlg) {
+				m_key = FindGO<Key>("key");
+				m_pos = m_key->GetKeyPos();
+			}
+			else {
+				m_pos = { 300.0f,300.0f,0.0f };		//<変更>yが500以下になったら初期位置に戻るようにif文追加
+			}
+			//for (int i = 0; i < enPlayer_Num; i++) {
+			//	m_skinModelRender[i]->SetPosition(m_pos);
+			//}
+		}
 		//m_skinModelRender[i]->UpdateWorldMatrix(pos, rot, Vector3::One);
 		m_skinModelRender[i]->SetPosition(m_pos);
 		m_skinModelRender[i]->SetRotation(m_rot);
