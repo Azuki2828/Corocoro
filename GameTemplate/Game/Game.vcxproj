@@ -130,13 +130,13 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
-      <PrecompiledHeader>Use</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <PrecompiledHeader>Use</PrecompiledHeader>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -146,13 +146,13 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <PrecompiledHeader>Use</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <PrecompiledHeader>Use</PrecompiledHeader>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -162,7 +162,6 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
-      <PrecompiledHeader>Use</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -171,6 +170,7 @@
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <PrecompiledHeader>Use</PrecompiledHeader>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -182,7 +182,6 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Preview|Win32'">
     <ClCompile>
-      <PrecompiledHeader>Use</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -191,6 +190,7 @@
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <PrecompiledHeader>Use</PrecompiledHeader>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -202,7 +202,6 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <PrecompiledHeader>Use</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -211,18 +210,18 @@
       <PreprocessorDefinitions>NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <PrecompiledHeader>Use</PrecompiledHeader>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>DXGI.lib;dxguid.lib;DirectXTK12.lib;d3d12.lib;d3dcompiler.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;BulletCollision.lib;BulletDynamics.lib;LinearMath.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>DXGI.lib;dxguid.lib;DirectXTK12.lib;d3d12.lib;d3dcompiler.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;BulletCollision.lib;BulletDynamics.lib;LinearMath.lib;winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Preview|x64'">
     <ClCompile>
-      <PrecompiledHeader>Use</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -231,6 +230,7 @@
       <PreprocessorDefinitions>NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <PrecompiledHeader>Use</PrecompiledHeader>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -243,12 +243,14 @@
   <ItemGroup>
     <ClCompile Include="..\..\ExEngine\gameObject\Gameobjectmanager.cpp" />
     <ClCompile Include="..\..\ExEngine\gameObject\IGameObject.cpp" />
+    <ClCompile Include="..\..\ExEngine\physics\BoxCollider.cpp" />
     <ClCompile Include="..\..\ExEngine\physics\CapsuleCollider.cpp" />
     <ClCompile Include="..\..\ExEngine\physics\CharacterController.cpp" />
     <ClCompile Include="..\..\ExEngine\physics\MeshCollider.cpp" />
     <ClCompile Include="..\..\ExEngine\physics\Physics.cpp" />
     <ClCompile Include="..\..\ExEngine\physics\PhysicsStaticObject.cpp" />
     <ClCompile Include="..\..\ExEngine\physics\RigidBody.cpp" />
+    <ClCompile Include="..\..\ExEngine\physics\SphereCollider.cpp" />
     <ClCompile Include="..\..\MiniEngine\Animation.cpp" />
     <ClCompile Include="..\..\MiniEngine\AnimationClip.cpp" />
     <ClCompile Include="..\..\MiniEngine\AnimationPlayController.cpp" />
@@ -289,8 +291,11 @@
     <ClCompile Include="..\..\MiniEngine\tkFile\TksFile.cpp" />
     <ClCompile Include="..\..\MiniEngine\VertexBuffer.cpp" />
     <ClCompile Include="Background.cpp" />
+    <ClCompile Include="Background2.cpp" />
     <ClCompile Include="DirectionLight.cpp" />
     <ClCompile Include="FontRender.cpp" />
+    <ClCompile Include="Game.cpp" />
+    <ClCompile Include="GameTime.cpp" />
     <ClCompile Include="Key.cpp" />
     <ClCompile Include="Level.cpp" />
     <ClCompile Include="Magnet.cpp" />
@@ -298,7 +303,9 @@
     <ClCompile Include="MainCamera.cpp" />
     <ClCompile Include="MapChip.cpp" />
     <ClCompile Include="MoveObject.cpp" />
+    <ClCompile Include="PhysicsBall.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="Seesaw.cpp" />
     <ClCompile Include="SkinModelRender.cpp" />
     <ClCompile Include="SpriteRender.cpp" />
     <ClCompile Include="stdafx.cpp">
@@ -311,11 +318,16 @@
     </ClCompile>
     <ClCompile Include="system\system.cpp" />
     <ClCompile Include="TklFile.cpp" />
+    <ClCompile Include="tkSoundEngine.cpp" />
+    <ClCompile Include="tkSoundSource.cpp" />
+    <ClCompile Include="tkWaveFile.cpp" />
+    <ClCompile Include="tkWaveFileBank.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\ExEngine\ExEngine.h" />
     <ClInclude Include="..\..\ExEngine\gameObject\GameObjectManager.h" />
     <ClInclude Include="..\..\ExEngine\gameObject\IGameobject.h" />
+    <ClInclude Include="..\..\ExEngine\physics\BoxCollider.h" />
     <ClInclude Include="..\..\ExEngine\physics\CapsuleCollider.h" />
     <ClInclude Include="..\..\ExEngine\physics\CharacterController.h" />
     <ClInclude Include="..\..\ExEngine\physics\ICollider.h" />
@@ -323,6 +335,7 @@
     <ClInclude Include="..\..\ExEngine\physics\Physics.h" />
     <ClInclude Include="..\..\ExEngine\physics\PhysicsStaticObject.h" />
     <ClInclude Include="..\..\ExEngine\physics\RigidBody.h" />
+    <ClInclude Include="..\..\ExEngine\physics\SphereCollider.h" />
     <ClInclude Include="..\..\MiniEngine\Animation.h" />
     <ClInclude Include="..\..\MiniEngine\AnimationClip.h" />
     <ClInclude Include="..\..\MiniEngine\AnimationPlayController.h" />
@@ -370,20 +383,31 @@
     <ClInclude Include="..\..\MiniEngine\tkFile\TksFile.h" />
     <ClInclude Include="..\..\MiniEngine\VertexBuffer.h" />
     <ClInclude Include="Background.h" />
+    <ClInclude Include="Background2.h" />
     <ClInclude Include="DirectionLight.h" />
     <ClInclude Include="FontRender.h" />
+    <ClInclude Include="Game.h" />
+    <ClInclude Include="GameTime.h" />
     <ClInclude Include="Key.h" />
     <ClInclude Include="Level.h" />
     <ClInclude Include="Magnet.h" />
     <ClInclude Include="MainCamera.h" />
     <ClInclude Include="MapChip.h" />
     <ClInclude Include="MoveObject.h" />
+    <ClInclude Include="PhysicsBall.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="Seesaw.h" />
     <ClInclude Include="SkinModelRender.h" />
     <ClInclude Include="SpriteRender.h" />
     <ClInclude Include="stdafx.h" />
+    <ClInclude Include="Stopwatch.h" />
     <ClInclude Include="system\system.h" />
     <ClInclude Include="TklFile.h" />
+    <ClInclude Include="tkSoundEngine.h" />
+    <ClInclude Include="tkSoundSource.h" />
+    <ClInclude Include="tkUtil.h" />
+    <ClInclude Include="tkWaveFile.h" />
+    <ClInclude Include="tkWaveFileBank.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

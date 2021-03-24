@@ -4,6 +4,7 @@
 #include "stdafx.h"
 #include "GamePad.h"
 #include <limits.h>
+#include <array>
 
 #define INPUT_DEADZONE  ( 0.24f * FLOAT(0x7FFF) )  // Default to 24% of the +/- 32767 range.   This is a reasonable default value but can be altered if needed.
 std::array<GamePad*, GamePad::CONNECT_PAD_MAX> g_pad;

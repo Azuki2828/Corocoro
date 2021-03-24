@@ -48,6 +48,9 @@
     <Filter Include="MiniEngine\level">
       <UniqueIdentifier>{e1504122-61be-4cdc-a39b-03b27447760c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="MiniEngine\sound">
+      <UniqueIdentifier>{7e6dafc7-a650-4fef-acc4-e648994b0dc9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -238,6 +241,39 @@
     </ClCompile>
     <ClCompile Include="..\..\MiniEngine\font\FontEngine.cpp">
       <Filter>MiniEngine\font</Filter>
+    </ClCompile>
+    <ClCompile Include="tkSoundSource.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="tkWaveFile.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="tkWaveFileBank.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="tkSoundEngine.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="GameTime.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="PhysicsBall.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Seesaw.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Background2.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\ExEngine\physics\BoxCollider.cpp">
+      <Filter>ExEngine\physics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\ExEngine\physics\SphereCollider.cpp">
+      <Filter>ExEngine\physics</Filter>
+    </ClCompile>
+    <ClCompile Include="Game.cpp">
+      <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -453,6 +489,45 @@
     </ClInclude>
     <ClInclude Include="..\..\MiniEngine\font\FontEngine.h">
       <Filter>MiniEngine\font</Filter>
+    </ClInclude>
+    <ClInclude Include="tkSoundEngine.h">
+      <Filter>ソース ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="tkSoundSource.h">
+      <Filter>ソース ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="tkWaveFile.h">
+      <Filter>ソース ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="tkWaveFileBank.h">
+      <Filter>ソース ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="GameTime.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="tkUtil.h">
+      <Filter>ソース ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="PhysicsBall.h">
+      <Filter>ソース ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Seesaw.h">
+      <Filter>ソース ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Background2.h">
+      <Filter>ソース ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\ExEngine\physics\BoxCollider.h">
+      <Filter>ExEngine\physics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\ExEngine\physics\SphereCollider.h">
+      <Filter>ExEngine\physics</Filter>
+    </ClInclude>
+    <ClInclude Include="Stopwatch.h">
+      <Filter>ソース ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Game.h">
+      <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

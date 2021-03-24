@@ -35,6 +35,7 @@ MapChip::MapChip(const LevelObjectData& objData) {
 		*m_skinModelRender->GetModel(),
 		m_skinModelRender->GetModel()->GetWorldMatrix()
 	);
+	m_physicsStaticObject.SetFriction(10.0f);
 }
 
 void MapChip::Draw(RenderContext& rc) {
