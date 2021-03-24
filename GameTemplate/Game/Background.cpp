@@ -8,6 +8,10 @@ bool Background::Start()
 	m_magnet.resize(1);
 	int sampleNum = 0;
 
+	m_fontRender = NewGO<FontRender>(2);
+	m_fontRender->Init(L"hello",Vector2{(500.0f),(350.0f)});
+
+
 	/*const char* MagnetName[] = {
 		"Magnet_N_01",
 		"Magnet_N_02",
@@ -23,6 +27,8 @@ bool Background::Start()
 		"Magnet_Splus_01",
 		"MagnetHoge",
 	};*/
+
+
 
 
 	//”wŒi‰æ‘œ‚ğ‰Šú‰»B
@@ -278,7 +284,7 @@ bool Background::Start()
 }
 void Background::Update()
 {
-
+	
 }
 void Background::Render(RenderContext& rc)
 {
