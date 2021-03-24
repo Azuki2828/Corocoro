@@ -5,7 +5,7 @@
 
 #include "stdafx.h"
 #include "Physics.h"
-#include "physics/PhysicsStaticObject.h"
+#include "PhysicsStaticObject.h"
 
 PhysicsStaticObject::PhysicsStaticObject()
 {

@@ -43,6 +43,12 @@ public:
 	{
 		m_model.UpdateWorldMatrix(m_pos, m_rot, m_sca);
 	}
+
+	void UpdateWorldMatrix(Vector3 pos, Quaternion rot, Vector3 sca)
+	{
+		m_model.UpdateWorldMatrix(pos, rot, sca);
+	}
+
 private:
 	int m_animNum;
 	const char* m_fileNametkm = nullptr;

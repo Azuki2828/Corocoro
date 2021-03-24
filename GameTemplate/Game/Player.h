@@ -7,23 +7,23 @@ class Background;
 class Player : public IGameObject
 {
 private:
-	bool getKeyFlg = false;		//Œ®æ“¾ƒtƒ‰ƒOB
+	bool getKeyFlg = false;		//éµå–å¾—ãƒ•ãƒ©ã‚°ã€‚
 
 public:
 	bool Start() override;
 	void Update() override;
 
-	//Œ»İ‚ÌƒXƒe[ƒg‚ğæ“¾‚·‚éŠÖ”B
+	//ç¾åœ¨ã®ã‚¹ãƒ†ãƒ¼ãƒˆã‚’å–å¾—ã™ã‚‹é–¢æ•°ã€‚
 	const int GetPlayerState()const { return pState; }
 
-	//Œ»İ‚ÌÀ•W‚ğæ“¾‚·‚éŠÖ”B
-	const Vector3 GetPosition()const { return m_charaCon.GetPosition(); }
+	//ç¾åœ¨ã®åº§æ¨™ã‚’å–å¾—ã™ã‚‹é–¢æ•°ã€‚
+	const Vector3 GetPosition()const { return m_pos; }
 
-	//ŠO•”‚©‚ç—Í‚ğó‚¯æ‚éŠÖ”B
-	//powF—Í‚Ì‘å‚«‚³
+	//å¤–éƒ¨ã‹ã‚‰åŠ›ã‚’å—ã‘å–ã‚‹é–¢æ•°ã€‚
+	//powï¼šåŠ›ã®å¤§ãã•
 	void ReceivePower(Vector3 pow)const { m_movePower += pow; }
 
-	//ƒvƒŒƒCƒ„[‚Ì¥‹É‚ğ•ÏŠ·‚·‚éŠÖ”B
+	//ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®ç£æ¥µã‚’å¤‰æ›ã™ã‚‹é–¢æ•°ã€‚
 	void ChangeState();
 
 	void Render(RenderContext& rc)override;
@@ -33,7 +33,7 @@ public:
 
 private:
 	/// <summary>
-	/// ƒAƒjƒ[ƒVƒ‡ƒ“ƒNƒŠƒbƒvB
+	/// ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ã‚¯ãƒªãƒƒãƒ—ã€‚
 	/// </summary>
 	enum EnAnimationClip {
 		enAnimClip_Idle,
@@ -42,7 +42,7 @@ private:
 	};
 
 	/// <summary>
-	/// ¥‹ÉB
+	/// ç£æ¥µã€‚
 	/// </summary>
 	typedef enum {
 		State_N,
@@ -50,31 +50,37 @@ private:
 	}Player_State;
 
 	/// <summary>
-	/// ƒvƒŒƒCƒ„[‚Ì“o˜^”Ô†B
+	/// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®ç™»éŒ²ç•ªå·ã€‚
 	/// </summary>
 	enum EnPlayer {
 		enPlayer_0,
 		enPlayer_1,
 		enPlayer_Num
 	};
-	//ƒvƒŒƒCƒ„[‚ÌƒXƒe[ƒgB
+	//ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®ã‚¹ãƒ†ãƒ¼ãƒˆã€‚
 	Player_State pState = State_N;
 
-	Model m_model;										//ƒ‚ƒfƒ‹•\¦ˆ—B
-	ModelInitData initData;								//ƒ‚ƒfƒ‹‚Ìƒf[ƒ^B
-	Animation m_animation;								//ƒAƒjƒƒVƒ‡ƒ“Ä¶ˆ—B
-	AnimationClip m_animationClips[enAnimClip_Num];		//ƒAƒjƒ[ƒVƒ‡ƒ“ƒNƒŠƒbƒvB
-	Skeleton m_skeleton;								//ƒXƒPƒ‹ƒgƒ“B
-	CharacterController m_charaCon;						//ƒLƒƒƒ‰ƒRƒ“B
+	Model m_model;										//ãƒ¢ãƒ‡ãƒ«è¡¨ç¤ºå‡¦ç†ã€‚
+	ModelInitData initData;								//ãƒ¢ãƒ‡ãƒ«ã®ãƒ‡ãƒ¼ã‚¿ã€‚
+	Animation m_animation;								//ã‚¢ãƒ‹ãƒ¡ã‚·ãƒ§ãƒ³å†ç”Ÿå‡¦ç†ã€‚
+	AnimationClip m_animationClips[enAnimClip_Num];		//ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ã‚¯ãƒªãƒƒãƒ—ã€‚
+	Skeleton m_skeleton;								//ã‚¹ã‚±ãƒ«ãƒˆãƒ³ã€‚
+	CharacterController m_charaCon;						//ã‚­ãƒ£ãƒ©ã‚³ãƒ³ã€‚
 
-	DirectionLight* m_dirLight = nullptr;				//ƒfƒBƒŒƒNƒVƒ‡ƒ“ƒ‰ƒCƒgB
-	Vector3 m_pos = { 300.0f,300.0f,0.0f };				//‰ŠúÀ•WB
+	DirectionLight* m_dirLight = nullptr;				//ãƒ‡ã‚£ãƒ¬ã‚¯ã‚·ãƒ§ãƒ³ãƒ©ã‚¤ãƒˆã€‚
+	Vector3 m_pos = { 300.0f,300.0f,0.0f };				//åˆæœŸåº§æ¨™ã€‚
+	Quaternion m_rot = Quaternion::Identity;
 	//Vector3 m_pos = { 1500.0f,2800.0f,0.0f };
 	//Vector3 m_pos = { 1500.0f,2800.0f,20.0f };
-	mutable Vector3 m_movePower;						//“®‚­—ÍB
+	mutable Vector3 m_movePower;						//å‹•ãåŠ›ã€‚
 
 	SkinModelRender* m_skinModelRender[enPlayer_Num] = { nullptr };
 	Font m_font;
+
+	CSoundSource* m_sound = nullptr;
+	SphereCollider m_sphereCollider;
+	RigidBody m_rigidBody;
+
 	Key* m_key = nullptr;
 	Background* m_backGround = nullptr;
 };

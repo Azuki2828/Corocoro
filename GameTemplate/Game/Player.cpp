@@ -14,7 +14,7 @@ bool Player::Start()
 	//m_animationClips[enAnimClip_Run].SetLoopFlag(true);
 
 	//キャラコンの初期化。
-	m_charaCon.Init(50.0f, 100.0f, m_pos);
+	//m_charaCon.Init(50.0f, 100.0f, m_pos);
 
 	//プレイヤーのtkmとtksをロードする種。
 	const char* tkmFilePaths[] = {
@@ -46,6 +46,31 @@ bool Player::Start()
 	//アニメーションを設定。
 	//m_skinModelRender->InitAnimation(m_animationClips, enAnimClip_Num);
 
+	//コライダーを初期化。
+	m_sphereCollider.Create(50.0f);
+
+	//剛体を初期化。
+	RigidBodyInitData rbInitData;
+	//質量を設定する。
+	rbInitData.mass = 1.0f;
+	rbInitData.collider = &m_sphereCollider;
+	//rbInitData.pos.y = 100.0f;
+	rbInitData.pos = m_pos;
+	//回転のしやすさを設定する。0～1
+	rbInitData.localInteria.Set(
+		0.5f,
+		0.5f,
+		0.5f
+	);
+	m_rigidBody.Init(rbInitData);
+
+	//摩擦力を設定する。0～10
+	m_rigidBody.SetFriction(10.0f);
+	//線形移動する要素を設定する。
+	//0を指定した軸は移動しない。
+	m_rigidBody.SetLinearFactor(1.0f, 1.0f, 0.0f);
+
+
 	//座標を登録。
 	for (int i = 0; i < enPlayer_Num; i++) {
 		m_skinModelRender[i]->SetPosition(m_pos);
@@ -55,14 +80,22 @@ bool Player::Start()
 }
 void Player::Update()
 {
+
+	if (g_pad[0]->IsTrigger(enButtonB)) {
+		m_sound = NewGO<CSoundSource>(0);
+
+		m_sound->Init(L"Assets/sound/nextvoice.wav");
+		m_sound->SetVolume(1.0f);
+		m_sound->Play(false);
+	}
 	//重力を設定。
-	m_movePower.y -= 0.2f;
+	//m_movePower.y -= 0.2f;
 
 	//z方向には動かない。
 	m_movePower.z = 0.0f;
 
 	//座標を設定。
-	m_pos = m_charaCon.Execute(m_movePower, 1.0f);
+	//m_pos = m_charaCon.Execute(m_movePower, 1.0f);
 
 	float deathPosY = m_backGround->GetDeathPosY();
 
@@ -78,40 +111,59 @@ void Player::Update()
 	}
 	
 	//壁に当たっているなら
-	if (m_charaCon.IsOnWall()) {
-
-		//1/2の力で跳ね返る。
-		m_movePower.x *= -0.5f;
-	}
+	//if (m_charaCon.IsOnWall()) {
+	//
+	//	//1/2の力で跳ね返る。
+	//	m_movePower.x *= -0.5f;
+	//}
 
 	//地面上にいるなら
-	if (m_charaCon.IsOnGround()) {
-
-		//右に動いてたら
-		if (m_movePower.x >= 0.0f) {
-			//摩擦。
-			m_movePower.x -= 0.02f;
-			//もし減らしすぎたら０にする。
-			if (m_movePower.x < 0.0f) {
-				m_movePower.x = 0.0f;
-			}
-		}//左に動いてたら
-		else {
-			//摩擦。
-			m_movePower.x += 0.02f;
-			//もし増やしすぎたら０にする。
-			if (m_movePower.x > 0.0f) {
-				m_movePower.x = 0.0f;
-			}
-		}
-
-	}
+	//if (m_charaCon.IsOnGround()) {
+	//
+	//	//右に動いてたら
+	//	if (m_movePower.x >= 0.0f) {
+	//		//摩擦。
+	//		m_movePower.x -= 0.02f;
+	//		//もし減らしすぎたら０にする。
+	//		if (m_movePower.x < 0.0f) {
+	//			m_movePower.x = 0.0f;
+	//		}
+	//	}//左に動いてたら
+	//	else {
+	//		//摩擦。
+	//		m_movePower.x += 0.02f;
+	//		//もし増やしすぎたら０にする。
+	//		if (m_movePower.x > 0.0f) {
+	//			m_movePower.x = 0.0f;
+	//		}
+	//	}
+	//
+	//}
 	
-	//座標を登録。
-	for (int i = 0; i < enPlayer_Num; i++) {
-		m_skinModelRender[i]->SetPosition(m_pos);
-	}
+	//剛体の座標と回転を取得。
+	Vector3 pos;
+	Quaternion rot;
+	m_rigidBody.GetPositionAndRotation(pos, rot);
+	//剛体の座標と回転をモデルに反映。
 
+	for (int i = 0; i < enPlayer_Num; i++) {
+		m_pos = pos;
+		m_rot = rot;
+		//m_skinModelRender[i]->UpdateWorldMatrix(pos, rot, Vector3::One);
+		m_skinModelRender[i]->SetPosition(m_pos);
+		m_skinModelRender[i]->SetRotation(m_rot);
+	}
+	//m_model.UpdateWorldMatrix(pos, rot, g_vec3One);
+	//剛体に力を加える。
+	Vector3 force;
+	force.x = g_pad[0]->GetLStickXF() * 500.0f;
+	force.z = g_pad[0]->GetLStickYF() * 500.0f;
+	//力を加える
+	m_rigidBody.AddForce(
+		m_movePower,		//力
+		g_vec3Zero	//力を加える剛体の相対位置
+	);
+	m_movePower = { 0.0f,0.0f,0.0f };
 	//Aボタンでプレイヤーの磁力を反転させる
 	if (g_pad[0]->IsTrigger(enButtonA)) {
 		ChangeState();
@@ -126,6 +178,12 @@ void Player::Update()
 			}
 		}
 	}
+
+	//Vector3 toCamere = g_camera3D->GetPosition() - g_camera3D->GetTarget();
+	//g_camera3D->SetTarget(pos);
+	//toCamere.y = 100.0f;
+	//toCamere.z = -2500.0f;
+	//g_camera3D->SetPosition(pos + toCamere);
 }
 
 void Player::ChangeState() {

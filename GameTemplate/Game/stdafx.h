@@ -5,3 +5,5 @@
 #include "ExEngine.h"
 #include "SkinModelRender.h"
 #include "SpriteRender.h"
+#include "tkSoundEngine.h"
+#include "tkSoundSource.h"
