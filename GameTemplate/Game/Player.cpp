@@ -26,6 +26,7 @@ bool Player::Start()
 		"Assets/modelData/tkm/Player_S.tks"
 	};
 
+
 	//プレイヤーの初期化。
 	for (int i = 0; i < enPlayer_Num; i++) {
 		//SkinModelRenderをNewGO。
@@ -73,8 +74,8 @@ void Player::Update()
 		}
 		else {
 			m_pos = { 300.0f,300.0f,300.0f };		//<変更>yが500以下になったら初期位置に戻るようにif文追加
-		}
-		m_charaCon.SetPosition(m_pos);			//
+		}											//鍵を取っていたなら鍵を取った場所へ戻る
+		m_charaCon.SetPosition(m_pos);			
 	}
 	
 	//壁に当たっているなら

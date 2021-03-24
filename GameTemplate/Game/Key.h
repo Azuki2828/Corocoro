@@ -27,9 +27,11 @@ private:
 	SkinModelRender* m_skinModelRender_Key = nullptr;
 	SkinModelRender* m_skinModelRender_Door = nullptr;
 	PhysicsStaticObject m_physicsStaticObject;
+	bool getKeyFlg = false;
 
 	Player* m_player = nullptr;
 	Vector3 m_keyPos;		//鍵の座標。
 	Vector3 m_doorPos;		//ドアの座標。
+	SpriteRender* m_spriteRender = nullptr;		//スプライトレンダー
 };
 
