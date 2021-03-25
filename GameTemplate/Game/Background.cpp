@@ -2,6 +2,7 @@
 #include "Background.h"
 #include "Magnet.h"
 #include "Key.h"
+#include "HelloLevel2D.h"
 
 bool Background::Start()
 {
@@ -29,7 +30,7 @@ bool Background::Start()
 	};*/
 
 
-
+	NewGO<HelloLevel2D>(2);
 
 	//”wŒi‰æ‘œ‚ğ‰Šú‰»B
 	m_spriteRender = NewGO<SpriteRender>(0);
