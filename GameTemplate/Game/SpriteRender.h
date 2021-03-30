@@ -3,7 +3,7 @@ class SpriteRender : public IGameObject
 {
 public:
 	//スプライト初期化関数。
-	void Init(const char* filepath, float width, float height);
+	void Init(const char* filepath, float width, float height , AlphaBlendMode mode = AlphaBlendMode::AlphaBlendMode_None);
 	void Render(RenderContext& rc) override;
 	void SetPosition(Vector3 pos) { m_pos = pos; }
 	void Update()override final;

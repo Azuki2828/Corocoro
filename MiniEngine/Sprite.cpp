@@ -10,6 +10,8 @@
 		};
 	}
 	const Vector2	Sprite::DEFAULT_PIVOT = { 0.5f, 0.5f };
+	//const AlphaBlendMode Sprite::NONE = AlphaBlendMode_None;
+
 	Sprite::~Sprite()
 	{
 	}

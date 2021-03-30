@@ -43,6 +43,7 @@ struct SpriteInitData {
 class Sprite  {
 public:
 	static const Vector2	DEFAULT_PIVOT;					//!<ピボット。
+	//static const AlphaBlendMode NONE;
 	virtual ~Sprite();
 	/// <summary>
 	/// 初期化。

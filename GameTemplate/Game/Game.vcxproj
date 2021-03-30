@@ -302,6 +302,7 @@
     <ClCompile Include="HelloLevel2D.cpp" />
     <ClCompile Include="Key.cpp" />
     <ClCompile Include="Level.cpp" />
+    <ClCompile Include="LightManager.cpp" />
     <ClCompile Include="Magnet.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MainCamera.cpp" />
@@ -398,6 +399,7 @@
     <ClInclude Include="HelloLevel2D.h" />
     <ClInclude Include="Key.h" />
     <ClInclude Include="Level.h" />
+    <ClInclude Include="LightManager.h" />
     <ClInclude Include="Magnet.h" />
     <ClInclude Include="MainCamera.h" />
     <ClInclude Include="MapChip.h" />
