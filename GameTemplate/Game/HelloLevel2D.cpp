@@ -28,11 +28,15 @@ bool HelloLevel2D::Start()
 		//名前がlogoだったら。
 		else if (objdata.EqualObjectName("logo")) {
 
+
 			//return falseにすると、
 			//Level2DクラスのSpriteで画像が読み込まれます。
-			return false;
+			return true;
 		}
-		return true;
+
+
+
+		return false;
 	});
 
 	return true;
