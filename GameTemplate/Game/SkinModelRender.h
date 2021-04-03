@@ -1,7 +1,5 @@
 #pragma once
 
-class DirectionLight;
-
 class SkinModelRender : public IGameObject
 {
 public:
@@ -65,7 +63,6 @@ private:
 	Vector3 m_pos = Vector3::Zero;
 	Vector3 m_sca = Vector3::One;
 	Quaternion m_rot = Quaternion::Identity;
-
 	//struct DirectionLightData {
 	//	Vector3 Direction;
 	//	Vector3 Color;

@@ -1,6 +1,5 @@
 #pragma once
 
-class DirectionLight;
 class Key;
 class Background;
 

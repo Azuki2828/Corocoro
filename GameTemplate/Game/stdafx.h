@@ -4,7 +4,9 @@
 #include "MiniEngine.h"
 #include "ExEngine.h"
 #include "SkinModelRender.h"
-#include "SpriteRender.h"n
+#include "SpriteRender.h"
 #include "FontRender.h"
 #include "tkSoundEngine.h"
 #include "tkSoundSource.h"
+#include "LightManager.h"
+#include "GameTime.h"

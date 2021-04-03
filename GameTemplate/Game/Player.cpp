@@ -152,9 +152,8 @@ void Player::Update()
 			else {
 				m_pos = { 300.0f,300.0f,0.0f };		//<変更>yが500以下になったら初期位置に戻るようにif文追加
 			}
-			//for (int i = 0; i < enPlayer_Num; i++) {
-			//	m_skinModelRender[i]->SetPosition(m_pos);
-			//}
+
+			m_rigidBody.SetPositionAndRotation(m_pos, m_rot);
 		}
 		//m_skinModelRender[i]->UpdateWorldMatrix(pos, rot, Vector3::One);
 		m_skinModelRender[i]->SetPosition(m_pos);

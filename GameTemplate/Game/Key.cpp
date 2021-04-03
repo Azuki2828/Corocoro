@@ -70,7 +70,7 @@ void Key::Update() {
 	Vector3 keyLength;
 
 	keyLength = m_player->GetPosition() - m_keyPos;
-	if (keyLength.Length() <= 300.0f) {
+	if (keyLength.Length() <= 200.0f) {
 		DeleteGO(m_skinModelRender_Key);
 
 		//Œ®Žæ“¾ƒtƒ‰ƒO‚ðtrue‚ÉB

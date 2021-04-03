@@ -13,6 +13,7 @@
 #include "Camera.h"
 #include "NullTextureMaps.h"
 #include "font/FontEngine.h"
+#include "../GameTemplate/Game/LightManager.h";
 
 /// <summary>
 /// DirectX12に依存するグラフィックスエンジン
@@ -199,6 +200,11 @@ public:
 	{
 		return m_fontEngine;
 	}
+
+	LightManager& GetLightManager() {
+
+		return m_lightManager;
+	}
 private:
 	/// <summary>
 	/// D3Dデバイスの作成。
@@ -305,6 +311,7 @@ private:
 	UINT m_frameBufferHeight = 0;				//フレームバッファの高さ。
 	Camera m_camera2D;							//2Dカメラ。
 	Camera m_camera3D;							//3Dカメラ。
+	LightManager m_lightManager;
 	raytracing::Engine m_raytracingEngine;		//レイトレエンジン。
 	NullTextureMaps m_nullTextureMaps;			//ヌルテクスチャマップ。
 	FontEngine m_fontEngine;					//フォントエンジン。
