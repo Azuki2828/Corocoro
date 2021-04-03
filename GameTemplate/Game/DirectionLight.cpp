@@ -1,16 +1,12 @@
 #include "stdafx.h"
 #include "DirectionLight.h"
 
-bool DirectionLight::Start() {
+bool DirectionLight::StartSub() {
 
 	return true;
 }
 
 DirectionLight::~DirectionLight() {
-
-}
-
-void DirectionLight::Update(){
 
 }
 

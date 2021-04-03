@@ -45,21 +45,22 @@ void SkinModelRender::Init(bool DirectionFlg, bool PointLightFlg) {
 
 	initData.m_vsEntryPointFunc = "VSMain";
 	initData.m_vsSkinEntryPointFunc = "VSSkinMain";
+
+	initData.m_expandConstantBuffer = LightManager::GetInstance()->GetLigData();
+	initData.m_expandConstantBufferSize = sizeof*(LightManager::GetInstance()->GetLigData());
+
 	if (m_skeleton.IsInited()) {
 		initData.m_skeleton = &m_skeleton;
 	}
 //	initData.m_modelUpAxis = enModelUpAxisY;
 
 	//ディレクションライトの設定。
-	if (DirectionFlg) {
-		m_directionLight = NewGO<DirectionLight>(0);
-		m_directionLight->SetLigDirection(1.0f, 1.0f, 1.0f);
-		m_directionLight->SetLigColor(0.5f, 0.5f, 0.5f);
-		m_directionLight->SetEyePos();
-
-		initData.m_expandConstantBuffer = m_directionLight->GetLigData();
-		initData.m_expandConstantBufferSize = 44;
-	}
+	//if (DirectionFlg) {
+		//m_directionLight = NewGO<DirectionLight>(0);
+		//m_directionLight->SetLigDirection(1.0f, 1.0f, 1.0f);
+		//m_directionLight->SetLigColor(0.5f, 0.5f, 0.5f);
+		//initData.m_expandConstantBuffer = m_directionLight->GetLigData();
+	//}
 
 	//作成した初期化データをもとにモデルを初期化する、
 	m_model.Init(initData);

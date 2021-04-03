@@ -22,7 +22,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	PhysicsWorld::CreateInstance();
 	CSoundEngine::CreateInstance();
 	CSoundEngine::GetInstance()->Init();
-
+	LightManager::CreateInstance();
 
 	//NewGO<Background2>(0);
 	//NewGO<PhysicsBall>(0);
@@ -50,6 +50,9 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 		//物理ワールドの更新。
 		PhysicsWorld::GetInstance()->Update(g_gameTime->GetFrameDeltaTime());
 		GameObjectManager::GetInstance()->ExecuteRender(renderContext);
+
+		//LightManagerの更新。
+		LightManager::GetInstance()->Update();
 
 		//////////////////////////////////////
 		//絵を描くコードを書くのはここまで！！！

@@ -8,3 +8,5 @@
 #include "FontRender.h"
 #include "tkSoundEngine.h"
 #include "tkSoundSource.h"
+#include "LightManager.h"
+#include "GameTime.h"
