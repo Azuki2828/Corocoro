@@ -30,7 +30,7 @@ bool Background::Start()
 	};*/
 
 
-	NewGO<HelloLevel2D>(2);
+	//NewGO<HelloLevel2D>(2);
 
 	//”wŒi‰æ‘œ‚ğ‰Šú‰»B
 	m_spriteRender = NewGO<SpriteRender>(0);
