@@ -17,5 +17,8 @@ void SpriteRender::Update() {
 }
 
 void SpriteRender::Render(RenderContext& rc) {
-	m_sprite.Draw(rc);
+
+	if (RenderContext::Render_Mode::RenderMode_Normal) {
+		m_sprite.Draw(rc);
+	}
 }

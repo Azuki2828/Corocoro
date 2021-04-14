@@ -25,6 +25,7 @@ struct ModelInitData {
 	IShaderResource* m_expandShaderResoruceView = nullptr;			//ユーザー拡張のシェーダーリソース。
 	Skeleton* m_skeleton = nullptr;									//スケルトン。
 	EnModelUpAxis m_modelUpAxis = enModelUpAxisZ;					//モデルの上方向。
+	DXGI_FORMAT m_colorBufferFormat = DXGI_FORMAT_R8G8B8A8_UNORM;	//レンダリングするカラーバッファのフォーマット。
 };
 
 /// <summary>
@@ -52,6 +53,9 @@ public:
 	/// </summary>
 	/// <param name="renderContext">レンダリングコンテキスト</param>
 	void Draw(RenderContext& renderContext);
+
+	void Draw(RenderContext& rc, Camera& camera);
+
 	/// <summary>
 	/// ワールド行列を取得。
 	/// </summary>

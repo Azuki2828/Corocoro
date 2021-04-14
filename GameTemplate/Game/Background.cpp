@@ -161,6 +161,7 @@ bool Background::Start()
 			m_magnet[sampleNum]->SetState_N(true);
 			m_magnet[sampleNum]->Init("Magnet_Nplus_move_01");
 
+
 			Vector3 movePos_front = objData.position;
 			movePos_front.x -= 900.0f;
 			Vector3 movePos_back = objData.position;

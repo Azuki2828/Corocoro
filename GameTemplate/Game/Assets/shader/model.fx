@@ -9,6 +9,7 @@ struct DirectionalLight
 {
 	float3 direction;
 	float4 color;
+	//float4x4 mLVP;
 };
 
 ////////////////////////////////////////////////
@@ -51,6 +52,8 @@ struct SPSIn{
 	float3 biNormal : BINORMAL;
 	float2 uv 			: TEXCOORD0;	//uv座標。
 	float3 worldPos : TEXCOORD1;    // ワールド空間でのピクセルの座標
+	//ライトビュースクリーン空間での座標を追加。
+	//float4 posInLVP		: TEXCOORD1;	//ライトビュースクリーン空間でのピクセルの座標
 };
 
 ////////////////////////////////////////////////
@@ -109,6 +112,9 @@ SPSIn VSMainCore(SVSIn vsIn, uniform bool hasSkin)
 	psIn.biNormal = mul(m, vsIn.biNormal);
 
 	psIn.uv = vsIn.uv;
+
+	//ライトビュースクリーン空間の座標を計算する。
+	//psIn.posInLVP = mul(mLVP, worldPos);
 
 	return psIn;
 }

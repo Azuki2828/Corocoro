@@ -39,7 +39,8 @@ void Key::InitKey(const char* name) {
 
 	sprintf(filePathtkm, "Assets/modelData/tkm/%s.tkm", name);
 	m_skinModelRender_Key = NewGO<SkinModelRender>(0);
-	m_skinModelRender_Key->SetFileNametkm(filePathtkm);			
+	m_skinModelRender_Key->SetFileNametkm(filePathtkm);	
+	m_skinModelRender_Key->SetShadowReceiverFlag(true);
 	m_skinModelRender_Key->Init(true, false);
 }
 
@@ -50,6 +51,7 @@ void Key::InitDoor(const char* name) {
 	sprintf(filePathtkm, "Assets/modelData/tkm/%s.tkm", name);
 	m_skinModelRender_Door = NewGO<SkinModelRender>(0);
 	m_skinModelRender_Door->SetFileNametkm(filePathtkm);
+	m_skinModelRender_Door->SetShadowReceiverFlag(true);
 	m_skinModelRender_Door->Init(true, false);
 }
 

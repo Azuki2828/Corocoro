@@ -31,7 +31,7 @@ bool HelloLevel2D::Start()
 
 			//return falseにすると、
 			//Level2DクラスのSpriteで画像が読み込まれます。
-			return true;
+			return false;
 		}
 
 
