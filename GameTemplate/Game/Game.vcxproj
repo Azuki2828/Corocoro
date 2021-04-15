@@ -326,7 +326,6 @@
     <ClCompile Include="MoveObject.cpp" />
     <ClCompile Include="PhysicsBall.cpp" />
     <ClCompile Include="Player.cpp" />
-    <ClCompile Include="PostEffect.cpp" />
     <ClCompile Include="Seesaw.cpp" />
     <ClCompile Include="SkinModelRender.cpp" />
     <ClCompile Include="SpriteRender.cpp" />

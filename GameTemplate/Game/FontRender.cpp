@@ -9,7 +9,8 @@ void FontRender::Init(
 	float scale,
 	Vector2 pivot
 ) {
-	m_fontValue.text = text;
+	swprintf_s(m_fontValue.text, text);
+	//m_fontValue.text = text;
 	m_fontValue.position = position;
 	m_fontValue.color = color;
 	m_fontValue.rotation = rotation;
