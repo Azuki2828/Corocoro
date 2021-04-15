@@ -10,6 +10,8 @@
 		};
 	}
 	const Vector2	Sprite::DEFAULT_PIVOT = { 0.5f, 0.5f };
+	//const AlphaBlendMode Sprite::NONE = AlphaBlendMode_None;
+
 	Sprite::~Sprite()
 	{
 	}
@@ -90,19 +92,19 @@
 		{
 			{
 				Vector4(-halfW, -halfH, 0.0f, 1.0f),
-				Vector2(1.0f, 1.0f),
-			},
-			{
-				Vector4(halfW, -halfH, 0.0f, 1.0f),
 				Vector2(0.0f, 1.0f),
 			},
 			{
+				Vector4(halfW, -halfH, 0.0f, 1.0f),
+				Vector2(1.0f, 1.0f),
+			},
+			{
 				Vector4(-halfW, halfH, 0.0f, 1.0f),
-				Vector2(1.0f, 0.0f)
+				Vector2(0.0f, 0.0f)
 			},
 			{
 				Vector4(halfW, halfH, 0.0f, 1.0f),
-				Vector2(0.0f, 0.0f)
+				Vector2(1.0f, 0.0f)
 			}
 
 		};
@@ -130,7 +132,7 @@
 		psoDesc.VS = CD3DX12_SHADER_BYTECODE(m_vs.GetCompiledBlob());
 		psoDesc.PS = CD3DX12_SHADER_BYTECODE(m_ps.GetCompiledBlob());
 		psoDesc.RasterizerState = CD3DX12_RASTERIZER_DESC(D3D12_DEFAULT);
-		psoDesc.RasterizerState.CullMode = D3D12_CULL_MODE_FRONT;
+		psoDesc.RasterizerState.CullMode = D3D12_CULL_MODE_NONE;
 		psoDesc.BlendState = CD3DX12_BLEND_DESC(D3D12_DEFAULT);
 
 		if (initData.m_alphaBlendMode == AlphaBlendMode_Trans) {
@@ -158,7 +160,7 @@
 		psoDesc.RTVFormats[0] = DXGI_FORMAT_R8G8B8A8_UNORM;
 		psoDesc.DSVFormat = DXGI_FORMAT_D32_FLOAT;
 		psoDesc.SampleDesc.Count = 1;
-		psoDesc.RTVFormats[0] = DXGI_FORMAT_R8G8B8A8_UNORM;
+		psoDesc.RTVFormats[0] = initData.m_colorBufferFormat;
 		m_pipelineState.Init(psoDesc);
 	}
 	void Sprite::InitConstantBuffer(const SpriteInitData& initData)
@@ -221,26 +223,32 @@
 		Matrix mTrans, mRot, mScale;
 		mTrans.MakeTranslation(pos);
 		mRot.MakeRotationFromQuaternion(rot);
-		mScale.MakeScaling(scale);
+		Vector3 sca = scale;
+		sca.x *= -1.0f;
+		mScale.MakeScaling(sca);
 		m_world = mPivotTrans * mScale;
 		m_world = m_world * mRot;
 		m_world = m_world * mTrans;
 	}
 	void Sprite::Draw(RenderContext& renderContext)
 	{
+		D3D12_VIEWPORT viewport = renderContext.GetViewport();
 		Matrix viewMatrix = g_camera2D->GetViewMatrix();
-		Matrix projMatrix = g_camera2D->GetProjectionMatrix();
+		Matrix projMatrix;
+		projMatrix.MakeOrthoProjectionMatrix(viewport.Width, viewport.Height, 0.1f, 1.0f);
 
 		m_constantBufferCPU.mvp = m_world * viewMatrix * projMatrix;
-		m_constantBufferCPU.mulColor.x = 1.0f;
-		m_constantBufferCPU.mulColor.y = 1.0f;
-		m_constantBufferCPU.mulColor.z = 1.0f;
-		m_constantBufferCPU.mulColor.w = 1.0f;
+		//m_constantBufferCPU.mulColor.x = 1.0f;
+		//m_constantBufferCPU.mulColor.y = 1.0f;
+		//m_constantBufferCPU.mulColor.z = 1.0f;
+		//m_constantBufferCPU.mulColor.w = 1.0f;
+		m_constantBufferCPU.mulColor = mulColor;
 		m_constantBufferCPU.screenParam.x = g_camera3D->GetNear();
 		m_constantBufferCPU.screenParam.y = g_camera3D->GetFar();
 		m_constantBufferCPU.screenParam.z = FRAME_BUFFER_W;
 		m_constantBufferCPU.screenParam.w = FRAME_BUFFER_H;
 
+		
 		//定数バッファを更新。
 		m_constantBufferGPU.CopyToVRAM(&m_constantBufferCPU);
 		if (m_userExpandConstantBufferCPU != nullptr) {

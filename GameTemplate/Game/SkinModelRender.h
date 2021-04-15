@@ -1,7 +1,5 @@
 #pragma once
 
-class DirectionLight;
-
 class SkinModelRender : public IGameObject
 {
 public:
@@ -16,6 +14,11 @@ public:
 
 	//tksファイルのロード。
 	void SetFileNametks(const char* name) { m_fileNametks = name; }
+
+	//カラーバッファーフォーマットの指定。
+	void SetColorBufferFormat(DXGI_FORMAT colorBufferFormat) {
+		initData.m_colorBufferFormat = colorBufferFormat;
+	}
 
 	//アニメーション初期化関数。
 	void InitAnimation(AnimationClip* animClip, int animNum) {
@@ -49,12 +52,26 @@ public:
 		m_model.UpdateWorldMatrix(pos, rot, sca);
 	}
 
+	//シャドウキャスターフラグを設定。
+	void SetShadowCasterFlag(bool flg) {
+
+		m_shadowCasterFlag = flg;
+	}
+
+	void SetShadowReceiverFlag(bool flg) {
+
+		m_shadowReceiverFlag = flg;
+	}
+
 private:
 	int m_animNum;
 	const char* m_fileNametkm = nullptr;
 	const char* m_fileNametks = nullptr;
+	bool m_shadowCasterFlag = false;	//シャドウキャスターフラグ。
+	bool m_shadowReceiverFlag = false;	//シャドウレシーバーフラグ。
 
 	Model m_model;			//モデル表示処理。
+	Model m_shadowModel;	//シャドウ作成用のモデル。
 	ModelInitData initData;
 	Animation m_animation;	//アニメション再生処理。
 	AnimationClip* m_animClip;
@@ -65,7 +82,6 @@ private:
 	Vector3 m_pos = Vector3::Zero;
 	Vector3 m_sca = Vector3::One;
 	Quaternion m_rot = Quaternion::Identity;
-
 	//struct DirectionLightData {
 	//	Vector3 Direction;
 	//	Vector3 Color;

@@ -7,7 +7,7 @@ bool Key::Start() {
 	m_player = FindGO<Player>("player");
 	
 
-	//Œ®‚ª‚ ‚Á‚½‚çÀ•W‚ð“o˜^B
+	//éµãŒã‚ã£ãŸã‚‰åº§æ¨™ã‚’ç™»éŒ²ã€‚
 	if (m_skinModelRender_Key != nullptr) {
 
 		m_skinModelRender_Key->SetPosition(m_keyPos);
@@ -18,7 +18,7 @@ bool Key::Start() {
 		//);
 	}
 
-	//ƒhƒA‚ª‚ ‚Á‚½‚çÀ•W‚ð“o˜^+“–‚½‚è”»’è‚ð•t‚¯‚éB
+	//ãƒ‰ã‚¢ãŒã‚ã£ãŸã‚‰åº§æ¨™ã‚’ç™»éŒ²+å½“ãŸã‚Šåˆ¤å®šã‚’ä»˜ã‘ã‚‹ã€‚
 	if (m_skinModelRender_Door != nullptr) {
 		m_skinModelRender_Door->SetPosition(m_doorPos);
 		m_skinModelRender_Door->UpdateWorldMatrix();
@@ -39,7 +39,8 @@ void Key::InitKey(const char* name) {
 
 	sprintf(filePathtkm, "Assets/modelData/tkm/%s.tkm", name);
 	m_skinModelRender_Key = NewGO<SkinModelRender>(0);
-	m_skinModelRender_Key->SetFileNametkm(filePathtkm);			
+	m_skinModelRender_Key->SetFileNametkm(filePathtkm);	
+	m_skinModelRender_Key->SetShadowReceiverFlag(true);
 	m_skinModelRender_Key->Init(true, false);
 }
 
@@ -50,6 +51,7 @@ void Key::InitDoor(const char* name) {
 	sprintf(filePathtkm, "Assets/modelData/tkm/%s.tkm", name);
 	m_skinModelRender_Door = NewGO<SkinModelRender>(0);
 	m_skinModelRender_Door->SetFileNametkm(filePathtkm);
+	m_skinModelRender_Door->SetShadowReceiverFlag(true);
 	m_skinModelRender_Door->Init(true, false);
 }
 
@@ -59,28 +61,28 @@ void Key::Update() {
 
 	
 	
-	//3mˆÈ“à‚È‚çŒ®Žæ“¾B
+	//3mä»¥å†…ãªã‚‰éµå–å¾—ã€‚
 	Vector3 keyLength;
 
 	keyLength = m_player->GetPosition() - m_keyPos;
 	if (keyLength.Length() <= 300.0f && !m_player->GetKeyFlg()) {
 		
-		//Œ®‚ðÁ‹Ž‚µ‚ÄŽæ“¾Œø‰Ê‰¹‚ðÄ¶B
+		//éµã‚’æ¶ˆåŽ»ã—ã¦å–å¾—åŠ¹æžœéŸ³ã‚’å†ç”Ÿã€‚
 		DeleteGO(m_skinModelRender_Key);
 		GetKey();
 		
-		//Œ®Žæ“¾ƒtƒ‰ƒO‚ðtrue‚ÉB
+		//éµå–å¾—ãƒ•ãƒ©ã‚°ã‚’trueã«ã€‚
 		m_player->SetKeyFlg(true);
 	}
 
-	//Œ®‚ðŽæ“¾‚µ‚Ä‚¢‚é‚¤‚¦‚ÅƒhƒA‚Æ‚Ì‹——£‚ª2mˆÈ“à‚È‚çƒhƒA‚ð”j‰óB
+	//éµã‚’å–å¾—ã—ã¦ã„ã‚‹ã†ãˆã§ãƒ‰ã‚¢ã¨ã®è·é›¢ãŒ2mä»¥å†…ãªã‚‰ãƒ‰ã‚¢ã‚’ç ´å£Šã€‚
 	if (m_player->GetKeyFlg()) {
 		Vector3 doorLength;
 		doorLength = m_player->GetPosition() - m_doorPos;
 		if (doorLength.Length() <= 200.0f) {
 			DeleteGO(m_skinModelRender_Door);
 
-			//ƒhƒA‚Ì“–‚½‚è”»’è‚ðíœB
+			//ãƒ‰ã‚¢ã®å½“ãŸã‚Šåˆ¤å®šã‚’å‰Šé™¤ã€‚
 			m_physicsStaticObject.Release();
 			m_doorbreakFlg = true;
 		}
@@ -90,13 +92,13 @@ void Key::Update() {
 void Key::GetKey()
 {
 	m_sound = NewGO<CSoundSource>(0);
-	m_sound->Init(L"Assets/sound/KeyGet.wav");		//Œ®Žæ‚Á‚½Žž‚ÌŒø‰Ê‰¹’Ç‰Á
+	m_sound->Init(L"Assets/sound/KeyGet.wav");		//éµå–ã£ãŸæ™‚ã®åŠ¹æžœéŸ³è¿½åŠ 
 	m_sound->SetVolume(1.0f);
 	m_sound->Play(false);
 
 	m_spriteRender = NewGO<SpriteRender>(1);	
 	Vector3 vec = m_keyPos;
 	vec.y += 100.0f;
-	m_spriteRender->SetPosition(vec);								//<•ÏX>Œ®Žæ‚Á‚½‚ç–ß‚é‡}(‰æ‘œ)‚ðo‚·
+	m_spriteRender->SetPosition(vec);								//<å¤‰æ›´>éµå–ã£ãŸã‚‰æˆ»ã‚‹åˆå›³(ç”»åƒ)ã‚’å‡ºã™
 	m_spriteRender->Init("Assets/Image/yazirusi.dds", 256.0f, 256.0f);
 }

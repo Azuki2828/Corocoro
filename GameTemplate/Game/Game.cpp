@@ -5,18 +5,22 @@
 #include "GameTime.h"
 #include "MainCamera.h"
 #include "Key.h"
+#include "GameTime.h"
 
 bool Game::Start() {
 
-	//’nŒ`‚ğ¶¬B
-	m_backGround = NewGO<Background>(0, "background");
-	//ƒvƒŒƒCƒ„[‚ğ¶¬B
+	m_dirLight = NewGO<DirectionLight>(0);
+	m_dirLight->SetLigDirection();
+	m_dirLight->SetLigColor();
+	//ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã‚’ç”Ÿæˆã€‚
 	m_player = NewGO<Player>(0, "player");
-	//ƒJƒƒ‰‚ğ¶¬B
+	//åœ°å½¢ã‚’ç”Ÿæˆã€‚
+	m_backGround = NewGO<Background>(0,"background");
+	//ã‚«ãƒ¡ãƒ©ã‚’ç”Ÿæˆã€‚
 	m_camera = NewGO<MainCamera>(0);
-	//ƒtƒHƒ“ƒgƒŒƒ“ƒ_[‚ğ¶¬
+	//ãƒ•ã‚©ãƒ³ãƒˆãƒ¬ãƒ³ãƒ€ãƒ¼ã‚’ç”Ÿæˆ
 	m_fontRender = NewGO<FontRender>(2);
-	//ŠÔŒo‰ß‚ğ•\¦
+	//æ™‚é–“çµŒéã‚’è¡¨ç¤º
 	m_fontRender->Init(L"Time", { .0f,0.0f });
 
 
@@ -31,7 +35,7 @@ void Game::Update() {
 	if (m_startsoundflg == true) {
 		m_sound = NewGO<CSoundSource>(0);
 
-		m_sound->Init(L"Assets/sound/CountDown.wav");	//ƒXƒ^[‚ÆŠJn‚ÌŒø‰Ê‰¹
+		m_sound->Init(L"Assets/sound/CountDown.wav");	//ã‚¹ã‚¿ãƒ¼ã¨é–‹å§‹æ™‚ã®åŠ¹æœéŸ³
 		m_sound->SetVolume(1.0f);
 		m_sound->Play(false);
 		m_startsoundflg = false;
@@ -40,7 +44,7 @@ void Game::Update() {
 	wchar_t text1[4][64];
 	
 	
-	m_timer++;		//ƒXƒ^[ƒg‚ÌŒø‰Ê‰¹‚ª–Â‚èI‚í‚Á‚½‚çƒ^ƒCƒ€Œv‘ªŠJn‚Ì‚½‚ß‚Ìƒ^ƒCƒ€
+	m_timer++;		//ã‚¹ã‚¿ãƒ¼ãƒˆã®åŠ¹æœéŸ³ãŒé³´ã‚Šçµ‚ã‚ã£ãŸã‚‰ã‚¿ã‚¤ãƒ è¨ˆæ¸¬é–‹å§‹ã®ãŸã‚ã®ã‚¿ã‚¤ãƒ 
 	if (m_timer >= 200 && doorbreakSoundFlg == true) {
 		time += GameTime::GameTimeFunc().GetFrameDeltaTime();
 	}
@@ -51,7 +55,7 @@ void Game::Update() {
 	
 
 	if (m_player->GetdoorbreakFlg() == true && doorbreakSoundFlg == true) {		
-		doorbreakSoundFlg = false;			//ƒS[ƒ‹‚µ‚½‚çŒv‘ªI—¹
+		doorbreakSoundFlg = false;			//ã‚´ãƒ¼ãƒ«ã—ãŸã‚‰è¨ˆæ¸¬çµ‚äº†
 
 	}
 		

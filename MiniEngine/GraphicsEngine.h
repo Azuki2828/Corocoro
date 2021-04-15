@@ -13,6 +13,7 @@
 #include "Camera.h"
 #include "NullTextureMaps.h"
 #include "font/FontEngine.h"
+#include "../GameTemplate/Game/LightManager.h";
 
 /// <summary>
 /// DirectX12に依存するグラフィックスエンジン
@@ -121,6 +122,14 @@ public:
 		return m_frameBufferHeight;
 	}
 	/// <summary>
+	/// フレームバッファに描画するときのビューポートを取得。
+	/// </summary>
+	/// <returns></returns>
+	D3D12_VIEWPORT& GetFrameBufferViewport()
+	{
+		return m_viewport;
+	}
+	/// <summary>
 	/// レンダリングターゲットをフレームバッファに変更する。
 	/// </summary>
 	/// <param name="rc"></param>
@@ -198,6 +207,11 @@ public:
 	FontEngine& GetFontEngine()
 	{
 		return m_fontEngine;
+	}
+
+	LightManager& GetLightManager() {
+
+		return m_lightManager;
 	}
 private:
 	/// <summary>
@@ -305,6 +319,7 @@ private:
 	UINT m_frameBufferHeight = 0;				//フレームバッファの高さ。
 	Camera m_camera2D;							//2Dカメラ。
 	Camera m_camera3D;							//3Dカメラ。
+	LightManager m_lightManager;
 	raytracing::Engine m_raytracingEngine;		//レイトレエンジン。
 	NullTextureMaps m_nullTextureMaps;			//ヌルテクスチャマップ。
 	FontEngine m_fontEngine;					//フォントエンジン。

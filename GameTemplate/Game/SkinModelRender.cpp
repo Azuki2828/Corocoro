@@ -40,25 +40,55 @@ void SkinModelRender::Init(bool DirectionFlg, bool PointLightFlg) {
 		//エラー処理。
 	}
 
-
-	initData.m_fxFilePath = "Assets/shader/model.fx";
-
 	initData.m_vsEntryPointFunc = "VSMain";
 	initData.m_vsSkinEntryPointFunc = "VSSkinMain";
+
+
+	if (!m_shadowReceiverFlag) {
+		initData.m_fxFilePath = "Assets/shader/model.fx";
+		initData.m_expandConstantBuffer = LightManager::GetInstance()->GetLigData();
+		initData.m_expandConstantBufferSize = sizeof * (LightManager::GetInstance()->GetLigData());
+	}
+	else {
+		initData.m_fxFilePath = "Assets/shader/sampleShadowReciever.fx";
+		//initData.m_fxFilePath = "Assets/shader/model.fx";
+		initData.m_vsEntryPointFunc = "VSMain";
+		initData.m_vsSkinEntryPointFunc = "VSMain";
+		//シャドウマップを拡張SRVに設定する。
+		initData.m_expandShaderResoruceView = &RenderTarget::GetShadowMap()->GetRenderTargetTexture();
+
+		////ライトビュープロジェクション行列を拡張定数バッファに設定する。
+		initData.m_expandConstantBuffer = (void*)&(Camera::GetLightCamera()->GetViewProjectionMatrix());
+		initData.m_expandConstantBufferSize = sizeof(Camera::GetLightCamera()->GetViewProjectionMatrix());
+		
+	}
+
 	if (m_skeleton.IsInited()) {
 		initData.m_skeleton = &m_skeleton;
 	}
 //	initData.m_modelUpAxis = enModelUpAxisY;
 
 	//ディレクションライトの設定。
-	if (DirectionFlg) {
-		m_directionLight = NewGO<DirectionLight>(0);
-		m_directionLight->SetLigDirection(1.0f, 1.0f, 1.0f);
-		m_directionLight->SetLigColor(0.5f, 0.5f, 0.5f);
-		m_directionLight->SetEyePos();
+	//if (DirectionFlg) {
+		//m_directionLight = NewGO<DirectionLight>(0);
+		//m_directionLight->SetLigDirection(1.0f, 1.0f, 1.0f);
+		//m_directionLight->SetLigColor(0.5f, 0.5f, 0.5f);
+		//initData.m_expandConstantBuffer = m_directionLight->GetLigData();
+	//}
 
-		initData.m_expandConstantBuffer = m_directionLight->GetLigData();
-		initData.m_expandConstantBufferSize = 44;
+	if (m_shadowCasterFlag) {
+
+		ModelInitData ShadowModelInitData;
+		ShadowModelInitData.m_fxFilePath = "Assets/shader/sampleDrawShadowMap.fx";
+		ShadowModelInitData.m_tkmFilePath = m_fileNametkm;
+		ShadowModelInitData.m_colorBufferFormat = DXGI_FORMAT_R32_FLOAT;
+
+		m_shadowModel.Init(ShadowModelInitData);
+		m_shadowModel.UpdateWorldMatrix(
+			m_pos,
+			g_quatIdentity,
+			g_vec3One
+		);
 	}
 
 	//作成した初期化データをもとにモデルを初期化する、
@@ -76,9 +106,37 @@ void SkinModelRender::Update() {
 
 	
 	m_model.UpdateWorldMatrix(m_pos, m_rot, m_sca);
+	m_shadowModel.UpdateWorldMatrix(
+		m_pos,
+		m_rot,
+		m_sca
+	);
+
+	//カメラの上方向を求める。
+	Vector3 Vec_x = { 1.0f,0.0f,0.0f };
+	Vector3 TarPos = Camera::GetLightCamera()->GetTarget() - Camera::GetLightCamera()->GetPosition();
+	TarPos.Normalize();
+	Vector3 CameraUp;
+
+	CameraUp.Cross(TarPos, Vec_x);
+	CameraUp.Normalize();
+
+	//Camera::GetLightCamera()->SetPosition(Cpos);
+	//Camera::GetLightCamera()->SetTarget(CTar);
+	Camera::GetLightCamera()->SetUp(CameraUp);
+	//Camera::GetLightCamera()->SetUp(1, 0, 0);
+	Camera::GetLightCamera()->Update();
 }
 
 void SkinModelRender::Render(RenderContext& rc)
 {
-	m_model.Draw(rc);
+	auto ligCame = Camera::GetLightCamera();
+	switch (rc.GetRenderMode()) {
+	case RenderContext::Render_Mode::RenderMode_Shadow:
+		m_shadowModel.Draw(rc,*Camera::GetLightCamera());
+		break;
+	case RenderContext::Render_Mode::RenderMode_Normal:
+		m_model.Draw(rc);
+		break;
+	}
 }

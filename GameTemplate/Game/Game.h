@@ -25,6 +25,6 @@ private:
 	Player* m_player = nullptr;
 	Background* m_backGround = nullptr;
 	MainCamera* m_camera = nullptr;
-	
+	DirectionLight* m_dirLight = nullptr;
 };
 

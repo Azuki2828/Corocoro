@@ -51,6 +51,9 @@
     <Filter Include="MiniEngine\sound">
       <UniqueIdentifier>{7e6dafc7-a650-4fef-acc4-e648994b0dc9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ExEngine\level2D">
+      <UniqueIdentifier>{29560232-c86f-4e7f-ad67-ce0136ff033a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">

@@ -122,6 +122,11 @@ public:
 	{
 		m_up = up;
 	}
+
+	void SetUp(float x, float y, float z)
+	{
+		SetUp({ x, y, z });
+	}
 	/// <summary>
 	/// カメラの上方向を取得。
 	/// </summary>
@@ -332,11 +337,22 @@ public:
 	/// <param name="worldPos">ワールド座標</param>
 	void CalcScreenPositionFromWorldPosition(Vector2& screenPos, const Vector3& worldPos) const;
 
+
+	static void CreateLightCamera() {
+
+		m_lightCamera = new Camera;
+	}
+
+	static Camera* GetLightCamera() {
+
+		return m_lightCamera;
+	}
+
 protected:
 	float		m_targetToPositionLen = 1.0f;			//注視点と視点まで距離。
 	Vector3		m_position = {0.0f, 0.0f, 1.0f};		//カメラ位置。
 	Vector3		m_up = g_vec3Up;						//カメラの上方向。
-	Vector3		m_target;								//カメラの中止点。
+	Vector3		m_target = { 0.0f,0.0f,0.0f };			//カメラの中止点。
 	Matrix		m_viewMatrix;							//ビュー行列。
 	Matrix		m_projectionMatrix;						//プロジェクション行列。
 	Matrix		m_viewProjectionMatrix;					//ビュープロジェクション行列。
@@ -353,4 +369,7 @@ protected:
 	EnUpdateProjMatrixFunc m_updateProjMatrixFunc = enUpdateProjMatrixFunc_Perspective;	//プロジェクション行列の更新の仕方。
 	bool		m_isNeedUpdateProjectionMatrix = true;
 	bool		m_isDirty = false;						//ダーティフラグ。
+
+
+	static Camera* m_lightCamera;						//影描画用のライトカメラ。
 };
