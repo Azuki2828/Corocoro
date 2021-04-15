@@ -7,7 +7,7 @@
 
 bool Player::Start()
 {
-	////アニメーションクリップをロードする。
+	///アニメーションクリップをロードする。
 	//m_animationClips[enAnimClip_Idle].Load("Assets/animData/idle.tka");
 	//m_animationClips[enAnimClip_Idle].SetLoopFlag(true);
 	//m_animationClips[enAnimClip_Run].Load("Assets/animData/walk.tka");
@@ -79,17 +79,10 @@ bool Player::Start()
 }
 void Player::Update()
 {
-
 	if (m_backGround == nullptr) {
 		m_backGround = FindGO<Background>("background");
 	}
-	if (g_pad[0]->IsTrigger(enButtonB)) {
-		m_sound = NewGO<CSoundSource>(0);
 
-		m_sound->Init(L"Assets/sound/nextvoice.wav");
-		m_sound->SetVolume(1.0f);
-		m_sound->Play(false);
-	}
 	//重力を設定。
 	//m_movePower.y -= 0.2f;
 
@@ -103,7 +96,7 @@ void Player::Update()
 	float deathPosY = -1000.0f;
 	if (m_backGround != nullptr) {
 		deathPosY = m_backGround->GetDeathPosY();
-  }	
+  }
 	//壁に当たっているなら
 	//if (m_charaCon.IsOnWall()) {
 	//
@@ -133,7 +126,7 @@ void Player::Update()
 	//	}
 	//
 	//}
-	
+	//
 	//剛体の座標と回転を取得。
 	Vector3 pos;
 	Quaternion rot;
@@ -173,6 +166,14 @@ void Player::Update()
 	//Aボタンでプレイヤーの磁力を反転させる
 	if (g_pad[0]->IsTrigger(enButtonA)) {
 		ChangeState();
+
+		//NとSを切り替えるときの効果音再生。
+
+		NSChangeSound = NewGO<CSoundSource>(0);
+
+		NSChangeSound->Init(L"Assets/sound/NSChange.wav");
+		NSChangeSound->SetVolume(0.5f);
+		NSChangeSound->Play(false);
 
 		//アクティブフラグを更新。
 		for (int i = 0; i < enPlayer_Num; i++) {

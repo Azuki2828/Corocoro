@@ -12,6 +12,7 @@ void Level2D::AddMapChip2D(CaslData* caslData)
 {
 	auto mapChip2DPtr = std::make_unique<MapChip2D>();
 	mapChip2DPtr.get()->Init(caslData);
+
 	//std::unique_ptr‚ğˆÚ“®‚³‚¹‚é‚Ístd::move()‚ğg‚¤B
 	m_mapChip2DPtrList.push_back(std::move(mapChip2DPtr));
 }

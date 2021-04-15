@@ -2,10 +2,12 @@
 #include "Key.h"
 #include "Player.h"
 
+#include "Background.h"
+
 bool Key::Start() {
 
 	m_player = FindGO<Player>("player");
-	
+
 
 	//鍵があったら座標を登録。
 	if (m_skinModelRender_Key != nullptr) {
@@ -28,7 +30,7 @@ bool Key::Start() {
 		);
 	}
 
-	
+
 	return true;
 }
 
@@ -39,7 +41,7 @@ void Key::InitKey(const char* name) {
 
 	sprintf(filePathtkm, "Assets/modelData/tkm/%s.tkm", name);
 	m_skinModelRender_Key = NewGO<SkinModelRender>(0);
-	m_skinModelRender_Key->SetFileNametkm(filePathtkm);			
+	m_skinModelRender_Key->SetFileNametkm(filePathtkm);
 	m_skinModelRender_Key->Init(true, false);
 }
 
@@ -64,8 +66,8 @@ void Key::Update() {
 		m_spriteRender->Init("Assets/Image/yazirusi.dds", 256.0f, 256.0f);
 	}
 
-	
-	
+
+
 	//3m以内なら鍵取得。
 	Vector3 keyLength;
 
@@ -73,8 +75,40 @@ void Key::Update() {
 	if (keyLength.Length() <= 200.0f) {
 		DeleteGO(m_skinModelRender_Key);
 
+		if (KeyGetSoundFlag == true) {
+
+			//通常BGMを削除。
+			Background* background = FindGO<Background>("background");
+			DeleteGO(background->GameBGMSound);
+
+			//鍵取得時の効果音再生。
+
+			KeyGetSound = NewGO<CSoundSource>(0);
+
+			KeyGetSound->Init(L"Assets/sound/KeyGet.wav");
+			KeyGetSound->SetVolume(1.0f);
+			KeyGetSound->Play(false);
+
+			//falseにして抜ける。
+			KeyGetSoundFlag = false;
+		}
+
 		//鍵取得フラグをtrueに。
 		m_player->SetKeyFlg(true);
+	}
+
+	//KeyGetSoundFlagがfalseになったら、
+	if(KeyGetSoundFlag ==false) {
+		GetDelay++;
+	}
+
+	if (GetDelay == 120) {
+		//通常BGMのアップテンポ版を再生し変化をつけ、焦らす演出。
+		GameBGMSound_UpTempo = NewGO<CSoundSource>(0);
+
+		GameBGMSound_UpTempo->Init(L"Assets/sound/GameBGM._UpTempo.wav");
+		GameBGMSound_UpTempo->SetVolume(1.0f);
+		GameBGMSound_UpTempo->Play(true);		//ループ再生。
 	}
 
 	//鍵を取得しているうえでドアとの距離が2m以内ならドアを破壊。
@@ -82,6 +116,24 @@ void Key::Update() {
 		Vector3 doorLength;
 		doorLength = m_player->GetPosition() - m_doorPos;
 		if (doorLength.Length() <= 200.0f) {
+
+			if (GameClearSoundFlag == true) {
+
+				//BGMを削除。
+				DeleteGO(GameBGMSound_UpTempo);
+
+				//ゲームクリアのサウンドを再生。
+				GameClearSound = NewGO<CSoundSource>(0);
+
+				GameClearSound->Init(L"Assets/sound/GameClear.wav");
+				GameClearSound->SetVolume(1.0f);
+				GameClearSound->Play(false);
+
+				//falseにして抜ける。
+				GameClearSoundFlag = false;
+			}
+
+			//ドアのモデルデータを削除。
 			DeleteGO(m_skinModelRender_Door);
 
 			//ドアの当たり判定を削除。

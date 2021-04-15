@@ -1,9 +1,6 @@
 #include "stdafx.h"
 #include "system/system.h"
-#include "Game.h"
-#include "Background2.h"
-#include "PhysicsBall.h"
-#include "Seesaw.h"
+#include "TitleScene.h"
 
 ///////////////////////////////////////////////////////////////////
 // ウィンドウプログラムのメイン関数。
@@ -24,11 +21,11 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	CSoundEngine::GetInstance()->Init();
 	LightManager::CreateInstance();
 
-	//NewGO<Background2>(0);
-	//NewGO<PhysicsBall>(0);
-	//NewGO<Seesaw>(0);
-	NewGO<Game>(0);
-	
+
+
+	//タイトル画面からスタート
+	NewGO<TitleScene>(0);
+
 
 	//////////////////////////////////////
 	// 初期化を行うコードを書くのはここまで！！！
@@ -40,12 +37,11 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	{
 		//レンダリング開始。
 		g_engine->BeginFrame();
-		
 
 		//////////////////////////////////////
 		//ここから絵を描くコードを記述する。
 		//////////////////////////////////////
-		
+
 		GameObjectManager::GetInstance()->ExecuteUpdate();
 		//物理ワールドの更新。
 		PhysicsWorld::GetInstance()->Update(g_gameTime->GetFrameDeltaTime());
@@ -54,9 +50,9 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 		//LightManagerの更新。
 		LightManager::GetInstance()->Update();
 
-		//////////////////////////////////////
-		//絵を描くコードを書くのはここまで！！！
-		//////////////////////////////////////
+		//////////////////////////////////
+		//絵を描くコードを書くのはここまで
+		//////////////////////////////////
 		g_engine->EndFrame();
 	}
 	//ゲームオブジェクトマネージャーを削除。

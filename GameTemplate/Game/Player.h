@@ -76,11 +76,12 @@ private:
 	SkinModelRender* m_skinModelRender[enPlayer_Num] = { nullptr };
 	Font m_font;
 
-	CSoundSource* m_sound = nullptr;
+
 	SphereCollider m_sphereCollider;
 	RigidBody m_rigidBody;
 
 	Key* m_key = nullptr;
 	Background* m_backGround = nullptr;
-};
 
+	CSoundSource* NSChangeSound = nullptr;		//NS反転サウンドソース
+};

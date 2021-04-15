@@ -1,6 +1,7 @@
 #pragma once
 
 class Player;
+class Background;
 
 class Key : public IGameObject
 {
@@ -33,5 +34,13 @@ private:
 	Vector3 m_keyPos;		//鍵の座標。
 	Vector3 m_doorPos;		//ドアの座標。
 	SpriteRender* m_spriteRender = nullptr;		//スプライトレンダー
+
+	CSoundSource* GameClearSound = nullptr;		//ゲームクリアのサウンドソース
+	bool GameClearSoundFlag = true;				//ゲームクリアのサウンド再生を1回だけにするフラグ
+	CSoundSource* KeyGetSound = nullptr;		//鍵取得のサウンドソース
+	bool KeyGetSoundFlag = true;	//鍵取得のサウンド再生を1回だけにするフラグ
+	CSoundSource* GameBGMSound_UpTempo = nullptr;	//アップテンポ版BGMのサウンドソース
+
+	int GetDelay = 0;	//鍵を取得してから鍵取得のサウンド再生が終わるまでの時間を待たせる変数。
 };
 

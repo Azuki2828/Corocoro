@@ -3,7 +3,7 @@
 #include "Background.h"
 #include "Player.h"
 #include "MainCamera.h"
-#include "GameTime.h"
+//#include "GameTime.h"
 
 bool Game::Start() {
 
