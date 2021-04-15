@@ -10,7 +10,7 @@ bool Background::Start()
 	int sampleNum = 0;
 
 	m_fontRender = NewGO<FontRender>(2);
-	m_fontRender->Init(L"hello",Vector2{(500.0f),(350.0f)});
+	m_fontRender->Init(L"hello", Vector2{ (500.0f),(350.0f) });
 
 
 	/*const char* MagnetName[] = {
@@ -35,6 +35,7 @@ bool Background::Start()
 	//”wŒi‰æ‘œ‚ğ‰Šú‰»B
 	m_spriteRender = NewGO<SpriteRender>(0);
 	m_spriteRender->SetPosition({ 500.0f,100.0f,0.0f });
+	m_spriteRender->SetMulColor({1.0f, 1.0f, 1.0f, 0.5f});
 	m_spriteRender->Init("Assets/Image/sample.dds", 1980.0f, 1080.0f);
 
 
@@ -160,6 +161,7 @@ bool Background::Start()
 			m_magnet[sampleNum] = NewGO<Magnet>(0);
 			m_magnet[sampleNum]->SetState_N(true);
 			m_magnet[sampleNum]->Init("Magnet_Nplus_move_01");
+
 
 			Vector3 movePos_front = objData.position;
 			movePos_front.x -= 900.0f;

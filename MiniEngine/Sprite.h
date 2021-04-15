@@ -36,6 +36,7 @@ struct SpriteInitData {
 	int m_expandConstantBufferSize = 0;						//ユーザー拡張の定数バッファのサイズ。
 	IShaderResource* m_expandShaderResoruceView = nullptr;	//ユーザー拡張のシェーダーリソース。
 	AlphaBlendMode m_alphaBlendMode = AlphaBlendMode_None;	//アルファブレンディングモード。
+	DXGI_FORMAT m_colorBufferFormat = DXGI_FORMAT_R8G8B8A8_UNORM;	//レンダリングするカラーバッファのフォーマット。
 };
 /// <summary>
 /// スプライトクラス。
@@ -67,8 +68,13 @@ public:
 	/// <summary>
 	/// 描画。
 	/// </summary>
-	/// <param name="renderContext">レンダリングコンテキスト/param>
+	/// <param name="renderContext">レンダリングコンテキスト</param>
 	void Draw(RenderContext& renderContext);
+
+	void SetMulColor(const Vector4& mulCol) {
+
+		mulColor = mulCol;
+	}
 private:
 	/// <summary>
 	/// テクスチャを初期化。
@@ -100,6 +106,7 @@ private:
 	/// <param name="initData"></param>
 	void InitConstantBuffer(const SpriteInitData& initData);
 private:
+	Vector4 mulColor = { 1.0f,1.0f,1.0f,1.0f };		//乗算カラー。
 	IndexBuffer m_indexBuffer;			//インデックスバッファ。
 	VertexBuffer m_vertexBuffer;		//頂点バッファ。
 	int m_numTexture = 0;				//テクスチャの枚数。
