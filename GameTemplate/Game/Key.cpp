@@ -55,14 +55,7 @@ void Key::InitDoor(const char* name) {
 
 void Key::Update() {
 
-	getKeyFlg = m_player->GetKeyFlg();
-	if (getKeyFlg == true) {
-		m_spriteRender = NewGO<SpriteRender>(1);	//<//>1回だけ画像を呼びたい
-		Vector3 vec = m_keyPos;
-		vec.y += 100.0f;
-		m_spriteRender->SetPosition(vec);									//<変更>鍵取ったら戻る合図(画像)を出す
-		m_spriteRender->Init("Assets/Image/yazirusi.dds", 256.0f, 256.0f);
-	}
+	
 
 	
 	
@@ -70,9 +63,12 @@ void Key::Update() {
 	Vector3 keyLength;
 
 	keyLength = m_player->GetPosition() - m_keyPos;
-	if (keyLength.Length() <= 300.0f) {
+	if (keyLength.Length() <= 300.0f && !m_player->GetKeyFlg()) {
+		
+		//鍵を消去して取得効果音を再生。
 		DeleteGO(m_skinModelRender_Key);
-
+		GetKey();
+		
 		//鍵取得フラグをtrueに。
 		m_player->SetKeyFlg(true);
 	}
@@ -86,6 +82,21 @@ void Key::Update() {
 
 			//ドアの当たり判定を削除。
 			m_physicsStaticObject.Release();
+			m_doorbreakFlg = true;
 		}
 	}
+}
+
+void Key::GetKey()
+{
+	m_sound = NewGO<CSoundSource>(0);
+	m_sound->Init(L"Assets/sound/KeyGet.wav");		//鍵取った時の効果音追加
+	m_sound->SetVolume(1.0f);
+	m_sound->Play(false);
+
+	m_spriteRender = NewGO<SpriteRender>(1);	
+	Vector3 vec = m_keyPos;
+	vec.y += 100.0f;
+	m_spriteRender->SetPosition(vec);								//<変更>鍵取ったら戻る合図(画像)を出す
+	m_spriteRender->Init("Assets/Image/yazirusi.dds", 256.0f, 256.0f);
 }

@@ -139,6 +139,10 @@ void Player::Update()
 	Quaternion rot;
 	m_rigidBody.GetPositionAndRotation(pos, rot);
 	//剛体の座標と回転をモデルに反映。
+	if (m_key == nullptr) {
+		m_key = FindGO<Key>("key");
+
+	}
 
 	for (int i = 0; i < enPlayer_Num; i++) {
 		m_pos = pos;
@@ -146,15 +150,18 @@ void Player::Update()
 		if (m_pos.y < deathPosY) {
 
 			if (getKeyFlg) {
-				m_key = FindGO<Key>("key");
 				m_pos = m_key->GetKeyPos();
+
+			
 			}
 			else {
-				m_pos = { 300.0f,300.0f,0.0f };		//<変更>yが500以下になったら初期位置に戻るようにif文追加
+				m_pos = { 300.0f,310.0f,0.0f };	//<変更>yが500以下になったら初期位置に戻るようにif文追加
+				
 			}
 			//for (int i = 0; i < enPlayer_Num; i++) {
 			//	m_skinModelRender[i]->SetPosition(m_pos);
 			//}
+			//m_rigidBody
 		}
 		//m_skinModelRender[i]->UpdateWorldMatrix(pos, rot, Vector3::One);
 		m_skinModelRender[i]->SetPosition(m_pos);
@@ -174,6 +181,12 @@ void Player::Update()
 	//Aボタンでプレイヤーの磁力を反転させる
 	if (g_pad[0]->IsTrigger(enButtonA)) {
 		ChangeState();
+		
+
+		m_sound = NewGO<CSoundSource>(0);
+		m_sound->Init(L"Assets/sound/ChangeState.wav");		//磁力変えた時の効果音追加
+		m_sound->SetVolume(1.0f);
+		m_sound->Play(false);
 
 		//アクティブフラグを更新。
 		for (int i = 0; i < enPlayer_Num; i++) {
@@ -191,6 +204,9 @@ void Player::Update()
 	//toCamere.y = 100.0f;
 	//toCamere.z = -2500.0f;
 	//g_camera3D->SetPosition(pos + toCamere);
+	
+	
+
 }
 
 void Player::ChangeState() {

@@ -8,9 +8,10 @@ bool Background::Start()
 	m_magnet.resize(1);
 	int sampleNum = 0;
 
-	m_fontRender = NewGO<FontRender>(2);
-	m_fontRender->Init(L"hello",Vector2{(500.0f),(350.0f)});
+	//m_fontRender = NewGO<FontRender>(2);
+	//m_fontRender->Init(/*GameTime::GameTimeFunc().GetFrameDeltaTime()*/L"Hello",Vector2{(500.0f),(350.0f)});
 
+	
 
 	/*const char* MagnetName[] = {
 		"Magnet_N_01",
