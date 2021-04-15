@@ -70,6 +70,11 @@ public:
 	/// </summary>
 	/// <param name="renderContext">レンダリングコンテキスト</param>
 	void Draw(RenderContext& renderContext);
+
+	void SetMulColor(const Vector4& mulCol) {
+
+		mulColor = mulCol;
+	}
 private:
 	/// <summary>
 	/// テクスチャを初期化。
@@ -101,6 +106,7 @@ private:
 	/// <param name="initData"></param>
 	void InitConstantBuffer(const SpriteInitData& initData);
 private:
+	Vector4 mulColor = { 1.0f,1.0f,1.0f,1.0f };		//乗算カラー。
 	IndexBuffer m_indexBuffer;			//インデックスバッファ。
 	VertexBuffer m_vertexBuffer;		//頂点バッファ。
 	int m_numTexture = 0;				//テクスチャの枚数。

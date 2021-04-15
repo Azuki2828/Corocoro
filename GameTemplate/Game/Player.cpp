@@ -11,7 +11,7 @@ bool Player::Start()
 	//m_animationClips[enAnimClip_Idle].Load("Assets/animData/idle.tka");
 	//m_animationClips[enAnimClip_Idle].SetLoopFlag(true);
 	//m_animationClips[enAnimClip_Run].Load("Assets/animData/walk.tka");
-	//m_animationClips[enAnimClip_Run].SetLoopFlag(true);s
+	//m_animationClips[enAnimClip_Run].SetLoopFlag(true);
 
 	//キャラコンの初期化。
 	//m_charaCon.Init(50.0f, 100.0f, m_pos);
