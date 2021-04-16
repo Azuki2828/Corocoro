@@ -296,10 +296,29 @@ bool Background::Start()
 	//m_physicsStaticObject.CreateFromModel(m_model, m_model.GetWorldMatrix());
 	return true;
 }
+
+
+Background::~Background()
+{
+	//背景削除。
+	DeleteGO(m_spriteRender);
+	//タイム削除。
+	DeleteGO(m_fontRender);
+}
+
+
 void Background::Update()
 {
+	Key* key = FindGO<Key>("key");
 
+	//ゲームクリアしてから5秒たったら、
+	if (key->GameOverCount > 300) {
+		//クラスを削除。
+		DeleteGO(this);
+	}
 }
+
+
 void Background::Render(RenderContext& rc)
 {
 	m_level.Draw(rc);

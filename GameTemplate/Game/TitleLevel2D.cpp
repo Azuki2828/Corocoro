@@ -8,6 +8,7 @@ bool TitleLevel2D::Start()
 
 	//TitleSceneレベルを読み込む。
 	m_level2D.Init("Assets/level2D/TitleScene.casl", [&](Level2DObjectData& objdata) {
+
 		//名前がBackScreenだったら、
 		if (objdata.EqualObjectName("BackScreen")) {
 

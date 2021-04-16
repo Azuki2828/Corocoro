@@ -8,6 +8,8 @@ class Key : public IGameObject
 public:
 	bool Start()override final;
 
+	~Key();
+
 	//鍵を初期化する関数。
 	void InitKey(const char* name);
 
@@ -24,6 +26,13 @@ public:
 	void SetPositionDoor(Vector3 pos) { m_doorPos = pos; }
 
 	void Update()override final;
+
+
+	//ゲームクリアしてからの秒数をカウント
+	//他クラスでもそのカウント時間を参照したいからpublicに入れている。
+	int GameOverCount = 0;
+
+
 private:
 	SkinModelRender* m_skinModelRender_Key = nullptr;
 	SkinModelRender* m_skinModelRender_Door = nullptr;
@@ -42,5 +51,10 @@ private:
 	CSoundSource* GameBGMSound_UpTempo = nullptr;	//アップテンポ版BGMのサウンドソース
 
 	int GetDelay = 0;	//鍵を取得してから鍵取得のサウンド再生が終わるまでの時間を待たせる変数。
+
+	FontRender* m_fontRender = nullptr;	//Clear!!文字表示
+
+	bool GameOverFlag = false;
+
 };
 

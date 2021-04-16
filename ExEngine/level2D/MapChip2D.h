@@ -32,6 +32,5 @@ private:
 	Quaternion m_rotation;				//回転。
 	Vector3 m_scale = g_vec3One;	//大きさ。
 	Sprite m_sprite;						//スプライト。
-
 };
 

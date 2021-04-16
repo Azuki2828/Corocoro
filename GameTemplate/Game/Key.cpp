@@ -3,6 +3,7 @@
 #include "Player.h"
 
 #include "Background.h"
+#include "ResultScene.h"
 
 bool Key::Start() {
 
@@ -32,6 +33,10 @@ bool Key::Start() {
 
 
 	return true;
+}
+
+Key::~Key() {
+
 }
 
 
@@ -133,11 +138,29 @@ void Key::Update() {
 				GameClearSoundFlag = false;
 			}
 
+			//Clear文字表示
+			m_fontRender = NewGO<FontRender>(2);
+			m_fontRender->Init(L"Clear!!", Vector2{ (50.0f),(25.0f) });
+
 			//ドアのモデルデータを削除。
 			DeleteGO(m_skinModelRender_Door);
 
 			//ドアの当たり判定を削除。
 			m_physicsStaticObject.Release();
+
+			GameOverFlag = true;
+		}
+	}
+
+	if (GameOverFlag == true) {
+		//5秒カウント
+		GameOverCount++;
+		//ゲームクリアしてから5秒たったら、
+		if (GameOverCount > 300) {
+			//Keyクラスを削除。
+			DeleteGO(this);
+			//リザルトシーンクラスを呼び出す。
+			NewGO<ResultScene>(0);
 		}
 	}
 }

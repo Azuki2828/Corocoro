@@ -13,5 +13,6 @@ private:
 
 	//タイトルBGMのサウンドソース
 	CSoundSource* TitleBGMSound = nullptr;
-	SpriteRender* m_spriteRender = nullptr;
+
+	//SpriteRender* m_spriteRender = nullptr;
 };

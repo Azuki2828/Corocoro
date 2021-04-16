@@ -12,6 +12,7 @@ class Background : public IGameObject
 {
 public:
 	bool Start() override;
+	~Background();
 	void Update() override;
 	void Render(RenderContext& rc)override;
 	float GetDeathPosY() { return deathPosY; }
