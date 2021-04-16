@@ -1,12 +1,15 @@
 #pragma once
 
 class Key;
+#include "Key.h"
+
 class Background;
 
 class Player : public IGameObject
 {
 private:
 	bool getKeyFlg = false;		//鍵取得フラグ。
+	bool m_keySoundFlg = false;
 
 public:
 	bool Start() override;
@@ -29,6 +32,13 @@ public:
 
 	void SetKeyFlg(bool flg) { getKeyFlg = flg; }
 	bool GetKeyFlg() { return getKeyFlg; }
+
+	bool GetdoorbreakFlg() {
+		if (m_key == nullptr) {
+			return false;
+		}
+		return m_key->GetdoorbreakFlg(); 
+	};
 
 private:
 	/// <summary>
