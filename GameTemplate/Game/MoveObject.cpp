@@ -4,6 +4,7 @@
 bool MoveObject::Start() {
 	
 	m_skinModelRender = NewGO<SkinModelRender>(0);
+	m_skinModelRender->SetShadowCasterFlag(true);
 	return true;
 }
 

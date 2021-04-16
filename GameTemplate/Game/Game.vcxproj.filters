@@ -278,6 +278,7 @@
     <ClCompile Include="Game.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
+<<<<<<< HEAD
     <ClCompile Include="..\..\ExEngine\level2D\Level2D.cpp">
       <Filter>ExEngine\level2D</Filter>
     </ClCompile>
@@ -291,9 +292,12 @@
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="LightManager.cpp">
+=======
+    <ClCompile Include="Result.cpp">
+>>>>>>> 7e1a3462ab2f421a27cd73b24103f1a7cb3a3b77
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="LightBase.cpp">
+    <ClCompile Include="SaveData.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="TitleScene.cpp">
@@ -559,6 +563,7 @@
     <ClInclude Include="Game.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
+<<<<<<< HEAD
     <ClInclude Include="..\..\ExEngine\level2D\CaslFile.h">
       <Filter>ExEngine\level2D</Filter>
     </ClInclude>
@@ -572,9 +577,12 @@
       <Filter>ソース ファイル</Filter>
     </ClInclude>
     <ClInclude Include="LightManager.h">
+=======
+    <ClInclude Include="Result.h">
+>>>>>>> 7e1a3462ab2f421a27cd73b24103f1a7cb3a3b77
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="LightBase.h">
+    <ClInclude Include="SaveData.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="TitleScene.h">

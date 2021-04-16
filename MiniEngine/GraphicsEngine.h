@@ -122,6 +122,14 @@ public:
 		return m_frameBufferHeight;
 	}
 	/// <summary>
+	/// フレームバッファに描画するときのビューポートを取得。
+	/// </summary>
+	/// <returns></returns>
+	D3D12_VIEWPORT& GetFrameBufferViewport()
+	{
+		return m_viewport;
+	}
+	/// <summary>
 	/// レンダリングターゲットをフレームバッファに変更する。
 	/// </summary>
 	/// <param name="rc"></param>

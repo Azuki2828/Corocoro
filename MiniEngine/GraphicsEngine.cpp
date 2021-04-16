@@ -436,7 +436,6 @@ void GraphicsEngine::BeginRender()
 	//レンダリングコンテキストもリセット。
 	m_renderContext.Reset(m_commandAllocator, m_pipelineState);
 	//ビューポートを設定。
-	//ビューポートを設定。
 	m_renderContext.SetViewport(m_viewport);
 	//シザリング矩形を設定。
 	m_renderContext.SetScissorRect(m_scissorRect);

@@ -41,6 +41,7 @@ public:
 		sprintf(filePathtkm, "Assets/modelData/tkm/%s.tkm", magnetName);
 		m_skinModelRender = NewGO<SkinModelRender>(0);
 		m_skinModelRender->SetFileNametkm(filePathtkm);
+		m_skinModelRender->SetShadowReceiverFlag(true);
 		m_skinModelRender->Init(true, false);
 	}
 private:

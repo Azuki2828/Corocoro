@@ -9,7 +9,8 @@ void FontRender::Init(
 	float scale,
 	Vector2 pivot
 ) {
-	m_fontValue.text = text;
+	swprintf_s(m_fontValue.text, text);
+	//m_fontValue.text = text;
 	m_fontValue.position = position;
 	m_fontValue.color = color;
 	m_fontValue.rotation = rotation;
@@ -19,16 +20,18 @@ void FontRender::Init(
 
 void FontRender::Render(RenderContext& rc) {
 
-	m_font.Begin(rc);
+	if (RenderContext::Render_Mode::RenderMode_Normal) {
+		m_font.Begin(rc);
 
-	m_font.Draw(
-		m_fontValue.text,
-		m_fontValue.position,
-		m_fontValue.color,
-		m_fontValue.rotation,
-		m_fontValue.scale,
-		m_fontValue.pivot
-	);
+		m_font.Draw(
+			m_fontValue.text,
+			m_fontValue.position,
+			m_fontValue.color,
+			m_fontValue.rotation,
+			m_fontValue.scale,
+			m_fontValue.pivot
+		);
 
-	m_font.End(rc);
+		m_font.End(rc);
+	}
 }

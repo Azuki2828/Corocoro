@@ -5,14 +5,23 @@ class FontRender : public IGameObject
 {
 public:
 	struct FontValue {
-		const wchar_t* text;
+		wchar_t text[256];
 		Vector2 position;
 		Vector4 color;
 		float rotation;
 		float scale;
 		Vector2 pivot;
+		
 	};
-
+	void SetText(const wchar_t* text)
+	{
+		//wchar_t t[256];
+		swprintf_s(m_fontValue.text, text);
+		//m_fontValue.text = text;
+	}
+	void SetPosition(const Vector2& pos) {
+		m_fontValue.position = pos;
+	}
 	//フォントの初期化。
 	void Init(
 		const wchar_t* text,
@@ -27,6 +36,11 @@ public:
 	void SetShadowParam(bool isDrawShadow, float shadowOffset, const Vector4& shadowColor)
 	{
 		m_font.SetShadowParam(isDrawShadow, shadowOffset, shadowColor);
+	}
+
+	void SetText(const wchar_t* text)
+	{
+		m_fontValue.text = text;
 	}
 
 	//void Draw(FontValue& fontValue);

@@ -13,6 +13,12 @@ namespace raytracing{
 /// </summary>
 class RenderContext {
 public:
+	typedef enum {
+		RenderMode_Normal,
+		RenderMode_Shadow,
+
+		RenderMode_Num
+	}Render_Mode;
 	/// <summary>
 	/// 初期化。
 	/// </summary>
@@ -64,6 +70,11 @@ public:
 	void SetViewport(D3D12_VIEWPORT& viewport)
 	{
 		m_commandList->RSSetViewports(1, &viewport);
+		m_viewport = viewport;
+	}
+	D3D12_VIEWPORT GetViewport()
+	{
+		return m_viewport;
 	}
 	/// <summary>
 	/// シザリング矩形を設定
@@ -172,11 +183,35 @@ public:
 		m_commandList->OMSetRenderTargets(1, &rtvHandle, FALSE, &dsvHandle);
 	}
 	/// <summary>
+	/// レンダリングターゲットをスロット0に設定する。
+	/// </summary>
+	/// <remarks>
+	/// 本関数はビューポートの設定を行いません。
+	/// ユーザー側で適切なビューポートを指定する必要があります。
+	/// </remarks>
+	/// <param name="renderTarget">レンダリングターゲット</param>
+	void SetRenderTarget(RenderTarget& renderTarget)
+	{
+		RenderTarget* rtArray[] = { &renderTarget };
+		SetRenderTargets(1, rtArray);
+	}
+
+	/// <summary>
 	/// レンダリングターゲットとビューポートを同時に設定する。
 	/// </summary>
 	/// <param name="numRT"></param>
 	/// <param name="renderTarget"></param>
 	void SetRenderTargets(UINT numRT, RenderTarget* renderTargets[]);
+
+	/// <summary>
+	/// レンダリングターゲットとビューポートを同時に設定する。
+	/// </summary>
+	/// <remarks>
+	/// この関数を利用するとレンダリングターゲットと同じ幅と高さのビューポートが設定されます。
+	/// </remarks>
+	/// <param name="renderTarget">レンダリングターゲット</param>
+	void SetRenderTargetAndViewport(RenderTarget& renderTarget);
+
 	/// <summary>
 	/// レンダリングターゲットビューのクリア。
 	/// </summary>
@@ -190,7 +225,16 @@ public:
 	{
 		m_commandList->ClearRenderTargetView(rtvHandle, clearColor, 0, nullptr);
 	}
-
+	/// <summary>
+	/// レンダリングターゲットのクリア。
+	/// </summary>
+	/// <param name="renderTarget"></param>
+	void ClearRenderTargetView(RenderTarget& renderTarget)
+	{
+		RenderTarget* rtArray[] = { &renderTarget };
+		ClearRenderTargetViews(1, rtArray);
+	}
+	
 	/// <summary>
 	/// デプスステンシルビューをクリア
 	/// </summary>
@@ -318,6 +362,18 @@ public:
 	{
 		m_commandList->CopyResource(pDst, pSrc);
 	}
+
+
+
+	void SetRenderMode(Render_Mode mode) {
+
+		m_renderMode = mode;
+	}
+
+	Render_Mode GetRenderMode() {
+
+		return m_renderMode;
+	}
 private:
 
 	/// <summary>
@@ -357,5 +413,8 @@ private:
 	ID3D12DescriptorHeap* m_descriptorHeaps[MAX_DESCRIPTOR_HEAP];			//ディスクリプタヒープの配列。
 	ConstantBuffer* m_constantBuffers[MAX_CONSTANT_BUFFER] = { nullptr };	//定数バッファの配列。
 	Texture* m_shaderResources[MAX_SHADER_RESOURCE] = { nullptr };			//シェーダーリソースの配列。
+	D3D12_VIEWPORT m_viewport;
+
+	Render_Mode m_renderMode = RenderMode_Normal;
 };
 

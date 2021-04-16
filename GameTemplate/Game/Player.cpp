@@ -35,6 +35,8 @@ bool Player::Start()
 		m_skinModelRender[i]->SetFileNametkm(tkmFilePaths[i]);
 		//tksファイルをロード。
 		m_skinModelRender[i]->SetFileNametks(tksFilePaths[i]);
+		m_skinModelRender[i]->SetShadowCasterFlag(true);
+		m_skinModelRender[i]->SetColorBufferFormat(DXGI_FORMAT_R32_FLOAT);
 		m_skinModelRender[i]->Init(true, false);
 		if (i == enPlayer_1) {
 			//プレイヤー1は最初は非アクティブ。
@@ -137,6 +139,10 @@ void Player::Update()
 	Quaternion rot;
 	m_rigidBody.GetPositionAndRotation(pos, rot);
 	//剛体の座標と回転をモデルに反映。
+	if (m_key == nullptr) {
+		m_key = FindGO<Key>("key");
+
+	}
 
 	for (int i = 0; i < enPlayer_Num; i++) {
 		m_pos = pos;
@@ -144,13 +150,14 @@ void Player::Update()
 		if (m_pos.y < deathPosY) {
 
 			if (getKeyFlg) {
-				m_key = FindGO<Key>("key");
 				m_pos = m_key->GetKeyPos();
+
+			
 			}
 			else {
-				m_pos = { 300.0f,300.0f,0.0f };		//<変更>yが500以下になったら初期位置に戻るようにif文追加
+				m_pos = { 300.0f,310.0f,0.0f };	//<変更>yが500以下になったら初期位置に戻るようにif文追加
+				
 			}
-
 			m_rigidBody.SetPositionAndRotation(m_pos, m_rot);
 		}
 		//m_skinModelRender[i]->UpdateWorldMatrix(pos, rot, Vector3::One);
@@ -171,6 +178,12 @@ void Player::Update()
 	//Aボタンでプレイヤーの磁力を反転させる
 	if (g_pad[0]->IsTrigger(enButtonA)) {
 		ChangeState();
+		
+
+		m_sound = NewGO<CSoundSource>(0);
+		m_sound->Init(L"Assets/sound/ChangeState.wav");		//磁力変えた時の効果音追加
+		m_sound->SetVolume(1.0f);
+		m_sound->Play(false);
 
 		//NとSを切り替えるときの効果音再生。
 
@@ -191,11 +204,25 @@ void Player::Update()
 		}
 	}
 
+	Vector3 m_lightCameraTar = m_pos;
+
+	Vector3 m_lightCameraPos = m_lightCameraTar;
+	//m_lightCameraPos.z += 5.0f;
+	m_lightCameraPos.y += 500.0f;
+
+	//Vector3 Cpos = { 300.0f,400.0f,0.0f };
+	//Vector3 CTar = { 300.0f,300.0f,0.0f };
+
+	Camera::GetLightCamera()->SetPosition(m_lightCameraPos);
+	Camera::GetLightCamera()->SetTarget(m_lightCameraTar);
+
 	//Vector3 toCamere = g_camera3D->GetPosition() - g_camera3D->GetTarget();
 	//g_camera3D->SetTarget(pos);
 	//toCamere.y = 100.0f;
 	//toCamere.z = -2500.0f;
 	//g_camera3D->SetPosition(pos + toCamere);
+	
+	
 
 }
 
@@ -210,21 +237,23 @@ void Player::ChangeState() {
 
 void Player::Render(RenderContext& rc) {
 
-	wchar_t numtext[5][64];
+	if (RenderContext::Render_Mode::RenderMode_Normal) {
+		wchar_t numtext[5][64];
 
-	swprintf_s(numtext[0], L"State:%d", pState);
-	//swprintf_s(numtext[1], L"vit+%d", m_plus_vit);
+		swprintf_s(numtext[0], L"State:%d", pState);
+		//swprintf_s(numtext[1], L"vit+%d", m_plus_vit);
 
-	m_font.Begin(rc);
+		m_font.Begin(rc);
 
-	m_font.Draw(
-		numtext[0],
-		{ 120.0f, 10.0f },
-		{ 0.55f,0.0f,0.0f,1.0f },
-		0.0f,
-		0.4f,
-		{ 0.5f,0.5f }
-	);
+		m_font.Draw(
+			numtext[0],
+			{ 120.0f, 10.0f },
+			{ 0.55f,0.0f,0.0f,1.0f },
+			0.0f,
+			0.4f,
+			{ 0.5f,0.5f }
+		);
 
-	m_font.End(rc);
+		m_font.End(rc);
+	}
 }

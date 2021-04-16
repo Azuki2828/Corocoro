@@ -29,6 +29,34 @@ public:
 		DXGI_FORMAT depthStencilFormat,
 		float clearColor[4] = nullptr
 	);
+
+	static void CreateMainRenderTarget() {
+
+		m_mainRenderTarget = new RenderTarget;
+	}
+
+	static RenderTarget* GetMainRenderTarget() {
+
+		return m_mainRenderTarget;
+	}
+	static void CreateShadowMap() {
+		m_shadowMap = new RenderTarget;
+
+		float clearColor[4] = { 1.0f,1.0f,1.0f,1.0f };
+		m_shadowMap->Create(
+			1024,
+			1024,
+			1,
+			1,
+			DXGI_FORMAT_R32_FLOAT,
+			DXGI_FORMAT_D32_FLOAT,
+			clearColor
+		);
+	}
+	static RenderTarget* GetShadowMap() {
+
+		return m_shadowMap;
+	}
 	/// <summary>
 	/// CPU側のレンダリングターゲットのディスクリプタハンドルを取得。
 	/// </summary>
@@ -76,6 +104,14 @@ public:
 	int GetHeight() const
 	{
 		return m_height;
+	}
+	/// <summary>
+	/// カラーバッファのフォーマットを取得。
+	/// </summary>
+	/// <returns></returns>
+	DXGI_FORMAT GetColorBufferFormat() const
+	{
+		return m_renderTargetTexture.GetFormat();
 	}
 	const float* GetRTVClearColor() const
 	{
@@ -136,6 +172,8 @@ private:
 	/// <returns>trueが返ってｋチアら成功。</returns>
 	void CreateDescriptor(ID3D12Device5*& d3dDevice);
 private:
+	static RenderTarget* m_shadowMap;
+	static RenderTarget* m_mainRenderTarget;
 	Texture m_renderTargetTexture;
 	ID3D12Resource* m_renderTargetTextureDx12;	//レンダリングターゲットとなるテクスチャ。
 	ID3D12Resource* m_depthStencilTexture;		//深度ステンシルバッファとなるテクスチャ。
