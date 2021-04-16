@@ -116,11 +116,11 @@ void Key::Update() {
 		GameBGMSound_UpTempo->Play(true);		//ループ再生。
 	}
 
-	//鍵を取得しているうえでドアとの距離が2m以内ならドアを破壊。
+	//鍵を取得しているうえでドアとの距離が3m以内ならドアを破壊。
 	if (m_player->GetKeyFlg()) {
 		Vector3 doorLength;
 		doorLength = m_player->GetPosition() - m_doorPos;
-		if (doorLength.Length() <= 200.0f) {
+		if (doorLength.Length() <= 300.0f) {
 
 			if (GameClearSoundFlag == true) {
 
@@ -156,9 +156,7 @@ void Key::Update() {
 		//5秒カウント
 		GameOverCount++;
 		//ゲームクリアしてから5秒たったら、
-		if (GameOverCount > 300) {
-			//Keyクラスを削除。
-			DeleteGO(this);
+		if (GameOverCount == 100) {
 			//リザルトシーンクラスを呼び出す。
 			NewGO<ResultScene>(0);
 		}

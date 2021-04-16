@@ -8,4 +8,6 @@ public:
 	void Update();
 private:
 	SpriteRender* m_spriteRender = nullptr;		//スプライトレンダー
+
+	FontRender* m_fontRender = nullptr;
 };

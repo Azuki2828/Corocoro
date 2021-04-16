@@ -10,6 +10,7 @@ private:
 
 public:
 	bool Start() override;
+	~Player();
 	void Update() override;
 
 	//現在のステートを取得する関数。

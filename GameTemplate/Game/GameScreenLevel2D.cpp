@@ -22,9 +22,11 @@ bool GameScreenLevel2D::Start()
 			data.m_width = objdata.width;
 			data.m_height = objdata.height;
 			data.m_alphaBlendMode = AlphaBlendMode_Trans;
-
+			m_sprite = NewGO<SpriteRender>(0);
 			//Sprite初期化オブジェクトを使用して、Spriteを初期化する
-			m_sprite.Init(data);
+			m_sprite->Init(objdata.ddsFilePath, objdata.width, objdata.height, AlphaBlendMode_Trans);
+			m_sprite->SetPosition(objdata.position);
+			m_sprite->SetScale(objdata.scale);
 
 			//座標を取得する。
 			m_position = objdata.position;
@@ -47,9 +49,12 @@ bool GameScreenLevel2D::Start()
 			data.m_width = objdata.width;
 			data.m_height = objdata.height;
 			data.m_alphaBlendMode = AlphaBlendMode_Trans;
-
+			m_sprite1 = NewGO<SpriteRender>(0);
 			//Sprite初期化オブジェクトを使用して、Spriteを初期化する
-			m_sprite.Init(data);
+			m_sprite1->Init(objdata.ddsFilePath, objdata.width, objdata.height, AlphaBlendMode_Trans);
+			m_sprite1->SetPosition(objdata.position);
+			m_sprite1->SetScale(objdata.scale);
+
 
 			//座標を取得する。
 			m_position = objdata.position;
@@ -69,16 +74,22 @@ bool GameScreenLevel2D::Start()
 	return true;
 }
 
+GameScreenLevel2D::~GameScreenLevel2D()
+{
+	DeleteGO(m_sprite);
+	DeleteGO(m_sprite1);
+}
+
 void GameScreenLevel2D::Update()
 {
-	m_sprite.Update(m_position, Quaternion::Identity, m_scale);
+	//m_sprite.Update(m_position, Quaternion::Identity, m_scale);
 	//レベル2DクラスのSpriteの更新処理。
 	m_level2D.Update();
 }
 
 void GameScreenLevel2D::Render(RenderContext& rc)
 {
-	m_sprite.Draw(rc);
+	//m_sprite.Draw(rc);
 	//レベル2DクラスのSpriteの描画処理。
 	m_level2D.Draw(rc);
 }

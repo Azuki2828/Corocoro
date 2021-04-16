@@ -7,6 +7,7 @@ class MainCamera;
 class Game : public IGameObject
 {
 	bool Start()override final;
+	~Game();
 	void Update()override final;
 
 	Player* m_player = nullptr;

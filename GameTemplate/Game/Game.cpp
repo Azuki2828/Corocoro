@@ -3,6 +3,8 @@
 #include "Background.h"
 #include "Player.h"
 #include "MainCamera.h"
+
+
 //#include "GameTime.h"
 
 bool Game::Start() {
@@ -18,6 +20,10 @@ bool Game::Start() {
 	m_camera = NewGO<MainCamera>(0);
 
 	return true;
+}
+
+Game::~Game()
+{
 }
 
 void Game::Update() {

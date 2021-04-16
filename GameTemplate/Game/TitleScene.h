@@ -13,6 +13,7 @@ private:
 
 	//タイトルBGMのサウンドソース
 	CSoundSource* TitleBGMSound = nullptr;
+	//決定効果音のサウンドソース
+	CSoundSource* DecisionSound = nullptr;
 
-	//SpriteRender* m_spriteRender = nullptr;
 };

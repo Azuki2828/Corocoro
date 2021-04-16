@@ -1,7 +1,7 @@
 6
-10,BackScreen,33,../../../../../_UI/BackScreen.jpg,0.0,0.0,1600,900,9,0.85,0.85,14,BackScreen.dds
-4,Rule,35,../../../../../_UI/03「あそびかた」ボタン.png,480.0,-30.0,2133,2133,10,0.15,0.15,16,03「あそびかた」ボタン.dds
-7,Setting,34,../../../../../_UI/04「せってい」ボタン.png,200.0,-200.0,2133,2133,10,0.15,0.15,15,04「せってい」ボタン.dds
-3,End,36,../../../../../_UI/05「しゅうりょう」ボタン.png,480.0,-200.0,2133,2133,10,0.15,0.15,17,05「しゅうりょう」ボタン.dds
-5,Title,39,../../../../../_UI/磁力反転コロコーロ_タイトルロゴ.png,-50.0,160.0,2133,2133,10,0.7,0.7,20,磁力反転コロコーロ_タイトルロゴ.dds
-5,Start,34,../../../../../_UI/12「はじめる」ボタン.png,200.0,-30.0,2133,2133,10,0.15,0.15,15,12「はじめる」ボタン.dds
+10,BackScreen,73,C:/Users/bm20b04/Desktop/MyGame/GameTemplate/Game/Resource/BackScreen.jpg,0.0,0.0,1024,512,0,1.3,1.5,14,BackScreen.dds
+5,Title,68,C:/Users/bm20b04/Desktop/MyGame/GameTemplate/Game/Resource/Title.png,-110.0,170.0,2048,2048,1,0.7,0.7,9,Title.dds
+3,End,66,C:/Users/bm20b04/Desktop/MyGame/GameTemplate/Game/Resource/End.png,460.0,-190.0,2048,2048,1,0.2,0.2,7,End.dds
+7,Setting,70,C:/Users/bm20b04/Desktop/MyGame/GameTemplate/Game/Resource/Setting.png,140.0,-190.0,2048,2048,1,0.2,0.2,11,Setting.dds
+5,Start,68,C:/Users/bm20b04/Desktop/MyGame/GameTemplate/Game/Resource/Start.png,140.0,-20.0,2048,2048,1,0.2,0.2,9,Start.dds
+4,Rule,67,C:/Users/bm20b04/Desktop/MyGame/GameTemplate/Game/Resource/Rule.png,460.0,-20.0,2048,2048,1,0.2,0.2,8,Rule.dds
