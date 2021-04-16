@@ -2,17 +2,16 @@
 #include "Background.h"
 #include "Magnet.h"
 #include "Key.h"
-#include "HelloLevel2D.h"
+#include "GameScreenLevel2D.h"
 
 bool Background::Start()
 {
 	m_magnet.resize(1);
 	int sampleNum = 0;
 
-	//m_fontRender = NewGO<FontRender>(2);
-	//m_fontRender->Init(/*GameTime::GameTimeFunc().GetFrameDeltaTime()*/L"Hello",Vector2{(500.0f),(350.0f)});
+	//TimeBackスプライトの上に表示させたいからゲーム画面のUIレイヤー1に+1した2にしている。
 	m_fontRender = NewGO<FontRender>(2);
-	m_fontRender->Init(L"hello", Vector2{ (500.0f),(350.0f) });
+	m_fontRender->Init(L"hello",Vector2{(-535.0f),(310.0f)});
 
 	
 
@@ -32,14 +31,13 @@ bool Background::Start()
 		"MagnetHoge",
 	};*/
 
-
-	//NewGO<HelloLevel2D>(2);
+	//ゲーム画面のUI表示
+	NewGO<GameScreenLevel2D>(1);
 
 	//背景画像を初期化。
 	m_spriteRender = NewGO<SpriteRender>(0);
-	m_spriteRender->SetPosition({ 500.0f,100.0f,0.0f });
-	m_spriteRender->SetMulColor({1.0f, 1.0f, 1.0f, 0.5f});
-	m_spriteRender->Init("Assets/Image/sample.dds", 1980.0f, 1080.0f);
+	m_spriteRender->SetPosition({ 0.0f,0.0f,0.0f });
+	m_spriteRender->Init("Assets/image/BackScreen.dds", 1300.0f, 750.0f);
 
 
 	//これがlevelのLoadの基盤。
@@ -276,22 +274,53 @@ bool Background::Start()
 		}
 		return false;//levelのオブジェクトをそのままロード。
 	});
+
+
+	//BGM再生。
+
+	GameBGMSound = NewGO<CSoundSource>(0);
+
+	GameBGMSound->Init(L"Assets/sound/GameBGM.wav");
+	GameBGMSound->SetVolume(1.0f);
+	GameBGMSound->Play(true);			//ループ再生。
+
+
+
 	//ModelInitData initData;
 	//initData.m_tkmFilePath = "Assets/modelData/bg/bg.tkm";
-	////シェーダーファイルのファイルパスを指定する。
+	///シェーダーファイルのファイルパスを指定する。
 	//initData.m_fxFilePath = "Assets/shader/model.fx";
-	////頂点シェーダーのエントリーポイント
+	///頂点シェーダーのエントリーポイント
 	//initData.m_vsEntryPointFunc = "VSMain";
 	//m_model.Init(initData);
 	//
-	////メッシュコライダーを作成。
+	///メッシュコライダーを作成。
 	//m_physicsStaticObject.CreateFromModel(m_model, m_model.GetWorldMatrix());
 	return true;
 }
+
+
+Background::~Background()
+{
+	//背景削除。
+	DeleteGO(m_spriteRender);
+	//タイム削除。
+	DeleteGO(m_fontRender);
+}
+
+
 void Background::Update()
 {
-	
+	Key* key = FindGO<Key>("key");
+
+	//ゲームクリアしてから5秒たったら、
+	if (key->GameOverCount > 300) {
+		//クラスを削除。
+		DeleteGO(this);
+	}
 }
+
+
 void Background::Render(RenderContext& rc)
 {
 	m_level.Draw(rc);

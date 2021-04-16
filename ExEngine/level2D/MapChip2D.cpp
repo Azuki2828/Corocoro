@@ -16,7 +16,7 @@ void MapChip2D::Init(CaslData* caslData)
 	m_position.x = caslData->position.x;
 	m_position.y = caslData->position.y;
 	//‘å‚«‚³B
-	m_scale.x = -(caslData->scale.x);
+	m_scale.x = caslData->scale.x;
 	m_scale.y = caslData->scale.y;
 }
 

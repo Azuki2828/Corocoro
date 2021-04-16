@@ -10,6 +10,7 @@ class Game : public IGameObject
 {
 public:
 	bool Start()override final;
+	~Game();
 	void Update()override final;
 
 private:
