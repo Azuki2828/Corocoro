@@ -278,6 +278,36 @@
     <ClCompile Include="Game.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\ExEngine\level2D\Level2D.cpp">
+      <Filter>ExEngine\level2D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\ExEngine\level2D\MapChip2D.cpp">
+      <Filter>ExEngine\level2D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\ExEngine\level2D\CaslFile.cpp">
+      <Filter>ExEngine\level2D</Filter>
+    </ClCompile>
+    <ClCompile Include="HelloLevel2D.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="LightManager.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="LightBase.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\MiniEngine\RenderTarget.cpp">
+      <Filter>MiniEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\MiniEngine\GaussianBlur.cpp">
+      <Filter>MiniEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="PostEffect.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="LightCamera.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
     <ClCompile Include="Result.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
@@ -536,6 +566,36 @@
       <Filter>ソース ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Game.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\ExEngine\level2D\CaslFile.h">
+      <Filter>ExEngine\level2D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\ExEngine\level2D\Level2D.h">
+      <Filter>ExEngine\level2D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\ExEngine\level2D\MapChip2D.h">
+      <Filter>ExEngine\level2D</Filter>
+    </ClInclude>
+    <ClInclude Include="HelloLevel2D.h">
+      <Filter>ソース ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="LightManager.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="LightBase.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MiniEngine\RenderTarget.h">
+      <Filter>MiniEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MiniEngine\GaussianBlur.h">
+      <Filter>MiniEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="PostEffect.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="LightCamera.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Result.h">

@@ -11,8 +11,8 @@ bool Background::Start()
 
 	//m_fontRender = NewGO<FontRender>(2);
 	//m_fontRender->Init(/*GameTime::GameTimeFunc().GetFrameDeltaTime()*/L"Hello",Vector2{(500.0f),(350.0f)});
-	m_fontRender = NewGO<FontRender>(2);
-	m_fontRender->Init(L"hello", Vector2{ (500.0f),(350.0f) });
+	//m_fontRender = NewGO<FontRender>(2);
+	//m_fontRender->Init(L"hello", Vector2{ (500.0f),(350.0f) });
 
 	
 
