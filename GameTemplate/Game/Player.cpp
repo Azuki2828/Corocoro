@@ -53,7 +53,7 @@ bool Player::Start()
 	//剛体を初期化。
 	RigidBodyInitData rbInitData;
 	//質量を設定する。
-	rbInitData.mass = 1.0f;
+	rbInitData.mass = 1.5f;
 	rbInitData.collider = &m_sphereCollider;
 	//rbInitData.pos.y = 100.0f;
 	rbInitData.pos = m_pos;
