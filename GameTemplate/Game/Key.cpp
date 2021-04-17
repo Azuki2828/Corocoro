@@ -5,6 +5,8 @@
 #include "Background.h"
 #include "ResultScene.h"
 
+#include "GameScreenLevel2D.h"
+
 bool Key::Start() {
 
 	m_player = FindGO<Player>("player");
@@ -86,6 +88,14 @@ void Key::Update() {
 			Background* background = FindGO<Background>("background");
 			DeleteGO(background->GameBGMSound);
 
+			//GameScreen_NoGetKey.caslを削除し、GameScreen_YesGetKey.caslを呼ぶことで鍵取得のUIを作成する。
+
+			//Flagをfalse(鍵取得中)にする。
+			GameScreenLevel2D* gamescreenlevel2d = FindGO<GameScreenLevel2D>("gamescreenlevel2d");
+			gamescreenlevel2d->NoGetKeyFlag = false;
+			//前の鍵をゲットしていないときのUIを削除。
+			DeleteGO(gamescreenlevel2d->m_sprite);
+
 			//鍵取得時の効果音再生。
 
 			KeyGetSound = NewGO<CSoundSource>(0);
@@ -155,8 +165,8 @@ void Key::Update() {
 	if (GameOverFlag == true) {
 		//5秒カウント
 		GameOverCount++;
-		//ゲームクリアしてから5秒たったら、
-		if (GameOverCount == 100) {
+		//ゲームクリアしてから1秒たったら、
+		if (GameOverCount == 60) {
 			//リザルトシーンクラスを呼び出す。
 			NewGO<ResultScene>(0);
 		}

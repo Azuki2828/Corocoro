@@ -10,19 +10,6 @@ bool TitleLevel2D::Start()
 		//名前がBackScreenだったら、
 		if (objdata.EqualObjectName("BackScreen")) {
 
-			//m_spriteRender = NewGO<SpriteRender>(0);
-			//m_spriteRender->Init(objdata.ddsFilePath, objdata.width, objdata.height);
-			//m_spriteRender->SetPosition(objdata.position);
-
-			//SpriteInitData data;
-			////DDSファイル(画像データ)のファイルパスを指定する。
-			//data.m_ddsFilePath[0] = objdata.ddsFilePath;
-			////Sprite表示用のシェーダーのファイルパスを指定する。
-			//data.m_fxFilePath = "Assets/shader/sprite.fx";
-			////スプライトの幅と高さを取得する。
-			//data.m_width = objdata.width;
-			//data.m_height = objdata.height;
-			//data.m_alphaBlendMode = AlphaBlendMode_Trans;
 			m_sprite = NewGO<SpriteRender>(0);
 			//Sprite初期化オブジェクトを使用して、Spriteを初期化する
 			m_sprite->Init(objdata.ddsFilePath, objdata.width, objdata.height, AlphaBlendMode_Trans);
@@ -40,15 +27,6 @@ bool TitleLevel2D::Start()
 		//名前がTitleだったら、
 		else if (objdata.EqualObjectName("Title")) {
 
-			//SpriteInitData data;
-			////DDSファイル(画像データ)のファイルパスを指定する。
-			//data.m_ddsFilePath[0] = objdata.ddsFilePath;
-			////Sprite表示用のシェーダーのファイルパスを指定する。
-			//data.m_fxFilePath = "Assets/shader/sprite.fx";
-			////スプライトの幅と高さを取得する。
-			//data.m_width = objdata.width;
-			//data.m_height = objdata.height;
-			//data.m_alphaBlendMode = AlphaBlendMode_Trans;
 			m_sprite1 = NewGO<SpriteRender>(1);
 			//Sprite初期化オブジェクトを使用して、Spriteを初期化する
 			m_sprite1->Init(objdata.ddsFilePath, objdata.width, objdata.height, AlphaBlendMode_Trans);
@@ -67,15 +45,6 @@ bool TitleLevel2D::Start()
 		//名前がStartだったら、
 		else if (objdata.EqualObjectName("Start")) {
 
-			//SpriteInitData data;
-			////DDSファイル(画像データ)のファイルパスを指定する。
-			//data.m_ddsFilePath[0] = objdata.ddsFilePath;
-			////Sprite表示用のシェーダーのファイルパスを指定する。
-			//data.m_fxFilePath = "Assets/shader/sprite.fx";
-			////スプライトの幅と高さを取得する。
-			//data.m_width = objdata.width;
-			//data.m_height = objdata.height;
-			//data.m_alphaBlendMode = AlphaBlendMode_Trans;
 			m_sprite3 = NewGO<SpriteRender>(1);
 			//Sprite初期化オブジェクトを使用して、Spriteを初期化する
 			m_sprite3->Init(objdata.ddsFilePath, objdata.width, objdata.height, AlphaBlendMode_Trans);
@@ -93,15 +62,6 @@ bool TitleLevel2D::Start()
 		//名前がRuleだったら、
 		else if (objdata.EqualObjectName("Rule")) {
 
-			//SpriteInitData data;
-			////DDSファイル(画像データ)のファイルパスを指定する。
-			//data.m_ddsFilePath[0] = objdata.ddsFilePath;
-			////Sprite表示用のシェーダーのファイルパスを指定する。
-			//data.m_fxFilePath = "Assets/shader/sprite.fx";
-			////スプライトの幅と高さを取得する。
-			//data.m_width = objdata.width;
-			//data.m_height = objdata.height;
-			//data.m_alphaBlendMode = AlphaBlendMode_Trans;
 			m_sprite4 = NewGO<SpriteRender>(1);
 			//Sprite初期化オブジェクトを使用して、Spriteを初期化する
 			m_sprite4->Init(objdata.ddsFilePath, objdata.width, objdata.height, AlphaBlendMode_Trans);
@@ -120,15 +80,6 @@ bool TitleLevel2D::Start()
 		//もし名前Settingだったら、
 		else if (objdata.EqualObjectName("Setting")) {
 
-			//SpriteInitData data;
-			////DDSファイル(画像データ)のファイルパスを指定する。
-			//data.m_ddsFilePath[0] = objdata.ddsFilePath;
-			////Sprite表示用のシェーダーのファイルパスを指定する。
-			//data.m_fxFilePath = "Assets/shader/sprite.fx";
-			////スプライトの幅と高さを取得する。
-			//data.m_width = objdata.width;
-			//data.m_height = objdata.height;
-			//data.m_alphaBlendMode = AlphaBlendMode_Trans;
 			m_sprite5 = NewGO<SpriteRender>(1);
 			//Sprite初期化オブジェクトを使用して、Spriteを初期化する
 			m_sprite5->Init(objdata.ddsFilePath, objdata.width, objdata.height, AlphaBlendMode_Trans);
@@ -146,15 +97,6 @@ bool TitleLevel2D::Start()
 		}
 		else if (objdata.EqualObjectName("End")) {
 
-			//SpriteInitData data;
-			////DDSファイル(画像データ)のファイルパスを指定する。
-			//data.m_ddsFilePath[0] = objdata.ddsFilePath;
-			////Sprite表示用のシェーダーのファイルパスを指定する。
-			//data.m_fxFilePath = "Assets/shader/sprite.fx";
-			////スプライトの幅と高さを取得する。
-			//data.m_width = objdata.width;
-			//data.m_height = objdata.height;
-			//data.m_alphaBlendMode = AlphaBlendMode_Trans;
 			m_sprite6 = NewGO<SpriteRender>(1);
 			//Sprite初期化オブジェクトを使用して、Spriteを初期化する
 			m_sprite6->Init(objdata.ddsFilePath, objdata.width, objdata.height, AlphaBlendMode_Trans);

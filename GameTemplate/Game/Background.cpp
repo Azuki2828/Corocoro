@@ -31,7 +31,7 @@ bool Background::Start()
 	};*/
 
 	//ƒQ[ƒ€‰æ–Ê‚ÌUI•\¦
-	NewGO<GameScreenLevel2D>(1);
+	NewGO<GameScreenLevel2D>(1,"gamescreenlevel2d");
 
 	//”wŒi‰æ‘œ‚ğ‰Šú‰»B
 	m_spriteRender = NewGO<SpriteRender>(0);
