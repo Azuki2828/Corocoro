@@ -7,6 +7,9 @@
 #include "Key.h"
 #include "GameTime.h"
 
+
+//#include "GameTime.h"
+
 bool Game::Start() {
 
 	m_dirLight = NewGO<DirectionLight>(0);
@@ -28,6 +31,10 @@ bool Game::Start() {
 
 	
 	return true;
+}
+
+Game::~Game()
+{
 }
 
 void Game::Update() {

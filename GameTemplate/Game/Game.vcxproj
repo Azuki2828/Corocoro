@@ -313,7 +313,7 @@
     <ClCompile Include="FontRender.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameTime.cpp" />
-    <ClCompile Include="HelloLevel2D.cpp" />
+    <ClCompile Include="GameScreenLevel2D.cpp" />
     <ClCompile Include="Key.cpp" />
     <ClCompile Include="Level.cpp" />
     <ClCompile Include="LightBase.cpp" />
@@ -329,6 +329,7 @@
     <ClCompile Include="PostEffect.cpp" />
     <ClCompile Include="Result.cpp" />
     <ClCompile Include="SaveData.cpp" />
+
     <ClCompile Include="Seesaw.cpp" />
     <ClCompile Include="SkinModelRender.cpp" />
     <ClCompile Include="SpriteRender.cpp" />
@@ -341,6 +342,8 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Preview|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="system\system.cpp" />
+    <ClCompile Include="TitleLevel2D.cpp" />
+    <ClCompile Include="TitleScene.cpp" />
     <ClCompile Include="TklFile.cpp" />
     <ClCompile Include="tkSoundEngine.cpp" />
     <ClCompile Include="tkSoundSource.cpp" />
@@ -417,7 +420,7 @@
     <ClInclude Include="FontRender.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameTime.h" />
-    <ClInclude Include="HelloLevel2D.h" />
+    <ClInclude Include="GameScreenLevel2D.h" />
     <ClInclude Include="Key.h" />
     <ClInclude Include="Level.h" />
     <ClInclude Include="LightBase.h" />
@@ -429,15 +432,18 @@
     <ClInclude Include="MoveObject.h" />
     <ClInclude Include="PhysicsBall.h" />
     <ClInclude Include="Player.h" />
-    <ClInclude Include="PostEffect.h" />
+
     <ClInclude Include="Result.h" />
     <ClInclude Include="SaveData.h" />
+
     <ClInclude Include="Seesaw.h" />
     <ClInclude Include="SkinModelRender.h" />
     <ClInclude Include="SpriteRender.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="Stopwatch.h" />
     <ClInclude Include="system\system.h" />
+    <ClInclude Include="TitleLevel2D.h" />
+    <ClInclude Include="TitleScene.h" />
     <ClInclude Include="TklFile.h" />
     <ClInclude Include="tkSoundEngine.h" />
     <ClInclude Include="tkSoundSource.h" />
