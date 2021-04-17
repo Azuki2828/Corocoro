@@ -4,9 +4,13 @@
 #include "DirectionLight.h"
 #include "MainCamera.h"
 #include "Background.h"
+#include "Game.h"
 
 bool Player::Start()
 {
+
+	m_game = FindGO<Game>("game");
+
 	////アニメーションクリップをロードする。
 	//m_animationClips[enAnimClip_Idle].Load("Assets/animData/idle.tka");
 	//m_animationClips[enAnimClip_Idle].SetLoopFlag(true);
@@ -81,6 +85,8 @@ bool Player::Start()
 }
 void Player::Update()
 {
+
+
 
 	if (m_backGround == nullptr) {
 		m_backGround = FindGO<Background>("background");
@@ -178,22 +184,25 @@ void Player::Update()
 	);
 	m_movePower = { 0.0f,0.0f,0.0f };
 	//Aボタンでプレイヤーの磁力を反転させる
-	if (g_pad[0]->IsTrigger(enButtonA)) {
-		ChangeState();
-		
 
-		m_sound = NewGO<CSoundSource>(0);
-		m_sound->Init(L"Assets/sound/ChangeState.wav");		//磁力変えた時の効果音追加
-		m_sound->SetVolume(1.0f);
-		m_sound->Play(false);
+	if (m_game->m_timer >= 200) {
+		if (g_pad[0]->IsTrigger(enButtonA)) {
+			ChangeState();
 
-		//アクティブフラグを更新。
-		for (int i = 0; i < enPlayer_Num; i++) {
-			if (m_skinModelRender[i]->IsActive() == true) {
-				m_skinModelRender[i]->Deactivate();
-			}
-			else {
-				m_skinModelRender[i]->Activate();
+
+			m_sound = NewGO<CSoundSource>(0);
+			m_sound->Init(L"Assets/sound/ChangeState.wav");		//磁力変えた時の効果音追加
+			m_sound->SetVolume(1.0f);
+			m_sound->Play(false);
+
+			//アクティブフラグを更新。
+			for (int i = 0; i < enPlayer_Num; i++) {
+				if (m_skinModelRender[i]->IsActive() == true) {
+					m_skinModelRender[i]->Deactivate();
+				}
+				else {
+					m_skinModelRender[i]->Activate();
+				}
 			}
 		}
 	}

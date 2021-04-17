@@ -29,7 +29,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	//NewGO<Background2>(0);
 	//NewGO<PhysicsBall>(0);
 	//NewGO<Seesaw>(0);
-	NewGO<Game>(0);
+	NewGO<Game>(0,"game");
 
 	//////////////////////////////////////
 	// 初期化を行うコードを書くのはここまで！！！
