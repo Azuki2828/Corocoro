@@ -326,7 +326,10 @@
     <ClCompile Include="MoveObject.cpp" />
     <ClCompile Include="PhysicsBall.cpp" />
     <ClCompile Include="Player.cpp" />
-    <ClCompile Include="ResultScene.cpp" />
+    <ClCompile Include="PostEffect.cpp" />
+    <ClCompile Include="Result.cpp" />
+    <ClCompile Include="SaveData.cpp" />
+
     <ClCompile Include="Seesaw.cpp" />
     <ClCompile Include="SkinModelRender.cpp" />
     <ClCompile Include="SpriteRender.cpp" />
@@ -429,11 +432,10 @@
     <ClInclude Include="MoveObject.h" />
     <ClInclude Include="PhysicsBall.h" />
     <ClInclude Include="Player.h" />
-<<<<<<< HEAD
-    <ClInclude Include="ResultScene.h" />
-=======
-    <ClInclude Include="PostEffect.h" />
->>>>>>> 7e1a3462ab2f421a27cd73b24103f1a7cb3a3b77
+
+    <ClInclude Include="Result.h" />
+    <ClInclude Include="SaveData.h" />
+
     <ClInclude Include="Seesaw.h" />
     <ClInclude Include="SkinModelRender.h" />
     <ClInclude Include="SpriteRender.h" />

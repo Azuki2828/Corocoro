@@ -38,10 +38,6 @@ public:
 		m_font.SetShadowParam(isDrawShadow, shadowOffset, shadowColor);
 	}
 
-	void SetText(const wchar_t* text)
-	{
-		m_fontValue.text = text;
-	}
 
 	//void Draw(FontValue& fontValue);
 	void Render(RenderContext& rc)override final;
