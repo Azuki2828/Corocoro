@@ -1,15 +1,19 @@
 #pragma once
 
 class Key;
+#include "Key.h"
+
 class Background;
 
 class Player : public IGameObject
 {
 private:
 	bool getKeyFlg = false;		//鍵取得フラグ。
+	bool m_keySoundFlg = false;
 
 public:
 	bool Start() override;
+	~Player();
 	void Update() override;
 
 	//現在のステートを取得する関数。
@@ -29,6 +33,13 @@ public:
 
 	void SetKeyFlg(bool flg) { getKeyFlg = flg; }
 	bool GetKeyFlg() { return getKeyFlg; }
+
+	bool GetdoorbreakFlg() {
+		if (m_key == nullptr) {
+			return false;
+		}
+		return m_key->GetdoorbreakFlg(); 
+	};
 
 private:
 	/// <summary>
@@ -76,11 +87,12 @@ private:
 	SkinModelRender* m_skinModelRender[enPlayer_Num] = { nullptr };
 	Font m_font;
 
-	CSoundSource* m_sound = nullptr;
+
 	SphereCollider m_sphereCollider;
 	RigidBody m_rigidBody;
 
 	Key* m_key = nullptr;
 	Background* m_backGround = nullptr;
-};
 
+	CSoundSource* NSChangeSound = nullptr;		//NS反転サウンドソース
+};

@@ -14,7 +14,7 @@ bool Seesaw::Start()
 	size.x = 100.0f;
 	size.y = 10.0f;
 	size.z = 40.0f;
-	
+
 	m_boxCollider.Create(size);
 
 	//„‘Ì‚ğ‰Šú‰»B

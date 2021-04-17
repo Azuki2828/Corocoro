@@ -2,16 +2,25 @@
 #include "Background.h"
 #include "Magnet.h"
 #include "Key.h"
-#include "HelloLevel2D.h"
+#include "GameScreenLevel2D.h"
 
 bool Background::Start()
 {
 	m_magnet.resize(1);
 	int sampleNum = 0;
 
-	m_fontRender = NewGO<FontRender>(2);
-	m_fontRender->Init(L"hello", Vector2{ (500.0f),(350.0f) });
 
+	//m_fontRender = NewGO<FontRender>(2);
+	//m_fontRender->Init(/*GameTime::GameTimeFunc().GetFrameDeltaTime()*/L"Hello",Vector2{(500.0f),(350.0f)});
+	//m_fontRender = NewGO<FontRender>(2);
+	//m_fontRender->Init(L"hello", Vector2{ (500.0f),(350.0f) });
+
+	//TimeBackã‚¹ãƒ—ãƒ©ã‚¤ãƒˆã®ä¸Šã«è¡¨ç¤ºã•ã›ãŸã„ã‹ã‚‰ã‚²ãƒ¼ãƒ ç”»é¢ã®UIãƒ¬ã‚¤ãƒ¤ãƒ¼1ã«+1ã—ãŸ2ã«ã—ã¦ã„ã‚‹ã€‚
+	m_fontRender = NewGO<FontRender>(2);
+	m_fontRender->Init(L"hello",Vector2{(-535.0f),(310.0f)});
+
+
+	
 
 	/*const char* MagnetName[] = {
 		"Magnet_N_01",
@@ -29,21 +38,20 @@ bool Background::Start()
 		"MagnetHoge",
 	};*/
 
+	//ã‚²ãƒ¼ãƒ ç”»é¢ã®UIè¡¨ç¤º
+	NewGO<GameScreenLevel2D>(1);
 
-	//NewGO<HelloLevel2D>(2);
-
-	//”wŒi‰æ‘œ‚ğ‰Šú‰»B
+	//èƒŒæ™¯ç”»åƒã‚’åˆæœŸåŒ–ã€‚
 	m_spriteRender = NewGO<SpriteRender>(0);
-	m_spriteRender->SetPosition({ 500.0f,100.0f,0.0f });
-	m_spriteRender->SetMulColor({1.0f, 1.0f, 1.0f, 0.5f});
-	m_spriteRender->Init("Assets/Image/sample.dds", 1980.0f, 1080.0f);
+	m_spriteRender->SetPosition({ 0.0f,0.0f,0.0f });
+	m_spriteRender->Init("Assets/image/BackScreen.dds", 1300.0f, 750.0f);
 
 
-	//‚±‚ê‚ªlevel‚ÌLoad‚ÌŠî”ÕB
-	//“Á’è‚ÌƒIƒuƒWƒFƒNƒg‚ğw’è‚·‚éi‚±‚±‚Å‚¢‚¤ƒtƒbƒNjê‡‚ÍA–¼‘OŒŸõ‚·‚éB
+	//ã“ã‚ŒãŒlevelã®Loadã®åŸºç›¤ã€‚
+	//ç‰¹å®šã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’æŒ‡å®šã™ã‚‹ï¼ˆã“ã“ã§ã„ã†ãƒ•ãƒƒã‚¯ï¼‰å ´åˆã¯ã€åå‰æ¤œç´¢ã™ã‚‹ã€‚
 	m_level.Init("Assets/level/stage02.tkl", [&](LevelObjectData& objData) {
 
-		deathPosY = -500.0f;		//state02‚Å‚Í-500.0f‚Å€‚ÊI
+		deathPosY = -500.0f;		//state02ã§ã¯-500.0fã§æ­»ã¬ï¼
 
 		/*if (objData.EqualObjectName(L"SampleMagnet_N_01") == true) {
 			m_magnet.push_back(*(m_magnet.end() - 1));
@@ -271,24 +279,55 @@ bool Background::Start()
 		else if (objData.EqualObjectName(L"KeyBox") == true) {
 			return true;
 		}
-		return false;//level‚ÌƒIƒuƒWƒFƒNƒg‚ğ‚»‚Ì‚Ü‚Üƒ[ƒhB
+		return false;//levelã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ãã®ã¾ã¾ãƒ­ãƒ¼ãƒ‰ã€‚
 	});
+
+
+	//BGMå†ç”Ÿã€‚
+
+	GameBGMSound = NewGO<CSoundSource>(0);
+
+	GameBGMSound->Init(L"Assets/sound/GameBGM.wav");
+	GameBGMSound->SetVolume(1.0f);
+	GameBGMSound->Play(true);			//ãƒ«ãƒ¼ãƒ—å†ç”Ÿã€‚
+
+
+
 	//ModelInitData initData;
 	//initData.m_tkmFilePath = "Assets/modelData/bg/bg.tkm";
-	////ƒVƒF[ƒ_[ƒtƒ@ƒCƒ‹‚Ìƒtƒ@ƒCƒ‹ƒpƒX‚ğw’è‚·‚éB
+	///ã‚·ã‚§ãƒ¼ãƒ€ãƒ¼ãƒ•ã‚¡ã‚¤ãƒ«ã®ãƒ•ã‚¡ã‚¤ãƒ«ãƒ‘ã‚¹ã‚’æŒ‡å®šã™ã‚‹ã€‚
 	//initData.m_fxFilePath = "Assets/shader/model.fx";
-	////’¸“_ƒVƒF[ƒ_[‚ÌƒGƒ“ƒgƒŠ[ƒ|ƒCƒ“ƒg
+	///é ‚ç‚¹ã‚·ã‚§ãƒ¼ãƒ€ãƒ¼ã®ã‚¨ãƒ³ãƒˆãƒªãƒ¼ãƒã‚¤ãƒ³ãƒˆ
 	//initData.m_vsEntryPointFunc = "VSMain";
 	//m_model.Init(initData);
 	//
-	////ƒƒbƒVƒ…ƒRƒ‰ƒCƒ_[‚ğì¬B
+	///ãƒ¡ãƒƒã‚·ãƒ¥ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ã‚’ä½œæˆã€‚
 	//m_physicsStaticObject.CreateFromModel(m_model, m_model.GetWorldMatrix());
 	return true;
 }
+
+
+Background::~Background()
+{
+	//èƒŒæ™¯å‰Šé™¤ã€‚
+	DeleteGO(m_spriteRender);
+	//ã‚¿ã‚¤ãƒ å‰Šé™¤ã€‚
+	DeleteGO(m_fontRender);
+}
+
+
 void Background::Update()
 {
-	
+	Key* key = FindGO<Key>("key");
+
+	//ã‚²ãƒ¼ãƒ ã‚¯ãƒªã‚¢ã—ã¦ã‹ã‚‰5ç§’ãŸã£ãŸã‚‰ã€
+	if (key->GameOverCount > 300) {
+		//ã‚¯ãƒ©ã‚¹ã‚’å‰Šé™¤ã€‚
+		DeleteGO(this);
+	}
 }
+
+
 void Background::Render(RenderContext& rc)
 {
 	m_level.Draw(rc);

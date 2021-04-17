@@ -2,12 +2,15 @@
 #include "Key.h"
 #include "Player.h"
 
+#include "Background.h"
+#include "ResultScene.h"
+
 bool Key::Start() {
 
 	m_player = FindGO<Player>("player");
-	
 
-	//��������������W��o�^�B
+
+	//鍵があったら座標を登録。
 	if (m_skinModelRender_Key != nullptr) {
 
 		m_skinModelRender_Key->SetPosition(m_keyPos);
@@ -18,7 +21,7 @@ bool Key::Start() {
 		//);
 	}
 
-	//�h�A������������W��o�^+�����蔻���t����B
+	//ドアがあったら座標を登録+当たり判定を付ける。
 	if (m_skinModelRender_Door != nullptr) {
 		m_skinModelRender_Door->SetPosition(m_doorPos);
 		m_skinModelRender_Door->UpdateWorldMatrix();
@@ -28,8 +31,12 @@ bool Key::Start() {
 		);
 	}
 
-	
+
 	return true;
+}
+
+Key::~Key() {
+
 }
 
 
@@ -57,37 +64,113 @@ void Key::InitDoor(const char* name) {
 
 void Key::Update() {
 
-	getKeyFlg = m_player->GetKeyFlg();
-	if (getKeyFlg == true) {
-		m_spriteRender = NewGO<SpriteRender>(1);	//<//>1�񂾂��摜���Ăт���
-		Vector3 vec = m_keyPos;
-		vec.y += 100.0f;
-		m_spriteRender->SetPosition(vec);									//<�ύX>���������߂鍇�}(�摜)���o��
-		m_spriteRender->Init("Assets/Image/yazirusi.dds", 256.0f, 256.0f);
-	}
+	
 
-	
-	
-	//3m�ȓ��Ȃ献�擾�B
+
+
+	//3m以内なら鍵取得。
 	Vector3 keyLength;
 
 	keyLength = m_player->GetPosition() - m_keyPos;
-	if (keyLength.Length() <= 200.0f) {
+	if (keyLength.Length() <= 300.0f && !m_player->GetKeyFlg()) {
+		
+		//鍵を消去して取得効果音を再生。
 		DeleteGO(m_skinModelRender_Key);
+		GetKey();
+		
+		if (KeyGetSoundFlag == true) {
 
-		//���擾�t���O��true�ɁB
+			//通常BGMを削除。
+			Background* background = FindGO<Background>("background");
+			DeleteGO(background->GameBGMSound);
+
+			//鍵取得時の効果音再生。
+
+			KeyGetSound = NewGO<CSoundSource>(0);
+
+			KeyGetSound->Init(L"Assets/sound/KeyGet.wav");
+			KeyGetSound->SetVolume(1.0f);
+			KeyGetSound->Play(false);
+
+			//falseにして抜ける。
+			KeyGetSoundFlag = false;
+		}
+
+		//鍵取得フラグをtrueに。
 		m_player->SetKeyFlg(true);
 	}
 
-	//�����擾���Ă��邤���Ńh�A�Ƃ̋�����2m�ȓ��Ȃ�h�A��j��B
+	//KeyGetSoundFlagがfalseになったら、
+	if(KeyGetSoundFlag ==false) {
+		GetDelay++;
+	}
+
+	if (GetDelay == 120) {
+		//通常BGMのアップテンポ版を再生し変化をつけ、焦らす演出。
+		GameBGMSound_UpTempo = NewGO<CSoundSource>(0);
+
+		GameBGMSound_UpTempo->Init(L"Assets/sound/GameBGM._UpTempo.wav");
+		GameBGMSound_UpTempo->SetVolume(1.0f);
+		GameBGMSound_UpTempo->Play(true);		//ループ再生。
+	}
+
+	//鍵を取得しているうえでドアとの距離が3m以内ならドアを破壊。
 	if (m_player->GetKeyFlg()) {
 		Vector3 doorLength;
 		doorLength = m_player->GetPosition() - m_doorPos;
-		if (doorLength.Length() <= 200.0f) {
+		if (doorLength.Length() <= 300.0f) {
+
+			if (GameClearSoundFlag == true) {
+
+				//BGMを削除。
+				DeleteGO(GameBGMSound_UpTempo);
+
+				//ゲームクリアのサウンドを再生。
+				GameClearSound = NewGO<CSoundSource>(0);
+
+				GameClearSound->Init(L"Assets/sound/GameClear.wav");
+				GameClearSound->SetVolume(1.0f);
+				GameClearSound->Play(false);
+
+				//falseにして抜ける。
+				GameClearSoundFlag = false;
+			}
+
+			//Clear文字表示
+			m_fontRender = NewGO<FontRender>(2);
+			m_fontRender->Init(L"Clear!!", Vector2{ (50.0f),(25.0f) });
+
+			//ドアのモデルデータを削除。
 			DeleteGO(m_skinModelRender_Door);
 
-			//�h�A�̓����蔻����폜�B
+			//ドアの当たり判定を削除。
 			m_physicsStaticObject.Release();
+			m_doorbreakFlg = true;
+			GameOverFlag = true;
+		}
+	}
+}
+
+void Key::GetKey()
+{
+	m_sound = NewGO<CSoundSource>(0);
+	m_sound->Init(L"Assets/sound/KeyGet.wav");		//鍵取った時の効果音追加
+	m_sound->SetVolume(1.0f);
+	m_sound->Play(false);
+
+	m_spriteRender = NewGO<SpriteRender>(1);	
+	Vector3 vec = m_keyPos;
+	vec.y += 100.0f;
+	m_spriteRender->SetPosition(vec);								//<変更>鍵取ったら戻る合図(画像)を出す
+	m_spriteRender->Init("Assets/Image/yazirusi.dds", 256.0f, 256.0f);
+}
+	if (GameOverFlag == true) {
+		//5秒カウント
+		GameOverCount++;
+		//ゲームクリアしてから5秒たったら、
+		if (GameOverCount == 100) {
+			//リザルトシーンクラスを呼び出す。
+			NewGO<ResultScene>(0);
 		}
 	}
 }
