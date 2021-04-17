@@ -47,7 +47,7 @@ void SkinModelRender::Init(bool DirectionFlg, bool PointLightFlg) {
 	if (!m_shadowReceiverFlag) {
 		initData.m_fxFilePath = "Assets/shader/model.fx";
 		initData.m_expandConstantBuffer = LightManager::GetInstance()->GetLigData();
-		initData.m_expandConstantBufferSize = sizeof * (LightManager::GetInstance()->GetLigData());
+		initData.m_expandConstantBufferSize = sizeof*(LightManager::GetInstance()->GetLigData());
 	}
 	else {
 		initData.m_fxFilePath = "Assets/shader/sampleShadowReciever.fx";
