@@ -75,7 +75,17 @@ public:
 
 		mulColor = mulCol;
 	}
-private:
+
+	void SetPosition(const Vector3& pos) {
+		m_position = pos;
+	}
+	void SetRotation(const Quaternion& rot) {
+		m_rotation = rot;
+	}
+	void SetScale(const Vector3& sca) {
+		m_scale = sca;
+	}
+	private:
 	/// <summary>
 	/// テクスチャを初期化。
 	/// </summary>
@@ -113,6 +123,7 @@ private:
 	Texture m_textures[MAX_TEXTURE];	//テクスチャ。
 	Texture* m_textureExternal[MAX_TEXTURE] = {nullptr};	//外部から指定されたテクスチャ
 	Vector3 m_position ;				//座標。
+	Vector3 m_scale = { 1.0f,1.0f,1.0f };
 	Vector2 m_size;						//サイズ。
 	Quaternion m_rotation ;			//回転。
 	Matrix m_world;					//ワールド行列。
