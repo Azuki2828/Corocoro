@@ -10,4 +10,3 @@ private:
 	SphereCollider m_sphereCollider;
 	RigidBody m_rigidBody;
 };
-

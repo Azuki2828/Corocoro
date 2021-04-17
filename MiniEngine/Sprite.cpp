@@ -180,6 +180,7 @@
 	{
 		m_size.x = static_cast<float>(initData.m_width);
 		m_size.y = static_cast<float>(initData.m_height);
+		m_scale.x *= -1.0f;
 
 		//テクスチャを初期化。
 		InitTextures(initData);
@@ -223,9 +224,7 @@
 		Matrix mTrans, mRot, mScale;
 		mTrans.MakeTranslation(pos);
 		mRot.MakeRotationFromQuaternion(rot);
-		Vector3 sca = scale;
-		sca.x *= -1.0f;
-		mScale.MakeScaling(sca);
+		mScale.MakeScaling(scale);
 		m_world = mPivotTrans * mScale;
 		m_world = m_world * mRot;
 		m_world = m_world * mTrans;

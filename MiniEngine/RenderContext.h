@@ -129,7 +129,7 @@ public:
 		m_descriptorHeaps[0] = descHeap;
 		m_commandList->SetDescriptorHeaps(1, m_descriptorHeaps);
 	}
-	
+
 	void SetDescriptorHeap(DescriptorHeap& descHeap);
 	void SetComputeDescriptorHeap(DescriptorHeap& descHeap);
 	/// <summary>
@@ -218,7 +218,7 @@ public:
 	/// <param name="renderTarget">レンダリングターゲット</param>
 	/// <param name="clearColor">クリアカラー</param>
 	void ClearRenderTargetViews(
-		int numRt, 
+		int numRt,
 		RenderTarget* renderTargets[]
 	);
 	void ClearRenderTargetView(D3D12_CPU_DESCRIPTOR_HANDLE rtvHandle, const float* clearColor)
@@ -331,7 +331,7 @@ public:
 	/// <param name="ThreadGroupCountX"></param>
 	/// <param name="ThreadGroupCountY"></param>
 	/// <param name="ThreadGroupCountZ"></param>
-	void Dispatch( 
+	void Dispatch(
 		UINT ThreadGroupCountX,
 		UINT ThreadGroupCountY,
 		UINT ThreadGroupCountZ )

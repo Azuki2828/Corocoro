@@ -9,6 +9,9 @@
 #include "Result.h"
 #include "SaveData.h"
 
+
+//#include "GameTime.h"
+
 bool Game::Start() {
 
 	//セーブを追加
@@ -41,6 +44,10 @@ bool Game::Start() {
 
 	
 	return true;
+}
+
+Game::~Game()
+{
 }
 
 void Game::Update() {

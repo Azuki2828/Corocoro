@@ -13,6 +13,7 @@ public:
 	float m_resulttime = 0;
 	int m_timer = 0;
 	bool Start()override final;
+	~Game();
 	void Update()override final;
 
 public: //GetŠÖ”

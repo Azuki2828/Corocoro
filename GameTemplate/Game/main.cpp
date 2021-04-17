@@ -1,9 +1,6 @@
 #include "stdafx.h"
 #include "system/system.h"
-#include "Game.h"
-#include "Background2.h"
-#include "PhysicsBall.h"
-#include "Seesaw.h"
+#include "TitleScene.h"
 #include "PostEffect.h"
 
 ///////////////////////////////////////////////////////////////////
@@ -26,10 +23,10 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	LightManager::CreateInstance();
 	Camera::CreateLightCamera();
 
-	//NewGO<Background2>(0);
-	//NewGO<PhysicsBall>(0);
-	//NewGO<Seesaw>(0);
-	NewGO<Game>(0,"game");
+
+
+	//タイトル画面からスタート
+	NewGO<TitleScene>(0);
 
 	//////////////////////////////////////
 	// 初期化を行うコードを書くのはここまで！！！
@@ -117,44 +114,11 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	{
 		//レンダリング開始。
 		g_engine->BeginFrame();
-		
 
 		//////////////////////////////////////
 		//ここから絵を描くコードを記述する。
 		//////////////////////////////////////
 
-		//////////////////////////////////////
-		// ここから絵を描くコードを記述する
-		//////////////////////////////////////
-
-		////シャドウマップにレンダリング。
-		////レンダリングターゲットをシャドウマップに変更する。
-		//renderContext.WaitUntilToPossibleSetRenderTarget(*RenderTarget::GetShadowMap());
-		//renderContext.SetRenderTargetAndViewport(*RenderTarget::GetShadowMap());
-		//renderContext.ClearRenderTargetView(*RenderTarget::GetShadowMap());
-		//
-		////書き込み完了待ち。
-		//renderContext.WaitUntilFinishDrawingToRenderTarget(*RenderTarget::GetShadowMap());
-
-		////通常レンダリング。
-		////レンダリングターゲットをフレームバッファに戻す。
-		//renderContext.SetRenderTarget(
-		//	g_graphicsEngine->GetCurrentFrameBuffuerRTV(),
-		//	g_graphicsEngine->GetCurrentFrameBuffuerDSV()
-		//);
-		//renderContext.SetViewport(g_graphicsEngine->GetFrameBufferViewport());
-
-		//// レンダリングターゲットをmainRenderTargetに変更する
-		//// レンダリングターゲットとして利用できるまで待つ
-		//renderContext.WaitUntilToPossibleSetRenderTarget(mainRenderTarget);
-		//// レンダリングターゲットを設定
-		//renderContext.SetRenderTargetAndViewport(mainRenderTarget);
-		//// レンダリングターゲットをクリア
-		//renderContext.ClearRenderTargetView(mainRenderTarget);
-
-		//// mainRenderTargetに各種モデルを描画する
-		//plModel.Draw(renderContext);
-		
 		GameObjectManager::GetInstance()->ExecuteUpdate();
 		//物理ワールドの更新。
 		PhysicsWorld::GetInstance()->Update(g_gameTime->GetFrameDeltaTime());

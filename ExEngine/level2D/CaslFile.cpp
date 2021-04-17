@@ -12,7 +12,7 @@ void CaslFile::Load(const char* filePath)
 		return;
 	}
 
-	//.ddsフォルダパスを設定。
+	//.ddsフォルダパスを設定。。
 	std::string ddsFolderPath = filePath;
 	int pos = (int)ddsFolderPath.rfind("/");
 	ddsFolderPath = ddsFolderPath.substr(0, pos + 1);

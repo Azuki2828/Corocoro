@@ -57,7 +57,7 @@ bool Player::Start()
 	//剛体を初期化。
 	RigidBodyInitData rbInitData;
 	//質量を設定する。
-	rbInitData.mass = 1.0f;
+	rbInitData.mass = 1.5f;
 	rbInitData.collider = &m_sphereCollider;
 	//rbInitData.pos.y = 100.0f;
 	rbInitData.pos = m_pos;
@@ -83,21 +83,18 @@ bool Player::Start()
 
 	return true;
 }
+
+Player::~Player()
+{
+}
+
+
 void Player::Update()
 {
-
-
-
 	if (m_backGround == nullptr) {
 		m_backGround = FindGO<Background>("background");
 	}
-	if (g_pad[0]->IsTrigger(enButtonB)) {
-		m_sound = NewGO<CSoundSource>(0);
 
-		m_sound->Init(L"Assets/sound/nextvoice.wav");
-		m_sound->SetVolume(1.0f);
-		m_sound->Play(false);
-	}
 	//重力を設定。
 	//m_movePower.y -= 0.2f;
 
@@ -111,7 +108,7 @@ void Player::Update()
 	float deathPosY = -1000.0f;
 	if (m_backGround != nullptr) {
 		deathPosY = m_backGround->GetDeathPosY();
-  }	
+  }
 	//壁に当たっているなら
 	//if (m_charaCon.IsOnWall()) {
 	//
@@ -141,7 +138,7 @@ void Player::Update()
 	//	}
 	//
 	//}
-	
+	//
 	//剛体の座標と回転を取得。
 	Vector3 pos;
 	Quaternion rot;
@@ -189,20 +186,21 @@ void Player::Update()
 		if (g_pad[0]->IsTrigger(enButtonA)) {
 			ChangeState();
 
+		//NとSを切り替えるときの効果音再生。
 
-			m_sound = NewGO<CSoundSource>(0);
-			m_sound->Init(L"Assets/sound/ChangeState.wav");		//磁力変えた時の効果音追加
-			m_sound->SetVolume(1.0f);
-			m_sound->Play(false);
+		NSChangeSound = NewGO<CSoundSource>(0);
 
-			//アクティブフラグを更新。
-			for (int i = 0; i < enPlayer_Num; i++) {
-				if (m_skinModelRender[i]->IsActive() == true) {
-					m_skinModelRender[i]->Deactivate();
-				}
-				else {
-					m_skinModelRender[i]->Activate();
-				}
+		NSChangeSound->Init(L"Assets/sound/NSChange.wav");
+		NSChangeSound->SetVolume(0.5f);
+		NSChangeSound->Play(false);
+
+		//アクティブフラグを更新。
+		for (int i = 0; i < enPlayer_Num; i++) {
+			if (m_skinModelRender[i]->IsActive() == true) {
+				m_skinModelRender[i]->Deactivate();
+			}
+			else {
+				m_skinModelRender[i]->Activate();
 			}
 		}
 	}

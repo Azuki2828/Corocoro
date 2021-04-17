@@ -15,6 +15,7 @@ private:
 
 public:
 	bool Start() override;
+	~Player();
 	void Update() override;
 
 	//現在のステートを取得する関数。
@@ -88,12 +89,12 @@ private:
 	SkinModelRender* m_skinModelRender[enPlayer_Num] = { nullptr };
 	Font m_font;
 
-	CSoundSource* m_sound = nullptr;
+
 	SphereCollider m_sphereCollider;
 	RigidBody m_rigidBody;
 
 	Key* m_key = nullptr;
 	Background* m_backGround = nullptr;
 	Game* m_game = nullptr;
+	CSoundSource* NSChangeSound = nullptr;		//NS反転サウンドソース
 };
-
