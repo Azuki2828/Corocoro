@@ -192,7 +192,7 @@ void Player::Update()
 
 		NSChangeSound->Init(L"Assets/sound/NSChange.wav");
 		NSChangeSound->SetVolume(0.5f);
-		NSChangeSound->Play(false);
+		NSChangeSound->Play(false);	//ワンショット再生
 
 		//アクティブフラグを更新。
 		for (int i = 0; i < enPlayer_Num; i++) {
@@ -225,6 +225,13 @@ void Player::Update()
 	
 	
 
+	Key* key = FindGO<Key>("key");
+
+	//ゲームクリアしてから5秒たったら、
+	if (key->GameOverCount > 300) {
+		//クラスを削除。
+		DeleteGO(this);
+	}
 }
 
 void Player::ChangeState() {
