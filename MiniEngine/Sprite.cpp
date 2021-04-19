@@ -171,7 +171,7 @@
 		if (initData.m_expandConstantBuffer != nullptr){
 			m_userExpandConstantBufferCPU = initData.m_expandConstantBuffer;
 			m_userExpandConstantBufferGPU.Init(
-				initData.m_expandConstantBufferSize, 
+				initData.m_expandConstantBufferSize,
 				initData.m_expandConstantBuffer
 			);
 		}
@@ -180,6 +180,7 @@
 	{
 		m_size.x = static_cast<float>(initData.m_width);
 		m_size.y = static_cast<float>(initData.m_height);
+		m_scale.x *= -1.0f;
 
 		//テクスチャを初期化。
 		InitTextures(initData);
@@ -187,7 +188,7 @@
 		InitVertexBufferAndIndexBuffer(initData);
 		//定数バッファを初期化。
 		InitConstantBuffer(initData);
-		
+
 		//ルートシグネチャの初期化。
 		m_rootSignature.Init(
 			D3D12_FILTER_MIN_MAG_MIP_LINEAR,
@@ -223,7 +224,12 @@
 		Matrix mTrans, mRot, mScale;
 		mTrans.MakeTranslation(pos);
 		mRot.MakeRotationFromQuaternion(rot);
-		mScale.MakeScaling(scale);
+
+		//画像が反転するから更にxを-1.0拡大して画像を反転させて元画像に戻している。
+		Vector3 sca = scale;
+		sca.x *= -1.0f;
+		mScale.MakeScaling(sca);
+
 		m_world = mPivotTrans * mScale;
 		m_world = m_world * mRot;
 		m_world = m_world * mTrans;
@@ -234,10 +240,7 @@
 		Matrix projMatrix = g_camera2D->GetProjectionMatrix();
 
 		m_constantBufferCPU.mvp = m_world * viewMatrix * projMatrix;
-		m_constantBufferCPU.mulColor.x = 1.0f;
-		m_constantBufferCPU.mulColor.y = 1.0f;
-		m_constantBufferCPU.mulColor.z = 1.0f;
-		m_constantBufferCPU.mulColor.w = 1.0f;
+		m_constantBufferCPU.mulColor = m_mulColor;
 		m_constantBufferCPU.screenParam.x = g_camera3D->GetNear();
 		m_constantBufferCPU.screenParam.y = g_camera3D->GetFar();
 		m_constantBufferCPU.screenParam.z = FRAME_BUFFER_W;
@@ -263,4 +266,3 @@
 		//描画
 		renderContext.DrawIndexed(m_indexBuffer.GetCount());
 	}
-

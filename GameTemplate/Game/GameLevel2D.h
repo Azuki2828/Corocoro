@@ -5,7 +5,7 @@
 /// レベル2D処理のサンプルクラス。
 /// </summary>
 ///
-class GameScreenLevel2D : public IGameObject
+class GameLevel2D : public IGameObject
 {
 public:
 
@@ -20,7 +20,7 @@ public:
 private:
 
 	bool Start() override;
-	~GameScreenLevel2D();
+	~GameLevel2D();
 	void Update() override;
 	void Render(RenderContext& rc) override;
 

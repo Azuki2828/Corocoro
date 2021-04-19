@@ -13,6 +13,8 @@ void SpriteRender::Init(const char* filepath, float width, float height, AlphaBl
 }
 
 void SpriteRender::Update() {
+
+	m_sprite.SetMulColor(m_mulColor);
 	m_sprite.Update(m_pos, Quaternion::Identity, m_scale);
 }
 

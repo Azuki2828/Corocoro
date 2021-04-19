@@ -299,7 +299,7 @@
     <ClCompile Include="FontRender.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameTime.cpp" />
-    <ClCompile Include="GameScreenLevel2D.cpp" />
+    <ClCompile Include="GameLevel2D.cpp" />
     <ClCompile Include="Key.cpp" />
     <ClCompile Include="Level.cpp" />
     <ClCompile Include="LightBase.cpp" />
@@ -402,7 +402,7 @@
     <ClInclude Include="FontRender.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameTime.h" />
-    <ClInclude Include="GameScreenLevel2D.h" />
+    <ClInclude Include="GameLevel2D.h" />
     <ClInclude Include="Key.h" />
     <ClInclude Include="Level.h" />
     <ClInclude Include="LightBase.h" />

@@ -1,7 +1,7 @@
 #include "stdafx.h"
-#include "GameScreenLevel2D.h"
+#include "GameLevel2D.h"
 
-bool GameScreenLevel2D::Start()
+bool GameLevel2D::Start()
 {
 		//レベルを読み込む。
 		m_level2D.Init("Assets/level2D/GameScreen_NoGetKey.casl", [&](Level2DObjectData& objdata) {
@@ -24,12 +24,6 @@ bool GameScreenLevel2D::Start()
 				m_sprite->SetPosition(objdata.position);
 				m_sprite->SetScale(objdata.scale);
 
-				//座標を取得する。
-				m_position = objdata.position;
-				//大きさを設定する。
-				m_scale = objdata.scale;
-				m_scale.x *= -1.0f;
-
 				return true;
 			}
 			//名前がTimeBackだったら。
@@ -51,13 +45,6 @@ bool GameScreenLevel2D::Start()
 				m_sprite1->SetPosition(objdata.position);
 				m_sprite1->SetScale(objdata.scale);
 
-
-				//座標を取得する。
-				m_position = objdata.position;
-				//大きさを設定する。
-				m_scale = objdata.scale;
-				m_scale.x *= -1.0f;
-
 				return true;
 			}
 
@@ -70,13 +57,13 @@ bool GameScreenLevel2D::Start()
 	return true;
 }
 
-GameScreenLevel2D::~GameScreenLevel2D()
+GameLevel2D::~GameLevel2D()
 {
 	DeleteGO(m_sprite);
 	DeleteGO(m_sprite1);
 }
 
-void GameScreenLevel2D::Update()
+void GameLevel2D::Update()
 {
 
 	//NoGetKeyがfalse、つまり鍵が取得されているとき、
@@ -104,12 +91,6 @@ void GameScreenLevel2D::Update()
 				m_sprite2->SetPosition(objdata.position);
 				m_sprite2->SetScale(objdata.scale);
 
-				//座標を取得する。
-				m_position = objdata.position;
-				//大きさを設定する。
-				m_scale = objdata.scale;
-				m_scale.x *= -1.0f;
-
 				return true;
 			}
 			//名前がTimeBackだったら。
@@ -132,13 +113,6 @@ void GameScreenLevel2D::Update()
 				m_sprite3->SetPosition(objdata.position);
 				m_sprite3->SetScale(objdata.scale);
 
-
-				//座標を取得する。
-				m_position = objdata.position;
-				//大きさを設定する。
-				m_scale = objdata.scale;
-				m_scale.x *= -1.0f;
-
 				return true;
 			}
 
@@ -156,7 +130,7 @@ void GameScreenLevel2D::Update()
 	m_level2D.Update();
 }
 
-void GameScreenLevel2D::Render(RenderContext& rc)
+void GameLevel2D::Render(RenderContext& rc)
 {
 	//m_sprite.Draw(rc);
 	//レベル2DクラスのSpriteの描画処理。

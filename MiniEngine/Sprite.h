@@ -7,7 +7,7 @@
 class Texture;
 
 //スプライトに設定できる最大テクスチャ数。
-const int MAX_TEXTURE = 16;	
+const int MAX_TEXTURE = 16;
 //拡張SRVが設定されるレジスタの開始番号。
 const int EXPAND_SRV_REG__START_NO = 10;
 
@@ -50,6 +50,11 @@ public:
 	/// </summary>
 	/// <param name="initData">初期化データ</param>
 	void Init(const SpriteInitData& initData);
+
+
+	void SetMulColor(const Vector4& mulcolor) {
+		m_mulColor = mulcolor;
+	}
 	/// <summary>
 	/// 更新。
 	/// </summary>
@@ -106,6 +111,7 @@ private:
 	Texture m_textures[MAX_TEXTURE];	//テクスチャ。
 	Texture* m_textureExternal[MAX_TEXTURE] = {nullptr};	//外部から指定されたテクスチャ
 	Vector3 m_position ;				//座標。
+	Vector3 m_scale;
 	Vector2 m_size;						//サイズ。
 	Quaternion m_rotation ;			//回転。
 	Matrix m_world;					//ワールド行列。
@@ -124,4 +130,5 @@ private:
 	PipelineState		m_pipelineState;		//パイプラインステート。
 	Shader				m_vs;					//頂点シェーダー。
 	Shader				m_ps;					//ピクセルシェーダー。
+	Vector4				m_mulColor;				//乗算カラー。
 };
