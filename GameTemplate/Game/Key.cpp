@@ -12,7 +12,7 @@ bool Key::Start() {
 	m_player = FindGO<Player>("player");
 
 
-	//Œ®‚ª‚ ‚Á‚½‚çÀ•W‚ğ“o˜^B
+	//éµãŒã‚ã£ãŸã‚‰åº§æ¨™ã‚’ç™»éŒ²ã€‚
 	if (m_skinModelRender_Key != nullptr) {
 
 		m_skinModelRender_Key->SetPosition(m_keyPos);
@@ -23,7 +23,7 @@ bool Key::Start() {
 		//);
 	}
 
-	//ƒhƒA‚ª‚ ‚Á‚½‚çÀ•W‚ğ“o˜^+“–‚½‚è”»’è‚ğ•t‚¯‚éB
+	//ãƒ‰ã‚¢ãŒã‚ã£ãŸã‚‰åº§æ¨™ã‚’ç™»éŒ²+å½“ãŸã‚Šåˆ¤å®šã‚’ä»˜ã‘ã‚‹ã€‚
 	if (m_skinModelRender_Door != nullptr) {
 		m_skinModelRender_Door->SetPosition(m_doorPos);
 		m_skinModelRender_Door->UpdateWorldMatrix();
@@ -48,7 +48,8 @@ void Key::InitKey(const char* name) {
 
 	sprintf(filePathtkm, "Assets/modelData/tkm/%s.tkm", name);
 	m_skinModelRender_Key = NewGO<SkinModelRender>(0);
-	m_skinModelRender_Key->SetFileNametkm(filePathtkm);
+	m_skinModelRender_Key->SetFileNametkm(filePathtkm);	
+	m_skinModelRender_Key->SetShadowReceiverFlag(true);
 	m_skinModelRender_Key->Init(true, false);
 }
 
@@ -59,44 +60,42 @@ void Key::InitDoor(const char* name) {
 	sprintf(filePathtkm, "Assets/modelData/tkm/%s.tkm", name);
 	m_skinModelRender_Door = NewGO<SkinModelRender>(0);
 	m_skinModelRender_Door->SetFileNametkm(filePathtkm);
+	m_skinModelRender_Door->SetShadowReceiverFlag(true);
 	m_skinModelRender_Door->Init(true, false);
 }
 
 void Key::Update() {
 
-	getKeyFlg = m_player->GetKeyFlg();
-	if (getKeyFlg == true) {
-		m_spriteRender = NewGO<SpriteRender>(1);	//<//>1‰ñ‚¾‚¯‰æ‘œ‚ğŒÄ‚Ñ‚½‚¢
-		Vector3 vec = m_keyPos;
-		vec.y += 100.0f;
-		m_spriteRender->SetPosition(vec);									//<•ÏX>Œ®æ‚Á‚½‚ç–ß‚é‡}(‰æ‘œ)‚ğo‚·
-		m_spriteRender->Init("Assets/Image/yazirusi.dds", 256.0f, 256.0f);
-	}
+	
 
 
 
-	//3mˆÈ“à‚È‚çŒ®æ“¾B
+	//3mä»¥å†…ãªã‚‰éµå–å¾—ã€‚
 	Vector3 keyLength;
 
 	keyLength = m_player->GetPosition() - m_keyPos;
-	if (keyLength.Length() <= 200.0f) {
+	if (keyLength.Length() <= 300.0f && !m_player->GetKeyFlg()) {
+		
+		//éµã‚’æ¶ˆå»ã—ã¦å–å¾—åŠ¹æœéŸ³ã‚’å†ç”Ÿã€‚
 		DeleteGO(m_skinModelRender_Key);
-
+		GetKey();
+		
 		if (KeyGetSoundFlag == true) {
 
-			//’ÊíBGM‚ğíœB
+			//é€šå¸¸BGMã‚’å‰Šé™¤ã€‚
 			Background* background = FindGO<Background>("background");
 			DeleteGO(background->GameBGMSound);
 
-			//GameScreen_NoGetKey.casl‚ğíœ‚µAGameScreen_YesGetKey.casl‚ğŒÄ‚Ô‚±‚Æ‚ÅŒ®æ“¾‚ÌUI‚ğì¬‚·‚éB
 
-			//Flag‚ğfalse(Œ®æ“¾’†)‚É‚·‚éB
+			//GameScreen_NoGetKey.caslï¿½ï¿½íœï¿½ï¿½ï¿½AGameScreen_YesGetKey.caslï¿½ï¿½Ä‚Ô‚ï¿½ï¿½Æ‚ÅŒï¿½ï¿½æ“¾ï¿½ï¿½UIï¿½ï¿½ì¬ï¿½ï¿½ï¿½ï¿½B
+
+			//Flagï¿½ï¿½false(ï¿½ï¿½ï¿½æ“¾ï¿½ï¿½)ï¿½É‚ï¿½ï¿½ï¿½B
 			GameLevel2D* gamescreenlevel2d = FindGO<GameLevel2D>("gamescreenlevel2d");
 			gamescreenlevel2d->NoGetKeyFlag = false;
-			//‘O‚ÌŒ®‚ğƒQƒbƒg‚µ‚Ä‚¢‚È‚¢‚Æ‚«‚ÌUI‚ğíœB
+			//ï¿½Oï¿½ÌŒï¿½ï¿½ï¿½Qï¿½bï¿½gï¿½ï¿½ï¿½Ä‚ï¿½ï¿½È‚ï¿½ï¿½Æ‚ï¿½ï¿½ï¿½UIï¿½ï¿½íœï¿½B
 			DeleteGO(gamescreenlevel2d->m_sprite);
 
-			//Œ®æ“¾‚ÌŒø‰Ê‰¹Ä¶B
+			//ï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½ÌŒï¿½Ê‰ï¿½ï¿½Äï¿½ï¿½B
 
 			KeyGetSound = NewGO<CSoundSource>(0);
 
@@ -104,29 +103,29 @@ void Key::Update() {
 			KeyGetSound->SetVolume(1.0f);
 			KeyGetSound->Play(false);
 
-			//false‚É‚µ‚Ä”²‚¯‚éB
+			//falseã«ã—ã¦æŠœã‘ã‚‹ã€‚
 			KeyGetSoundFlag = false;
 		}
 
-		//Œ®æ“¾ƒtƒ‰ƒO‚ğtrue‚ÉB
+		//éµå–å¾—ãƒ•ãƒ©ã‚°ã‚’trueã«ã€‚
 		m_player->SetKeyFlg(true);
 	}
 
-	//KeyGetSoundFlag‚ªfalse‚É‚È‚Á‚½‚çA
+	//KeyGetSoundFlagãŒfalseã«ãªã£ãŸã‚‰ã€
 	if(KeyGetSoundFlag ==false) {
 		GetDelay++;
 	}
 
 	if (GetDelay == 120) {
-		//’ÊíBGM‚ÌƒAƒbƒvƒeƒ“ƒ|”Å‚ğÄ¶‚µ•Ï‰»‚ğ‚Â‚¯AÅ‚ç‚·‰‰oB
+		//é€šå¸¸BGMã®ã‚¢ãƒƒãƒ—ãƒ†ãƒ³ãƒç‰ˆã‚’å†ç”Ÿã—å¤‰åŒ–ã‚’ã¤ã‘ã€ç„¦ã‚‰ã™æ¼”å‡ºã€‚
 		GameBGMSound_UpTempo = NewGO<CSoundSource>(0);
 
 		GameBGMSound_UpTempo->Init(L"Assets/sound/GameBGM._UpTempo.wav");
 		GameBGMSound_UpTempo->SetVolume(1.0f);
-		GameBGMSound_UpTempo->Play(true);		//ƒ‹[ƒvÄ¶B
+		GameBGMSound_UpTempo->Play(true);		//ãƒ«ãƒ¼ãƒ—å†ç”Ÿã€‚
 	}
 
-	//Œ®‚ğæ“¾‚µ‚Ä‚¢‚é‚¤‚¦‚ÅƒhƒA‚Æ‚Ì‹——£‚ª3mˆÈ“à‚È‚çƒhƒA‚ğ”j‰óB
+	//éµã‚’å–å¾—ã—ã¦ã„ã‚‹ã†ãˆã§ãƒ‰ã‚¢ã¨ã®è·é›¢ãŒ3mä»¥å†…ãªã‚‰ãƒ‰ã‚¢ã‚’ç ´å£Šã€‚
 	if (m_player->GetKeyFlg()) {
 		Vector3 doorLength;
 		doorLength = m_player->GetPosition() - m_doorPos;
@@ -134,40 +133,54 @@ void Key::Update() {
 
 			if (GameClearSoundFlag == true) {
 
-				//BGM‚ğíœB
+				//BGMã‚’å‰Šé™¤ã€‚
 				DeleteGO(GameBGMSound_UpTempo);
 
-				//ƒQ[ƒ€ƒNƒŠƒA‚ÌƒTƒEƒ“ƒh‚ğÄ¶B
+				//ã‚²ãƒ¼ãƒ ã‚¯ãƒªã‚¢ã®ã‚µã‚¦ãƒ³ãƒ‰ã‚’å†ç”Ÿã€‚
 				GameClearSound = NewGO<CSoundSource>(0);
 
 				GameClearSound->Init(L"Assets/sound/GameClear.wav");
 				GameClearSound->SetVolume(1.0f);
-				GameClearSound->Play(false);		//ƒƒ“ƒVƒ‡ƒbƒgÄ¶B
+				GameClearSound->Play(false);		//ï¿½ï¿½ï¿½ï¿½ï¿½Vï¿½ï¿½ï¿½bï¿½gï¿½Äï¿½ï¿½B
 
-				//false‚É‚µ‚Ä”²‚¯‚éB
+				//falseã«ã—ã¦æŠœã‘ã‚‹ã€‚
 				GameClearSoundFlag = false;
 			}
 
-			//Clear•¶š•\¦
+			//Clearæ–‡å­—è¡¨ç¤º
 			m_fontRender = NewGO<FontRender>(2);
 			m_fontRender->Init(L"Clear!!", Vector2{ (50.0f),(25.0f) });
 
-			//ƒhƒA‚Ìƒ‚ƒfƒ‹ƒf[ƒ^‚ğíœB
+			//ãƒ‰ã‚¢ã®ãƒ¢ãƒ‡ãƒ«ãƒ‡ãƒ¼ã‚¿ã‚’å‰Šé™¤ã€‚
 			DeleteGO(m_skinModelRender_Door);
 
-			//ƒhƒA‚Ì“–‚½‚è”»’è‚ğíœB
+			//ãƒ‰ã‚¢ã®å½“ãŸã‚Šåˆ¤å®šã‚’å‰Šé™¤ã€‚
 			m_physicsStaticObject.Release();
-
+			m_doorbreakFlg = true;
 			GameOverFlag = true;
 		}
 	}
+}
 
+void Key::GetKey()
+{
+	m_sound = NewGO<CSoundSource>(0);
+	m_sound->Init(L"Assets/sound/KeyGet.wav");		//éµå–ã£ãŸæ™‚ã®åŠ¹æœéŸ³è¿½åŠ 
+	m_sound->SetVolume(1.0f);
+	m_sound->Play(false);
+
+	m_spriteRender = NewGO<SpriteRender>(1);	
+	Vector3 vec = m_keyPos;
+	vec.y += 100.0f;
+	m_spriteRender->SetPosition(vec);								//<å¤‰æ›´>éµå–ã£ãŸã‚‰æˆ»ã‚‹åˆå›³(ç”»åƒ)ã‚’å‡ºã™
+	m_spriteRender->Init("Assets/Image/yazirusi.dds", 256.0f, 256.0f);
 	if (GameOverFlag == true) {
-		//1.5•bƒJƒEƒ“ƒg
+
+		//1.5ï¿½bï¿½Jï¿½Eï¿½ï¿½ï¿½g
 		GameOverCount++;
-		//ƒQ[ƒ€ƒNƒŠƒA‚µ‚Ä‚©‚ç1.5•b‚½‚Á‚½‚çA
+		//ï¿½Qï¿½[ï¿½ï¿½ï¿½Nï¿½ï¿½ï¿½Aï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½1.5ï¿½bï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½A
 		if (GameOverCount == 90) {
-			//ƒŠƒUƒ‹ƒgƒV[ƒ“ƒNƒ‰ƒX‚ğŒÄ‚Ño‚·B
+			//ï¿½ï¿½ï¿½Uï¿½ï¿½ï¿½gï¿½Vï¿½[ï¿½ï¿½ï¿½Nï¿½ï¿½ï¿½Xï¿½ï¿½Ä‚Ñoï¿½ï¿½ï¿½B
 			NewGO<ResultScene>(0);
 		}
 	}
