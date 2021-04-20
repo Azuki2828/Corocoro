@@ -2,24 +2,29 @@
 class SpriteRender : public IGameObject
 {
 public:
-	//ƒXƒvƒ‰ƒCƒg‰Šú‰»ŠÖ”B
+	bool Start()override final;
+	//ã‚¹ãƒ—ãƒ©ã‚¤ãƒˆåˆæœŸåŒ–é–¢æ•°ã€‚
 	void Init(const char* filepath, float width, float height , AlphaBlendMode mode = AlphaBlendMode::AlphaBlendMode_Trans);
 	void Render(RenderContext& rc) override;
-	void SetPosition(Vector3 pos) { m_pos = pos; }
+	void SetPosition(const Vector3& pos) { m_pos = pos; }
+	void SetRotation(const Quaternion& rot) { m_rot = rot; }
+	void SetScale(const Vector3& sca) { m_sca = sca; }
+	void SetMulColor(const Vector4& mulCol) {
+		m_mulColor = mulCol;
+	}
 	void SetScale(const Vector3& scale)
 	{
 		m_scale = scale;
 
-	}
-	void SetMulColor(const Vector4& mulcolor) {
-		m_mulColor = mulcolor;
 	}
 	void Update()override final;
 private:
 	Sprite m_sprite;
 	SpriteInitData m_initData;
 	Vector3 m_pos;
-	Vector3 m_scale = Vector3::One;
-	Vector4 m_mulColor = { 1.0f,1.0f,1.0f,1.0f };
+	Quaternion m_rot = Quaternion::Identity;
+	Vector3 m_sca = Vector3::One;
+	Vector4 m_mulColor = { 1.0f,1.0f,1.0f,1.0f };	//ä¹—ç®—ã‚«ãƒ©ãƒ¼ã€‚
+	Vector3 m_scale = {-1.0f,1.0f,1.0f};
 };
 

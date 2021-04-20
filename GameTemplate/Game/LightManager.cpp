@@ -68,4 +68,5 @@ void LightManager::RemoveLight(LightBase* light)
 
 void LightManager::Update() {
 	m_lightManager->m_ligData.eyePos = g_camera3D->GetPosition();
+	//m_lightManager->m_ligData.viewProj = Camera::GetLightCamera()->GetViewProjectionMatrix();
 }

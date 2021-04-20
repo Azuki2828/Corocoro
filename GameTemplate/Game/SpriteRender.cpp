@@ -1,6 +1,11 @@
 #include "stdafx.h"
 #include "SpriteRender.h"
 
+
+bool SpriteRender::Start() {
+
+	return true;
+}
 void SpriteRender::Init(const char* filepath, float width, float height, AlphaBlendMode mode) {
 
 	m_initData.m_ddsFilePath[0] = filepath;
@@ -15,9 +20,16 @@ void SpriteRender::Init(const char* filepath, float width, float height, AlphaBl
 void SpriteRender::Update() {
 
 	m_sprite.SetMulColor(m_mulColor);
-	m_sprite.Update(m_pos, Quaternion::Identity, m_scale);
+	m_sprite.Update(m_pos, m_rot, m_sca);
 }
 
 void SpriteRender::Render(RenderContext& rc) {
-	m_sprite.Draw(rc);
+
+	switch (rc.GetRenderMode()) {
+	case RenderContext::Render_Mode::RenderMode_Shadow:
+		break;
+	case RenderContext::Render_Mode::RenderMode_Normal:
+		m_sprite.Draw(rc);
+		break;
+	}
 }

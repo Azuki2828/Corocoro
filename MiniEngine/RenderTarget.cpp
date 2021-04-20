@@ -2,6 +2,9 @@
 #include "RenderTarget.h"
 #include "GraphicsEngine.h"
 
+RenderTarget* RenderTarget::m_shadowMap = nullptr;
+RenderTarget* RenderTarget::m_mainRenderTarget = nullptr;
+
 bool RenderTarget::Create(
 	int w,
 	int h,

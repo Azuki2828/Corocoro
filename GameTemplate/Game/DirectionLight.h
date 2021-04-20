@@ -26,7 +26,7 @@ public:
 		m_dirLigData.Dir.Normalize();
 	}
 
-	void SetLigColor(float _x = 20.0f, float _y = 20.0f, float _z = 20.0f) {
+	void SetLigColor(float _x = 50.0f, float _y = 50.0f, float _z = 50.0f) {
 		m_dirLigData.Col.x = _x;
 		m_dirLigData.Col.y = _y;
 		m_dirLigData.Col.z = _z;
