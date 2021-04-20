@@ -7,10 +7,8 @@
 #include "Key.h"
 #include "GameTime.h"
 
-
-//#include "GameTime.h"
-
 bool Game::Start() {
+
 
 	m_dirLight = NewGO<DirectionLight>(0);
 	m_dirLight->SetLigDirection();
@@ -35,6 +33,7 @@ bool Game::Start() {
 
 Game::~Game()
 {
+
 }
 
 void Game::Update() {
@@ -58,7 +57,7 @@ void Game::Update() {
 
 	swprintf_s(text1[0], L"Time : %2.1f", time);
 	m_fontRender->SetText(text1[0]);
-	m_fontRender->SetPosition({ 350.0f, 350.0f });
+	m_fontRender->SetPosition({ 0.0f, 350.0f });
 	
 
 	if (m_player->GetdoorbreakFlg() == true && doorbreakSoundFlg == true) {		

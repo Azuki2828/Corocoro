@@ -163,7 +163,7 @@ void Key::GetKey()
 	vec.y += 100.0f;
 	m_spriteRender->SetPosition(vec);								//<変更>鍵取ったら戻る合図(画像)を出す
 	m_spriteRender->Init("Assets/Image/yazirusi.dds", 256.0f, 256.0f);
-}
+
 	if (GameOverFlag == true) {
 		//5秒カウント
 		GameOverCount++;

@@ -12,12 +12,6 @@ public:
 	void SetMulColor(const Vector4& mulCol) {
 		m_mulColor = mulCol;
 	}
-	void SetScale(const Vector3& scale)
-	{
-		m_scale = scale;
-		m_scale.x *= -1.0f;
-
-	}
 	void Update()override final;
 private:
 	Sprite m_sprite;

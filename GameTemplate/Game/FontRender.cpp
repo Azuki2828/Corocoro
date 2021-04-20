@@ -20,7 +20,7 @@ void FontRender::Init(
 
 void FontRender::Render(RenderContext& rc) {
 
-	//if (RenderContext::Render_Mode::RenderMode_Normal) {		//Ç»ÇÒÇÃÇΩÇﬂÇÃÇ‚Ç¬ÅHbyÇ±ÇﬂÇ∂
+	if (rc.GetRenderMode() == RenderContext::Render_Mode::RenderMode_Normal) {
 		m_font.Begin(rc);
 
 		m_font.Draw(
@@ -33,5 +33,5 @@ void FontRender::Render(RenderContext& rc) {
 		);
 
 		m_font.End(rc);
-	//}
+	}
 }

@@ -53,7 +53,7 @@ bool Player::Start()
 	//剛体を初期化。
 	RigidBodyInitData rbInitData;
 	//質量を設定する。
-	rbInitData.mass = 1.5f;
+	rbInitData.mass = 1.0f;
 	rbInitData.collider = &m_sphereCollider;
 	//rbInitData.pos.y = 100.0f;
 	rbInitData.pos = m_pos;
@@ -178,12 +178,6 @@ void Player::Update()
 	//Aボタンでプレイヤーの磁力を反転させる
 	if (g_pad[0]->IsTrigger(enButtonA)) {
 		ChangeState();
-		
-
-		m_sound = NewGO<CSoundSource>(0);
-		m_sound->Init(L"Assets/sound/ChangeState.wav");		//磁力変えた時の効果音追加
-		m_sound->SetVolume(1.0f);
-		m_sound->Play(false);
 
 		//NとSを切り替えるときの効果音再生。
 
