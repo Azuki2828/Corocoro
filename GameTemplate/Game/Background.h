@@ -26,7 +26,6 @@ private:
 	PhysicsStaticObject m_physicsStaticObject;	//静的物理オブジェクト・
 	Level m_level;								//レベル
 	SpriteRender* m_spriteRender = nullptr;		//スプライトレンダー
-	FontRender* m_fontRender = nullptr;			//フォントレンダー
 
 	std::vector<Magnet*> m_magnet;
 	Key* m_key = nullptr;

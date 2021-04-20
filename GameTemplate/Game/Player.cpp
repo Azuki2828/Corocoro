@@ -80,6 +80,7 @@ bool Player::Start()
 
 Player::~Player()
 {
+
 }
 
 void Player::Update()
@@ -196,14 +197,6 @@ void Player::Update()
 	//toCamere.y = 100.0f;
 	//toCamere.z = -2500.0f;
 	//g_camera3D->SetPosition(pos + toCamere);
-
-	Key* key = FindGO<Key>("key");
-
-	//ゲームクリアしてから5秒たったら、
-	if (key->GameOverCount > 300) {
-		//クラスを削除。
-		DeleteGO(this);
-	}
 }
 
 void Player::ChangeState() {

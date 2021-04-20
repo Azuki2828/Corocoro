@@ -148,9 +148,6 @@ void Key::Update() {
 				GameClearSoundFlag = false;
 			}
 
-			//Clear文字表示
-			m_fontRender = NewGO<FontRender>(2);
-			m_fontRender->Init(L"Clear!!", Vector2{ (50.0f),(25.0f) });
 
 			//ドアのモデルデータを削除。
 			DeleteGO(m_skinModelRender_Door);

@@ -9,10 +9,6 @@ bool Background::Start()
 	m_magnet.resize(1);
 	int sampleNum = 0;
 
-	//TimeBackスプライトの上に表示させたいからゲーム画面のUIレイヤー1に+1した値「2」にしている。
-	m_fontRender = NewGO<FontRender>(2);
-	m_fontRender->Init(L"hello",Vector2{(-535.0f),(310.0f)});	//画面左上
-
 
 	/*const char* MagnetName[] = {
 		"Magnet_N_01",
@@ -301,22 +297,13 @@ bool Background::Start()
 
 Background::~Background()
 {
-	//背景削除。
-	DeleteGO(m_spriteRender);
-	//タイム削除。
-	DeleteGO(m_fontRender);
+
 }
 
 
 void Background::Update()
 {
-	Key* key = FindGO<Key>("key");
 
-	//ゲームクリアしてから5秒たったら、
-	if (key->GameOverCount > 300) {
-		//クラスを削除。
-		DeleteGO(this);
-	}
 }
 
 
