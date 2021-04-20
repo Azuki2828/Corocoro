@@ -21,12 +21,12 @@ public:
 	CSoundSource* GameBGMSound = nullptr;		//BGM用サウンドソース
 
 private:
-	float deathPosY;							//死ぬY座標。ステージによって異なる。
+	float deathPosY;							//死ぬY座標。ステージによってポジションは異なる。
 	Model m_model;								//モデル
 	PhysicsStaticObject m_physicsStaticObject;	//静的物理オブジェクト・
 	Level m_level;								//レベル
 	SpriteRender* m_spriteRender = nullptr;		//スプライトレンダー
-	FontRender* m_fontRender = nullptr;
+	FontRender* m_fontRender = nullptr;			//フォントレンダー
 
 	std::vector<Magnet*> m_magnet;
 	Key* m_key = nullptr;

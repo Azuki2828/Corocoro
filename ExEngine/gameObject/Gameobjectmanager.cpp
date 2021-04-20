@@ -55,8 +55,9 @@ void GameObjectManager::ExecuteRender(RenderContext& rc)
 	rc.WaitUntilToPossibleSetRenderTarget(*RenderTarget::GetShadowMap());
 	rc.SetRenderTargetAndViewport(*RenderTarget::GetShadowMap());
 	rc.ClearRenderTargetView(*RenderTarget::GetShadowMap());
-
 	rc.SetRenderMode(RenderContext::Render_Mode::RenderMode_Shadow);
+
+
 	for (auto& goList : m_gameObjectListArray) {
 		for (auto& go : goList) {
 			go->RenderWrapper(rc);

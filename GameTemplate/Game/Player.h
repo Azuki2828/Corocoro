@@ -4,12 +4,14 @@ class Key;
 #include "Key.h"
 
 class Background;
+class Game;
 
 class Player : public IGameObject
 {
 private:
 	bool getKeyFlg = false;		//鍵取得フラグ。
 	bool m_keySoundFlg = false;
+	bool m_startFlg = false;
 
 public:
 	bool Start() override;
@@ -78,7 +80,7 @@ private:
 	CharacterController m_charaCon;						//キャラコン。
 
 	DirectionLight* m_dirLight = nullptr;				//ディレクションライト。
-	Vector3 m_pos = { 300.0f,300.0f,0.0f };				//初期座標。
+	Vector3 m_pos = { 300.0f,305.0f,0.0f };				//初期座標。
 	Quaternion m_rot = Quaternion::Identity;
 	//Vector3 m_pos = { 1500.0f,2800.0f,0.0f };
 	//Vector3 m_pos = { 1500.0f,2800.0f,20.0f };
@@ -93,6 +95,6 @@ private:
 
 	Key* m_key = nullptr;
 	Background* m_backGround = nullptr;
-
+	Game* m_game = nullptr;
 	CSoundSource* NSChangeSound = nullptr;		//NS反転サウンドソース
 };

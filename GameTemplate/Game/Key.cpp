@@ -5,6 +5,8 @@
 #include "Background.h"
 #include "ResultScene.h"
 
+#include "GameLevel2D.h"
+
 bool Key::Start() {
 
 	m_player = FindGO<Player>("player");
@@ -84,7 +86,16 @@ void Key::Update() {
 			Background* background = FindGO<Background>("background");
 			DeleteGO(background->GameBGMSound);
 
-			//鍵取得時の効果音再生。
+
+			//GameScreen_NoGetKey.casl��폜���AGameScreen_YesGetKey.casl��ĂԂ��ƂŌ��擾��UI��쐬����B
+
+			//Flag��false(���擾��)�ɂ���B
+			GameLevel2D* gamescreenlevel2d = FindGO<GameLevel2D>("gamescreenlevel2d");
+			gamescreenlevel2d->NoGetKeyFlag = false;
+			//�O�̌���Q�b�g���Ă��Ȃ��Ƃ���UI��폜�B
+			DeleteGO(gamescreenlevel2d->m_sprite);
+
+			//���擾���̌�ʉ��Đ��B
 
 			KeyGetSound = NewGO<CSoundSource>(0);
 
@@ -130,7 +141,7 @@ void Key::Update() {
 
 				GameClearSound->Init(L"Assets/sound/GameClear.wav");
 				GameClearSound->SetVolume(1.0f);
-				GameClearSound->Play(false);
+				GameClearSound->Play(false);		//�����V���b�g�Đ��B
 
 				//falseにして抜ける。
 				GameClearSoundFlag = false;
@@ -163,13 +174,13 @@ void Key::GetKey()
 	vec.y += 100.0f;
 	m_spriteRender->SetPosition(vec);								//<変更>鍵取ったら戻る合図(画像)を出す
 	m_spriteRender->Init("Assets/Image/yazirusi.dds", 256.0f, 256.0f);
-
 	if (GameOverFlag == true) {
-		//5秒カウント
+
+		//1.5�b�J�E���g
 		GameOverCount++;
-		//ゲームクリアしてから5秒たったら、
-		if (GameOverCount == 100) {
-			//リザルトシーンクラスを呼び出す。
+		//�Q�[���N���A���Ă���1.5�b�������A
+		if (GameOverCount == 90) {
+			//���U���g�V�[���N���X��Ăяo���B
 			NewGO<ResultScene>(0);
 		}
 	}

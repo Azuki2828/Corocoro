@@ -2,7 +2,6 @@
 class ResultScene : public IGameObject
 {
 public:
-	ResultScene();
 	~ResultScene();
 	bool Start();
 	void Update();

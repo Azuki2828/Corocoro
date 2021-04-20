@@ -3,7 +3,7 @@ class SpriteRender : public IGameObject
 {
 public:
 	bool Start()override final;
-	//ƒXƒvƒ‰ƒCƒg‰Šú‰»ŠÖ”B
+	//ã‚¹ãƒ—ãƒ©ã‚¤ãƒˆåˆæœŸåŒ–é–¢æ•°ã€‚
 	void Init(const char* filepath, float width, float height , AlphaBlendMode mode = AlphaBlendMode::AlphaBlendMode_Trans);
 	void Render(RenderContext& rc) override;
 	void SetPosition(const Vector3& pos) { m_pos = pos; }
@@ -12,6 +12,11 @@ public:
 	void SetMulColor(const Vector4& mulCol) {
 		m_mulColor = mulCol;
 	}
+	void SetScale(const Vector3& scale)
+	{
+		m_scale = scale;
+
+	}
 	void Update()override final;
 private:
 	Sprite m_sprite;
@@ -19,7 +24,7 @@ private:
 	Vector3 m_pos;
 	Quaternion m_rot = Quaternion::Identity;
 	Vector3 m_sca = Vector3::One;
-	Vector4 m_mulColor = { 1.0f,1.0f,1.0f,1.0f };	//æZƒJƒ‰[B
+	Vector4 m_mulColor = { 1.0f,1.0f,1.0f,1.0f };	//ä¹—ç®—ã‚«ãƒ©ãƒ¼ã€‚
 	Vector3 m_scale = {-1.0f,1.0f,1.0f};
 };
 

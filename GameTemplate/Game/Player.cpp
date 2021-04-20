@@ -4,10 +4,14 @@
 #include "DirectionLight.h"
 #include "MainCamera.h"
 #include "Background.h"
+#include "Game.h"
 
 bool Player::Start()
 {
-	///アニメーションクリップをロードする。
+
+	m_game = FindGO<Game>("game");
+
+	////アニメーションクリップをロードする。
 	//m_animationClips[enAnimClip_Idle].Load("Assets/animData/idle.tka");
 	//m_animationClips[enAnimClip_Idle].SetLoopFlag(true);
 	//m_animationClips[enAnimClip_Run].Load("Assets/animData/walk.tka");
@@ -83,6 +87,7 @@ bool Player::Start()
 Player::~Player()
 {
 }
+
 
 void Player::Update()
 {
@@ -176,8 +181,10 @@ void Player::Update()
 	);
 	m_movePower = { 0.0f,0.0f,0.0f };
 	//Aボタンでプレイヤーの磁力を反転させる
-	if (g_pad[0]->IsTrigger(enButtonA)) {
-		ChangeState();
+
+	if (m_game->m_timer >= 200) {
+		if (g_pad[0]->IsTrigger(enButtonA)) {
+			ChangeState();
 
 		//NとSを切り替えるときの効果音再生。
 
@@ -185,7 +192,7 @@ void Player::Update()
 
 		NSChangeSound->Init(L"Assets/sound/NSChange.wav");
 		NSChangeSound->SetVolume(0.5f);
-		NSChangeSound->Play(false);
+		NSChangeSound->Play(false);	//ワンショット再生
 
 		//アクティブフラグを更新。
 		for (int i = 0; i < enPlayer_Num; i++) {
@@ -218,6 +225,13 @@ void Player::Update()
 	
 	
 
+	Key* key = FindGO<Key>("key");
+
+	//ゲームクリアしてから5秒たったら、
+	if (key->GameOverCount > 300) {
+		//クラスを削除。
+		DeleteGO(this);
+	}
 }
 
 void Player::ChangeState() {

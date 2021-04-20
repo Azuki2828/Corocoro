@@ -2,7 +2,7 @@
 #include "Background.h"
 #include "Magnet.h"
 #include "Key.h"
-#include "GameScreenLevel2D.h"
+#include "GameLevel2D.h"
 
 bool Background::Start()
 {
@@ -14,6 +14,11 @@ bool Background::Start()
 	//m_fontRender->Init(/*GameTime::GameTimeFunc().GetFrameDeltaTime()*/L"Hello",Vector2{(500.0f),(350.0f)});
 	//m_fontRender = NewGO<FontRender>(2);
 	//m_fontRender->Init(L"hello", Vector2{ (500.0f),(350.0f) });
+
+	//TimeBackスプライトの上に表示させたいからゲーム画面のUIレイヤー1に+1した2にしている。
+	m_fontRender = NewGO<FontRender>(2);
+	m_fontRender->Init(L"hello",Vector2{(-535.0f),(310.0f)});	//��ʍ���
+
 
 
 	
@@ -34,9 +39,8 @@ bool Background::Start()
 		"MagnetHoge",
 	};*/
 
-	//ゲーム画面のUI表示
-	NewGO<GameScreenLevel2D>(1);
-
+	//�Q�[����ʂ�UI�\��
+	NewGO<GameLevel2D>(1,"gamescreenlevel2d");
 	//背景画像を初期化。
 	m_spriteRender = NewGO<SpriteRender>(0);
 	m_spriteRender->SetPosition({ 0.0f,0.0f,0.0f });
