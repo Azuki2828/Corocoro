@@ -1,0 +1,11 @@
+10
+8,GrayBack,71,C:/Users/bm20b04/Desktop/MyGame/GameTemplate/Game/Resource/GrayBack.png,0.0,0.0,2048,2048,9,0.5,0.5,12,GrayBack.dds
+6,Result,69,C:/Users/bm20b04/Desktop/MyGame/GameTemplate/Game/Resource/Result.png,0.0,240.0,2048,2048,10,0.5,0.5,10,Result.dds
+7,second1,70,C:/Users/bm20b04/Desktop/MyGame/GameTemplate/Game/Resource/second1.png,250.0,50.0,2048,2048,10,0.2,0.2,11,second1.dds
+4,ten1,67,C:/Users/bm20b04/Desktop/MyGame/GameTemplate/Game/Resource/ten1.png,-100.0,50.0,2048,2048,10,0.2,0.2,8,ten1.dds
+4,time,67,C:/Users/bm20b04/Desktop/MyGame/GameTemplate/Game/Resource/time.png,-240.0,50.0,2048,2048,10,0.2,0.2,8,time.dds
+3,top,66,C:/Users/bm20b04/Desktop/MyGame/GameTemplate/Game/Resource/top.png,-242.5,-50.0,2048,2048,10,0.2,0.2,7,top.dds
+4,ten2,67,C:/Users/bm20b04/Desktop/MyGame/GameTemplate/Game/Resource/ten2.png,-100.0,-50.0,2048,2048,10,0.2,0.2,8,ten2.dds
+7,second2,70,C:/Users/bm20b04/Desktop/MyGame/GameTemplate/Game/Resource/second2.png,250.0,-50.0,2048,2048,10,0.2,0.2,11,second2.dds
+11,titlebutton,74,C:/Users/bm20b04/Desktop/MyGame/GameTemplate/Game/Resource/titlebutton.png,-200.0,-240.0,2048,2048,10,0.25,0.25,15,titlebutton.dds
+3,End,66,C:/Users/bm20b04/Desktop/MyGame/GameTemplate/Game/Resource/End.png,200.0,-240.0,2048,2048,10,0.2,0.2,7,End.dds

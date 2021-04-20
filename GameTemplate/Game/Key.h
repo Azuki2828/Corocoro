@@ -58,8 +58,6 @@ private:
 
 	int GetDelay = 0;	//鍵を取得してから鍵取得のサウンド再生が終わるまでの時間を待たせる変数。
 
-	FontRender* m_fontRender = nullptr;	//Clear!!文字表示
-
 	bool GameOverFlag = false;
 
 };

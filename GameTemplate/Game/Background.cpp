@@ -9,7 +9,6 @@ bool Background::Start()
 	m_magnet.resize(1);
 	int sampleNum = 0;
 
-
 	//m_fontRender = NewGO<FontRender>(2);
 	//m_fontRender->Init(/*GameTime::GameTimeFunc().GetFrameDeltaTime()*/L"Hello",Vector2{(500.0f),(350.0f)});
 	//m_fontRender = NewGO<FontRender>(2);
@@ -19,9 +18,6 @@ bool Background::Start()
 	m_fontRender = NewGO<FontRender>(2);
 	m_fontRender->Init(L"hello",Vector2{(-535.0f),(310.0f)});	//��ʍ���
 
-
-
-	
 
 	/*const char* MagnetName[] = {
 		"Magnet_N_01",
@@ -318,8 +314,6 @@ Background::~Background()
 
 void Background::Update()
 {
-	Key* key = FindGO<Key>("key");
-
 	//ゲームクリアしてから5秒たったら、
 	if (key->GameOverCount > 300) {
 		//クラスを削除。
