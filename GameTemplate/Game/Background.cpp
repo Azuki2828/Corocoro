@@ -20,6 +20,7 @@ bool Background::Start()
 	m_fontRender->Init(L"hello",Vector2{(-535.0f),(310.0f)});	//��ʍ���
 
 
+
 	
 
 	/*const char* MagnetName[] = {

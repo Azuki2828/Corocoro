@@ -332,9 +332,8 @@
 
     <ClCompile Include="PostEffect.cpp" />
     <ClCompile Include="Result.cpp" />
+    <ClCompile Include="ResultScene.cpp" />
     <ClCompile Include="SaveData.cpp" />
-
-
     <ClCompile Include="Seesaw.cpp" />
     <ClCompile Include="SettingScene.cpp" />
     <ClCompile Include="SkinModelRender.cpp" />
@@ -438,14 +437,13 @@
     <ClInclude Include="MoveObject.h" />
     <ClInclude Include="PhysicsBall.h" />
     <ClInclude Include="Player.h" />
-
-    <ClInclude Include="ResultScene.h" />
     <ClInclude Include="RuleScene.h" />
 
 
-    <ClInclude Include="Result.h" />
-    <ClInclude Include="SaveData.h" />
 
+    <ClInclude Include="Result.h" />
+    <ClInclude Include="ResultScene.h" />
+    <ClInclude Include="SaveData.h" />
 
     <ClInclude Include="Seesaw.h" />
     <ClInclude Include="SettingScene.h" />

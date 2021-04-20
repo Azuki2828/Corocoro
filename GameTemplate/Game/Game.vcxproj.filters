@@ -324,6 +324,9 @@
     <ClCompile Include="TitleLevel2D.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="GameScreenLevel2D.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
     <ClCompile Include="ResultScene.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
@@ -560,9 +563,6 @@
     <ClInclude Include="..\..\ExEngine\level2D\MapChip2D.h">
       <Filter>ExEngine\level2D</Filter>
     </ClInclude>
-    <ClInclude Include="HelloLevel2D.h">
-      <Filter>ソース ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="LightManager.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
@@ -574,9 +574,6 @@
     </ClInclude>
     <ClInclude Include="..\..\MiniEngine\GaussianBlur.h">
       <Filter>MiniEngine</Filter>
-    </ClInclude>
-    <ClInclude Include="PostEffect.h">
-      <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="LightCamera.h">
       <Filter>ヘッダー ファイル</Filter>
@@ -593,9 +590,13 @@
     <ClInclude Include="TitleLevel2D.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="ResultScene.h">
+    <ClInclude Include="GameScreenLevel2D.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
+
+    <ClInclude Include="ResultScene.h">
+      <Filter>ソース ファイル</Filter>
+
     <ClInclude Include="SettingScene.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
