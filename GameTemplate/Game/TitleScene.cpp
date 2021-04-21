@@ -131,7 +131,7 @@ void TitleScene::Update()
 		 //「はじめる」ボタンが選ばれているとき、
 		 case StartButton:
 			//ゲーム画面に遷移。
-			NewGO<Game>(0);
+			NewGO<Game>(0,"game");
 
 			break;
 

@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "Resultscene.h"
-
+#include "Game.h"
 #include "ResultLevel2D.h"
 #include "TitleScene.h"
 
@@ -9,8 +9,22 @@ bool ResultScene::Start()
 {
 	//リザルト画面表示
 	sprite = NewGO<ResultLevel2D>(0, "ResultLevel2D");
+	m_game = FindGO<Game>("game");
 
 	m_resultLevel2D = FindGO<ResultLevel2D>("ResultLevel2D");
+
+	nowTime = m_game->GetTime();
+	bestTime = m_game->GetBestTime();
+
+	m_nowTime = NewGO<FontRender>(3);
+	wchar_t text[4][64];
+	swprintf_s(text[0], L"%2.1f", nowTime);
+	m_nowTime->Init(text[0], { -20.0f,70.0f }, { 1.0f,1.0f,1.0f,1.0f });
+	m_nowTime->SetScale(1.5f);
+	m_BestTime = NewGO<FontRender>(3);
+	swprintf_s(text[1], L"%2.1f", bestTime);
+	m_BestTime->Init(text[1], { -20.0f,-30.0f }, { 1.0f,1.0f,1.0f,1.0f });
+	m_BestTime->SetScale(1.5f);
 
 	//Start関数のreturn true;
 	return true;
@@ -28,12 +42,12 @@ void ResultScene::Update()
 		//現在セレクトされているボタンが「たいとる」(0番)だったら、
 		if (NowSelect % 2 == 0) {
 			//選択を右に1つずらす。
-			NowSelect += 1;
+			NowSelect = 1;
 		}
 		//現在セレクトされているボタンが「しゅうりょう」(1番)だったら、
 		else {
 			//選択を左に1つずらす。
-			NowSelect -= 1;
+			NowSelect = 0;
 		}
 		//移動効果音鳴らす。
 		CursorMooveSound = NewGO<CSoundSource>(0);
@@ -85,18 +99,18 @@ void ResultScene::Update()
 			//「たいとる」ボタンが選ばれているとき、
 		case TitleBackButton:
 			//ゲーム画面に遷移。
-			NewGO<TitleScene>(0);
+			//NewGO<TitleScene>(0);
 
 			break;
 
 			//「おわる」ボタンが選ばれているとき、
 		case EndButton:
 			//ゲームを終了。
-			exit(1);
+			exit(EXIT_SUCCESS);
 
 			break;
 		};
 		//クラスを削除。
-		DeleteGO(this);
+		//DeleteGO(this);
 	}
 }

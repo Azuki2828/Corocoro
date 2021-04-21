@@ -15,8 +15,8 @@ bool Background::Start()
 	//m_fontRender->Init(L"hello", Vector2{ (500.0f),(350.0f) });
 
 	//TimeBackスプライトの上に表示させたいからゲーム画面のUIレイヤー1に+1した2にしている。
-	m_fontRender = NewGO<FontRender>(2);
-	m_fontRender->Init(L"hello",Vector2{(-535.0f),(310.0f)});	//��ʍ���
+	//m_fontRender = NewGO<FontRender>(2);
+	//m_fontRender->Init(L"hello",Vector2{(-535.0f),(310.0f)});	//��ʍ���
 
 
 	/*const char* MagnetName[] = {
@@ -315,9 +315,9 @@ Background::~Background()
 void Background::Update()
 {
 	//ゲームクリアしてから5秒たったら、
-	if (key->GameOverCount > 300) {
+	if (m_key->GameOverCount > 300) {
 		//クラスを削除。
-		DeleteGO(this);
+		//DeleteGO(this);
 	}
 }
 

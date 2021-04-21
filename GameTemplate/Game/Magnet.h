@@ -1,6 +1,7 @@
 #pragma once
 
 class Player;
+class Key;
 
 class Magnet : public IGameObject
 {
@@ -70,6 +71,7 @@ private:
 	Magnet_State mState;	//磁極のステート。
 
 	Player* m_player = nullptr;
+	Key* m_key = nullptr;
 
 	SkinModelRender* m_skinModelRender = nullptr;
 	PhysicsStaticObject m_physicsStaticObject;

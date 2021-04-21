@@ -329,7 +329,6 @@
     <ClCompile Include="PhysicsBall.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="ResultLevel2D.cpp" />
-    <ClCompile Include="ResultScene.cpp" />
     <ClCompile Include="RuleScene.cpp" />
 
     <ClCompile Include="PostEffect.cpp" />
@@ -442,7 +441,6 @@
     <ClInclude Include="PhysicsBall.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="ResultLevel2D.h" />
-    <ClInclude Include="ResultScene.h" />
     <ClInclude Include="RuleScene.h" />
 
 
