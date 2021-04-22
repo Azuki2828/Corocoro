@@ -13,6 +13,8 @@
 bool Game::Start() {
 
 
+	m_gameStartTime = 3.0f / g_graphicsEngine->GetGraphicTime();
+
 	//セーブを追加
 	m_savedata = NewGO<SaveData>(0,"savedata");
 	//m_savedata->FileSave();
@@ -59,7 +61,6 @@ Game::~Game()
 }
 
 void Game::Update() {
-
 	if (m_startsoundflg == true) {
 		m_sound = NewGO<CSoundSource>(0);
 
@@ -78,7 +79,7 @@ void Game::Update() {
 	
 	m_timer += GameTime::GameTimeFunc().GetFrameDeltaTime();		//スタートの効果音が鳴り終わったらタイム計測開始のためのタイム
 
-	if (m_timer >= 3.0f && doorbreakSoundFlg == true) {
+	if (m_timer >= m_gameStartTime && doorbreakSoundFlg == true) {
 		m_time += GameTime::GameTimeFunc().GetFrameDeltaTime();
 	}
 

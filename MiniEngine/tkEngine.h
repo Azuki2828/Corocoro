@@ -23,10 +23,15 @@ public:
 	/// ゲームエンジンの初期化。
 	/// </summary>
 	void Init(HWND hwnd, UINT frameBufferWidth, UINT frameBufferHeight);
+
+	const int GetRate()const {
+		return m_rate;
+	}
 private:
 	GraphicsEngine* m_graphicsEngine = nullptr;		//グラフィックエンジン。
 	GamePad m_pad[GamePad::CONNECT_PAD_MAX];		//ゲームパッド。
 	GameTime m_gameTime;
+	int m_rate = 0;
 	
 };
 

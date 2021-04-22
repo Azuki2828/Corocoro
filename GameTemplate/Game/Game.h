@@ -29,6 +29,10 @@ public: //Getä÷êî
 		return m_startsoundflg;
 	}
 
+	int GetGameStartTime() {
+		return m_gameStartTime;
+	}
+
 private:
 	FontRender* m_fontRender = nullptr;
 	FontRender* m_recordfontRender = nullptr;
@@ -37,6 +41,7 @@ private:
 	CSoundSource* m_sound = nullptr;
 	bool m_startsoundflg = true;
 	bool doorbreakSoundFlg = true;
+	float m_gameStartTime = 0.0f;
 
 
 	Player* m_player = nullptr;

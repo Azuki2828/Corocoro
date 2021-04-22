@@ -183,7 +183,7 @@ void Player::Update()
 	m_movePower = { 0.0f,0.0f,0.0f };
 	//Aボタンでプレイヤーの磁力を反転させる
 
-	if (m_game->m_timer >= 3.0f) {
+	if (m_game->m_timer >= m_game->GetGameStartTime()) {
 		if (g_pad[0]->IsTrigger(enButtonA)) {
 			ChangeState();
 

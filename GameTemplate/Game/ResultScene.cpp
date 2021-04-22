@@ -21,9 +21,11 @@ bool ResultScene::Start()
 	swprintf_s(text[0], L"%2.1f", nowTime);
 	m_nowTime->Init(text[0], { -20.0f,70.0f }, { 1.0f,1.0f,1.0f,1.0f });
 	m_nowTime->SetScale(1.5f);
+	m_nowTime->SetPivot({ 0.0f,0.0f });
 	m_BestTime = NewGO<FontRender>(3);
 	swprintf_s(text[1], L"%2.1f", bestTime);
 	m_BestTime->Init(text[1], { -20.0f,-30.0f }, { 1.0f,1.0f,1.0f,1.0f });
+	m_BestTime->SetPivot({ 0.0f,0.0f });
 	m_BestTime->SetScale(1.5f);
 
 	//StartŠÖ”‚Ìreturn true;
