@@ -11,7 +11,7 @@ class Game : public IGameObject
 {
 public:
 	float m_resulttime = 0;
-	int m_timer = 0;
+	float m_timer = 0;
 	bool Start()override final;
 	~Game();
 	void Update()override final;
@@ -21,9 +21,16 @@ public: //Getä÷êî
 	{
 		return m_time;
 	}
+	float GetBestTime() {
+		return m_resulttime;
+	}
 
 	bool GetStartFlg() {
 		return m_startsoundflg;
+	}
+
+	int GetGameStartTime() {
+		return m_gameStartTime;
 	}
 
 private:
@@ -34,6 +41,7 @@ private:
 	CSoundSource* m_sound = nullptr;
 	bool m_startsoundflg = true;
 	bool doorbreakSoundFlg = true;
+	float m_gameStartTime = 0.0f;
 
 
 	Player* m_player = nullptr;

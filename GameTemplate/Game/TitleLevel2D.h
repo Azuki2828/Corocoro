@@ -20,6 +20,4 @@ public:
 	private:
 		Level2D m_level2D;		//レベル2D。
 		SpriteRender* m_sprite[6];		//スプライトレンダー
-		Vector3 m_position;		//座標。
-		Vector3 m_scale;		//大きさ。
 };

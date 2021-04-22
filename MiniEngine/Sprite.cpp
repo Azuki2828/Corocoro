@@ -40,14 +40,14 @@
 		}
 		else {
 			//テクスチャが指定されてない。
-			MessageBoxA(nullptr, "initData.m_ddsFilePathかm_texturesのどちらかに使用するテクスチャの情報を設定してください。", "エラー", MB_OK);
+			//MessageBoxA(nullptr, "initData.m_ddsFilePathかm_texturesのどちらかに使用するテクスチャの情報を設定してください。", "エラー", MB_OK);
 			std::abort();
 		}
 	}
 	void Sprite::InitShader(const SpriteInitData& initData)
 	{
 		if (initData.m_fxFilePath == nullptr) {
-			MessageBoxA(nullptr, "fxファイルが指定されていません。", "エラー", MB_OK);
+			//MessageBoxA(nullptr, "fxファイルが指定されていません。", "エラー", MB_OK);
 			std::abort();
 		}
 		wchar_t fxFilePath[1024];
@@ -180,7 +180,6 @@
 	{
 		m_size.x = static_cast<float>(initData.m_width);
 		m_size.y = static_cast<float>(initData.m_height);
-		m_scale.x *= -1.0f;
 
 		//テクスチャを初期化。
 		InitTextures(initData);
@@ -226,9 +225,9 @@
 		mRot.MakeRotationFromQuaternion(rot);
 
 		//画像が反転するから更にxを-1.0拡大して画像を反転させて元画像に戻している。
-		Vector3 sca = scale;
-		sca.x *= -1.0f;
-		mScale.MakeScaling(sca);
+		//Vector3 sca = scale;
+		//sca.x *= -1.0f;
+		mScale.MakeScaling(scale);
 
 		m_world = mPivotTrans * mScale;
 		m_world = m_world * mRot;

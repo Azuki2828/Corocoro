@@ -20,7 +20,7 @@ void VertexBuffer::Init(int size, int stride)
 		D3D12_RESOURCE_STATE_GENERIC_READ,
 		nullptr,
 		IID_PPV_ARGS(&m_vertexBuffer));
-	
+
 	m_vertexBuffer->SetName(L"VertexBuffer");
 	//頂点バッファのビューを作成。
 	m_vertexBufferView.BufferLocation = m_vertexBuffer->GetGPUVirtualAddress();

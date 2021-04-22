@@ -86,6 +86,7 @@ bool Player::Start()
 
 Player::~Player()
 {
+
 }
 
 
@@ -108,7 +109,7 @@ void Player::Update()
 	float deathPosY = -1000.0f;
 	if (m_backGround != nullptr) {
 		deathPosY = m_backGround->GetDeathPosY();
-  }
+	}
 	//壁に当たっているなら
 	//if (m_charaCon.IsOnWall()) {
 	//
@@ -157,11 +158,11 @@ void Player::Update()
 			if (getKeyFlg) {
 				m_pos = m_key->GetKeyPos();
 
-			
+
 			}
 			else {
 				m_pos = { 300.0f,310.0f,0.0f };	//<変更>yが500以下になったら初期位置に戻るようにif文追加
-				
+
 			}
 			m_rigidBody.SetPositionAndRotation(m_pos, m_rot);
 		}
@@ -182,55 +183,56 @@ void Player::Update()
 	m_movePower = { 0.0f,0.0f,0.0f };
 	//Aボタンでプレイヤーの磁力を反転させる
 
-	if (m_game->m_timer >= 200) {
+	if (m_game->m_timer >= m_game->GetGameStartTime()) {
 		if (g_pad[0]->IsTrigger(enButtonA)) {
 			ChangeState();
 
-		//NとSを切り替えるときの効果音再生。
+			//NとSを切り替えるときの効果音再生。
 
-		NSChangeSound = NewGO<CSoundSource>(0);
+			NSChangeSound = NewGO<CSoundSource>(0);
 
-		NSChangeSound->Init(L"Assets/sound/NSChange.wav");
-		NSChangeSound->SetVolume(0.5f);
-		NSChangeSound->Play(false);	//ワンショット再生
+			NSChangeSound->Init(L"Assets/sound/NSChange.wav");
+			NSChangeSound->SetVolume(0.5f);
+			NSChangeSound->Play(false);	//ワンショット再生
 
-		//アクティブフラグを更新。
-		for (int i = 0; i < enPlayer_Num; i++) {
-			if (m_skinModelRender[i]->IsActive() == true) {
-				m_skinModelRender[i]->Deactivate();
-			}
-			else {
-				m_skinModelRender[i]->Activate();
+			//アクティブフラグを更新。
+			for (int i = 0; i < enPlayer_Num; i++) {
+				if (m_skinModelRender[i]->IsActive() == true) {
+					m_skinModelRender[i]->Deactivate();
+				}
+				else {
+					m_skinModelRender[i]->Activate();
+				}
 			}
 		}
-	}
 
-	Vector3 m_lightCameraTar = m_pos;
+		Vector3 m_lightCameraTar = m_pos;
 
-	Vector3 m_lightCameraPos = m_lightCameraTar;
-	//m_lightCameraPos.z += 5.0f;
-	m_lightCameraPos.y += 500.0f;
+		Vector3 m_lightCameraPos = m_lightCameraTar;
+		//m_lightCameraPos.z += 5.0f;
+		m_lightCameraPos.y += 500.0f;
 
-	//Vector3 Cpos = { 300.0f,400.0f,0.0f };
-	//Vector3 CTar = { 300.0f,300.0f,0.0f };
+		//Vector3 Cpos = { 300.0f,400.0f,0.0f };
+		//Vector3 CTar = { 300.0f,300.0f,0.0f };
 
-	Camera::GetLightCamera()->SetPosition(m_lightCameraPos);
-	Camera::GetLightCamera()->SetTarget(m_lightCameraTar);
+		Camera::GetLightCamera()->SetPosition(m_lightCameraPos);
+		Camera::GetLightCamera()->SetTarget(m_lightCameraTar);
 
-	//Vector3 toCamere = g_camera3D->GetPosition() - g_camera3D->GetTarget();
-	//g_camera3D->SetTarget(pos);
-	//toCamere.y = 100.0f;
-	//toCamere.z = -2500.0f;
-	//g_camera3D->SetPosition(pos + toCamere);
-	
-	
+		//Vector3 toCamere = g_camera3D->GetPosition() - g_camera3D->GetTarget();
+		//g_camera3D->SetTarget(pos);
+		//toCamere.y = 100.0f;
+		//toCamere.z = -2500.0f;
+		//g_camera3D->SetPosition(pos + toCamere);
 
-	Key* key = FindGO<Key>("key");
 
-	//ゲームクリアしてから5秒たったら、
-	if (key->GameOverCount > 300) {
-		//クラスを削除。
-		DeleteGO(this);
+
+		Key* key = FindGO<Key>("key");
+
+		//ゲームクリアしてから5秒たったら、
+		if (key->GameOverCount > 300) {
+			//クラスを削除。
+			DeleteGO(this);
+		}
 	}
 }
 

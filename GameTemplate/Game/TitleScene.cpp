@@ -42,7 +42,7 @@ void TitleScene::Update()
 			//選択を右に1つずらす。
 			NowSelect += 1;
 		}
-		//現在セレクトされているボタンが「あそびかた」(1番)or「おわる」(3番)だったら、
+		//現在セレクトされているボタンが「あそびかた」(1番)or「しゅうりょう」(3番)だったら、
 		else {
 			//選択を左に1つずらす。
 			NowSelect -= 1;
@@ -105,7 +105,7 @@ void TitleScene::Update()
 
 		break;
 
-	 //「おわる」ボタンが選ばれているとき、
+	 //「しゅうりょう」ボタンが選ばれているとき、
 	 case EndButton:
 		 //ボタンを不透明度100％にする。
 		 m_titleLevel2D->GetSprite(5)->SetMulColor({ 1.0f,1.0f,1.0f,1.0f });
@@ -131,7 +131,7 @@ void TitleScene::Update()
 		 //「はじめる」ボタンが選ばれているとき、
 		 case StartButton:
 			//ゲーム画面に遷移。
-			NewGO<Game>(0);
+			NewGO<Game>(0,"game");
 
 			break;
 
@@ -152,7 +152,7 @@ void TitleScene::Update()
 		 //「おわる」ボタンが選ばれているとき、
 		 case EndButton:
 			//ゲームを終了。
-
+			 exit(1);
 
 			break;
 		};

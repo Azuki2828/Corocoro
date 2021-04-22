@@ -1,5 +1,4 @@
 #pragma once
-
 #include "Indexbuffer.h"
 #include "VertexBuffer.h"
 #include "ConstantBuffer.h"
@@ -51,11 +50,6 @@ public:
 	/// </summary>
 	/// <param name="initData">初期化データ</param>
 	void Init(const SpriteInitData& initData);
-
-
-	void SetMulColor(const Vector4& mulcolor) {
-		m_mulColor = mulcolor;
-	}
 	/// <summary>
 	/// 更新。
 	/// </summary>

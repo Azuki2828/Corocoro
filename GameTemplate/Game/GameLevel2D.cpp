@@ -9,15 +9,15 @@ bool GameLevel2D::Start()
 			//名前がGetKeyNOだったら。
 			if (objdata.EqualObjectName("GetKeyNO")) {
 
-				SpriteInitData data;
-				//DDSファイル(画像データ)のファイルパスを指定する。
-				data.m_ddsFilePath[0] = objdata.ddsFilePath;
-				//Sprite表示用のシェーダーのファイルパスを指定する。
-				data.m_fxFilePath = "Assets/shader/sprite.fx";
-				//スプライトの幅と高さを取得する。
-				data.m_width = objdata.width;
-				data.m_height = objdata.height;
-				data.m_alphaBlendMode = AlphaBlendMode_Trans;
+				//SpriteInitData data;
+				////DDSファイル(画像データ)のファイルパスを指定する。
+				//data.m_ddsFilePath[0] = objdata.ddsFilePath;
+				////Sprite表示用のシェーダーのファイルパスを指定する。
+				//data.m_fxFilePath = "Assets/shader/sprite.fx";
+				////スプライトの幅と高さを取得する。
+				//data.m_width = objdata.width;
+				//data.m_height = objdata.height;
+				//data.m_alphaBlendMode = AlphaBlendMode_Trans;
 				m_sprite = NewGO<SpriteRender>(0);
 				//Sprite初期化オブジェクトを使用して、Spriteを初期化する
 				m_sprite->Init(objdata.ddsFilePath, objdata.width, objdata.height, AlphaBlendMode_Trans);
@@ -30,15 +30,15 @@ bool GameLevel2D::Start()
 			else if (objdata.EqualObjectName("TimeBack")) {
 
 
-				SpriteInitData data;
-				//DDSファイル(画像データ)のファイルパスを指定する。
-				data.m_ddsFilePath[0] = objdata.ddsFilePath;
-				//Sprite表示用のシェーダーのファイルパスを指定する。
-				data.m_fxFilePath = "Assets/shader/sprite.fx";
-				//スプライトの幅と高さを取得する。
-				data.m_width = objdata.width;
-				data.m_height = objdata.height;
-				data.m_alphaBlendMode = AlphaBlendMode_Trans;
+				//SpriteInitData data;
+				////DDSファイル(画像データ)のファイルパスを指定する。
+				//data.m_ddsFilePath[0] = objdata.ddsFilePath;
+				////Sprite表示用のシェーダーのファイルパスを指定する。
+				//data.m_fxFilePath = "Assets/shader/sprite.fx";
+				////スプライトの幅と高さを取得する。
+				//data.m_width = objdata.width;
+				//data.m_height = objdata.height;
+				//data.m_alphaBlendMode = AlphaBlendMode_Trans;
 				m_sprite1 = NewGO<SpriteRender>(0);
 				//Sprite初期化オブジェクトを使用して、Spriteを初期化する
 				m_sprite1->Init(objdata.ddsFilePath, objdata.width, objdata.height, AlphaBlendMode_Trans);
@@ -95,8 +95,8 @@ void GameLevel2D::Update()
 			}
 			//名前がTimeBackだったら。
 			else if (objdata.EqualObjectName("TimeBack")) {
-
-
+			
+			
 				SpriteInitData data;
 				//DDSファイル(画像データ)のファイルパスを指定する。
 				data.m_ddsFilePath[0] = objdata.ddsFilePath;
@@ -106,13 +106,13 @@ void GameLevel2D::Update()
 				data.m_width = objdata.width;
 				data.m_height = objdata.height;
 				data.m_alphaBlendMode = AlphaBlendMode_Trans;
-
+			
 				m_sprite3 = NewGO<SpriteRender>(0);
 				//Sprite初期化オブジェクトを使用して、Spriteを初期化する
 				m_sprite3->Init(objdata.ddsFilePath, objdata.width, objdata.height, AlphaBlendMode_Trans);
 				m_sprite3->SetPosition(objdata.position);
 				m_sprite3->SetScale(objdata.scale);
-
+			
 				return true;
 			}
 

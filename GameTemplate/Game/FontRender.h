@@ -22,6 +22,16 @@ public:
 	void SetPosition(const Vector2& pos) {
 		m_fontValue.position = pos;
 	}
+	void SetScale(float sca) {
+		m_fontValue.scale = sca;
+	}
+	void SetColor(const Vector4& col) {
+		m_fontValue.color = col;
+	}
+
+	void SetPivot(const Vector2& piv) {
+		m_fontValue.pivot = piv;
+	}
 	//フォントの初期化。
 	void Init(
 		const wchar_t* text,

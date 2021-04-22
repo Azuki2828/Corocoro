@@ -324,10 +324,11 @@
     <ClCompile Include="MainCamera.cpp" />
     <ClCompile Include="MapChip.cpp" />
     <ClCompile Include="MoveObject.cpp" />
+    <ClCompile Include="PauseLevel2D.cpp" />
+    <ClCompile Include="PauseScene.cpp" />
     <ClCompile Include="PhysicsBall.cpp" />
     <ClCompile Include="Player.cpp" />
-
-    <ClCompile Include="ResultScene.cpp" />
+    <ClCompile Include="ResultLevel2D.cpp" />
     <ClCompile Include="RuleScene.cpp" />
 
     <ClCompile Include="PostEffect.cpp" />
@@ -435,8 +436,11 @@
     <ClInclude Include="MainCamera.h" />
     <ClInclude Include="MapChip.h" />
     <ClInclude Include="MoveObject.h" />
+    <ClInclude Include="PauseLevel2D.h" />
+    <ClInclude Include="PauseScene.h" />
     <ClInclude Include="PhysicsBall.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="ResultLevel2D.h" />
     <ClInclude Include="RuleScene.h" />
 
 

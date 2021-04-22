@@ -1,12 +1,14 @@
 #include "stdafx.h"
 #include "Magnet.h"
 #include "Player.h"
+#include "Key.h"
 
 bool Magnet::Start() {
 
 	//座標を登録。
 
 	m_skinModelRender->SetPosition(m_pos);
+	m_key = FindGO<Key>("key");
 
 	/*
 	名前分けしようとしてたときのやつ。
@@ -76,9 +78,11 @@ void Magnet::Update() {
 	//プレイヤーに向かって伸びるベクトル(長さ)。
 	m_length = m_player->GetPosition() - m_pos;
 
-	//プレイヤーとの距離が６m以内だったら力を与える関数を呼び出す。
-	if (m_length.Length() <= 1000.0f) {
-		SetMagnetPower();
+	if (!m_key->GetdoorbreakFlg()) {
+		//プレイヤーとの距離が６m以内だったら力を与える関数を呼び出す。
+		if (m_length.Length() <= 1000.0f) {
+			SetMagnetPower();
+		}
 	}
 
 	//m_skinModelRender->SetPosition(m_pos);

@@ -19,6 +19,8 @@
 /// DirectX12に依存するグラフィックスエンジン
 /// </summary>
 class GraphicsEngine {
+
+	int m_graphicTime = 0;
 public:
 	/// <summary>
 	/// デストラクタ。
@@ -49,6 +51,10 @@ public:
 	/// 1フレームのレンダリングの終了時に呼び出してください。
 	/// </remarks>
 	void EndRender();
+
+	const int GetGraphicTime()const {
+		return m_graphicTime;
+	}
 	/// <summary>
 	/// D3Dデバイスを取得。
 	/// </summary>
@@ -289,7 +295,6 @@ private:
 		GPU_VenderIntel,	//AMD
 		Num_GPUVender,
 	};
-	
 	ID3D12Device5* m_d3dDevice = nullptr;					//D3Dデバイス。
 	ID3D12CommandQueue* m_commandQueue = nullptr;			//コマンドキュー。
 	IDXGISwapChain3* m_swapChain = nullptr;					//スワップチェイン。

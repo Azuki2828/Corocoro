@@ -9,8 +9,8 @@ bool Result::Start()
 	m_time = m_game->GetTime();
 	SaveData* savedata = FindGO<SaveData>("savedata");
 	savedata->FileSave();
-	m_fontRender = NewGO<FontRender>(2);
-	m_fontRender->Init(L"Time", { .0f,0.0f });
+	//m_fontRender = NewGO<FontRender>(2);
+	//m_fontRender->Init(L"Time", { .0f,0.0f });
 
 
 	/*wchar_t text1[64];
