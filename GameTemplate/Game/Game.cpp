@@ -13,7 +13,7 @@
 bool Game::Start() {
 
 
-	m_gameStartTime = 3.0f / g_graphicsEngine->GetGraphicTime();
+	m_gameStartTime = 3.0f * g_graphicsEngine->GetGraphicTime();
 
 	//セーブを追加
 	m_savedata = NewGO<SaveData>(0,"savedata");
