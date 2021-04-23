@@ -8,11 +8,26 @@ public:
 	~ResultScene();
 	bool Start();
 	void Update();
+
+
+
+	float m_result;
+	bool finishFlg = false;
+	float GetTime()		//Gameからとってくる
+	{
+		return m_time;
+	}
+	FontRender* m_fontRender;		//今回のタイムを表示するためのフォントレンダー
+	Game* m_game;
+	float m_time;
+
+
+
+
 private:
 	float nowTime = 0.0f;
 	float bestTime = 0.0f;
 	SpriteRender* m_spriteRender = nullptr;		//スプライトレンダー
-	FontRender* m_fontRender = nullptr;
 	FontRender* m_nowTime = nullptr;
 	FontRender* m_BestTime = nullptr;
 	ResultLevel2D* sprite = nullptr;
@@ -30,5 +45,14 @@ private:
 	int NowSelect = 0;	//列挙の値を格納する変数。はじめは「はじめる」ボタンの0。
 
 	ResultLevel2D* m_resultLevel2D = nullptr;
-	Game* m_game = nullptr;
+
+	//画像の大きさを決める変数
+	Vector3 Vscale = { 0.0f,0.0f,0.0f };
+	float Fscale = 0.25f;
+	float Fscale1 = 0.2f;
+	bool ScaleUpFlag = true;
+
+	//ボタンの初期の大きさ。
+	Vector3 vscale = { 0.25f,0.25f,0.25f };
+	Vector3 vscale1 = { 0.2f,0.2f,0.2f };
 };

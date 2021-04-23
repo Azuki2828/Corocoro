@@ -330,9 +330,7 @@
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="ResultLevel2D.cpp" />
     <ClCompile Include="RuleScene.cpp" />
-
     <ClCompile Include="PostEffect.cpp" />
-    <ClCompile Include="Result.cpp" />
     <ClCompile Include="ResultScene.cpp" />
     <ClCompile Include="SaveData.cpp" />
     <ClCompile Include="Seesaw.cpp" />
@@ -442,13 +440,8 @@
     <ClInclude Include="Player.h" />
     <ClInclude Include="ResultLevel2D.h" />
     <ClInclude Include="RuleScene.h" />
-
-
-
-    <ClInclude Include="Result.h" />
     <ClInclude Include="ResultScene.h" />
     <ClInclude Include="SaveData.h" />
-
     <ClInclude Include="Seesaw.h" />
     <ClInclude Include="SettingScene.h" />
     <ClInclude Include="SkinModelRender.h" />

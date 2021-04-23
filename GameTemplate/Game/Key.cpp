@@ -48,7 +48,7 @@ void Key::InitKey(const char* name) {
 
 	sprintf(filePathtkm, "Assets/modelData/tkm/%s.tkm", name);
 	m_skinModelRender_Key = NewGO<SkinModelRender>(0);
-	m_skinModelRender_Key->SetFileNametkm(filePathtkm);	
+	m_skinModelRender_Key->SetFileNametkm(filePathtkm);
 	m_skinModelRender_Key->SetShadowReceiverFlag(true);
 	m_skinModelRender_Key->Init(true, false);
 }
@@ -66,7 +66,7 @@ void Key::InitDoor(const char* name) {
 
 void Key::Update() {
 
-	
+
 
 
 
@@ -75,11 +75,11 @@ void Key::Update() {
 
 	keyLength = m_player->GetPosition() - m_keyPos;
 	if (keyLength.Length() <= 300.0f && !m_player->GetKeyFlg()) {
-		
+
 		//鍵を消去して取得効果音を再生。
 		DeleteGO(m_skinModelRender_Key);
 		GetKey();
-		
+
 		if (KeyGetSoundFlag == true) {
 
 			//通常BGMを削除。
@@ -169,7 +169,7 @@ void Key::GetKey()
 	m_sound->SetVolume(1.0f);
 	m_sound->Play(false);
 
-	m_spriteRender = NewGO<SpriteRender>(1);	
+	m_spriteRender = NewGO<SpriteRender>(1);
 	Vector3 vec = m_keyPos;
 	vec.y += 100.0f;
 	m_spriteRender->SetPosition(vec);								//<変更>鍵取ったら戻る合図(画像)を出す
@@ -181,7 +181,7 @@ void Key::GetKey()
 		//�Q�[���N���A���Ă���1.5�b�������A
 		if (GameOverCount == 90) {
 			//���U���g�V�[���N���X��Ăяo���B
-			NewGO<ResultScene>(0);
+			NewGO<ResultScene>(0,"resultscene");
 		}
 	}
 }

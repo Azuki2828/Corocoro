@@ -1,13 +1,12 @@
 #include "stdafx.h"
 #include "SaveData.h"
 #include "Game.h"
-#include "Result.h"
-
+#include "ResultScene.h"
 
 void SaveData::FileSave()
 {
-	m_result = FindGO<Result>("result");
-	
+	m_result = FindGO<ResultScene>("resultscene");
+
 	float Record = m_result->GetTime();
 	//float Record = 1000.0f;
 	if (Data.record >= Record) {

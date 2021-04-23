@@ -50,6 +50,6 @@ private:
 	DirectionLight* m_dirLight = nullptr;
 	SaveData* m_savedata = nullptr;
 	SaveData* m_besttime = nullptr;
-	
+
 };
 

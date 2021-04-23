@@ -10,12 +10,11 @@ public:
 	float m_result;
 	bool Start();
 	bool finishFlg = false;
-	void Update();
-	float GetTime()
+	float GetTime()		//Gameからとってくる
 	{
 		return m_time;
 	}
-	FontRender* m_fontRender;
+	FontRender* m_fontRender;		//今回のタイムを表示するためのフォントレンダー
 	Game* m_game;
 	float m_time;
 

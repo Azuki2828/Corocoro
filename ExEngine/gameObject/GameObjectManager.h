@@ -178,9 +178,3 @@ static inline void DeleteGO(IGameObject* go)
 {
 	GameObjectManager::GetInstance()->DeleteGameObject(go);
 }
-
-
-
-	
-
- 

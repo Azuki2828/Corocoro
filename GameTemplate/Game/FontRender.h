@@ -11,7 +11,7 @@ public:
 		float rotation;
 		float scale;
 		Vector2 pivot;
-		
+
 	};
 	void SetText(const wchar_t* text)
 	{

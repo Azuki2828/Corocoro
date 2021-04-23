@@ -1,9 +1,9 @@
 #include "stdafx.h"
-#include "Resultscene.h"
+#include "ResultScene.h"
 #include "Game.h"
 #include "ResultLevel2D.h"
 #include "TitleScene.h"
-
+#include "SaveData.h"
 
 bool ResultScene::Start()
 {
@@ -27,6 +27,30 @@ bool ResultScene::Start()
 	m_BestTime->Init(text[1], { -20.0f,-30.0f }, { 1.0f,1.0f,1.0f,1.0f });
 	m_BestTime->SetPivot({ 0.0f,0.0f });
 	m_BestTime->SetScale(1.5f);
+
+
+
+
+
+	m_game = FindGO<Game>("game");
+	m_time = m_game->GetTime();		//Gameで取得したタイム
+	SaveData* savedata = FindGO<SaveData>("savedata");
+	savedata->FileSave();	//タイムをセーブする
+	m_fontRender = NewGO<FontRender>(2);
+	m_fontRender->Init(L"Time", { .0f,0.0f });	//今回のタイムを表示するためのフォントレンダー
+
+	wchar_t text1[64];
+	//今回の経過時間を表示
+	swprintf_s(text1, L"Time : %2.1f", m_time);
+	m_fontRender->SetText(text1);
+	m_fontRender->SetPosition({ 0.0f, 0.0f });
+	return true;
+
+
+
+
+
+
 
 	//Start関数のreturn true;
 	return true;
@@ -73,6 +97,30 @@ void ResultScene::Update()
 
 		//単振動の公式を使ってボタンを拡大縮小する。
 
+		 //大きさが最小になったとき、
+		if (Fscale < 0.25f) {
+			ScaleUpFlag = true;
+		}
+		//大きさが最大になったとき、
+		if (Fscale > 0.275f) {
+			ScaleUpFlag = false;
+		}
+
+		if (ScaleUpFlag == true) {
+			//拡大
+			Fscale += 0.0005f;
+		}
+		if (ScaleUpFlag == false) {
+			//縮小
+			Fscale -= 0.0005f;
+		}
+		//スプライトに反映。
+		Vscale = { Fscale,Fscale,Fscale };
+		m_resultLevel2D->GetSprite(8)->SetScale(Vscale);
+
+		//選択されていないボタンの拡大率を元に戻す。
+		m_resultLevel2D->GetSprite(9)->SetScale(vscale1);
+
 		break;
 
 	//「しゅうりょう」ボタンが選ばれているとき、
@@ -81,6 +129,30 @@ void ResultScene::Update()
 		m_resultLevel2D->GetSprite(9)->SetMulColor({ 1.0f,1.0f,1.0f,1.0f });
 
 		//単振動の公式を使ってボタンを拡大縮小する。
+
+		 //大きさが最小になったとき、
+		if (Fscale1 < 0.2f) {
+			ScaleUpFlag = true;
+		}
+		//大きさが最大になったとき、
+		if (Fscale1 > 0.225f) {
+			ScaleUpFlag = false;
+		}
+
+		if (ScaleUpFlag == true) {
+			//拡大
+			Fscale1 += 0.0005f;
+		}
+		if (ScaleUpFlag == false) {
+			//縮小
+			Fscale1 -= 0.0005f;
+		}
+		//スプライトに反映。
+		Vscale = { Fscale1,Fscale1,Fscale1 };
+		m_resultLevel2D->GetSprite(9)->SetScale(Vscale);
+
+		//選択されていないボタンの拡大率を元に戻す。
+		m_resultLevel2D->GetSprite(8)->SetScale(vscale);
 
 		break;
 	};
