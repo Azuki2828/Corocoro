@@ -51,5 +51,8 @@ private:
 	SaveData* m_savedata = nullptr;
 	SaveData* m_besttime = nullptr;
 
+	bool KauntoDownSprite = false;
+	int KauntoDownTimer = 0;
+	SpriteRender* m_sprite[4];
 };
 

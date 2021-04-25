@@ -30,5 +30,6 @@ private:
 
 	std::vector<Magnet*> m_magnet;
 	Key* m_key = nullptr;
+
 };
 

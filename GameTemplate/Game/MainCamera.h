@@ -20,5 +20,11 @@ public:
 	Quaternion m_rotX;
 
 	Player* m_player = nullptr;
+
+	//ゲームスタート前にステージ全体をカメラで眺める関数。x==カメラのx座標、y==カメラのy座標を入れる。
+	void Stage1ScrollCamera();
+	int CamePosiFlag = 0;
+	bool CameraScrollFlag = true;
+	int ScrollStaticTimer = 0;
 };
 

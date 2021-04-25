@@ -24,12 +24,12 @@ bool Game::Start() {
 	m_dirLight = NewGO<DirectionLight>(0);
 	m_dirLight->SetLigDirection();
 	m_dirLight->SetLigColor();
+	//カメラを生成。
+	m_camera = NewGO<MainCamera>(0);
 	//プレイヤーを生成。
 	m_player = NewGO<Player>(0, "player");
 	//地形を生成。
 	m_backGround = NewGO<Background>(0, "background");
-	//カメラを生成。
-	m_camera = NewGO<MainCamera>(0);
 	//フォントレンダーを生成
 	m_fontRender = NewGO<FontRender>(2);
 	//時間経過を表示
@@ -62,23 +62,82 @@ Game::~Game()
 }
 
 void Game::Update() {
-	if (m_startsoundflg == true) {
+	//カメラのスクロールが終わってプレイヤーの視点になる。且つ、ワンショット再生させるためのフラグ。
+	if (m_camera->CameraScrollFlag == false&& m_startsoundflg == true) {
 		m_sound = NewGO<CSoundSource>(0);
 
-		m_sound->Init(L"Assets/sound/CountDown.wav");	//スターと開始時の効果音
+		m_sound->Init(L"Assets/sound/CountDown.wav");	//３、２、１、スタート！カウントダウン効果音
 		m_sound->SetVolume(1.0f);
 		m_sound->Play(false);
 		m_startsoundflg = false;
+
+		KauntoDownSprite = true;
 	}
-	/*if (m_startsoundflg == false) {
-		m_player = NewGO<Player>(0, "player");			//スターと開始時の効果音が終わったらプレイヤーを追加したい。
+
+	//カウントダウンが鳴りだしたら、
+	if (KauntoDownSprite == true) {
+		//カウントダウンスプライトを表示。
+		switch (KauntoDownTimer) {
+		 case 0:
+			//「3」表示
+			m_sprite[0] = NewGO<SpriteRender>(1);
+			m_sprite[0]->SetPosition({ 0.0f,0.0f,0.0f });
+			m_sprite[0]->Init("Assets/image/3.dds", 1000.0f, 1000.0f);
+
+			break;
+
+		 case 60:
+			//「3」削除。
+			DeleteGO(m_sprite[0]);
+
+			//「2」表示
+			m_sprite[1] = NewGO<SpriteRender>(1);
+			m_sprite[1]->SetPosition({ 0.0f,0.0f,0.0f });
+			m_sprite[1]->Init("Assets/image/2.dds", 1000.0f, 1000.0f);
+
+			break;
+
+		 case 120:
+			//「2」削除。
+			DeleteGO(m_sprite[1]);
+
+			//「1」表示
+			m_sprite[2] = NewGO<SpriteRender>(1);
+			m_sprite[2]->SetPosition({ 0.0f,0.0f,0.0f });
+			m_sprite[2]->Init("Assets/image/1.dds", 1000.0f, 1000.0f);
+
+			break;
+
+		 case 180:
+			//「1」削除。
+			DeleteGO(m_sprite[2]);
+
+			//「GO!!」表示
+			m_sprite[3] = NewGO<SpriteRender>(1);
+			m_sprite[3]->SetPosition({ 0.0f,0.0f,0.0f });
+			m_sprite[3]->Init("Assets/image/GO.dds", 1000.0f, 1000.0f);
+
+			break;
+
+		 case 300:
+			//「GO!!」削除。
+			DeleteGO(m_sprite[3]);
+
+			KauntoDownSprite = false;
+
+			break;
+		}
+
+		KauntoDownTimer++;
+
 	}
-	*/
 
 	wchar_t text1[64];
 
-	m_timer += GameTime::GameTimeFunc().GetFrameDeltaTime();		//スタートの効果音が鳴り終わったらタイム計測開始のためのタイム
-
+	//スタートの効果音が鳴り終わったら
+	if (m_startsoundflg == false) {
+		m_timer += GameTime::GameTimeFunc().GetFrameDeltaTime();		//タイム計測開始のためのタイム
+	}
 	if (m_timer >= m_gameStartTime && doorbreakSoundFlg == true) {
 		m_time += GameTime::GameTimeFunc().GetFrameDeltaTime();
 	}
@@ -90,6 +149,6 @@ void Game::Update() {
 
 	if (m_player->GetdoorbreakFlg() == true && doorbreakSoundFlg == true) {
 		doorbreakSoundFlg = false;			//ゴールしたら計測終了
-		NewGO<ResultScene>(0,"result");
+		NewGO<ResultScene>(0,"resultscene");
 	}
 }

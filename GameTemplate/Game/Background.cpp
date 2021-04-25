@@ -35,8 +35,9 @@ bool Background::Start()
 		"MagnetHoge",
 	};*/
 
-	//�Q�[����ʂ�UI�\��
+	//ゲーム画面のUI表示
 	NewGO<GameLevel2D>(1,"gamescreenlevel2d");
+
 	//背景画像を初期化。
 	m_spriteRender = NewGO<SpriteRender>(0);
 	m_spriteRender->SetPosition({ 0.0f,0.0f,0.0f });
@@ -278,7 +279,6 @@ bool Background::Start()
 		return false;//levelのオブジェクトをそのままロード。
 	});
 
-
 	//BGM再生。
 
 	GameBGMSound = NewGO<CSoundSource>(0);
@@ -286,8 +286,6 @@ bool Background::Start()
 	GameBGMSound->Init(L"Assets/sound/GameBGM.wav");
 	GameBGMSound->SetVolume(1.0f);
 	GameBGMSound->Play(true);			//ループ再生。
-
-
 
 	//ModelInitData initData;
 	//initData.m_tkmFilePath = "Assets/modelData/bg/bg.tkm";
@@ -314,11 +312,7 @@ Background::~Background()
 
 void Background::Update()
 {
-	//ゲームクリアしてから5秒たったら、
-	if (m_key->GameOverCount > 300) {
-		//クラスを削除。
-		//DeleteGO(this);
-	}
+
 }
 
 

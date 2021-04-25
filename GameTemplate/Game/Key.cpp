@@ -67,9 +67,6 @@ void Key::InitDoor(const char* name) {
 void Key::Update() {
 
 
-
-
-
 	//3m以内なら鍵取得。
 	Vector3 keyLength;
 
@@ -78,7 +75,6 @@ void Key::Update() {
 
 		//鍵を消去して取得効果音を再生。
 		DeleteGO(m_skinModelRender_Key);
-		GetKey();
 
 		if (KeyGetSoundFlag == true) {
 
@@ -160,20 +156,9 @@ void Key::Update() {
 			GameOverFlag = true;
 		}
 	}
-}
 
-void Key::GetKey()
-{
-	m_sound = NewGO<CSoundSource>(0);
-	m_sound->Init(L"Assets/sound/KeyGet.wav");		//鍵取った時の効果音追加
-	m_sound->SetVolume(1.0f);
-	m_sound->Play(false);
 
-	m_spriteRender = NewGO<SpriteRender>(1);
-	Vector3 vec = m_keyPos;
-	vec.y += 100.0f;
-	m_spriteRender->SetPosition(vec);								//<変更>鍵取ったら戻る合図(画像)を出す
-	m_spriteRender->Init("Assets/Image/yazirusi.dds", 256.0f, 256.0f);
+
 	if (GameOverFlag == true) {
 
 		//1.5�b�J�E���g
@@ -181,7 +166,9 @@ void Key::GetKey()
 		//�Q�[���N���A���Ă���1.5�b�������A
 		if (GameOverCount == 90) {
 			//���U���g�V�[���N���X��Ăяo���B
-			NewGO<ResultScene>(0,"resultscene");
+			NewGO<ResultScene>(0, "resultscene");
 		}
 	}
+
+
 }
