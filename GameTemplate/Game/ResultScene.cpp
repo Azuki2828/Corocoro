@@ -16,19 +16,51 @@ bool ResultScene::Start()
 	nowTime = m_game->GetTime();
 	bestTime = m_game->GetBestTime();
 
+
 	m_nowTime = NewGO<FontRender>(3);
 	wchar_t text[4][64];
 	swprintf_s(text[0], L"%2.1f", nowTime);
-	m_nowTime->Init(text[0], { -20.0f,70.0f }, { 1.0f,1.0f,1.0f,1.0f });
+	m_nowTime->Init(text[0], { 20.0f,70.0f }, { 1.0f,1.0f,1.0f,1.0f });
 	m_nowTime->SetScale(1.5f);
 	m_nowTime->SetPivot({ 0.0f,0.0f });
+
+	//記録が1桁の時
+	if (nowTime < 10) {
+		//x座標を調整。
+		m_nowTime->SetPosition({ 20.0f,70.0f });	//場所
+	}
+	//記録が10桁の時
+	if (nowTime > 10 && nowTime < 100) {
+		//x座標を調整。
+		m_nowTime->SetPosition({ -15.0f,70.0f });	//場所
+	}
+	//記録が100桁の時
+	if (nowTime > 100 && nowTime < 1000) {
+		//x座標を調整。
+		m_nowTime->SetPosition({ -45.0f,70.0f });	//場所
+	}
+
 	m_BestTime = NewGO<FontRender>(3);
 	swprintf_s(text[1], L"%2.1f", bestTime);
-	m_BestTime->Init(text[1], { -20.0f,-30.0f }, { 1.0f,1.0f,1.0f,1.0f });
+	m_BestTime->Init(text[1], { 20.0f,-30.0f }, { 1.0f,1.0f,1.0f,1.0f });
 	m_BestTime->SetPivot({ 0.0f,0.0f });
 	m_BestTime->SetScale(1.5f);
 
-
+	//記録が1桁の時
+	if (bestTime < 10) {
+		//x座標を調整。
+		m_BestTime->SetPosition({ 20.0f,-30.0f });	//場所
+	}
+	//記録が10桁の時
+	if (bestTime > 10 && bestTime < 100) {
+		//x座標を調整。
+		m_BestTime->SetPosition({ -15.0f,-30.0f });	//場所
+	}
+	//記録が100桁の時
+	if (bestTime > 100 && bestTime < 1000) {
+		//x座標を調整。
+		m_BestTime->SetPosition({ -45.0f,-30.0f });	//場所
+	}
 
 
 

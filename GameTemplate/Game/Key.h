@@ -59,6 +59,5 @@ private:
 	bool GameOverFlag = false;
 
 	FontRender* m_fontRender = nullptr;
-
 };
 

@@ -19,8 +19,6 @@ bool Game::Start() {
 	//m_savedata->FileSave();
 	m_savedata->Load();
 
-
-
 	m_dirLight = NewGO<DirectionLight>(0);
 	m_dirLight->SetLigDirection();
 	m_dirLight->SetLigColor();
@@ -33,9 +31,11 @@ bool Game::Start() {
 	//フォントレンダーを生成
 	m_fontRender = NewGO<FontRender>(2);
 	//時間経過を表示
-	m_fontRender->Init(L"Time", { -520.0f,310.0f });	//場所
-	m_fontRender->SetColor({ 1.0f,1.0f,1.0f,1.0f });	//色
-	m_fontRender->SetPivot({ 1.0f, 0.0f });				//中心を右側に
+	m_fontRender->Init(L"Time", { -500.0f,310.0f });	//場所
+	m_fontRender->SetColor({ 1.0f,1.0f,1.0f,1.0f });	//白色
+
+	//pivotが使えないからコメントアウトしています。
+	//m_fontRender->SetPivot({ 1.0f, 0.0f });				//中心を右側に
 
 	//m_recordfontRender = NewGO<FontRender>(2);
 	wchar_t text[64];
@@ -43,9 +43,6 @@ bool Game::Start() {
 	//m_recordfontRender->Init(text);
 	//m_recordfontRender->SetText(text);
 	//m_recordfontRender->SetPosition({ 500.0f, 300.0f });
-
-
-
 
 	return true;
 }
@@ -142,13 +139,37 @@ void Game::Update() {
 		m_time += GameTime::GameTimeFunc().GetFrameDeltaTime();
 	}
 
-	//タイム文字表示
-	swprintf_s(text1, L"%2.1f", m_time);
-	m_fontRender->SetText(text1);
+
+		//スイッチ文で使いたいのでキャスト。
+		switch (static_cast<int>(m_time)) {
+		//10秒経過したら、
+		case 10:
+
+			m_fontRender->SetPosition({ -520.0f,310.0f });	//場所
+			m_fontRender->SetColor({ 1.0f,1.0f,1.0f,1.0f });	//白色
+
+			break;
+
+		//100秒経過したら、
+		case 100:
+
+			m_fontRender->SetPosition({ -540.0f,310.0f });	//場所
+			m_fontRender->SetColor({ 1.0f,1.0f,1.0f,1.0f });	//白色
+
+			break;
+		}
+		//タイム文字表示
+		swprintf_s(text1, L"%2.1f", m_time);
+		m_fontRender->SetText(text1);
 
 
 	if (m_player->GetdoorbreakFlg() == true && doorbreakSoundFlg == true) {
 		doorbreakSoundFlg = false;			//ゴールしたら計測終了
 		NewGO<ResultScene>(0,"resultscene");
 	}
+
+	///デバック用のコマンド。
+	//if (g_pad[0]->IsTrigger(enButtonX)) {
+	//	NewGO<ResultScene>(0, "resultscene");
+	//}
 }

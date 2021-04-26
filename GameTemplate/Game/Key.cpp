@@ -41,7 +41,6 @@ Key::~Key() {
 
 }
 
-
 void Key::InitKey(const char* name) {
 
 	char filePathtkm[256];
@@ -157,8 +156,6 @@ void Key::Update() {
 		}
 	}
 
-
-
 	if (GameOverFlag == true) {
 
 		//1.5�b�J�E���g
@@ -169,6 +166,4 @@ void Key::Update() {
 			NewGO<ResultScene>(0, "resultscene");
 		}
 	}
-
-
 }
