@@ -135,8 +135,11 @@ void DebugWireframe::ConstantBufferUpdate()
 	Matrix v = g_camera3D->GetViewMatrix();
 	Matrix p = g_camera3D->GetProjectionMatrix();
 	VP.Multiply(v, p);
+	//m_sConstantBuffer.mView = g_camera3D->GetViewMatrix();
+	//m_sConstantBuffer.mProj = g_camera3D->GetProjectionMatrix();
 	//定数バッファに渡したい変数を格納(m_constantBufferの内容を上書き)
 	m_constantBuffer.CopyToVRAM(&VP);
+	//m_constantBuffer.CopyToVRAM(&m_sConstantBuffer);
 
 }
 

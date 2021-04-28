@@ -4,7 +4,7 @@
 
 cbuffer CB : register(b0){
 	float4x4 mView;
-	float4x4 mProj;
+	//float4x4 mProj;
 };
 
 //頂点シェーダーへの入力。
@@ -28,7 +28,7 @@ SPSIn VSMain(SVSIn vsIn)
 	SPSIn psIn;
 	
 	psIn.pos = mul(mView, vsIn.pos);
-	psIn.pos = mul(mProj, psIn.pos);
+	//psIn.pos = mul(mProj, psIn.pos);
 
 	psIn.col = vsIn.col;
 	return psIn;
@@ -36,6 +36,6 @@ SPSIn VSMain(SVSIn vsIn)
 
 float4 PSMain(SPSIn psIn) : SV_Target0
 {
-	return float4( 1.0f, 0.0f, 0.0f, 1.0f );
+	return float4( 0.0f, 0.0f, 1.0f, 1.0f );
 	//return psIn.col;
 }

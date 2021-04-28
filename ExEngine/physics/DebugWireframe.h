@@ -89,8 +89,13 @@ private:
 		Vector3 pos;
 		Vector3 color;
 	};
+	struct SConstantBuffer {
+		Matrix mView;
+		Matrix mProj;
+	};
 	std::vector<Vertex>	m_vertexList;				//描画する頂点のリスト。
 	ConstantBuffer		m_constantBuffer;			//定数バッファ。
+	SConstantBuffer		m_sConstantBuffer;
 	VertexBuffer		m_vertexBuffer;				//頂点バッファ。
 	IndexBuffer			m_indexBuffer;				//インデックスバッファ。
 	RootSignature		m_rootSignature;			//ルートシグネチャ。
