@@ -14,6 +14,7 @@
 #include "physics/BoxCollider.h"
 #include "physics/CapsuleCollider.h"
 #include "physics/SphereCollider.h"
+#include "physics/DebugWireframe.h"
 
 #include "gameObject/GameObjectManager.h"
 #include "gameObject/IGameObject.h"

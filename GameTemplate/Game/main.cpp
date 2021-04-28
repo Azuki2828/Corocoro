@@ -71,7 +71,6 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	);
 
 
-
 	PostEffect* m_postEffect = NewGO<PostEffect>(0);
 	m_postEffect->InitLuminance(*RenderTarget::GetMainRenderTarget());
 	m_postEffect->InitGaussianBlur(luminnceRenderTarget);

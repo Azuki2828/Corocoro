@@ -81,4 +81,6 @@ void GameObjectManager::ExecuteRender(RenderContext& rc)
 			go->RenderWrapper(rc);
 		}
 	}
+
+	PhysicsWorld::GetInstance()->DebubDrawWorld(rc);
 }

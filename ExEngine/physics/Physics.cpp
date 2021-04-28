@@ -67,9 +67,10 @@ void PhysicsWorld::Init()
 	);
 
 	m_dynamicWorld->setGravity(btVector3(0, -300, 0));
-#if BUILD_LEVEL!=BUILD_LEVEL_MASTER
-	m_debugDraw.Init();
-	m_dynamicWorld->setDebugDrawer(&m_debugDraw);
+#ifdef _DEBUG
+	//デバッグワイヤーフレームを初期化。
+	m_debugWireFrame.Init();
+	m_dynamicWorld->setDebugDrawer(&m_debugWireFrame);
 #endif 
 }
 void PhysicsWorld::Update(float deltaTime)
