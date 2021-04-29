@@ -102,6 +102,23 @@ public:
 	{
 		m_dynamicWorld->convexSweepTest(castShape, convexFromWorld, convexToWorld, resultCallback, allowedCcdPenetration);
 	}
+
+	/*!
+		* @brief	コリジョンオブジェクトをワールドに登録。
+		*@param[in]	colliObj	コリジョンオブジェクト。
+		*/
+	void AddCollisionObject(btCollisionObject& colliObj)
+	{
+		m_dynamicWorld->addCollisionObject(&colliObj);
+	}
+	/*!
+	* @brief	コリジョンオブジェクトをワールドから削除。
+	*@param[in]	colliObj	コリジョンオブジェクト。
+	*/
+	void RemoveCollisionObject(btCollisionObject& colliObj)
+	{
+		m_dynamicWorld->removeCollisionObject(&colliObj);
+	}
 #if 0
 	/*!
 	* @brief	コリジョンオブジェクトをワールドに登録。

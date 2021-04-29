@@ -22,13 +22,17 @@ public:
 	/// </summary>
 	~PhysicsStaticObject();
 
-	void Release();
+	virtual void Release();
 	/// <summary>
 	/// モデルからの静的オブジェクトの作成。
 	/// </summary>
 	/// <param name="model">モデル</param>
 	/// <param name="worldMatrix">ワールド行列</param>
 	void CreateFromModel(Model& model, const Matrix& worldMatrix);
+
+	virtual void CreateCommon(Vector3 pos, Quaternion rot) {
+
+	}
 	/// <summary>
 	/// 摩擦力を設定する。
 	/// </summary>
@@ -36,6 +40,10 @@ public:
 	void SetFriction(float friction)
 	{
 		m_rigidBody.SetFriction(friction);
+	}
+
+	MeshCollider* GetCollider() {
+		return &m_meshCollider;
 	}
 private:
 	MeshCollider m_meshCollider;		//メッシュコライダー。
