@@ -6,12 +6,13 @@
 
 #include "physics/MeshCollider.h"
 #include "physics/RigidBody.h"
+#include "tkPhysicsObjectBase.h"
 
 
 /// <summary>
 /// 静的物理オブジェクト
 /// </summary>
-class PhysicsStaticObject{
+class PhysicsStaticObject : public CPhysicsObjectBase{
 public:
 	/// <summary>
 	/// コンストラクタ

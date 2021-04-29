@@ -14,6 +14,7 @@ private:
 	bool m_startFlg = false;
 
 public:
+	RigidBody m_rigidBody;
 	bool Start() override;
 	~Player();
 	void Update() override;
@@ -23,6 +24,8 @@ public:
 
 	//現在の座標を取得する関数。
 	const Vector3 GetPosition()const { return m_pos; }
+
+	const RigidBody& GetRigidBody()const { return m_rigidBody; }
 
 	//外部から力を受け取る関数。
 	//pow：力の大きさ
@@ -91,7 +94,6 @@ private:
 
 
 	SphereCollider m_sphereCollider;
-	RigidBody m_rigidBody;
 
 	Key* m_key = nullptr;
 	Background* m_backGround = nullptr;

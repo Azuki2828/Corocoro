@@ -15,7 +15,8 @@
 #include "physics/CapsuleCollider.h"
 #include "physics/SphereCollider.h"
 #include "physics/DebugWireframe.h"
-//#include "physics/tkPhysicsGhostObject.h"
+#include "physics/tkPhysicsObjectBase.h"
+#include "physics/tkPhysicsGhostObject.h"
 
 #include "gameObject/GameObjectManager.h"
 #include "gameObject/IGameObject.h"

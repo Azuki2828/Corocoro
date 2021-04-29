@@ -267,6 +267,8 @@
     <ClCompile Include="..\..\ExEngine\physics\PhysicsStaticObject.cpp" />
     <ClCompile Include="..\..\ExEngine\physics\RigidBody.cpp" />
     <ClCompile Include="..\..\ExEngine\physics\SphereCollider.cpp" />
+    <ClCompile Include="..\..\ExEngine\physics\tkPhysicsGhostObject.cpp" />
+    <ClCompile Include="..\..\ExEngine\physics\tkPhysicsObjectBase.cpp" />
     <ClCompile Include="..\..\MiniEngine\Animation.cpp" />
     <ClCompile Include="..\..\MiniEngine\AnimationClip.cpp" />
     <ClCompile Include="..\..\MiniEngine\AnimationPlayController.cpp" />
@@ -373,6 +375,8 @@
     <ClInclude Include="..\..\ExEngine\physics\PhysicsStaticObject.h" />
     <ClInclude Include="..\..\ExEngine\physics\RigidBody.h" />
     <ClInclude Include="..\..\ExEngine\physics\SphereCollider.h" />
+    <ClInclude Include="..\..\ExEngine\physics\tkPhysicsGhostObject.h" />
+    <ClInclude Include="..\..\ExEngine\physics\tkPhysicsObjectBase.h" />
     <ClInclude Include="..\..\MiniEngine\Animation.h" />
     <ClInclude Include="..\..\MiniEngine\AnimationClip.h" />
     <ClInclude Include="..\..\MiniEngine\AnimationPlayController.h" />

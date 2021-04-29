@@ -51,5 +51,6 @@ private:
 	SaveData* m_savedata = nullptr;
 	SaveData* m_besttime = nullptr;
 	
+	CPhysicsGhostObject m_ghostBox;
 };
 

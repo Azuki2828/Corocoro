@@ -5,7 +5,9 @@
 #include "BoxCollider.h"
 
 
-
+BoxCollider::BoxCollider() {
+	shape = nullptr;
+}
 
 void BoxCollider::Create( const Vector3& size )
 {

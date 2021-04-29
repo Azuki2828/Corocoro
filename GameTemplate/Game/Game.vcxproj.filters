@@ -96,6 +96,8 @@
     <ClCompile Include="tkWaveFile.cpp" />
     <ClCompile Include="tkWaveFileBank.cpp" />
     <ClCompile Include="..\..\ExEngine\physics\DebugWireframe.cpp" />
+    <ClCompile Include="..\..\ExEngine\physics\tkPhysicsGhostObject.cpp" />
+    <ClCompile Include="..\..\ExEngine\physics\tkPhysicsObjectBase.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\ExEngine\ExEngine.h" />
@@ -202,5 +204,7 @@
     <ClInclude Include="tkWaveFile.h" />
     <ClInclude Include="tkWaveFileBank.h" />
     <ClInclude Include="..\..\ExEngine\physics\DebugWireframe.h" />
+    <ClInclude Include="..\..\ExEngine\physics\tkPhysicsGhostObject.h" />
+    <ClInclude Include="..\..\ExEngine\physics\tkPhysicsObjectBase.h" />
   </ItemGroup>
 </Project>

@@ -119,38 +119,20 @@ public:
 	{
 		m_dynamicWorld->removeCollisionObject(&colliObj);
 	}
-#if 0
-	/*!
-	* @brief	コリジョンオブジェクトをワールドに登録。
-	*@param[in]	colliObj	コリジョンオブジェクト。
-	*/
-	void AddCollisionObject(btCollisionObject& colliObj)
-	{
-		m_dynamicWorld->addCollisionObject(&colliObj);
-	}
-	/*!
-	* @brief	コリジョンオブジェクトをワールドから削除。
-	*@param[in]	colliObj	コリジョンオブジェクト。
-	*/
-	void RemoveCollisionObject(btCollisionObject& colliObj)
-	{
-		m_dynamicWorld->removeCollisionObject(&colliObj);
-	}
 	
 	void ContactTest(
 		btCollisionObject* colObj,
 		std::function<void(const btCollisionObject& contactCollisionObject)> cb
 	);
 	void ContactTest(
-		CRigidBody& rb,
+		RigidBody& rb,
 		std::function<void(const btCollisionObject& contactCollisionObject)> cb
 	);
 		
-	void ContactTest(
-		CCharacterController& charaCon,
-		std::function<void(const btCollisionObject& contactCollisionObject)> cb
-	);
-#endif		
+	//void ContactTest(
+	//	CharacterController& charaCon,
+	//	std::function<void(const btCollisionObject& contactCollisionObject)> cb
+	//);	
 private:
 	PhysicsWorld();
 	~PhysicsWorld();
