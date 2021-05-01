@@ -6,6 +6,7 @@
 #include "ResultScene.h"
 
 #include "GameLevel2D.h"
+#include "MainCamera.h"
 
 bool Key::Start() {
 
@@ -74,6 +75,13 @@ void Key::Update() {
 
 		//鍵を消去して取得効果音を再生。
 		DeleteGO(m_skinModelRender_Key);
+
+		//MainCameraクラスのフラグ。ステージの回転をカメラと重力を回転させることで実装する。
+		//クラスにアクセスし、情報をもらう。
+		maincamera = FindGO<MainCamera>("maincamera");
+		//MainCameraクラスのRotFlg変数をtrueに。
+		maincamera->RotFlg = true;
+
 
 		if (KeyGetSoundFlag == true) {
 
@@ -152,18 +160,6 @@ void Key::Update() {
 			//ドアの当たり判定を削除。
 			m_physicsStaticObject.Release();
 			m_doorbreakFlg = true;
-			GameOverFlag = true;
-		}
-	}
-
-	if (GameOverFlag == true) {
-
-		//1.5�b�J�E���g
-		GameOverCount++;
-		//�Q�[���N���A���Ă���1.5�b�������A
-		if (GameOverCount == 90) {
-			//���U���g�V�[���N���X��Ăяo���B
-			NewGO<ResultScene>(0, "resultscene");
 		}
 	}
 }

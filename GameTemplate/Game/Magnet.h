@@ -5,12 +5,10 @@ class Key;
 
 class Magnet : public IGameObject
 {
-private:
-	int m_timer = 0;			//<変更>動く磁石の一時停止のためm_timerを追加
 public:
 	bool Start() override final;
 	void Update() override final;
-	
+
 	//磁力をNにする関数。
 	void SetState_N(bool plusflg = false) {
 		mState = State_N;
@@ -20,7 +18,7 @@ public:
 	}
 	//磁力Sにする関数。
 	void SetState_S(bool plusflg = false) {
-		mState = State_S; 
+		mState = State_S;
 		if (plusflg) {
 			plusFlg = true;
 		}
@@ -46,6 +44,8 @@ public:
 		m_skinModelRender->Init(true, false);
 	}
 private:
+
+	int m_timer = 0;			//<変更>動く磁石の一時停止のためm_timerを追加
 
 	//プレイヤーに力を与える関数。
 	void SetMagnetPower()const;
@@ -74,6 +74,6 @@ private:
 	Key* m_key = nullptr;
 
 	SkinModelRender* m_skinModelRender = nullptr;
-	PhysicsStaticObject m_physicsStaticObject;
+	PhysicsStaticObject m_physicsStaticObject;	//当たり判定
 };
 

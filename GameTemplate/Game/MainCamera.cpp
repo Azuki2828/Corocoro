@@ -19,22 +19,16 @@ bool MainCamera::Start() {
 
 void MainCamera::Update() {
 
-	//m_pos = g_camera3D->GetPosition();
-	//m_tar = g_camera3D->GetTarget();
-	//toPos = m_tar - m_pos;
-	//コントローラーの入力でY軸周りに回転するカメラを作成する。
+	if (RotFlg == true) {
+		//鍵をとったら天井を走るようにカメラを180°回す。
+		//カメラに回転情報を伝える。
+		g_camera3D->SetUp(m_rotZ);
+		//プラスで重力を反転させる。
+		PhysicsWorld::GetInstance()->SetGravity({ 0, 300, 0 });
 
-	///g_pad[0]->GetRStickXF()はコントローラーの右スティックの入力量が取得できる関数。
-	//m_rotY.SetRotationY(g_pad[0]->GetRStickXF() * 0.05f);
-	///回転クォータニオンでtoCameraPosを回す。
-	//m_rotY.Apply(toPos);
-
-	//Vector3 rotAxis;
-	//rotAxis.Cross(g_vec3AxisY, toPos);
-	//rotAxis.Normalize();
-
-	//m_rotX.SetRotation(rotAxis, g_pad[0]->GetRStickYF() * 0.05f);
-	//m_rotX.Apply(toPos);
+		//ぬける。
+		RotFlg = false;
+	}
 
 	if (CameraScrollFlag == true) {
 		//ここはステージ選択時に何ステージ目かでスウィッチさせてステージごとのカメラスクロール関数を呼ぶ。
@@ -55,7 +49,6 @@ void MainCamera::Update() {
 
 	//新しい視点を、「新しい注視点　＋　toCameraPos」で求める。
 	m_pos = m_tar + toPos;
-
 
 	//新しい視点と注視点をカメラに設定する。
 	g_camera3D->SetPosition(m_pos);

@@ -41,12 +41,16 @@ bool Background::Start()
 	//背景画像を初期化。
 	m_spriteRender = NewGO<SpriteRender>(0);
 	m_spriteRender->SetPosition({ 0.0f,0.0f,0.0f });
-	m_spriteRender->Init("Assets/image/BackScreen.dds", 1300.0f, 750.0f);
+	m_spriteRender->Init("Assets/image/eheheNS.dds", 1300.0f, 750.0f);
 
 
 	//これがlevelのLoadの基盤。
 	//特定のオブジェクトを指定する（ここでいうフック）場合は、名前検索する。
 	m_level.Init("Assets/level/stage02.tkl", [&](LevelObjectData& objData) {
+
+
+		//return true;が自分で生成。return false;がパソコンが生成してくれる。
+		//falseだと生成勝手にしてくれるけど、位置変えたりとかいじれない！！
 
 		deathPosY = -500.0f;		//state02では-500.0fで死ぬ！
 
@@ -268,14 +272,14 @@ bool Background::Start()
 		m_magnet[sampleNum]->SetMove(movePos_front, movePos_back);
 		m_magnet[sampleNum]->SetPosition(movePos_front);
 		sampleNum++;
+
 		return true;
 		}
-		else if (objData.EqualObjectName(L"move_01") == true) {
-			return true;
+		else if (objData.EqualObjectName(L"stage_02_changeOK") == true) {
+		//何も設定せずに戻り値trueを返すことでオブジェクトを出さないようにすることができる。
+			return false;
 		}
-		else if (objData.EqualObjectName(L"KeyBox") == true) {
-			return true;
-		}
+
 		return false;//levelのオブジェクトをそのままロード。
 	});
 

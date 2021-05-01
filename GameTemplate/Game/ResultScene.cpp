@@ -62,7 +62,8 @@ bool ResultScene::Start()
 		m_BestTime->SetPosition({ -45.0f,-30.0f });	//場所
 	}
 
-
+	//C++限定のキャスト方法。
+	//static_cast<int>(bestTime);
 
 	m_game = FindGO<Game>("game");
 	m_time = m_game->GetTime();		//Gameで取得したタイム

@@ -2,6 +2,7 @@
 
 class Player;
 class Background;
+class MainCamera;
 
 class Key : public IGameObject
 {
@@ -56,8 +57,7 @@ private:
 
 	int GetDelay = 0;	//鍵を取得してから鍵取得のサウンド再生が終わるまでの時間を待たせる変数。
 
-	bool GameOverFlag = false;
-
 	FontRender* m_fontRender = nullptr;
-};
 
+	MainCamera* maincamera;
+};

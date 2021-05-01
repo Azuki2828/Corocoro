@@ -15,9 +15,8 @@ public:
 	//注視点からのベクトル。
 	Vector3 toPos = { 0.0f,200.0f,-1800.0f };
 
-	//回転。
-	Quaternion m_rotY;
-	Quaternion m_rotX;
+	//Z軸を基点に180度回転。
+	Vector3  m_rotZ={0.0f,0.0f,-1.0f};
 
 	Player* m_player = nullptr;
 
@@ -26,5 +25,8 @@ public:
 	int CamePosiFlag = 0;
 	bool CameraScrollFlag = true;
 	int ScrollStaticTimer = 0;
+
+	//1回だけカメラを180度回転させるためのフラグ
+	bool RotFlg = false;
 };
 

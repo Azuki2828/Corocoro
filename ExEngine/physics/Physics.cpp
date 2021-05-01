@@ -24,7 +24,7 @@ struct MyContactResultCallback : public btCollisionWorld::ContactResultCallback 
 PhysicsWorld::PhysicsWorld()
 {
 	MY_ASSERT(
-		m_instance == nullptr, 
+		m_instance == nullptr,
 		"PhysisWorldのインスタンスを複数作ることはできません。"
 	);
 	Init();
@@ -66,11 +66,14 @@ void PhysicsWorld::Init()
 		m_collisionConfig.get()
 	);
 
-	m_dynamicWorld->setGravity(btVector3(0, -300, 0));
+		//重力
+		m_dynamicWorld->setGravity(btVector3(0, -300, 0));
+
+
 #if BUILD_LEVEL!=BUILD_LEVEL_MASTER
 	m_debugDraw.Init();
 	m_dynamicWorld->setDebugDrawer(&m_debugDraw);
-#endif 
+#endif
 }
 void PhysicsWorld::Update(float deltaTime)
 {

@@ -23,7 +23,7 @@ bool Game::Start() {
 	m_dirLight->SetLigDirection();
 	m_dirLight->SetLigColor();
 	//カメラを生成。
-	m_camera = NewGO<MainCamera>(0);
+	m_camera = NewGO<MainCamera>(0, "maincamera");
 	//プレイヤーを生成。
 	m_player = NewGO<Player>(0, "player");
 	//地形を生成。
