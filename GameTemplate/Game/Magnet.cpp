@@ -92,7 +92,7 @@ void Magnet::Update() {
 void Magnet::SetMagnetPower()const {
 
 	//基礎磁力の強さ。
-	float magnetPower = 120000.0f;
+	float magnetPower = 20000.0f;
 
 	//プレイヤーと自身の磁磁極が同じなら自身に向かって伸びるベクトルにする。
 	if (mState != m_player->GetPlayerState()) {

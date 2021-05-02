@@ -68,6 +68,9 @@ bool Player::Start()
 		0.5f
 	);
 	m_rigidBody.Init(rbInitData);
+	m_rigidBody.GetBody()->setUserIndex(enCollisionAttr_Character);
+	m_rigidBody.GetBody()->setCollisionFlags(btCollisionObject::CF_CHARACTER_OBJECT);
+	m_rigidBody.GetBody()->setIgnoreCollisionCheck(m_game->m_ghostBox.GetGhostObject(), true);
 
 	//摩擦力を設定する。0～10
 	m_rigidBody.SetFriction(10.0f);

@@ -66,6 +66,7 @@ Game::~Game()
 }
 
 void Game::Update() {
+	
 	if (m_startsoundflg == true) {
 		m_sound = NewGO<CSoundSource>(0);
 
@@ -98,11 +99,11 @@ void Game::Update() {
 		NewGO<ResultScene>(0);
 	}
 	
-	PhysicsWorld::GetInstance()->ContactTest(m_player->m_rigidBody, [&](const btCollisionObject& contactObject) {
+	PhysicsWorld::GetInstance()->ContactTest(*m_player->GetRigidBody(), [&](const btCollisionObject& contactObject) {
 		if (m_ghostBox.IsSelf(contactObject) == true) {
 			//m_ghostObjectとぶつかった
 			//m_pointLig->SetActiveFlag(true);	//ポイントライトをつける。
-			m_ghostBox.SetPosition({ 700.0f, 405.0f, 0.0f });
+			m_ghostBox.SetPosition({ 700.0f,405.0f,0.0f });
 		}
-		});
+	});
 }

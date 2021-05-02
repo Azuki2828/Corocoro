@@ -36,6 +36,8 @@ void MainCamera::Update() {
 
 	if (m_player != nullptr) {
 		m_tar = m_player->GetPosition();
+		//m_tar.x += 500.0f;
+		//m_tar.y += 1500.0f;
 	}
 	m_tar.y += 50.0f;
 	//新しい視点を、「新しい注視点　＋　toCameraPos」で求める。

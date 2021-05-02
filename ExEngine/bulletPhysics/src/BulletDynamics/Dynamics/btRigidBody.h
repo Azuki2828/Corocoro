@@ -180,11 +180,11 @@ public:
 
 
 	virtual ~btRigidBody()
-        { 
+    { 
                 //No constraints should point to this rigidbody
 		//Remove constraints from the dynamics world before you delete the related rigidbodies. 
                 btAssert(m_constraintRefs.size()==0); 
-        }
+    }
 
 protected:
 

@@ -14,6 +14,7 @@ public:
 
 	//注視点からのベクトル。
 	Vector3 toPos = { 0.0f,200.0f,-1800.0f };
+	//Vector3 toPos = { 1000.0f,1000.0f,-3500.0f };
 
 	//回転。
 	Quaternion m_rotY;

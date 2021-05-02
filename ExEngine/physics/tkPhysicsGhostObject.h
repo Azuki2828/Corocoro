@@ -51,6 +51,10 @@
 			rot.CopyTo(btRot);
 			btTrans.setRotation(btRot);
 		}
+		void	setIgnoreCollisionCheck(const btCollisionObject* co, bool ignoreCollisionCheck) {
+			m_ghostObject.setIgnoreCollisionCheck(co, ignoreCollisionCheck);
+		}
+		btGhostObject* GetGhostObject() { return &m_ghostObject; }
 	private:
 		/*!
 		* @brief	ゴースト作成処理の共通処理。

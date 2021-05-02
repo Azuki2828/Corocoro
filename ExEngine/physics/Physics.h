@@ -4,6 +4,8 @@
 
 #include "DebugWireframe.h"
 
+class CharacterController;
+
 class PhysicsWorld
 {
 	static PhysicsWorld* m_instance;	//唯一のインスタンス。
@@ -129,10 +131,10 @@ public:
 		std::function<void(const btCollisionObject& contactCollisionObject)> cb
 	);
 		
-	//void ContactTest(
-	//	CharacterController& charaCon,
-	//	std::function<void(const btCollisionObject& contactCollisionObject)> cb
-	//);	
+	void ContactTest(
+		CharacterController& charaCon,
+		std::function<void(const btCollisionObject& contactCollisionObject)> cb
+	);	
 private:
 	PhysicsWorld();
 	~PhysicsWorld();

@@ -10,6 +10,7 @@ class SaveData;
 class Game : public IGameObject
 {
 public:
+	CPhysicsGhostObject m_ghostBox;
 	float m_resulttime = 0;
 	float m_timer = 0;
 	bool Start()override final;
@@ -50,7 +51,5 @@ private:
 	DirectionLight* m_dirLight = nullptr;
 	SaveData* m_savedata = nullptr;
 	SaveData* m_besttime = nullptr;
-	
-	CPhysicsGhostObject m_ghostBox;
 };
 

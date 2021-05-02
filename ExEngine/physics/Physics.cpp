@@ -96,10 +96,10 @@ void PhysicsWorld::ContactTest(
 {
 	ContactTest(rb.GetBody(), cb);
 }
-//void PhysicsWorld::ContactTest(
-//	CharacterController& charaCon,
-//	std::function<void(const btCollisionObject& contactCollisionObject)> cb
-//)
-//{
-//	ContactTest(*charaCon.GetRigidBody(), cb);
-//}
+void PhysicsWorld::ContactTest(
+	CharacterController& charaCon,
+	std::function<void(const btCollisionObject& contactCollisionObject)> cb
+)
+{
+	ContactTest(*charaCon.GetRigidBody(), cb);
+}
