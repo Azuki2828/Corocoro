@@ -7,8 +7,8 @@ bool TitleLevel2D::Start()
 	//TitleSceneレベルを読み込む。
 	m_level2D.Init("Assets/level2D/TitleScene.casl", [&](Level2DObjectData& objdata) {
 
-		//名前がBackScreenだったら、
-		if (objdata.EqualObjectName("BackScreen")) {
+		//名前がeheheNSだったら、(背景画)
+		if (objdata.EqualObjectName("eheheNS")) {
 
 			m_sprite[0] = NewGO<SpriteRender>(0);
 			//Sprite初期化オブジェクトを使用して、Spriteを初期化する

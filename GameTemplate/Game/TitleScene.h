@@ -30,5 +30,11 @@ private:
 
 	TitleLevel2D* m_titleLevel2D = nullptr;
 
+	//‰æ‘œ‚Ì‘å‚«‚³‚ğŒˆ‚ß‚é•Ï”
+	Vector3 Vscale = { 0.2f,0.2f,0.2f };
+	float Fscale = 0.2f;
+	bool ScaleUpFlag = true;
 
+	//ƒ{ƒ^ƒ“‚Ì‰Šú‚Ì‘å‚«‚³B
+	Vector3 vscale = { 0.2f,0.2f,0.2f };
 };

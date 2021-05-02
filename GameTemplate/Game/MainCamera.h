@@ -16,10 +16,18 @@ public:
 	Vector3 toPos = { 0.0f,200.0f,-1800.0f };
 	//Vector3 toPos = { 1000.0f,1000.0f,-3500.0f };
 
-	//回転。
-	Quaternion m_rotY;
-	Quaternion m_rotX;
+	//Z軸を基点に180度回転。
+	Vector3  m_rotZ={0.0f,0.0f,-1.0f};
 
 	Player* m_player = nullptr;
+
+	//ゲームスタート前にステージ全体をカメラで眺める関数。x==カメラのx座標、y==カメラのy座標を入れる。
+	void Stage1ScrollCamera();
+	int CamePosiFlag = 0;
+	bool CameraScrollFlag = true;
+	int ScrollStaticTimer = 0;
+
+	//1回だけカメラを180度回転させるためのフラグ
+	bool RotFlg = false;
 };
 

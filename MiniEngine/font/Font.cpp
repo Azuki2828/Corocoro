@@ -15,6 +15,7 @@ void Font::End(RenderContext& rc)
 	auto& fontEngine = g_graphicsEngine->GetFontEngine();
 	fontEngine.EndDraw(rc);
 }
+
 void Font::Draw(
 	wchar_t const* text,
 	const Vector2& position,
@@ -22,7 +23,7 @@ void Font::Draw(
 	float rotation,
 	float scale,
 	Vector2 pivot)
-{		
+{
 	if (text == nullptr) {
 		return;
 	}
@@ -62,7 +63,7 @@ void Font::Draw(
 				rotation,
 				scale,
 				pivot
-				
+
 			);
 		}
 

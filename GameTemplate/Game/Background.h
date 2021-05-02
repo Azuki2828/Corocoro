@@ -8,6 +8,8 @@ class Level;
 class Magnet;
 class Key;
 
+class NormalBackground;
+
 class Background : public IGameObject
 {
 public:
@@ -30,5 +32,7 @@ private:
 
 	std::vector<Magnet*> m_magnet;
 	Key* m_key = nullptr;
+
+	NormalBackground* m_normalbg;
 };
 

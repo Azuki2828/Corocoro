@@ -85,6 +85,34 @@ void TitleScene::Update()
 		 //ボタンを不透明度100％にする。
 		 m_titleLevel2D->GetSprite(2)->SetMulColor({ 1.0f,1.0f,1.0f,1.0f });
 
+		 //単振動の公式を使ってボタンを拡大縮小する。
+
+		  //大きさが最小になったとき、
+		 if (Fscale < 0.20f) {
+			 ScaleUpFlag = true;
+		 }
+		 //大きさが最大になったとき、
+		 if (Fscale > 0.225f) {
+			 ScaleUpFlag = false;
+		 }
+
+		 if (ScaleUpFlag == true) {
+			 //拡大
+			 Fscale += 0.0005f;
+		 }
+		 if (ScaleUpFlag == false) {
+			 //縮小
+			 Fscale -= 0.0005f;
+		 }
+		 //スプライトに反映。
+		 Vscale = { Fscale,Fscale,Fscale };
+		 m_titleLevel2D->GetSprite(2)->SetScale(Vscale);
+
+		 //選択されていないボタンの拡大率を元に戻す。
+		 m_titleLevel2D->GetSprite(3)->SetScale(vscale);
+		 m_titleLevel2D->GetSprite(4)->SetScale(vscale);
+		 m_titleLevel2D->GetSprite(5)->SetScale(vscale);
+
 		break;
 
 	 //「あそびかた」ボタンが選ばれているとき、
@@ -93,6 +121,32 @@ void TitleScene::Update()
 		 m_titleLevel2D->GetSprite(3)->SetMulColor({ 1.0f,1.0f,1.0f,1.0f });
 
 		 //単振動の公式を使ってボタンを拡大縮小する。
+
+		 //大きさが最小になったとき、
+		 if (Fscale < 0.20f) {
+			 ScaleUpFlag = true;
+		 }
+		 //大きさが最大になったとき、
+		 if (Fscale > 0.225f) {
+			 ScaleUpFlag = false;
+		 }
+
+		 if (ScaleUpFlag == true) {
+			 //拡大
+			 Fscale += 0.0005f;
+		 }
+		 if (ScaleUpFlag == false) {
+			 //縮小
+			 Fscale -= 0.0005f;
+		 }
+		 //スプライトに反映。
+		 Vscale = { Fscale,Fscale,Fscale };
+		 m_titleLevel2D->GetSprite(3)->SetScale(Vscale);
+
+		 //選択されていないボタンの拡大率を元に戻す。
+		 m_titleLevel2D->GetSprite(2)->SetScale(vscale);
+		 m_titleLevel2D->GetSprite(4)->SetScale(vscale);
+		 m_titleLevel2D->GetSprite(5)->SetScale(vscale);
 
 		break;
 
@@ -103,6 +157,32 @@ void TitleScene::Update()
 
 		//単振動の公式を使ってボタンを拡大縮小する。
 
+		 //大きさが最小になったとき、
+		 if (Fscale < 0.20f) {
+			 ScaleUpFlag = true;
+		 }
+		 //大きさが最大になったとき、
+		 if (Fscale > 0.225f) {
+			 ScaleUpFlag = false;
+		 }
+
+		 if (ScaleUpFlag == true) {
+			 //拡大
+			 Fscale += 0.0005f;
+		 }
+		 if (ScaleUpFlag == false) {
+			 //縮小
+			 Fscale -= 0.0005f;
+		 }
+		 //スプライトに反映。
+		 Vscale = { Fscale,Fscale,Fscale };
+		 m_titleLevel2D->GetSprite(4)->SetScale(Vscale);
+
+		 //選択されていないボタンの拡大率を元に戻す。
+		 m_titleLevel2D->GetSprite(2)->SetScale(vscale);
+		 m_titleLevel2D->GetSprite(3)->SetScale(vscale);
+		 m_titleLevel2D->GetSprite(5)->SetScale(vscale);
+
 		break;
 
 	 //「しゅうりょう」ボタンが選ばれているとき、
@@ -111,6 +191,33 @@ void TitleScene::Update()
 		 m_titleLevel2D->GetSprite(5)->SetMulColor({ 1.0f,1.0f,1.0f,1.0f });
 
 		//単振動の公式を使ってボタンを拡大縮小する。
+
+		   //大きさが最小になったとき、
+		 if (Fscale < 0.20f) {
+			 ScaleUpFlag = true;
+		 }
+		 //大きさが最大になったとき、
+		 if (Fscale > 0.225f) {
+			 ScaleUpFlag = false;
+		 }
+
+		 if (ScaleUpFlag == true) {
+			 //拡大
+			 Fscale += 0.0005f;
+		 }
+		 if (ScaleUpFlag == false) {
+			 //縮小
+			 Fscale -= 0.0005f;
+		 }
+		 //スプライトに反映。
+		 Vscale = { Fscale,Fscale,Fscale };
+		 m_titleLevel2D->GetSprite(5)->SetScale(Vscale);
+
+		 //選択されていないボタンの拡大率を元に戻す。
+		 m_titleLevel2D->GetSprite(2)->SetScale(vscale);
+		 m_titleLevel2D->GetSprite(3)->SetScale(vscale);
+		 m_titleLevel2D->GetSprite(4)->SetScale(vscale);
+
 
 		break;
 	};

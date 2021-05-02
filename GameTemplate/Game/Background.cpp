@@ -35,17 +35,22 @@ bool Background::Start()
 		"MagnetHoge",
 	};*/
 
-	//�Q�[����ʂ�UI�\��
+	//ゲーム画面のUI表示
 	NewGO<GameLevel2D>(1,"gamescreenlevel2d");
+
 	//背景画像を初期化。
 	m_spriteRender = NewGO<SpriteRender>(0);
 	m_spriteRender->SetPosition({ 0.0f,0.0f,0.0f });
-	m_spriteRender->Init("Assets/image/BackScreen.dds", 1300.0f, 750.0f);
+	m_spriteRender->Init("Assets/image/eheheNS.dds", 1300.0f, 750.0f);
 
 
 	//これがlevelのLoadの基盤。
 	//特定のオブジェクトを指定する（ここでいうフック）場合は、名前検索する。
 	m_level.Init("Assets/level/stage02_inv.tkl", [&](LevelObjectData& objData) {
+
+
+		//return true;が自分で生成。return false;がパソコンが生成してくれる。
+		//falseだと生成勝手にしてくれるけど、位置変えたりとかいじれない！！
 
 		deathPosY = -500.0f;		//state02では-500.0fで死ぬ！
 
@@ -311,7 +316,6 @@ bool Background::Start()
 		return false;//levelのオブジェクトをそのままロード。
 	});
 
-
 	//BGM再生。
 
 	GameBGMSound = NewGO<CSoundSource>(0);
@@ -319,8 +323,6 @@ bool Background::Start()
 	GameBGMSound->Init(L"Assets/sound/GameBGM.wav");
 	GameBGMSound->SetVolume(1.0f);
 	GameBGMSound->Play(true);			//ループ再生。
-
-
 
 	//ModelInitData initData;
 	//initData.m_tkmFilePath = "Assets/modelData/bg/bg.tkm";
@@ -347,11 +349,7 @@ Background::~Background()
 
 void Background::Update()
 {
-	//ゲームクリアしてから5秒たったら、
-	if (m_key->GameOverCount > 300) {
-		//クラスを削除。
-		//DeleteGO(this);
-	}
+
 }
 
 

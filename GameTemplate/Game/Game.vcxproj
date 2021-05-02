@@ -334,7 +334,6 @@
     <ClCompile Include="ResultLevel2D.cpp" />
     <ClCompile Include="RuleScene.cpp" />
     <ClCompile Include="PostEffect.cpp" />
-    <ClCompile Include="Result.cpp" />
     <ClCompile Include="ResultScene.cpp" />
     <ClCompile Include="SaveData.cpp" />
     <ClCompile Include="Seesaw.cpp" />

@@ -43,7 +43,7 @@ public:
 		if (m_key == nullptr) {
 			return false;
 		}
-		return m_key->GetdoorbreakFlg(); 
+		return m_key->GetdoorbreakFlg();
 	};
 
 private:
@@ -98,4 +98,5 @@ private:
 	Background* m_backGround = nullptr;
 	Game* m_game = nullptr;
 	CSoundSource* NSChangeSound = nullptr;		//NS反転サウンドソース
+
 };

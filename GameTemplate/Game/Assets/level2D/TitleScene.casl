@@ -1,7 +1,7 @@
 6
-10,BackScreen,73,C:/Users/bm20b04/Desktop/MyGame/GameTemplate/Game/Resource/BackScreen.jpg,0.0,0.0,1024,512,0,1.3,1.5,14,BackScreen.dds
-5,Title,68,C:/Users/bm20b04/Desktop/MyGame/GameTemplate/Game/Resource/Title.png,-110.0,170.0,2048,2048,1,0.7,0.7,9,Title.dds
-3,End,66,C:/Users/bm20b04/Desktop/MyGame/GameTemplate/Game/Resource/End.png,460.0,-190.0,2048,2048,1,0.2,0.2,7,End.dds
-7,Setting,70,C:/Users/bm20b04/Desktop/MyGame/GameTemplate/Game/Resource/Setting.png,140.0,-190.0,2048,2048,1,0.2,0.2,11,Setting.dds
+5,Title,68,C:/Users/bm20b04/Desktop/MyGame/GameTemplate/Game/Resource/Title.png,-112.5,176.25,2048,2048,1,0.7,0.7,9,Title.dds
 5,Start,68,C:/Users/bm20b04/Desktop/MyGame/GameTemplate/Game/Resource/Start.png,140.0,-20.0,2048,2048,1,0.2,0.2,9,Start.dds
 4,Rule,67,C:/Users/bm20b04/Desktop/MyGame/GameTemplate/Game/Resource/Rule.png,460.0,-20.0,2048,2048,1,0.2,0.2,8,Rule.dds
+3,End,66,C:/Users/bm20b04/Desktop/MyGame/GameTemplate/Game/Resource/End.png,460.0,-200.0,2048,2048,1,0.2,0.2,7,End.dds
+7,Setting,70,C:/Users/bm20b04/Desktop/MyGame/GameTemplate/Game/Resource/Setting.png,140.0,-200.0,2048,2048,1,0.2,0.2,11,Setting.dds
+7,eheheNS,70,C:/Users/bm20b04/Desktop/MyGame/GameTemplate/Game/Resource/eheheNS.jpg,0.0,0.0,1024,512,0,1.2527472527472527,1.4229828850855746,11,eheheNS.dds

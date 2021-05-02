@@ -95,148 +95,109 @@ Player::~Player()
 
 void Player::Update()
 {
-	if (m_backGround == nullptr) {
-		m_backGround = FindGO<Background>("background");
-	}
-
-	//重力を設定。
-	//m_movePower.y -= 0.2f;
-
-	//z方向には動かない。
-	m_movePower.z = 0.0f;
-
-	//座標を設定。
-	//m_pos = m_charaCon.Execute(m_movePower, 1.0f);
-
-
-	float deathPosY = -1000.0f;
-	if (m_backGround != nullptr) {
-		deathPosY = m_backGround->GetDeathPosY();
-	}
-	//壁に当たっているなら
-	//if (m_charaCon.IsOnWall()) {
-	//
-	//	//1/2の力で跳ね返る。
-	//	m_movePower.x *= -0.5f;
-	//}
-
-	//地面上にいるなら
-	//if (m_charaCon.IsOnGround()) {
-	//
-	//	//右に動いてたら
-	//	if (m_movePower.x >= 0.0f) {
-	//		//摩擦。
-	//		m_movePower.x -= 0.02f;
-	//		//もし減らしすぎたら０にする。
-	//		if (m_movePower.x < 0.0f) {
-	//			m_movePower.x = 0.0f;
-	//		}
-	//	}//左に動いてたら
-	//	else {
-	//		//摩擦。
-	//		m_movePower.x += 0.02f;
-	//		//もし増やしすぎたら０にする。
-	//		if (m_movePower.x > 0.0f) {
-	//			m_movePower.x = 0.0f;
-	//		}
-	//	}
-	//
-	//}
-	//
-	//剛体の座標と回転を取得。
-	Vector3 pos;
-	Quaternion rot;
-	m_rigidBody.GetPositionAndRotation(pos, rot);
-	//剛体の座標と回転をモデルに反映。
-	if (m_key == nullptr) {
-		m_key = FindGO<Key>("key");
-
-	}
-
-	for (int i = 0; i < enPlayer_Num; i++) {
-		m_pos = pos;
-		m_rot = rot;
-		if (m_pos.y < deathPosY || g_pad[0]->IsTrigger(enButtonB)) {
-
-			if (getKeyFlg) {
-				m_pos = m_key->GetKeyPos();
-
-
-			}
-			else {
-				m_pos = { 300.0f,310.0f,0.0f };	//<変更>yが500以下になったら初期位置に戻るようにif文追加
-
-			}
-			m_rigidBody.SetPositionAndRotation(m_pos, m_rot);
+		if (m_backGround == nullptr) {
+			m_backGround = FindGO<Background>("background");
 		}
-		//m_skinModelRender[i]->UpdateWorldMatrix(pos, rot, Vector3::One);
-		m_skinModelRender[i]->SetPosition(m_pos);
-		m_skinModelRender[i]->SetRotation(m_rot);
-	}
-	//m_model.UpdateWorldMatrix(pos, rot, g_vec3One);
-	//剛体に力を加える。
-	Vector3 force;
-	force.x = g_pad[0]->GetLStickXF() * 500.0f;
-	force.z = g_pad[0]->GetLStickYF() * 500.0f;
-	//力を加える
-	m_rigidBody.AddForce(
-		m_movePower,		//力
-		g_vec3Zero	//力を加える剛体の相対位置
-	);
-	m_movePower = { 0.0f,0.0f,0.0f };
-	//Aボタンでプレイヤーの磁力を反転させる
 
-	if (m_game->m_timer >= m_game->GetGameStartTime()) {
-		if (g_pad[0]->IsTrigger(enButtonA)) {
-			ChangeState();
+		//z方向には動かない。
+		m_movePower.z = 0.0f;
 
-			//NとSを切り替えるときの効果音再生。
+		float deathPosY = -1000.0f;
+		if (m_backGround != nullptr) {
+			deathPosY = m_backGround->GetDeathPosY();
+		}
 
-			NSChangeSound = NewGO<CSoundSource>(0);
+		//剛体の座標と回転を取得。
+		Vector3 pos;
+		Quaternion rot;
+		m_rigidBody.GetPositionAndRotation(pos, rot);
+		//剛体の座標と回転をモデルに反映。
+		if (m_key == nullptr) {
+			m_key = FindGO<Key>("key");
 
-			NSChangeSound->Init(L"Assets/sound/NSChange.wav");
-			NSChangeSound->SetVolume(0.5f);
-			NSChangeSound->Play(false);	//ワンショット再生
+		}
 
-			//アクティブフラグを更新。
-			for (int i = 0; i < enPlayer_Num; i++) {
-				if (m_skinModelRender[i]->IsActive() == true) {
-					m_skinModelRender[i]->Deactivate();
+		for (int i = 0; i < enPlayer_Num; i++) {
+			m_pos = pos;
+			m_rot = rot;
+			if (m_pos.y < deathPosY || g_pad[0]->IsTrigger(enButtonB)) {
+
+				if (getKeyFlg) {
+					m_pos = m_key->GetKeyPos();
 				}
 				else {
-					m_skinModelRender[i]->Activate();
+					m_pos = { 300.0f,310.0f,0.0f };	//<変更>yが500以下になったら初期位置に戻るようにif文追加
+				}
+				m_rigidBody.SetPositionAndRotation(m_pos, m_rot);
+			}
+			//m_skinModelRender[i]->UpdateWorldMatrix(pos, rot, Vector3::One);
+			m_skinModelRender[i]->SetPosition(m_pos);
+			m_skinModelRender[i]->SetRotation(m_rot);
+		}
+		//m_model.UpdateWorldMatrix(pos, rot, g_vec3One);
+		//剛体に力を加える。
+		Vector3 force;
+		force.x = g_pad[0]->GetLStickXF() * 500.0f;
+		force.z = g_pad[0]->GetLStickYF() * 500.0f;
+		//力を加える
+		m_rigidBody.AddForce(
+			m_movePower,		//力
+			g_vec3Zero	//力を加える剛体の相対位置
+		);
+		m_movePower = { 0.0f,0.0f,0.0f };
+		//Aボタンでプレイヤーの磁力を反転させる
+
+		if (m_game->m_timer >= m_game->GetGameStartTime()) {
+			if (g_pad[0]->IsTrigger(enButtonA)) {
+				ChangeState();
+
+				//NとSを切り替えるときの効果音再生。
+
+				NSChangeSound = NewGO<CSoundSource>(0);
+
+				NSChangeSound->Init(L"Assets/sound/NSChange.wav");
+				NSChangeSound->SetVolume(0.5f);
+				NSChangeSound->Play(false);	//ワンショット再生
+
+				//アクティブフラグを更新。
+				for (int i = 0; i < enPlayer_Num; i++) {
+					if (m_skinModelRender[i]->IsActive() == true) {
+						m_skinModelRender[i]->Deactivate();
+					}
+					else {
+						m_skinModelRender[i]->Activate();
+					}
 				}
 			}
+
+			Vector3 m_lightCameraTar = m_pos;
+
+			Vector3 m_lightCameraPos = m_lightCameraTar;
+			//m_lightCameraPos.z += 5.0f;
+			m_lightCameraPos.y += 500.0f;
+
+			//Vector3 Cpos = { 300.0f,400.0f,0.0f };
+			//Vector3 CTar = { 300.0f,300.0f,0.0f };
+
+			Camera::GetLightCamera()->SetPosition(m_lightCameraPos);
+			Camera::GetLightCamera()->SetTarget(m_lightCameraTar);
+
+			//Vector3 toCamere = g_camera3D->GetPosition() - g_camera3D->GetTarget();
+			//g_camera3D->SetTarget(pos);
+			//toCamere.y = 100.0f;
+			//toCamere.z = -2500.0f;
+			//g_camera3D->SetPosition(pos + toCamere);
+
+
+
+			Key* key = FindGO<Key>("key");
+
+			//ゲームクリアしてから5秒たったら、
+			if (key->GameOverCount > 300) {
+				//クラスを削除。
+				DeleteGO(this);
+			}
 		}
-
-		Vector3 m_lightCameraTar = m_pos;
-
-		Vector3 m_lightCameraPos = m_lightCameraTar;
-		//m_lightCameraPos.z += 5.0f;
-		m_lightCameraPos.y += 500.0f;
-
-		//Vector3 Cpos = { 300.0f,400.0f,0.0f };
-		//Vector3 CTar = { 300.0f,300.0f,0.0f };
-
-		Camera::GetLightCamera()->SetPosition(m_lightCameraPos);
-		Camera::GetLightCamera()->SetTarget(m_lightCameraTar);
-
-		//Vector3 toCamere = g_camera3D->GetPosition() - g_camera3D->GetTarget();
-		//g_camera3D->SetTarget(pos);
-		//toCamere.y = 100.0f;
-		//toCamere.z = -2500.0f;
-		//g_camera3D->SetPosition(pos + toCamere);
-
-
-
-		Key* key = FindGO<Key>("key");
-
-		//ゲームクリアしてから5秒たったら、
-		if (key->GameOverCount > 300) {
-			//クラスを削除。
-			DeleteGO(this);
-		}
-	}
 }
 
 void Player::ChangeState() {

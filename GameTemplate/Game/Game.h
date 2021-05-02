@@ -17,7 +17,7 @@ public:
 	~Game();
 	void Update()override final;
 
-public: //Get�֐�
+public: //GetŠÖ”
 	float GetTime()
 	{
 		return m_time;
@@ -51,5 +51,9 @@ private:
 	DirectionLight* m_dirLight = nullptr;
 	SaveData* m_savedata = nullptr;
 	SaveData* m_besttime = nullptr;
+
+	bool KauntoDownSprite = false;
+	int KauntoDownTimer = 0;
+	SpriteRender* m_sprite[4];
 };
 

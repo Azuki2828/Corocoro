@@ -6,6 +6,7 @@
 #include "ResultScene.h"
 
 #include "GameLevel2D.h"
+#include "MainCamera.h"
 
 bool Key::Start() {
 
@@ -41,14 +42,13 @@ Key::~Key() {
 
 }
 
-
 void Key::InitKey(const char* name) {
 
 	char filePathtkm[256];
 
 	sprintf(filePathtkm, "Assets/modelData/tkm/%s.tkm", name);
 	m_skinModelRender_Key = NewGO<SkinModelRender>(0);
-	m_skinModelRender_Key->SetFileNametkm(filePathtkm);	
+	m_skinModelRender_Key->SetFileNametkm(filePathtkm);
 	m_skinModelRender_Key->SetShadowReceiverFlag(true);
 	m_skinModelRender_Key->Init(true, false);
 }
@@ -66,20 +66,23 @@ void Key::InitDoor(const char* name) {
 
 void Key::Update() {
 
-	
-
-
 
 	//3m以内なら鍵取得。
 	Vector3 keyLength;
 
 	keyLength = m_player->GetPosition() - m_keyPos;
 	if (keyLength.Length() <= 300.0f && !m_player->GetKeyFlg()) {
-		
+
 		//鍵を消去して取得効果音を再生。
 		DeleteGO(m_skinModelRender_Key);
-		GetKey();
-		
+
+		//MainCameraクラスのフラグ。ステージの回転をカメラと重力を回転させることで実装する。
+		//クラスにアクセスし、情報をもらう。
+		maincamera = FindGO<MainCamera>("maincamera");
+		//MainCameraクラスのRotFlg変数をtrueに。
+		maincamera->RotFlg = true;
+
+
 		if (KeyGetSoundFlag == true) {
 
 			//通常BGMを削除。
@@ -157,31 +160,6 @@ void Key::Update() {
 			//ドアの当たり判定を削除。
 			m_physicsStaticObject.Release();
 			m_doorbreakFlg = true;
-			GameOverFlag = true;
-		}
-	}
-}
-
-void Key::GetKey()
-{
-	m_sound = NewGO<CSoundSource>(0);
-	m_sound->Init(L"Assets/sound/KeyGet.wav");		//鍵取った時の効果音追加
-	m_sound->SetVolume(1.0f);
-	m_sound->Play(false);
-
-	m_spriteRender = NewGO<SpriteRender>(1);	
-	Vector3 vec = m_keyPos;
-	vec.y += 100.0f;
-	m_spriteRender->SetPosition(vec);								//<変更>鍵取ったら戻る合図(画像)を出す
-	m_spriteRender->Init("Assets/Image/yazirusi.dds", 256.0f, 256.0f);
-	if (GameOverFlag == true) {
-
-		//1.5�b�J�E���g
-		GameOverCount++;
-		//�Q�[���N���A���Ă���1.5�b�������A
-		if (GameOverCount == 90) {
-			//���U���g�V�[���N���X��Ăяo���B
-			NewGO<ResultScene>(0);
 		}
 	}
 }

@@ -1,6 +1,6 @@
 #pragma once
 class Game;
-class Result;
+class ResultScene;
 class Player;
 
 class SaveData : public IGameObject
@@ -20,14 +20,13 @@ public:
 	//void Update();
 
 	float m_time = 0.0f;
-	
+
 	Game* m_resulttime = 0;
 
 	Game* m_game = nullptr;
-	
-	Result* m_result = nullptr;
+
+	ResultScene* m_result = nullptr;
 
 	FontRender* m_fontRender;
-	
-};
 
+};
