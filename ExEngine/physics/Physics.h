@@ -2,6 +2,10 @@
 
 #include <memory>
 
+#include "DebugWireframe.h"
+
+class CharacterController;
+
 class PhysicsWorld
 {
 	static PhysicsWorld* m_instance;	//唯一のインスタンス。
@@ -10,9 +14,10 @@ class PhysicsWorld
 	std::unique_ptr<btBroadphaseInterface>				 m_overlappingPairCache;	//!<ブロードフェーズ。衝突判定の枝切り。
 	std::unique_ptr<btSequentialImpulseConstraintSolver> m_constraintSolver;		//!<コンストレイントソルバー。拘束条件の解決処理。
 	std::unique_ptr<btDiscreteDynamicsWorld>			 m_dynamicWorld;			//!<ワールド。
-#if BUILD_LEVEL!=BUILD_LEVEL_MASTER
-	CPhysicsDebugDraw									 m_debugDraw;
-#endif
+
+	DebugWireframe m_debugWireFrame;
+	bool m_isDrawDebugWireFrame = false;
+
 
 public:
 	static void CreateInstance()
@@ -29,7 +34,34 @@ public:
 	}
 	
 	void Update(float deltaTime);
-	void DebubDrawWorld(RenderContext& rc);
+	void DebubDrawWorld(RenderContext& rc)
+	{
+
+		if (m_isDrawDebugWireFrame) {
+			m_debugWireFrame.Begin();
+			//実際にdrawLineを呼んでます。
+			m_dynamicWorld->debugDrawWorld();
+			m_debugWireFrame.End(rc);
+		}
+
+	}
+
+	//当たり判定描画を有効にする。
+	void EnableDrawDebugWireFrame()
+	{
+
+		m_isDrawDebugWireFrame = true;
+
+	}
+
+	//当たり判定描画を無効にする。
+	void DisableDrawDebugWireFrame()
+	{
+
+		m_isDrawDebugWireFrame = false;
+
+	}
+
 	void Release();
 	/*!
 	* @brief	重力を設定。。
@@ -72,11 +104,11 @@ public:
 	{
 		m_dynamicWorld->convexSweepTest(castShape, convexFromWorld, convexToWorld, resultCallback, allowedCcdPenetration);
 	}
-#if 0
+
 	/*!
-	* @brief	コリジョンオブジェクトをワールドに登録。
-	*@param[in]	colliObj	コリジョンオブジェクト。
-	*/
+		* @brief	コリジョンオブジェクトをワールドに登録。
+		*@param[in]	colliObj	コリジョンオブジェクト。
+		*/
 	void AddCollisionObject(btCollisionObject& colliObj)
 	{
 		m_dynamicWorld->addCollisionObject(&colliObj);
@@ -95,15 +127,14 @@ public:
 		std::function<void(const btCollisionObject& contactCollisionObject)> cb
 	);
 	void ContactTest(
-		CRigidBody& rb,
+		RigidBody& rb,
 		std::function<void(const btCollisionObject& contactCollisionObject)> cb
 	);
 		
 	void ContactTest(
-		CCharacterController& charaCon,
+		CharacterController& charaCon,
 		std::function<void(const btCollisionObject& contactCollisionObject)> cb
-	);
-#endif		
+	);	
 private:
 	PhysicsWorld();
 	~PhysicsWorld();

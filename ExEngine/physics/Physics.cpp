@@ -4,7 +4,7 @@
 
 using namespace std;
 
-PhysicsWorld* PhysicsWorld::m_instance = nullptr;	//—Bˆê‚ÌƒCƒ“ƒXƒ^ƒ“ƒXB
+PhysicsWorld* PhysicsWorld::m_instance = nullptr;	//å”¯ä¸€ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã€‚
 
 namespace {
 struct MyContactResultCallback : public btCollisionWorld::ContactResultCallback {
@@ -25,7 +25,7 @@ PhysicsWorld::PhysicsWorld()
 {
 	MY_ASSERT(
 		m_instance == nullptr,
-		"PhysisWorld‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚ğ•¡”ì‚é‚±‚Æ‚Í‚Å‚«‚Ü‚¹‚ñB"
+		"PhysisWorldã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’è¤‡æ•°ä½œã‚‹ã“ã¨ã¯ã§ãã¾ã›ã‚“ã€‚"
 	);
 	Init();
 }
@@ -46,7 +46,7 @@ void PhysicsWorld::Release()
 void PhysicsWorld::Init()
 {
 	Release();
-	//•¨—ƒGƒ“ƒWƒ“‚ğ‰Šú‰»B
+	//ç‰©ç†ã‚¨ãƒ³ã‚¸ãƒ³ã‚’åˆæœŸåŒ–ã€‚
 	///collision configuration contains default setup for memory, collision setup. Advanced users can create their own configuration.
 	m_collisionConfig = make_unique<btDefaultCollisionConfiguration>();
 
@@ -66,28 +66,19 @@ void PhysicsWorld::Init()
 		m_collisionConfig.get()
 	);
 
-		//d—Í
-		m_dynamicWorld->setGravity(btVector3(0, -300, 0));
 
+	m_dynamicWorld->setGravity(btVector3(0, -300, 0));
 
-#if BUILD_LEVEL!=BUILD_LEVEL_MASTER
-	m_debugDraw.Init();
-	m_dynamicWorld->setDebugDrawer(&m_debugDraw);
-#endif
+	//ãƒ‡ãƒãƒƒã‚°ãƒ¯ã‚¤ãƒ¤ãƒ¼ãƒ•ãƒ¬ãƒ¼ãƒ ã‚’åˆæœŸåŒ–ã€‚
+	m_debugWireFrame.Init();
+	m_dynamicWorld->setDebugDrawer(&m_debugWireFrame);
 }
 void PhysicsWorld::Update(float deltaTime)
 {
 	m_dynamicWorld->stepSimulation(deltaTime);
 }
-#if 0
-void PhysicsWorld::DebubDrawWorld(CRenderContext& rc)
-{
-#if BUILD_LEVEL!=BUILD_LEVEL_MASTER
-	m_debugDraw.BeginDraw(rc);
-	m_dynamicWorld->debugDrawWorld();
-	m_debugDraw.EndDraw();
-#endif
-}
+
+
 void PhysicsWorld::ContactTest(
 	btCollisionObject* colObj,
 	std::function<void(const btCollisionObject& contactCollisionObject)> cb
@@ -99,17 +90,16 @@ void PhysicsWorld::ContactTest(
 }
 
 void PhysicsWorld::ContactTest(
-	CRigidBody& rb,
+	RigidBody& rb,
 	std::function<void(const btCollisionObject& contactCollisionObject)> cb
 )
 {
 	ContactTest(rb.GetBody(), cb);
 }
 void PhysicsWorld::ContactTest(
-	CCharacterController& charaCon,
+	CharacterController& charaCon,
 	std::function<void(const btCollisionObject& contactCollisionObject)> cb
 )
 {
 	ContactTest(*charaCon.GetRigidBody(), cb);
 }
-#endif

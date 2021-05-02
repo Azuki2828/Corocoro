@@ -6,7 +6,7 @@ bool MainCamera::Start() {
 
 	m_player = FindGO<Player>("player");
 
-	//�����ݒ�
+	//初期設定
 	m_pos = m_player->GetPosition();
 	m_pos.z += 100.0f;
 	g_camera3D->SetPosition(m_pos);
@@ -19,105 +19,124 @@ bool MainCamera::Start() {
 
 void MainCamera::Update() {
 
+
+	//m_pos = g_camera3D->GetPosition();
+	//m_tar = g_camera3D->GetTarget();
+	//toPos = m_tar - m_pos;
+	//コントローラーの入力でY軸周りに回転するカメラを作成する。
+	
+	//g_pad[0]->GetRStickXF()はコントローラーの右スティックの入力量が取得できる関数。
+	m_rotY.SetRotationY(g_pad[0]->GetRStickXF() * 0.05f);
+	//回転クォータニオンでtoCameraPosを回す。
+	m_rotY.Apply(toPos);
+
+	Vector3 rotAxis;
+	rotAxis.Cross(g_vec3AxisY, toPos);
+	rotAxis.Normalize();
+	
+	m_rotX.SetRotation(rotAxis, g_pad[0]->GetRStickYF() * 0.05f);
+	m_rotX.Apply(toPos);
+
+
 	if (RotFlg == true) {
-		//�����Ƃ�����V��𑖂�悤�ɃJ������180���񂷁B
-		//�J�����ɉ�]����`����B
+		//鍵をとったら天井を走るようにカメラを180°回す。
+		//カメラに回転情報を伝える。
 		g_camera3D->SetUp(m_rotZ);
-		//�v���X�ŏd�͂𔽓]������B
+		//プラスで重力を反転させる。
 		PhysicsWorld::GetInstance()->SetGravity({ 0, 300, 0 });
 
-		//�ʂ���B
+		//ぬける。
 		RotFlg = false;
 	}
 
 	if (CameraScrollFlag == true) {
-		//�����̓X�e�[�W�I�����ɉ��X�e�[�W�ڂ��ŃX�E�B�b�`�����ăX�e�[�W���Ƃ̃J�����X�N���[���֐����ĂԁB
+		//ここはステージ選択時に何ステージ目かでスウィッチさせてステージごとのカメラスクロール関数を呼ぶ。
 
-		//�X�e�[�W1���J�����X�N���[���Œ��߂�֐�
+		//ステージ1をカメラスクロールで眺める関数
 		Stage1ScrollCamera();
 	}
-	//�ʏ펞�̏����B
+	//通常時の処理。
 	else {
 		if (m_player != nullptr) {
-			//�v���C���[�̏ꏊ���擾���A�����_�̕ϐ��ɓ����B
+			//プレイヤーの場所を取得し、注視点の変数に入れる。
 			m_tar = m_player->GetPosition();
-			//�v���C���[�̂�����Ə�ɒ����_��u���B
+			//プレイヤーのちょっと上に注視点を置く。
 			m_tar.y += 50.0f;
 
 		}
 	}
 
-	//�V�������_���A�u�V���������_�@�{�@toCameraPos�v�ŋ��߂�B
+	//新しい視点を、「新しい注視点　＋　toCameraPos」で求める。
 	m_pos = m_tar + toPos;
 
-	//�V�������_�ƒ����_���J�����ɐݒ肷��B
+	//新しい視点と注視点をカメラに設定する。
 	g_camera3D->SetPosition(m_pos);
 	g_camera3D->SetTarget(m_tar);
 	g_camera3D->Update();
 }
 
 
-//�X�e�[�W1���J�����X�N���[���Œ��߂�֐�
+//ステージ1をカメラスクロールで眺める関数
 void MainCamera::Stage1ScrollCamera() {
 	switch (CamePosiFlag) {
 	case 0:
-		//�X�^�[�g�̏ꏊ�ŏ�����ʂ̃X�N���[�����Œ�B�X�^�[�g�n�_���v���C���[�ɓ`���₷������B
+		//スタートの場所で少し画面のスクロールを固定。スタート地点をプレイヤーに伝わりやすくする。
 		ScrollStaticTimer++;
-		//2�b�Î~�B
+		//2秒静止。
 		if (ScrollStaticTimer == 120) {
 			CamePosiFlag = 1;
 		}
 		break;
 	case 1:
-		//�X�^�[�g�ʒu����E�[��...
+		//スタート位置から右端に...
 		m_tar.x += 30.0f;
 		if (m_tar.x > 3000.0f) {
 			CamePosiFlag = 2;
 		}
 		break;
 	case 2:
-		//2�K�w�܂ŏ�ɂ�����B
+		//2階層まで上にあがる。
 		m_tar.y += 30.0f;
 		if (m_tar.y > 1500.0f) {
 			CamePosiFlag = 3;
 		}
 		break;
 	case 3:
-		//2�K�w�̉E�[���獶�[�ɐi�ށB
+		//2階層の右端から左端に進む。
 		m_tar.x -= 30.0f;
 		if (m_tar.x < 700.0f) {
 			CamePosiFlag = 4;
 		}
 		break;
 	case 4:
-		//3�K�w�܂ŏ�ɂ�����B
+		//3階層まで上にあがる。
 		m_tar.y += 30.0f;
 		if (m_tar.y > 2800.0f) {
 			CamePosiFlag = 5;
 		}
 		break;
 	case 5:
-		//���̏ꏊ�܂ŉE�ɐi�ށB
+		//鍵の場所まで右に進む。
 		m_tar.x += 30.0f;
 		if (m_tar.x > 3000.0f) {
 			CamePosiFlag = 6;
 		}
 		break;
 	case 6:
-		//���̏ꏊ�ŏ�����ʂ̃X�N���[�����Œ�B�ړI�n���v���C���[�ɓ`���₷������B
+		//鍵の場所で少し画面のスクロールを固定。目的地をプレイヤーに伝わりやすくする。
 		ScrollStaticTimer++;
-		//2�b�Î~�B
+		//2秒静止。
 		if (ScrollStaticTimer == 240) {
 			CamePosiFlag = 7;
 		}
 		break;
 	case 7:
-		//�J�����̏ꏊ����ŒZ�ŃX�^�[�g�܂Ŗ߂�B
+		//カメラの場所から最短でスタートまで戻る。
 		m_tar.x -= 40.0f;
 		m_tar.y -= 35.0f;
-		//�v���C���[�̏������W�܂Ŗ߂�����A
+		//プレイヤーの初期座標まで戻ったら、
 		if (m_tar.x < 400.0f && m_tar.y < 370.0f) {
-			//�J�������{�[�����_�ɖ߂�������J�����X�N���[���̃t���O�𔲂���B
+			//カメラをボール視点に戻したからカメラスクロールのフラグを抜ける。
 			CameraScrollFlag = false;
 		}
 		break;

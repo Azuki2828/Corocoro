@@ -8,7 +8,6 @@ struct RigidBodyInitData {
 	Vector3 localInteria;			//慣性テンソル。回転のしやすさ的なもの。
 	ICollider* collider = nullptr;	//コライダー。
 	float mass = 0;					//質量。
-
 };
 
 /// <summary>

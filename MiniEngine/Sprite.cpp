@@ -162,6 +162,7 @@
 		psoDesc.SampleDesc.Count = 1;
 		psoDesc.RTVFormats[0] = initData.m_colorBufferFormat;
 		m_pipelineState.Init(psoDesc);
+
 	}
 	void Sprite::InitConstantBuffer(const SpriteInitData& initData)
 	{

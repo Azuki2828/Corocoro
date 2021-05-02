@@ -10,13 +10,14 @@ class SaveData;
 class Game : public IGameObject
 {
 public:
+	CPhysicsGhostObject m_ghostBox;
 	float m_resulttime = 0;
 	float m_timer = 0;
 	bool Start()override final;
 	~Game();
 	void Update()override final;
 
-public: //Get�֐�
+public: //GetŠÖ”
 	float GetTime()
 	{
 		return m_time;

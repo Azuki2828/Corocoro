@@ -14,6 +14,7 @@ private:
 	bool m_startFlg = false;
 
 public:
+	CharacterController m_charaCon;						//キャラコン。
 	bool Start() override;
 	~Player();
 	void Update() override;
@@ -23,6 +24,8 @@ public:
 
 	//現在の座標を取得する関数。
 	const Vector3 GetPosition()const { return m_pos; }
+
+	RigidBody* GetRigidBody() { return &m_rigidBody; }
 
 	//外部から力を受け取る関数。
 	//pow：力の大きさ
@@ -77,10 +80,9 @@ private:
 	Animation m_animation;								//アニメション再生処理。
 	AnimationClip m_animationClips[enAnimClip_Num];		//アニメーションクリップ。
 	Skeleton m_skeleton;								//スケルトン。
-	CharacterController m_charaCon;						//キャラコン。
 
 	DirectionLight* m_dirLight = nullptr;				//ディレクションライト。
-	Vector3 m_pos = { 300.0f,305.0f,0.0f };				//初期座標。
+	Vector3 m_pos = { 300.0f,305.0f,-400.0f };				//初期座標。
 	Quaternion m_rot = Quaternion::Identity;
 	//Vector3 m_pos = { 1500.0f,2800.0f,0.0f };
 	//Vector3 m_pos = { 1500.0f,2800.0f,20.0f };
@@ -92,7 +94,6 @@ private:
 
 	SphereCollider m_sphereCollider;
 	RigidBody m_rigidBody;
-
 	Key* m_key = nullptr;
 	Background* m_backGround = nullptr;
 	Game* m_game = nullptr;
