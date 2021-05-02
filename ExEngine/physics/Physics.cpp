@@ -23,10 +23,10 @@ struct MyContactResultCallback : public btCollisionWorld::ContactResultCallback 
 
 PhysicsWorld::PhysicsWorld()
 {
-	MY_ASSERT(
-		m_instance == nullptr,
-		"PhysisWorldのインスタンスを複数作ることはできません。"
-	);
+	//MY_ASSERT(
+	//	m_instance == nullptr,
+	//	"PhysisWorldのインスタンスを複数作ることはできません。"
+	//);
 	Init();
 }
 PhysicsWorld::~PhysicsWorld()

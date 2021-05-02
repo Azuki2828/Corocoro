@@ -44,6 +44,7 @@ void MainCamera::Update() {
 		g_camera3D->SetUp(m_rotZ);
 		//プラスで重力を反転させる。
 		PhysicsWorld::GetInstance()->SetGravity({ 0, 300, 0 });
+		toPos.y *= -1.0f;
 
 		//ぬける。
 		RotFlg = false;
@@ -61,7 +62,12 @@ void MainCamera::Update() {
 			//プレイヤーの場所を取得し、注視点の変数に入れる。
 			m_tar = m_player->GetPosition();
 			//プレイヤーのちょっと上に注視点を置く。
-			m_tar.y += 50.0f;
+			if (m_player->GetKeyFlg()) {
+				m_tar.y -= 50.0f;
+			}
+			else {
+				m_tar.y += 50.0f;
+			}
 
 		}
 	}

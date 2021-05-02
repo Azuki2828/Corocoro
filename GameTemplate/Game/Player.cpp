@@ -174,7 +174,12 @@ void Player::Update()
 
 			Vector3 m_lightCameraPos = m_lightCameraTar;
 			//m_lightCameraPos.z += 5.0f;
-			m_lightCameraPos.y += 500.0f;
+			if (getKeyFlg) {
+				m_lightCameraPos.y -= 500.0f;
+			}
+			else {
+				m_lightCameraPos.y += 500.0f;
+			}
 
 			//Vector3 Cpos = { 300.0f,400.0f,0.0f };
 			//Vector3 CTar = { 300.0f,300.0f,0.0f };

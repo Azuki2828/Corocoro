@@ -14,6 +14,8 @@ public:
 
 	//注視点からのベクトル。
 	Vector3 toPos = { 0.0f,200.0f,-1800.0f };
+	Quaternion m_rotX;
+	Quaternion m_rotY;
 	//Vector3 toPos = { 1000.0f,1000.0f,-3500.0f };
 
 	//Z軸を基点に180度回転。
