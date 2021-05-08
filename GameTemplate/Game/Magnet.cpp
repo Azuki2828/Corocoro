@@ -2,6 +2,7 @@
 #include "Magnet.h"
 #include "Player.h"
 #include "Key.h"
+#include "Game.h"
 
 bool Magnet::Start() {
 
@@ -9,6 +10,7 @@ bool Magnet::Start() {
 
 	m_skinModelRender->SetPosition(m_pos);
 	m_key = FindGO<Key>("key");
+	m_game = FindGO<Game>("game");
 
 	/*
 	名前分けしようとしてたときのやつ。
@@ -40,6 +42,9 @@ bool Magnet::Start() {
 
 	//プレイヤーのオブジェクトを探す。
 	m_player = FindGO<Player>("player");
+
+	SetMagnetTriggerBox(m_game->GetStageNum());
+	m_player->GetRigidBody()->GetBody()->setIgnoreCollisionCheck(m_ghostBox.GetGhostObject(), true);
 	return true;
 }
 
@@ -76,15 +81,21 @@ void Magnet::Update() {
 	//座標を登録。
 	m_skinModelRender->SetPosition(m_pos);
 	//プレイヤーに向かって伸びるベクトル(長さ)。
-	m_length = m_player->GetPosition() - m_pos;
-
-	if (!m_key->GetdoorbreakFlg()) {
-		//プレイヤーとの距離が６m以内だったら力を与える関数を呼び出す。
-		if (m_length.Length() <= 1000.0f) {
-			SetMagnetPower();
+	//m_length = m_player->GetPosition() - m_pos;
+	//
+	////if (!m_key->GetdoorbreakFlg()) {
+	//	//プレイヤーとの距離が６m以内だったら力を与える関数を呼び出す。
+	//if (m_length.Length() <= 1000.0f) {
+	//	SetMagnetPower();
+	//}
+	//}
+	PhysicsWorld::GetInstance()->ContactTest(*m_player->GetRigidBody(), [&](const btCollisionObject& contactObject) {
+		if (m_ghostBox.IsRegistPhysicsWorld() && m_ghostBox.IsSelf(contactObject) == true) {
+			//m_ghostObjectとぶつかった
+			//m_pointLig->SetActiveFlag(true);	//ポイントライトをつける。
+			m_ghostBox.SetPosition({ 700.0f,405.0f,0.0f });
 		}
-	}
-
+		});
 	//m_skinModelRender->SetPosition(m_pos);
 
 }
@@ -117,4 +128,32 @@ void Magnet::SetMagnetPower()const {
 
 	//プレイヤーに力を与える。
 	m_player->ReceivePower(m_length);
+}
+
+void Magnet::SetMagnetTriggerBox(int stageNum) {
+
+	switch (stageNum) {		//ステージ番号
+
+	case 1:
+
+
+		switch (m_magnetNum) {		//磁石番号
+		case 0:
+			m_ghostBox.CreateBox(
+				{ 500.0f, 405.0f, 0.0f },	//第一引数は座標。
+				Quaternion::Identity,		//第二引数は回転クォータニオン。
+				{ 200.0f, 200.0f, 750.0f }	//第三引数はボックスのサイズ。
+			);
+			break;
+		case 1:
+			m_ghostBox.CreateBox(
+				{ 500.0f, 405.0f, 0.0f },	//第一引数は座標。
+				Quaternion::Identity,		//第二引数は回転クォータニオン。
+				{ 200.0f, 200.0f, 750.0f }	//第三引数はボックスのサイズ。
+			);
+			break;
+		}
+
+		break;
+	}
 }

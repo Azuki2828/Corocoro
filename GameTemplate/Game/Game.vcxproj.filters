@@ -79,7 +79,6 @@
     <ClCompile Include="ResultLevel2D.cpp" />
     <ClCompile Include="RuleScene.cpp" />
     <ClCompile Include="PostEffect.cpp" />
-    <ClCompile Include="Result.cpp" />
     <ClCompile Include="ResultScene.cpp" />
     <ClCompile Include="SaveData.cpp" />
     <ClCompile Include="Seesaw.cpp" />
@@ -98,6 +97,8 @@
     <ClCompile Include="..\..\ExEngine\physics\DebugWireframe.cpp" />
     <ClCompile Include="..\..\ExEngine\physics\tkPhysicsGhostObject.cpp" />
     <ClCompile Include="..\..\ExEngine\physics\tkPhysicsObjectBase.cpp" />
+    <ClCompile Include="..\..\ExEngine\effect\Effect.cpp" />
+    <ClCompile Include="..\..\ExEngine\effect\EffectEngine.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\ExEngine\ExEngine.h" />
@@ -485,6 +486,8 @@
     <ClCompile Include="..\..\MiniEngine\VertexBuffer.cpp">
       <Filter>cpp</Filter>
     </ClCompile>
+    <ClInclude Include="..\..\ExEngine\effect\Effect.h" />
+    <ClInclude Include="..\..\ExEngine\effect\EffectEngine.h" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\MiniEngine\Animation.h">
@@ -793,7 +796,6 @@
     <ClInclude Include="..\..\MiniEngine\VertexBuffer.h">
       <Filter>h</Filter>
     </ClInclude>
-
   </ItemGroup>
   <ItemGroup>
     <Filter Include="cpp">

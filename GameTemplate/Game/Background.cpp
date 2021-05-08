@@ -46,7 +46,7 @@ bool Background::Start()
 
 	//これがlevelのLoadの基盤。
 	//特定のオブジェクトを指定する（ここでいうフック）場合は、名前検索する。
-	m_level.Init("Assets/level/stage02_inv.tkl", [&](LevelObjectData& objData) {
+	m_level.Init("Assets/level/stage01_inv.tkl", [&](LevelObjectData& objData) {
 
 
 		//return true;が自分で生成。return false;がパソコンが生成してくれる。
@@ -89,21 +89,23 @@ bool Background::Start()
 			m_key->SetPositionDoor(objData.position);
 			return true;
 		}
-		else if (objData.EqualObjectName(L"Magnet_N10") == true) {
+		else if (objData.EqualObjectName(L"Magnet_N100_100") == true) {
 			m_magnet.push_back(*(m_magnet.end() - 1));
 			m_magnet[sampleNum] = NewGO<Magnet>(0);
 			m_magnet[sampleNum]->SetState_N();
 			m_magnet[sampleNum]->Init("Magnet_N10");
 			m_magnet[sampleNum]->SetPosition(objData.position);
+			m_magnet[sampleNum]->SetMagnetNum(sampleNum);
 			sampleNum++;
 			return true;
 		}
-		else if (objData.EqualObjectName(L"Magnet_N100") == true) {
+		else if (objData.EqualObjectName(L"Magnet_S100_100") == true) {
 			m_magnet.push_back(*(m_magnet.end() - 1));
 			m_magnet[sampleNum] = NewGO<Magnet>(0);
-			m_magnet[sampleNum]->SetState_N();
-			m_magnet[sampleNum]->Init("Magnet_N100");
+			m_magnet[sampleNum]->SetState_S();
+			m_magnet[sampleNum]->Init("Magnet_S100");
 			m_magnet[sampleNum]->SetPosition(objData.position);
+			m_magnet[sampleNum]->SetMagnetNum(sampleNum);
 			sampleNum++;
 			return true;
 		}
@@ -113,6 +115,7 @@ bool Background::Start()
 			m_magnet[sampleNum]->SetState_S();
 			m_magnet[sampleNum]->Init("Magnet_S10");
 			m_magnet[sampleNum]->SetPosition(objData.position);
+			m_magnet[sampleNum]->SetMagnetNum(sampleNum);
 			sampleNum++;
 			return true;
 		}
@@ -122,6 +125,7 @@ bool Background::Start()
 			m_magnet[sampleNum]->SetState_S();
 			m_magnet[sampleNum]->Init("Magnet_S100");
 			m_magnet[sampleNum]->SetPosition(objData.position);
+			m_magnet[sampleNum]->SetMagnetNum(sampleNum);
 			sampleNum++;
 			return true;
 		}

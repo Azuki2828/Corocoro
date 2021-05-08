@@ -20,11 +20,11 @@ bool Game::Start() {
 	//m_savedata->FileSave();
 	m_savedata->Load();
 	
-	m_ghostBox.CreateBox(
-		{ 500.0f, 405.0f, 0.0f },	//第一引数は座標。
-		Quaternion::Identity,		//第二引数は回転クォータニオン。
-		{ 200.0f, 200.0f, 750.0f }	//第三引数はボックスのサイズ。
-	);
+	//m_ghostBox.CreateBox(
+	//	{ 500.0f, 405.0f, 0.0f },	//第一引数は座標。
+	//	Quaternion::Identity,		//第二引数は回転クォータニオン。
+	//	{ 200.0f, 200.0f, 750.0f }	//第三引数はボックスのサイズ。
+	//);
 
 	m_dirLight = NewGO<DirectionLight>(0);
 	m_dirLight->SetLigDirection();
@@ -177,14 +177,6 @@ void Game::Update() {
 		doorbreakSoundFlg = false;			//ゴールしたら計測終了
 		NewGO<ResultScene>(0,"resultscene");
 	}
-	
-	PhysicsWorld::GetInstance()->ContactTest(*m_player->GetRigidBody(), [&](const btCollisionObject& contactObject) {
-		if (m_ghostBox.IsSelf(contactObject) == true) {
-			//m_ghostObjectとぶつかった
-			//m_pointLig->SetActiveFlag(true);	//ポイントライトをつける。
-			m_ghostBox.SetPosition({ 700.0f,405.0f,0.0f });
-		}
-	});
 
 
 	///デバック用のコマンド。

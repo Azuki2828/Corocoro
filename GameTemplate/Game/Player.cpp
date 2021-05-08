@@ -22,12 +22,12 @@ bool Player::Start()
 
 	//プレイヤーのtkmとtksをロードする種。
 	const char* tkmFilePaths[] = {
-		"Assets/modelData/tkm/Player_N.tkm",
-		"Assets/modelData/tkm/Player_S.tkm"
+		"Assets/modelData/tkm/Player_N50.tkm",
+		"Assets/modelData/tkm/Player_S50.tkm"
 	};
 	const char* tksFilePaths[] = {
-		"Assets/modelData/tkm/Player_N.tks",
-		"Assets/modelData/tkm/Player_S.tks"
+		"Assets/modelData/tkm/Player_N50.tks",
+		"Assets/modelData/tkm/Player_S50.tks"
 	};
 
 
@@ -52,7 +52,7 @@ bool Player::Start()
 	//m_skinModelRender->InitAnimation(m_animationClips, enAnimClip_Num);
 
 	//コライダーを初期化。
-	m_sphereCollider.Create(50.0f);
+	m_sphereCollider.Create(17.5f);
 
 	//剛体を初期化。
 	RigidBodyInitData rbInitData;
@@ -70,7 +70,7 @@ bool Player::Start()
 	m_rigidBody.Init(rbInitData);
 	m_rigidBody.GetBody()->setUserIndex(enCollisionAttr_Character);
 	m_rigidBody.GetBody()->setCollisionFlags(btCollisionObject::CF_CHARACTER_OBJECT);
-	m_rigidBody.GetBody()->setIgnoreCollisionCheck(m_game->m_ghostBox.GetGhostObject(), true);
+	//m_rigidBody.GetBody()->setIgnoreCollisionCheck(m_game->m_ghostBox.GetGhostObject(), true);
 
 	//摩擦力を設定する。0～10
 	m_rigidBody.SetFriction(10.0f);
@@ -198,10 +198,10 @@ void Player::Update()
 			Key* key = FindGO<Key>("key");
 
 			//ゲームクリアしてから5秒たったら、
-			if (key->GameOverCount > 300) {
-				//クラスを削除。
-				DeleteGO(this);
-			}
+			//if (key->GameOverCount > 300) {
+			//	//クラスを削除。
+			//	DeleteGO(this);
+			//}
 		}
 }
 

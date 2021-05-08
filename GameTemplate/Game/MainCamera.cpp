@@ -49,7 +49,7 @@ void MainCamera::Update() {
 		//ぬける。
 		RotFlg = false;
 	}
-
+	CameraScrollFlag = false;
 	if (CameraScrollFlag == true) {
 		//ここはステージ選択時に何ステージ目かでスウィッチさせてステージごとのカメラスクロール関数を呼ぶ。
 

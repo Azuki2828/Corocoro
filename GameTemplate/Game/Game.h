@@ -33,8 +33,12 @@ public: //GetŠÖ”
 	int GetGameStartTime() {
 		return m_gameStartTime;
 	}
+	int GetStageNum() {
+		return m_stageNum;
+	}
 
 private:
+	int m_stageNum = 0;
 	FontRender* m_fontRender = nullptr;
 	FontRender* m_recordfontRender = nullptr;
 	GameTime* m_gametime = nullptr;

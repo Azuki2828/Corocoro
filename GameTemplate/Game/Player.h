@@ -82,7 +82,7 @@ private:
 	Skeleton m_skeleton;								//スケルトン。
 
 	DirectionLight* m_dirLight = nullptr;				//ディレクションライト。
-	Vector3 m_pos = { 300.0f,305.0f,-400.0f };				//初期座標。
+	Vector3 m_pos = { 300.0f,335.0f,-50.0f };				//初期座標。
 	Quaternion m_rot = Quaternion::Identity;
 	//Vector3 m_pos = { 1500.0f,2800.0f,0.0f };
 	//Vector3 m_pos = { 1500.0f,2800.0f,20.0f };

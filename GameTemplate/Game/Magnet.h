@@ -2,6 +2,7 @@
 
 class Player;
 class Key;
+class Game;
 
 class Magnet : public IGameObject
 {
@@ -32,6 +33,10 @@ public:
 	//座標を登録する関数。
 	void SetPosition(Vector3 pos) { m_pos = pos; }
 
+	void SetMagnetNum(int num) {
+		m_magnetNum = num;
+	}
+
 	//初期化関数。
 	void Init(const char* magnetName)
 	{
@@ -44,11 +49,12 @@ public:
 		m_skinModelRender->Init(true, false);
 	}
 private:
-
+	int m_magnetNum = 0;
 	int m_timer = 0;			//<変更>動く磁石の一時停止のためm_timerを追加
 
 	//プレイヤーに力を与える関数。
 	void SetMagnetPower()const;
+	void SetMagnetTriggerBox(int stageNum);
 
 	bool plusFlg = false;		//強い磁石フラグ。
 	bool moveFlg = false;		//動くフラグ。
@@ -72,8 +78,10 @@ private:
 
 	Player* m_player = nullptr;
 	Key* m_key = nullptr;
+	Game* m_game = nullptr;
 
 	SkinModelRender* m_skinModelRender = nullptr;
 	PhysicsStaticObject m_physicsStaticObject;	//当たり判定
+	CPhysicsGhostObject m_ghostBox;
 };
 

@@ -13,7 +13,7 @@ public:
 	//Vector3 toPos = { 0.0f,200.0f,-4000.0f };
 
 	//注視点からのベクトル。
-	Vector3 toPos = { 0.0f,200.0f,-1800.0f };
+	Vector3 toPos = { 0.0f,200.0f,-800.0f };
 	Quaternion m_rotX;
 	Quaternion m_rotY;
 	//Vector3 toPos = { 1000.0f,1000.0f,-3500.0f };
