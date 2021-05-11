@@ -2,6 +2,11 @@
 
 class SkinModelRender : public IGameObject
 {
+
+	struct LightCameraData{
+		Matrix m_viewProj;
+		Vector3 eyePos;
+	};
 public:
 	//SkinModelRender();
 	//初期化。
@@ -62,7 +67,9 @@ public:
 
 		m_shadowReceiverFlag = flg;
 	}
-
+	void SetUserLigData(LigData* lig) {
+		m_userLigData = lig;
+	}
 private:
 	int m_animNum;
 	const char* m_fileNametkm = nullptr;
@@ -79,6 +86,8 @@ private:
 
 	DirectionLight* m_directionLight = nullptr;
 
+	LightCameraData m_lightCameraData;
+	LigData* m_userLigData = nullptr;	//ユーザー固有のライトデータ
 	Vector3 m_pos = Vector3::Zero;
 	Vector3 m_sca = Vector3::One;
 	Quaternion m_rot = Quaternion::Identity;

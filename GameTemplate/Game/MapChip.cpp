@@ -25,8 +25,9 @@ MapChip::MapChip(const LevelObjectData& objData) {
 	m_skinModelRender->SetFileNametks(static_cast<const char*>(filePathtks));
 
 	m_skinModelRender->SetShadowReceiverFlag(true);
-
+	m_skinModelRender->SetUserLigData(&m_ligData);
 	m_skinModelRender->Init(true, false);
+	
 
 	m_skinModelRender->SetPosition(objData.position);
 	m_skinModelRender->SetRotation(objData.rotation);

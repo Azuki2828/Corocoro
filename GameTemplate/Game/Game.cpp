@@ -12,7 +12,7 @@
 bool Game::Start() {
 
 
-	//PhysicsWorld::GetInstance()->EnableDrawDebugWireFrame();
+	PhysicsWorld::GetInstance()->EnableDrawDebugWireFrame();
 	m_gameStartTime = 3.0f * g_graphicsEngine->GetGraphicTime();
 
 	//セーブを追加
@@ -26,9 +26,13 @@ bool Game::Start() {
 	//	{ 200.0f, 200.0f, 750.0f }	//第三引数はボックスのサイズ。
 	//);
 
-	m_dirLight = NewGO<DirectionLight>(0);
+	m_dirLight = NewGO<DirectionLight>(0,"mainLight");
 	m_dirLight->SetLigDirection();
 	m_dirLight->SetLigColor();
+
+	//m_dirLight = NewGO<DirectionLight>(0, "backGroundLight");
+	//m_dirLight->SetLigDirection(0.0f, 1.0f, 0.0f);
+	//m_dirLight->SetLigColor();
 	//カメラを生成。
 	m_camera = NewGO<MainCamera>(0, "maincamera");
 	//プレイヤーを生成。
@@ -66,7 +70,6 @@ Game::~Game()
 }
 
 void Game::Update() {
-
 	
 
 	//カメラのスクロールが終わってプレイヤーの視点になる。且つ、ワンショット再生させるためのフラグ。
@@ -173,7 +176,7 @@ void Game::Update() {
 		m_fontRender->SetText(text1);
 
 
-	if (m_player->GetdoorbreakFlg() == true && doorbreakSoundFlg == true || g_pad[0]->IsTrigger(enButtonY)) {
+	if (m_player->GetdoorbreakFlg() == true && doorbreakSoundFlg == true) {
 		doorbreakSoundFlg = false;			//ゴールしたら計測終了
 		NewGO<ResultScene>(0,"resultscene");
 	}

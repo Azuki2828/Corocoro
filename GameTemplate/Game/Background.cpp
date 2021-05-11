@@ -46,7 +46,7 @@ bool Background::Start()
 
 	//これがlevelのLoadの基盤。
 	//特定のオブジェクトを指定する（ここでいうフック）場合は、名前検索する。
-	m_level.Init("Assets/level/stage01_inv.tkl", [&](LevelObjectData& objData) {
+	m_level.Init("Assets/level/stage03_inv.tkl", [&](LevelObjectData& objData) {
 
 
 		//return true;が自分で生成。return false;がパソコンが生成してくれる。
@@ -93,8 +93,12 @@ bool Background::Start()
 			m_magnet.push_back(*(m_magnet.end() - 1));
 			m_magnet[sampleNum] = NewGO<Magnet>(0);
 			m_magnet[sampleNum]->SetState_N();
-			m_magnet[sampleNum]->Init("Magnet_N10");
+			m_magnet[sampleNum]->Init("Magnet_N100_100");
 			m_magnet[sampleNum]->SetPosition(objData.position);
+			Vector3 m_magPos = objData.position;
+			m_magPos.x += 50.0f;
+			m_magPos.y += 50.0f;
+			m_magnet[sampleNum]->SetMagnetPosition(m_magPos);
 			m_magnet[sampleNum]->SetMagnetNum(sampleNum);
 			sampleNum++;
 			return true;
@@ -103,32 +107,108 @@ bool Background::Start()
 			m_magnet.push_back(*(m_magnet.end() - 1));
 			m_magnet[sampleNum] = NewGO<Magnet>(0);
 			m_magnet[sampleNum]->SetState_S();
-			m_magnet[sampleNum]->Init("Magnet_S100");
+			m_magnet[sampleNum]->Init("Magnet_S100_100");
+			m_magnet[sampleNum]->SetPosition(objData.position);
+			Vector3 m_magPos = objData.position;
+			m_magPos.x += 50.0f;
+			m_magPos.y += 50.0f;
+			m_magnet[sampleNum]->SetMagnetPosition(m_magPos);
+			m_magnet[sampleNum]->SetMagnetNum(sampleNum);
+			sampleNum++;
+			return true;
+		}
+		else if (objData.EqualObjectName(L"Magnet_N100_200triangle") == true) {
+			m_magnet.push_back(*(m_magnet.end() - 1));
+			m_magnet[sampleNum] = NewGO<Magnet>(0);
+			m_magnet[sampleNum]->SetState_N();
+			m_magnet[sampleNum]->Init("Magnet_N100_200triangle");
 			m_magnet[sampleNum]->SetPosition(objData.position);
 			m_magnet[sampleNum]->SetMagnetNum(sampleNum);
 			sampleNum++;
 			return true;
 		}
-		else if (objData.EqualObjectName(L"Magnet_S10") == true) {
+		else if (objData.EqualObjectName(L"Magnet_S100_200triangle") == true) {
 			m_magnet.push_back(*(m_magnet.end() - 1));
 			m_magnet[sampleNum] = NewGO<Magnet>(0);
 			m_magnet[sampleNum]->SetState_S();
-			m_magnet[sampleNum]->Init("Magnet_S10");
+			m_magnet[sampleNum]->Init("Magnet_S100_200triangle");
+			m_magnet[sampleNum]->SetPosition(objData.position);
+			Vector3 m_magPos = objData.position;
+			m_magPos.x += 150.0f;
+			m_magPos.y -= 50.0f;
+			m_magnet[sampleNum]->SetMagnetPosition(m_magPos);
+			m_magnet[sampleNum]->SetMagnetNum(sampleNum);
+			sampleNum++;
+			return true;
+		}
+		else if (objData.EqualObjectName(L"Magnet_N-100_200triangle") == true) {
+			m_magnet.push_back(*(m_magnet.end() - 1));
+			m_magnet[sampleNum] = NewGO<Magnet>(0);
+			m_magnet[sampleNum]->SetState_N();
+			m_magnet[sampleNum]->Init("Magnet_N-100_200triangle");
 			m_magnet[sampleNum]->SetPosition(objData.position);
 			m_magnet[sampleNum]->SetMagnetNum(sampleNum);
 			sampleNum++;
 			return true;
 		}
-		else if (objData.EqualObjectName(L"Magnet_S100") == true) {
+		else if (objData.EqualObjectName(L"Magnet_S-100_200triangle") == true) {
 			m_magnet.push_back(*(m_magnet.end() - 1));
 			m_magnet[sampleNum] = NewGO<Magnet>(0);
 			m_magnet[sampleNum]->SetState_S();
-			m_magnet[sampleNum]->Init("Magnet_S100");
+			m_magnet[sampleNum]->Init("Magnet_S-100_200triangle");
 			m_magnet[sampleNum]->SetPosition(objData.position);
 			m_magnet[sampleNum]->SetMagnetNum(sampleNum);
 			sampleNum++;
 			return true;
 		}
+		else if (objData.EqualObjectName(L"Magnet_S-100_-200triangle") == true) {
+			m_magnet.push_back(*(m_magnet.end() - 1));
+			m_magnet[sampleNum] = NewGO<Magnet>(0);
+			m_magnet[sampleNum]->SetState_S();
+			m_magnet[sampleNum]->Init("Magnet_S-100_-200triangle");
+			m_magnet[sampleNum]->SetPosition(objData.position);
+			Vector3 m_magPos = objData.position;
+			m_magPos.x += 50.0f;
+			m_magPos.y += 50.0f;
+			m_magnet[sampleNum]->SetMagnetPosition(m_magPos);
+			m_magnet[sampleNum]->SetMagnetNum(sampleNum);
+			sampleNum++;
+			return true;
+		}
+		else if (objData.EqualObjectName(L"Magnet_S100_-200triangle") == true) {
+			m_magnet.push_back(*(m_magnet.end() - 1));
+			m_magnet[sampleNum] = NewGO<Magnet>(0);
+			m_magnet[sampleNum]->SetState_S();
+			m_magnet[sampleNum]->Init("Magnet_S100_-200triangle");
+			m_magnet[sampleNum]->SetPosition(objData.position);
+			Vector3 m_magPos = objData.position;
+			m_magPos.x += 50.0f;
+			m_magPos.y -= 50.0f;
+			m_magnet[sampleNum]->SetMagnetPosition(m_magPos);
+			m_magnet[sampleNum]->SetMagnetNum(sampleNum);
+			sampleNum++;
+			return true;
+		}
+		//else if (objData.EqualObjectName(L"Magnet_S10") == true) {
+		//	m_magnet.push_back(*(m_magnet.end() - 1));
+		//	m_magnet[sampleNum] = NewGO<Magnet>(0);
+		//	m_magnet[sampleNum]->SetState_S();
+		//	m_magnet[sampleNum]->Init("Magnet_S10");
+		//	m_magnet[sampleNum]->SetPosition(objData.position);
+		//	m_magnet[sampleNum]->SetMagnetNum(sampleNum);
+		//	sampleNum++;
+		//	return true;
+		//}
+		//else if (objData.EqualObjectName(L"Magnet_S100") == true) {
+		//	m_magnet.push_back(*(m_magnet.end() - 1));
+		//	m_magnet[sampleNum] = NewGO<Magnet>(0);
+		//	m_magnet[sampleNum]->SetState_S();
+		//	m_magnet[sampleNum]->Init("Magnet_S100");
+		//	m_magnet[sampleNum]->SetPosition(objData.position);
+		//	m_magnet[sampleNum]->SetMagnetNum(sampleNum);
+		//	sampleNum++;
+		//	return true;
+		//}
 		//else if (objData.EqualObjectName(L"Magnet_N_01") == true) {
 		//	m_magnet.push_back(*(m_magnet.end() - 1));
 		//	m_magnet[sampleNum] = NewGO<Magnet>(0);
@@ -353,7 +433,12 @@ Background::~Background()
 
 void Background::Update()
 {
-
+	//static int sampleNum = 0;
+	//Vector3 pos = m_magnet[sampleNum]->GetPosition();
+	//if (g_pad[0]->IsTrigger(enButtonA)) {
+	//	m_magnet[sampleNum]->SetPosition({ pos.x,pos.y,pos.z - 100.0f });
+	//	sampleNum++;
+	//}
 }
 
 

@@ -52,7 +52,7 @@ bool Player::Start()
 	//m_skinModelRender->InitAnimation(m_animationClips, enAnimClip_Num);
 
 	//コライダーを初期化。
-	m_sphereCollider.Create(17.5f);
+	m_sphereCollider.Create(50.0f);
 
 	//剛体を初期化。
 	RigidBodyInitData rbInitData;
@@ -198,10 +198,10 @@ void Player::Update()
 			Key* key = FindGO<Key>("key");
 
 			//ゲームクリアしてから5秒たったら、
-			//if (key->GameOverCount > 300) {
-			//	//クラスを削除。
-			//	DeleteGO(this);
-			//}
+			if (key->GameOverCount > 300) {
+				//クラスを削除。
+				DeleteGO(this);
+			}
 		}
 }
 

@@ -32,9 +32,15 @@ public:
 
 	//座標を登録する関数。
 	void SetPosition(Vector3 pos) { m_pos = pos; }
+	Vector3 GetPosition() { return m_pos; }
+	void CreateTriggerBox(int type);
 
 	void SetMagnetNum(int num) {
 		m_magnetNum = num;
+	}
+
+	void SetMagnetPosition(const Vector3& pos) {
+		m_magnetPos = pos;
 	}
 
 	//初期化関数。
@@ -60,6 +66,7 @@ private:
 	bool moveFlg = false;		//動くフラグ。
 	mutable Vector3 m_length;	//プレイヤーとの距離。
 	Vector3 m_pos;				//座標。
+	Vector3 m_magnetPos;		//磁力の発生場所。基点は左下なため、中心にする。
 	Vector3 moveRange_front;	//移動範囲の左端。
 	Vector3 moveRange_back;		//移動範囲の右端。
 	Vector3 moveSpeed;			//動く速さ。
@@ -73,6 +80,20 @@ private:
 		State_Nplus,
 		State_Splus,
 	}Magnet_State;
+
+	typedef enum {
+		Left3,
+		Left4,
+		Left5,
+		Right3,
+		Right4,
+		Down2,
+		Down3,
+		Down4,
+		Up2,
+		Up3,
+		Up4,
+	}TriggerBoxType;
 
 	Magnet_State mState;	//磁極のステート。
 

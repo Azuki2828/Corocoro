@@ -279,6 +279,7 @@ float4 PSMain(SPSIn psIn) : SV_Target0
 	float4 finalColor = 1.0f;
 	finalColor.xyz = lig;
 	return finalColor;
+	//return albedoColor;
 
 	////拡散反射光の影響
 	//float t = dot(psIn.normal,ligDirection);

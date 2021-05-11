@@ -38,7 +38,7 @@ public: //GetŠÖ”
 	}
 
 private:
-	int m_stageNum = 0;
+	int m_stageNum = 3;
 	FontRender* m_fontRender = nullptr;
 	FontRender* m_recordfontRender = nullptr;
 	GameTime* m_gametime = nullptr;

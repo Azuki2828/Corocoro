@@ -46,8 +46,19 @@ void SkinModelRender::Init(bool DirectionFlg, bool PointLightFlg) {
 
 	if (!m_shadowReceiverFlag) {
 		initData.m_fxFilePath = "Assets/shader/model.fx";
-		initData.m_expandConstantBuffer = LightManager::GetInstance()->GetLigData();
-		initData.m_expandConstantBufferSize = sizeof*(LightManager::GetInstance()->GetLigData());
+		if(m_userLigData){
+			//ユーザー固有のライトを使う。
+			//initData.m_expandConstantBuffer = m_userLigData;
+
+			//まだ実装途中なので共通のライトを使う。
+			initData.m_expandConstantBuffer = LightManager::GetInstance()->GetLigData();
+		}
+		else {
+			//グローバルライトを使う。
+			initData.m_expandConstantBuffer = LightManager::GetInstance()->GetLigData();
+		}
+		
+		initData.m_expandConstantBufferSize = sizeof(*LightManager::GetInstance()->GetLigData());
 	}
 	else {
 		initData.m_fxFilePath = "Assets/shader/sampleShadowReciever.fx";
@@ -57,9 +68,25 @@ void SkinModelRender::Init(bool DirectionFlg, bool PointLightFlg) {
 		//シャドウマップを拡張SRVに設定する。
 		initData.m_expandShaderResoruceView = &RenderTarget::GetShadowMap()->GetRenderTargetTexture();
 
+		//m_lightCameraData.m_viewProj = Camera::GetLightCamera()->GetViewProjectionMatrix();
+		//m_lightCameraData.eyePos = g_camera3D->GetPosition();
+
+		if (m_userLigData) {
+			//ユーザー固有のライトを使う。
+			//initData.m_expandConstantBuffer = m_userLigData;
+			initData.m_expandConstantBuffer = LightManager::GetInstance()->GetLigData();
+		}
+		else {
+			//グローバルライトを使う。
+			initData.m_expandConstantBuffer = LightManager::GetInstance()->GetLigData();
+		}
+		initData.m_expandConstantBufferSize = sizeof (*LightManager::GetInstance()->GetLigData());
 		////ライトビュープロジェクション行列を拡張定数バッファに設定する。
-		initData.m_expandConstantBuffer = (void*)&(Camera::GetLightCamera()->GetViewProjectionMatrix());
-		initData.m_expandConstantBufferSize = sizeof(Camera::GetLightCamera()->GetViewProjectionMatrix());
+		//initData.m_expandConstantBuffer = (void*)&(Camera::GetLightCamera()->GetViewProjectionMatrix());
+		//initData.m_expandConstantBufferSize = sizeof(Camera::GetLightCamera()->GetViewProjectionMatrix());
+
+		//initData.m_expandConstantBuffer = (void*)&m_lightCameraData;
+		//initData.m_expandConstantBufferSize = sizeof(m_lightCameraData);
 		
 	}
 
@@ -104,7 +131,6 @@ void SkinModelRender::Update() {
 	//アニメーションを進める。
 	m_animation.Progress(1.0f / 60.0f);
 
-	
 	m_model.UpdateWorldMatrix(m_pos, m_rot, m_sca);
 	m_shadowModel.UpdateWorldMatrix(
 		m_pos,

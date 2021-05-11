@@ -15,6 +15,8 @@ static const int MAX_DIRECTION_LIGHT = 8;
 struct LigData {
 	DirectionLigData m_directionLigData[MAX_DIRECTION_LIGHT];
 	Vector3 eyePos;
+	float pad;
+	Matrix m_viewProj;
 	//Matrix viewProj;
 };
 

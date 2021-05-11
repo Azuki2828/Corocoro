@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "MainCamera.h"
 #include "Player.h"
+#include "DirectionLight.h"
 
 bool MainCamera::Start() {
 
@@ -39,12 +40,14 @@ void MainCamera::Update() {
 
 
 	if (RotFlg == true) {
+		m_dir = FindGO<DirectionLight>("mainLight");
+		m_dir->SetLigDirection({ 0.0f,1.0f,1.0f });
 		//鍵をとったら天井を走るようにカメラを180°回す。
 		//カメラに回転情報を伝える。
+		//toPos.y *= -1.0f;
 		g_camera3D->SetUp(m_rotZ);
 		//プラスで重力を反転させる。
 		PhysicsWorld::GetInstance()->SetGravity({ 0, 300, 0 });
-		toPos.y *= -1.0f;
 
 		//ぬける。
 		RotFlg = false;
@@ -61,13 +64,13 @@ void MainCamera::Update() {
 		if (m_player != nullptr) {
 			//プレイヤーの場所を取得し、注視点の変数に入れる。
 			m_tar = m_player->GetPosition();
-			//プレイヤーのちょっと上に注視点を置く。
-			if (m_player->GetKeyFlg()) {
-				m_tar.y -= 50.0f;
-			}
-			else {
-				m_tar.y += 50.0f;
-			}
+			////プレイヤーのちょっと上に注視点を置く。
+			//if (m_player->GetKeyFlg()) {
+			//	m_tar.y -= 50.0f;
+			//}
+			//else {
+			//	m_tar.y += 50.0f;
+			//}
 
 		}
 	}
