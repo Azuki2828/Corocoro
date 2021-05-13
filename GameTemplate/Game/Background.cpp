@@ -46,7 +46,7 @@ bool Background::Start()
 
 	//これがlevelのLoadの基盤。
 	//特定のオブジェクトを指定する（ここでいうフック）場合は、名前検索する。
-	m_level.Init("Assets/level/stage03_inv.tkl", [&](LevelObjectData& objData) {
+	m_level.Init("Assets/level/stage02_inv.tkl", [&](LevelObjectData& objData) {
 
 
 		//return true;が自分で生成。return false;がパソコンが生成してくれる。

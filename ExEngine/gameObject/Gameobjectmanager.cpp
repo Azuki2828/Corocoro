@@ -39,10 +39,28 @@ void GameObjectManager::ExecuteUpdate()
 	}
 
 
-	for (auto& goList : m_gameObjectListArray) {
-		for (auto& go : goList) {
-			go->UpdateWrapper();
+	switch (g_engine->GetGameState()) {
+	case GameState::State_Game:
+		for (auto& goList : m_gameObjectListArray) {
+			for (auto& go : goList) {
+				go->UpdateWrapper();
+			}
 		}
+		break;
+	case GameState::State_Pause:
+		for (auto& goList : m_gameObjectListArray) {
+			for (auto& go : goList) {
+				go->PauseUpdateWrapper();
+			}
+		}
+		break;
+	case GameState::State_Free:
+		for (auto& goList : m_gameObjectListArray) {
+			for (auto& go : goList) {
+				go->FreeUpdateWrapper();
+			}
+		}
+		break;
 	}
 }
 void GameObjectManager::ExecuteRender(RenderContext& rc)

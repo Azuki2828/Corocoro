@@ -12,7 +12,7 @@
 bool Game::Start() {
 
 
-	PhysicsWorld::GetInstance()->EnableDrawDebugWireFrame();
+	//hysicsWorld::GetInstance()->EnableDrawDebugWireFrame();
 	m_gameStartTime = 3.0f * g_graphicsEngine->GetGraphicTime();
 
 	//セーブを追加

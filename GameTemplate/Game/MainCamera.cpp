@@ -44,13 +44,16 @@ void MainCamera::Update() {
 		m_dir->SetLigDirection({ 0.0f,1.0f,1.0f });
 		//鍵をとったら天井を走るようにカメラを180°回す。
 		//カメラに回転情報を伝える。
-		//toPos.y *= -1.0f;
-		g_camera3D->SetUp(m_rotZ);
+
+
 		//プラスで重力を反転させる。
-		PhysicsWorld::GetInstance()->SetGravity({ 0, 300, 0 });
+		PhysicsWorld::GetInstance()->SetGravity({ 0, 0, 0 });
 
 		//ぬける。
 		RotFlg = false;
+		m_cameraRotFlg = true;
+
+		g_engine->SetGameState(GameState::State_Free);
 	}
 	CameraScrollFlag = false;
 	if (CameraScrollFlag == true) {
@@ -72,6 +75,37 @@ void MainCamera::Update() {
 			//	m_tar.y += 50.0f;
 			//}
 
+		}
+	}
+
+	//新しい視点を、「新しい注視点　＋　toCameraPos」で求める。
+	m_pos = m_tar + toPos;
+
+	//新しい視点と注視点をカメラに設定する。
+	g_camera3D->SetPosition(m_pos);
+	g_camera3D->SetTarget(m_tar);
+	g_camera3D->Update();
+}
+
+void MainCamera::FreeUpdate() {
+
+	int a = 0;
+	if (m_cameraRotFlg) {
+
+		waitRot += GameTime::GameTimeFunc().GetFrameDeltaTime();
+		if (waitRot > 1.5f) {
+			static int count = 0;
+			Quaternion m_rotZ;
+			m_rotZ.SetRotationDeg(Vector3::AxisZ, -2.0f);
+			m_rotZ.Apply(toPos);
+			m_rotZ.Apply(m_rotAxis);
+			g_camera3D->SetUp(m_rotAxis);
+			count++;
+			if (count == 90) {
+				m_cameraRotFlg = false;
+				g_engine->SetGameState(GameState::State_Game);
+				PhysicsWorld::GetInstance()->SetGravity({ 0, 300, 0 });
+			}
 		}
 	}
 

@@ -95,6 +95,8 @@ Player::~Player()
 
 void Player::Update()
 {
+
+		m_rigidBody.SetLinearFactor(1.0f, 1.0f, 0.0f);
 		if (m_backGround == nullptr) {
 			m_backGround = FindGO<Background>("background");
 		}
@@ -203,6 +205,10 @@ void Player::Update()
 				DeleteGO(this);
 			}
 		}
+}
+
+void Player::FreeUpdate() {
+	m_rigidBody.wantsSleeping();
 }
 
 void Player::ChangeState() {

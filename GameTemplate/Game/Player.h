@@ -18,6 +18,7 @@ public:
 	bool Start() override;
 	~Player();
 	void Update() override;
+	void FreeUpdate()override;
 
 	//現在のステートを取得する関数。
 	const int GetPlayerState()const { return pState; }
@@ -82,9 +83,9 @@ private:
 	Skeleton m_skeleton;								//スケルトン。
 
 	DirectionLight* m_dirLight = nullptr;				//ディレクションライト。
-	//Vector3 m_pos = { 300.0f,200.0f,-300.0f };			//初期座標。ステージ１
-	//Vector3 m_pos = { 300.0f,1200.0f,-300.0f };			//初期座標。ステージ２
-	Vector3 m_pos = { 300.0f,1300.0f,-300.0f };				//初期座標。ステージ３
+	//Vector3 m_pos = { 300.0f,200.0f,-300.0f };		//初期座標。ステージ１
+	Vector3 m_pos = { 300.0f,300.0f,-300.0f };			//初期座標。ステージ２
+	//Vector3 m_pos = { 300.0f,1300.0f,-300.0f };		//初期座標。ステージ３
 	Quaternion m_rot = Quaternion::Identity;
 	//Vector3 m_pos = { 1500.0f,2800.0f,0.0f };
 	//Vector3 m_pos = { 1500.0f,2800.0f,20.0f };
