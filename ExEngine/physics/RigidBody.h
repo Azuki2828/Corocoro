@@ -76,6 +76,8 @@ public:
 		m_rigidBody->applyForce(btForce, btRelPos);
 		m_rigidBody->activate();
 	}
+
+	void ClearPower() { m_rigidBody->clearForces(); m_rigidBody->updateDeactivation(0.0f); }
 	/// <summary>
 	/// ‘¬“x‚ğİ’èB
 	/// </summary>

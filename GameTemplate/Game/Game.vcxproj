@@ -314,6 +314,7 @@
     <ClCompile Include="..\..\MiniEngine\VertexBuffer.cpp" />
     <ClCompile Include="Background.cpp" />
     <ClCompile Include="Background2.cpp" />
+    <ClCompile Include="DeathBlock.cpp" />
     <ClCompile Include="DirectionLight.cpp" />
     <ClCompile Include="FontRender.cpp" />
     <ClCompile Include="Game.cpp" />
@@ -431,6 +432,7 @@
     <ClInclude Include="..\..\MiniEngine\VertexBuffer.h" />
     <ClInclude Include="Background.h" />
     <ClInclude Include="Background2.h" />
+    <ClInclude Include="DeathBlock.h" />
     <ClInclude Include="DirectionLight.h" />
     <ClInclude Include="FontRender.h" />
     <ClInclude Include="Game.h" />

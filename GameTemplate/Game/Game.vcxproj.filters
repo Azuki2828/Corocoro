@@ -72,8 +72,6 @@
     <ClCompile Include="MainCamera.cpp" />
     <ClCompile Include="MapChip.cpp" />
     <ClCompile Include="MoveObject.cpp" />
-    <ClCompile Include="PauseLevel2D.cpp" />
-    <ClCompile Include="PauseScene.cpp" />
     <ClCompile Include="PhysicsBall.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="ResultLevel2D.cpp" />
@@ -108,6 +106,9 @@
     </ClCompile>
     <ClCompile Include="StageSelect.cpp" />
     <ClCompile Include="StageSelectLevel2D.cpp" />
+    <ClCompile Include="..\..\ExEngine\effect\Effect.cpp" />
+    <ClCompile Include="..\..\ExEngine\effect\EffectEngine.cpp" />
+    <ClCompile Include="DeathBlock.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\ExEngine\ExEngine.h" />
@@ -189,8 +190,6 @@
     <ClInclude Include="MainCamera.h" />
     <ClInclude Include="MapChip.h" />
     <ClInclude Include="MoveObject.h" />
-    <ClInclude Include="PauseLevel2D.h" />
-    <ClInclude Include="PauseScene.h" />
     <ClInclude Include="PhysicsBall.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="ResultLevel2D.h" />
@@ -491,7 +490,6 @@
     <ClCompile Include="..\..\MiniEngine\VertexBuffer.cpp">
       <Filter>cpp</Filter>
     </ClCompile>
-
     <ClInclude Include="..\..\ExEngine\physics\DebugWireframe.h">
       <Filter>h</Filter>
     </ClInclude>
@@ -506,7 +504,9 @@
     </ClInclude>
     <ClInclude Include="StageSelect.h" />
     <ClInclude Include="StageSelectLevel2D.h" />
-
+    <ClInclude Include="..\..\ExEngine\effect\Effect.h" />
+    <ClInclude Include="..\..\ExEngine\effect\EffectEngine.h" />
+    <ClInclude Include="DeathBlock.h" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\MiniEngine\Animation.h">

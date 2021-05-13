@@ -5,6 +5,7 @@
 #include "GameLevel2D.h"
 #include "Game.h"
 #include "Player.h"
+#include "DeathBlock.h"
 
 bool Background::Start()
 {
@@ -176,6 +177,14 @@ bool Background::Start()
 				sampleNum++;
 				return true;
 			}
+			else if (objData.EqualObjectName(L"DeathBlock") == true) {
+				m_deathBlock = NewGO<DeathBlock>(0);
+				m_deathBlock->Init("DeathBlock");
+				m_deathBlock->SetPosition(objData.position);
+				m_deathBlock->SetStartPos({ 300.0f,1200.0f,-300.0f });
+				return true;
+			}
+			
 
 			return false;//levelのオブジェクトをそのままロード。
 		});
@@ -307,6 +316,13 @@ bool Background::Start()
 				sampleNum++;
 				return true;
 			}
+			else if (objData.EqualObjectName(L"DeathBlock") == true) {
+			m_deathBlock = NewGO<DeathBlock>(0);
+			m_deathBlock->Init("DeathBlock");
+			m_deathBlock->SetPosition(objData.position);
+			m_deathBlock->SetStartPos({ 300.0f,300.0f,-300.0f });
+			return true;
+			}
 
 			return false;//levelのオブジェクトをそのままロード。
 			});
@@ -437,9 +453,16 @@ bool Background::Start()
 				sampleNum++;
 				return true;
 			}
+			else if (objData.EqualObjectName(L"DeathBlock") == true) {
+				m_deathBlock = NewGO<DeathBlock>(0);
+				m_deathBlock->Init("DeathBlock");
+				m_deathBlock->SetPosition(objData.position);
+				m_deathBlock->SetStartPos({ 300.0f,1300.0f,-300.0f });
+				return true;
+			}
 
 			return false;//levelのオブジェクトをそのままロード。
-			});
+		});
 
 			m_player->SetPosition({ 300.0f,1300.0f,-300.0f });
 		break;

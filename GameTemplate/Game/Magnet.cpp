@@ -88,9 +88,9 @@ void Magnet::Update() {
 	//if (m_length.Length() <= 1000.0f) {
 	//	SetMagnetPower();
 	//}
-	static float triggerTime = 0.0f;
+	//static float triggerTime = 0.0f;
 
-	triggerTime += GameTime::GameTimeFunc().GetFrameDeltaTime();
+	//triggerTime += GameTime::GameTimeFunc().GetFrameDeltaTime();
 	//if (triggerTime >= 1.0f) {
 		PhysicsWorld::GetInstance()->ContactTest(*m_player->GetRigidBody(), [&](const btCollisionObject& contactObject) {
 
@@ -101,7 +101,7 @@ void Magnet::Update() {
 				SetMagnetPower();
 			}
 		});
-		triggerTime = 0.0f;
+		//triggerTime = 0.0f;
 	//}
 	//m_skinModelRender->SetPosition(m_pos);
 

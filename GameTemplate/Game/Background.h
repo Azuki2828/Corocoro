@@ -9,6 +9,7 @@ class Magnet;
 class Key;
 class Game;
 class Player;
+class DeathBlock;
 
 class NormalBackground;
 
@@ -39,5 +40,6 @@ private:
 
 	NormalBackground* m_normalbg;
 	Player* m_player = nullptr;
+	DeathBlock* m_deathBlock = nullptr;
 };
 

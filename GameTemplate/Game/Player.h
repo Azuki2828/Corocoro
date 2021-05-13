@@ -32,6 +32,8 @@ public:
 	//pow：力の大きさ
 	void ReceivePower(Vector3 pow)const { m_movePower += pow; }
 
+	void ClearPower() { m_rigidBody.ClearPower(); }
+
 	//プレイヤーの磁極を変換する関数。
 	void ChangeState();
 
