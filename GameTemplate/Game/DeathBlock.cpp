@@ -1,10 +1,12 @@
 #include "stdafx.h"
 #include "DeathBlock.h"
 #include "Player.h"
+#include "Key.h"
 
 bool DeathBlock::Start() {
 
 	m_player = FindGO<Player>("player");
+	m_key = FindGO<Key>("key");
 	m_skinModelRender->SetPosition(m_pos);
 
 	Vector3 ghostPos;
@@ -27,9 +29,11 @@ void DeathBlock::Update() {
 			//m_pointLig->SetActiveFlag(true);	//ポイントライトをつける。
 			//m_ghostBox.SetPosition({ 700.0f,405.0f,0.0f });
 			if (m_player->GetKeyFlg()) {
-				m_player->SetPosition()
+				m_player->SetPosition(m_key->GetKeyPos());
 			}
-			m_player->SetPosition(m_startPos);
+			else {
+				m_player->SetPosition(m_startPos);
+			}
 			m_player->ClearPower();
 		}
 		});

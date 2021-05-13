@@ -1,5 +1,6 @@
 #pragma once
 class Player;
+class Key;
 
 class DeathBlock : public IGameObject
 {
@@ -29,5 +30,6 @@ public:
 	CPhysicsGhostObject m_ghostBox;
 	SkinModelRender* m_skinModelRender = nullptr;
 	Player* m_player = nullptr;
+	Key* m_key = nullptr;
 };
 
