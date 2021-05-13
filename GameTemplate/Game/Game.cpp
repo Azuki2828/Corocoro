@@ -14,7 +14,7 @@ bool Game::Start() {
 
 
 	//PhysicsWorld::GetInstance()->EnableDrawDebugWireFrame();
-	//m_gameStartTime = 3.0f * g_graphicsEngine->GetGraphicTime();
+	m_gameStartTime = 3.0f * g_graphicsEngine->GetGraphicTime();
 
 
 	//セーブを追加
@@ -82,9 +82,9 @@ void Game::Update() {
 		m_sound->Init(L"Assets/sound/CountDown.wav");	//３、２、１、スタート！カウントダウン効果音
 		m_sound->SetVolume(1.0f);
 		m_sound->Play(false);
-		m_startsoundflg = false;
 
 		KauntoDownSprite = true;
+		m_startsoundflg = false;
 	}
 
 	//カウントダウンが鳴りだしたら、

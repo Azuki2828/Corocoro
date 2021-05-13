@@ -208,7 +208,8 @@ void Player::Update()
 }
 
 void Player::FreeUpdate() {
-	m_rigidBody.wantsSleeping();
+	
+	m_rigidBody.SetPositionAndRotation(m_pos, m_rot);
 }
 
 void Player::ChangeState() {

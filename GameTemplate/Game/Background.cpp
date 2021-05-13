@@ -183,7 +183,7 @@ bool Background::Start()
 		m_player->SetPosition({ 300.0f,1200.0f,-300.0f });
 		break;
 	case 2:
-		m_level.Init("Assets/level/stage01_inv.tkl", [&](LevelObjectData& objData) {
+		m_level.Init("Assets/level/stage02_inv.tkl", [&](LevelObjectData& objData) {
 
 
 			//return true;が自分で生成。return false;がパソコンが生成してくれる。

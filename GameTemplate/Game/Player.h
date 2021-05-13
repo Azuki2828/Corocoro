@@ -39,6 +39,7 @@ public:
 
 	void SetPosition(const Vector3& pos) {
 		m_pos = pos;
+		m_rigidBody.SetPositionAndRotation(m_pos, m_rot);
 	}
 
 	void SetKeyFlg(bool flg) { getKeyFlg = flg; }
@@ -87,9 +88,9 @@ private:
 	Skeleton m_skeleton;								//スケルトン。
 
 	DirectionLight* m_dirLight = nullptr;				//ディレクションライト。
-	Vector3 m_pos = { 300.0f,1200.0f,-300.0f };		//初期座標。ステージ１
+	//Vector3 m_pos = { 300.0f,1200.0f,-300.0f };		//初期座標。ステージ１
 	//Vector3 m_pos = { 300.0f,300.0f,-300.0f };			//初期座標。ステージ２
-	//Vector3 m_pos = { 300.0f,1300.0f,-300.0f };		//初期座標。ステージ３
+	Vector3 m_pos = { 300.0f,1300.0f,-300.0f };		//初期座標。ステージ３
 	Quaternion m_rot = Quaternion::Identity;
 	//Vector3 m_pos = { 1500.0f,2800.0f,0.0f };
 	//Vector3 m_pos = { 1500.0f,2800.0f,20.0f };
