@@ -241,11 +241,11 @@ void StageSelect::Update()
 
 			break;
 
-			//「おわる」ボタンが選ばれているとき、
+			//「決定」ボタンが選ばれているとき、
 		 case KetteiButton:
+			 m_game = NewGO<Game>(0, "game");
 			 //ゲーム画面に遷移
-			NewGO<Game>(0, "game");
-
+			 m_game->SetStageNum(NowSelectStage);
 			break;
 		};
 		//クラスを削除。

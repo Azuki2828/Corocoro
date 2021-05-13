@@ -37,6 +37,10 @@ public:
 
 	void Render(RenderContext& rc)override;
 
+	void SetPosition(const Vector3& pos) {
+		m_pos = pos;
+	}
+
 	void SetKeyFlg(bool flg) { getKeyFlg = flg; }
 	bool GetKeyFlg() { return getKeyFlg; }
 
@@ -83,8 +87,8 @@ private:
 	Skeleton m_skeleton;								//スケルトン。
 
 	DirectionLight* m_dirLight = nullptr;				//ディレクションライト。
-	//Vector3 m_pos = { 300.0f,200.0f,-300.0f };		//初期座標。ステージ１
-	Vector3 m_pos = { 300.0f,300.0f,-300.0f };			//初期座標。ステージ２
+	Vector3 m_pos = { 300.0f,1200.0f,-300.0f };		//初期座標。ステージ１
+	//Vector3 m_pos = { 300.0f,300.0f,-300.0f };			//初期座標。ステージ２
 	//Vector3 m_pos = { 300.0f,1300.0f,-300.0f };		//初期座標。ステージ３
 	Quaternion m_rot = Quaternion::Identity;
 	//Vector3 m_pos = { 1500.0f,2800.0f,0.0f };

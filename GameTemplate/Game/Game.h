@@ -36,9 +36,12 @@ public: //GetŠÖ”
 	int GetStageNum() {
 		return m_stageNum;
 	}
+	void SetStageNum(int num) {
+		m_stageNum = num;
+	}
 
 private:
-	int m_stageNum = 2;
+	int m_stageNum = 0;
 	FontRender* m_fontRender = nullptr;
 	FontRender* m_recordfontRender = nullptr;
 	GameTime* m_gametime = nullptr;

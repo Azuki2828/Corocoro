@@ -7,6 +7,8 @@
 class Level;
 class Magnet;
 class Key;
+class Game;
+class Player;
 
 class NormalBackground;
 
@@ -23,6 +25,7 @@ public:
 	CSoundSource* GameBGMSound = nullptr;		//BGM用サウンドソース
 
 private:
+	int m_stageNum = 0;
 	float deathPosY;							//死ぬY座標。ステージによってポジションは異なる。
 	Model m_model;								//モデル
 	PhysicsStaticObject m_physicsStaticObject;	//静的物理オブジェクト・
@@ -32,7 +35,9 @@ private:
 
 	std::vector<Magnet*> m_magnet;
 	Key* m_key = nullptr;
+	Game* m_game = nullptr;
 
 	NormalBackground* m_normalbg;
+	Player* m_player = nullptr;
 };
 

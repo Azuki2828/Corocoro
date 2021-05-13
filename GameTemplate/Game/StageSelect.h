@@ -1,5 +1,6 @@
 #pragma once
 class StageSelectLevel2D;
+class Game;
 
 class StageSelect:public IGameObject
 {
@@ -47,4 +48,5 @@ private:
 	};
 
 	SpriteRender* m_StageSpriteRender[3] = { nullptr };		//ステージ文字スプライトレンダー
+	Game* m_game = nullptr;
 };
