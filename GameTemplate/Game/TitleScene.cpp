@@ -2,7 +2,7 @@
 #include "TitleScene.h"
 #include "TitleLevel2D.h"
 
-#include "Game.h"
+#include "StageSelect.h"
 #include "RuleScene.h"
 #include "SettingScene.h"
 
@@ -15,7 +15,6 @@ bool TitleScene::Start()
 	m_titleLevel2D = FindGO<TitleLevel2D>("titleLevel2D");
 
 	//タイトルBGM再生。
-
 	TitleBGMSound = NewGO<CSoundSource>(0);
 	TitleBGMSound->Init(L"Assets/sound/TitleBGM.wav");
 	TitleBGMSound->SetVolume(1.0f);
@@ -35,6 +34,11 @@ TitleScene::~TitleScene()
 
 void TitleScene::Update()
 {
+	//ボタンを全て半透明にする。
+	for (int i = 2; i < 6; i++) {
+		m_titleLevel2D->GetSprite(i)->SetMulColor({ 1.0f,1.0f,1.0f,0.3f });
+	}
+
 	//右入力or左入力されたら、
 	if (g_pad[0]->IsTrigger(enButtonRight) || g_pad[0]->IsTrigger(enButtonLeft)) {
 		//現在セレクトされているボタンが「はじめる」(0番)or「せってい」(2番)だったら、
@@ -72,10 +76,7 @@ void TitleScene::Update()
 		CursorMooveSound->Play(false);		//ワンショット再生。
 	}
 
-	//ボタンを全て半透明にする。
-	for (int i = 2; i < 6; i++) {
-		m_titleLevel2D->GetSprite(i)->SetMulColor({ 1.0f,1.0f,1.0f,0.3f });
-	}
+
 
   //現在選択しているボタンの強調表示
 	switch (NowSelect) {
@@ -237,15 +238,15 @@ void TitleScene::Update()
 
 		 //「はじめる」ボタンが選ばれているとき、
 		 case StartButton:
-			//ゲーム画面に遷移。
-			NewGO<Game>(0,"game");
+			//ステージセレクト画面に遷移。
+			NewGO<StageSelect>(0,"stageselect");
 
 			break;
 
 		 //「あそびかた」ボタンが選ばれているとき、
 		 case RuleButton:
 			//ルール(操作)説明画面に遷移。
-			NewGO<RuleScene>(0);
+			NewGO<RuleScene>(0,"rule");
 
 			break;
 

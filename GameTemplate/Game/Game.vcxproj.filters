@@ -79,7 +79,6 @@
     <ClCompile Include="ResultLevel2D.cpp" />
     <ClCompile Include="RuleScene.cpp" />
     <ClCompile Include="PostEffect.cpp" />
-    <ClCompile Include="Result.cpp" />
     <ClCompile Include="ResultScene.cpp" />
     <ClCompile Include="SaveData.cpp" />
     <ClCompile Include="Seesaw.cpp" />
@@ -95,9 +94,20 @@
     <ClCompile Include="tkSoundSource.cpp" />
     <ClCompile Include="tkWaveFile.cpp" />
     <ClCompile Include="tkWaveFileBank.cpp" />
-    <ClCompile Include="..\..\ExEngine\physics\DebugWireframe.cpp" />
-    <ClCompile Include="..\..\ExEngine\physics\tkPhysicsGhostObject.cpp" />
-    <ClCompile Include="..\..\ExEngine\physics\tkPhysicsObjectBase.cpp" />
+    <ClCompile Include="..\..\ExEngine\physics\DebugWireframe.cpp">
+      <Filter>cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="RuleLevel2D.cpp">
+      <Filter>cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\ExEngine\physics\tkPhysicsGhostObject.cpp">
+      <Filter>cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\ExEngine\physics\tkPhysicsObjectBase.cpp">
+      <Filter>cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="StageSelect.cpp" />
+    <ClCompile Include="StageSelectLevel2D.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\ExEngine\ExEngine.h" />
@@ -185,7 +195,6 @@
     <ClInclude Include="Player.h" />
     <ClInclude Include="ResultLevel2D.h" />
     <ClInclude Include="RuleScene.h" />
-    <ClInclude Include="Result.h" />
     <ClInclude Include="ResultScene.h" />
     <ClInclude Include="SaveData.h" />
     <ClInclude Include="Seesaw.h" />
@@ -203,9 +212,6 @@
     <ClInclude Include="tkUtil.h" />
     <ClInclude Include="tkWaveFile.h" />
     <ClInclude Include="tkWaveFileBank.h" />
-    <ClInclude Include="..\..\ExEngine\physics\DebugWireframe.h" />
-    <ClInclude Include="..\..\ExEngine\physics\tkPhysicsGhostObject.h" />
-    <ClInclude Include="..\..\ExEngine\physics\tkPhysicsObjectBase.h" />
     <ClCompile Include="..\..\MiniEngine\Animation.cpp">
       <Filter>cpp</Filter>
     </ClCompile>
@@ -485,6 +491,20 @@
     <ClCompile Include="..\..\MiniEngine\VertexBuffer.cpp">
       <Filter>cpp</Filter>
     </ClCompile>
+    <ClInclude Include="..\..\ExEngine\physics\DebugWireframe.h">
+      <Filter>h</Filter>
+    </ClInclude>
+    <ClInclude Include="RuleLevel2D.h">
+      <Filter>h</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\ExEngine\physics\tkPhysicsGhostObject.h">
+      <Filter>h</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\ExEngine\physics\tkPhysicsObjectBase.h">
+      <Filter>h</Filter>
+    </ClInclude>
+    <ClInclude Include="StageSelect.h" />
+    <ClInclude Include="StageSelectLevel2D.h" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\MiniEngine\Animation.h">
@@ -793,7 +813,6 @@
     <ClInclude Include="..\..\MiniEngine\VertexBuffer.h">
       <Filter>h</Filter>
     </ClInclude>
-
   </ItemGroup>
   <ItemGroup>
     <Filter Include="cpp">

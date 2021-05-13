@@ -44,7 +44,7 @@ bool TitleLevel2D::Start()
 			return true;
 		}
 		//名前がRuleだったら、
-		else if (objdata.EqualObjectName("Rule")) {
+		else if (objdata.EqualObjectName("RuleButton")) {
 
 			m_sprite[3] = NewGO<SpriteRender>(1);
 			//Sprite初期化オブジェクトを使用して、Spriteを初期化する

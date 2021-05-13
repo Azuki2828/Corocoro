@@ -1,0 +1,9 @@
+8
+9,eheheNS03,72,C:/Users/bm20b04/Desktop/MyGame/GameTemplate/Game/Resource/eheheNS03.png,0.0,0.0,1024,512,9,1.45,1.45,13,eheheNS03.dds
+11,StageSelect,74,C:/Users/bm20b04/Desktop/MyGame/GameTemplate/Game/Resource/StageSelect.png,0.0,270.0,1024,1024,10,0.8,0.8,15,StageSelect.dds
+11,RightSelect,74,C:/Users/bm20b04/Desktop/MyGame/GameTemplate/Game/Resource/RightSelect.png,325.0,-7.0,1024,1024,10,0.3,0.3,15,RightSelect.dds
+10,LeftSelect,73,C:/Users/bm20b04/Desktop/MyGame/GameTemplate/Game/Resource/LeftSelect.png,-325.0,-7.0,1024,1024,10,0.3,0.3,14,LeftSelect.dds
+6,Kettei,69,C:/Users/bm20b04/Desktop/MyGame/GameTemplate/Game/Resource/Kettei.png,485.0,-278.0000000000001,2048,2048,10,0.155,0.155,10,Kettei.dds
+4,Back,67,C:/Users/bm20b04/Desktop/MyGame/GameTemplate/Game/Resource/Back.png,-485.0,-278.0000000000001,2048,2048,10,0.19,0.19,8,Back.dds
+2,RB,65,C:/Users/bm20b04/Desktop/MyGame/GameTemplate/Game/Resource/RB.png,335.0,95.0,2048,2048,10,0.15,0.15,6,RB.dds
+2,LB,65,C:/Users/bm20b04/Desktop/MyGame/GameTemplate/Game/Resource/LB.png,-335.0,95.0,2048,2048,10,0.15,0.15,6,LB.dds
