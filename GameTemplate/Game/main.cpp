@@ -21,6 +21,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	CSoundEngine::CreateInstance();
 	CSoundEngine::GetInstance()->Init();
 	LightManager::CreateInstance();
+	EffectEngine::CreateInstance();
 	Camera::CreateLightCamera();
 
 
@@ -107,10 +108,18 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	//lightCamera.SetUp(1, 0, 0);
 	////ライトビュープロジェクション行列を計算している。
 	//lightCamera.Update();
-
+	Effect* laserEffect = nullptr;
+	laserEffect = NewGO<Effect>(0);
+	laserEffect->Init(u"Assets/effect/laser.efk");
+	laserEffect->SetScale({ 5.0f,5.0f,5.0f });
 	// ここからゲームループ。
 	while (DispatchWindowMessage())
 	{
+		if (g_pad[0]->IsTrigger(enButtonA)) {
+			//再生開始。
+			laserEffect->Play();
+		}
+
 		//レンダリング開始。
 		g_engine->BeginFrame();
 
@@ -121,10 +130,13 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 		GameObjectManager::GetInstance()->ExecuteUpdate();
 		//物理ワールドの更新。
 		PhysicsWorld::GetInstance()->Update(g_gameTime->GetFrameDeltaTime());
+		EffectEngine::GetInstance()->Update(g_gameTime->GetFrameDeltaTime());
 		GameObjectManager::GetInstance()->ExecuteRender(renderContext);
+		EffectEngine::GetInstance()->Draw();
 
 		//LightManagerの更新。
 		LightManager::GetInstance()->Update();
+		//laserEffect.Update();
 
 		// レンダリングターゲットへの書き込み終了待ち
 		renderContext.WaitUntilFinishDrawingToRenderTarget(*RenderTarget::GetMainRenderTarget());

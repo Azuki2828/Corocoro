@@ -36,6 +36,10 @@ public:
 		*@brief	çXêV
 		*/
 	virtual void Update() {}
+
+	virtual void PauseUpdate(){}
+
+	virtual void FreeUpdate() {}
 	/*!
 	 *@brief	ï`âÊ
 	*/
@@ -106,6 +110,18 @@ public:
 	{
 		if (m_isActive && m_isStart && !m_isDead ) {
 			Update();
+		}
+	}
+	void PauseUpdateWrapper()
+	{
+		if (m_isActive && m_isStart && !m_isDead) {
+			PauseUpdate();
+		}
+	}
+	void FreeUpdateWrapper()
+	{
+		if (m_isActive && m_isStart && !m_isDead) {
+			FreeUpdate();
 		}
 	}
 	void StartWrapper()

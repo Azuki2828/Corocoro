@@ -37,5 +37,6 @@ private:
 	std::vector< DescriptorHeap > m_descriptorHeap;		//ディスクリプタヒープ。
 
 	SkinModelRender* m_skinModelRender = nullptr;
+	LigData m_ligData;	//マップチップ専用のライト
 };
 

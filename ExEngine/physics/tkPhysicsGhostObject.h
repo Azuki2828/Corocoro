@@ -55,6 +55,10 @@
 			m_ghostObject.setIgnoreCollisionCheck(co, ignoreCollisionCheck);
 		}
 		btGhostObject* GetGhostObject() { return &m_ghostObject; }
+
+		bool IsRegistPhysicsWorld() {
+			return m_isRegistPhysicsWorld;
+		}
 	private:
 		/*!
 		* @brief	ゴースト作成処理の共通処理。

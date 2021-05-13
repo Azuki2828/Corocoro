@@ -1,6 +1,16 @@
 /*!
  * @brief	影が落とされるモデル用のシェーダー。
  */
+static const int NUM_DIRECTIONAL_LIGHT = 8;
+static const float PI = 3.1415926f;         // π
+
+
+struct DirectionalLight
+{
+	float3 direction;
+	float4 color;
+	//float4x4 mLVP;
+};
 
 //モデル用の定数バッファ
 cbuffer ModelCb : register(b0){
@@ -10,6 +20,8 @@ cbuffer ModelCb : register(b0){
 };
 //ライトビュープロジェクション行列にアクセする定数バッファを定義。
 cbuffer ShadowCb : register(b1){
+	DirectionalLight directionalLight[NUM_DIRECTIONAL_LIGHT];
+	float3 eyePos;
 	float4x4 mLVP;
 };
 
@@ -17,13 +29,18 @@ cbuffer ShadowCb : register(b1){
 struct SVSIn{
 	float4 pos 			: POSITION;		//スクリーン空間でのピクセルの座標。
 	float3 normal		: NORMAL;		//法線。
+	float3 tangent		: TANGENT;
+	float3 biNormal		: BINORMAL;
 	float2 uv 			: TEXCOORD0;	//uv座標。
 };
 //ピクセルシェーダーへの入力。
 struct SPSIn{
 	float4 pos 			: SV_POSITION;	//スクリーン空間でのピクセルの座標。
 	float3 normal		: NORMAL;		//法線。
+	float3 tangent : TANGENT;
+	float3 biNormal : BINORMAL;
 	float2 uv 			: TEXCOORD0;	//uv座標。
+	float3 worldPos		: TEXCOORD2;
 	//ライトビュースクリーン空間での座標を追加。
 	float4 posInLVP		: TEXCOORD1;	//ライトビュースクリーン空間でのピクセルの座標
 };
@@ -33,9 +50,107 @@ struct SPSIn{
 ///////////////////////////////////////////////////
 
 Texture2D<float4> g_albedo : register(t0);		//アルベドマップ。
+Texture2D<float4> g_normalMap : register(t1);
+Texture2D<float4> g_specularMap : register(t2);
 Texture2D<float4> g_shadowMap : register(t10);	//シャドウマップ。
 sampler g_sampler : register(s0);				// サンプラステート。
 
+
+///////////////////////////////////////////////////
+// 関数
+///////////////////////////////////////////////////
+float3 GetNormal(float3 normal, float3 tangent, float3 biNormal, float2 uv)
+{
+	float3 binSpaceNormal = g_normalMap.SampleLevel(g_sampler, uv, 0.0f).xyz;
+	binSpaceNormal = (binSpaceNormal * 2.0f) - 1.0f;
+
+	float3 newNormal = tangent * binSpaceNormal.x + biNormal * binSpaceNormal.y + normal * binSpaceNormal.z;
+
+	return newNormal;
+}
+
+// ベックマン分布を計算する
+float Beckmann(float m, float t)
+{
+	float t2 = t * t;
+	float t4 = t * t * t * t;
+	float m2 = m * m;
+	float D = 1.0f / (4.0f * m2 * t4);
+	D *= exp((-1.0f / m2) * (1.0f - t2) / t2);
+	return D;
+}
+
+// フレネルを計算。Schlick近似を使用
+float SpcFresnel(float f0, float u)
+{
+	// from Schlick
+	return f0 + (1 - f0) * pow(1 - u, 5);
+}
+
+/// <summary>
+/// クックトランスモデルの鏡面反射を計算
+/// </summary>
+/// <param name="L">光源に向かうベクトル</param>
+/// <param name="V">視点に向かうベクトル</param>
+/// <param name="N">法線ベクトル</param>
+/// <param name="metaric">金属度</param>
+float CookTorranceSpecular(float3 L, float3 V, float3 N, float metaric)
+{
+	float microfacet = 0.76f;
+
+	// 金属度を垂直入射の時のフレネル反射率として扱う
+	// 金属度が高いほどフレネル反射は大きくなる
+	float f0 = metaric;
+
+	// ライトに向かうベクトルと視線に向かうベクトルのハーフベクトルを求める
+	float3 H = normalize(L + V);
+
+	// 各種ベクトルがどれくらい似ているかを内積を利用して求める
+	float NdotH = saturate(dot(N, H));
+	float VdotH = saturate(dot(V, H));
+	float NdotL = saturate(dot(N, L));
+	float NdotV = saturate(dot(N, V));
+
+	// D項をベックマン分布を用いて計算する
+	float D = Beckmann(microfacet, NdotH);
+
+	// F項をSchlick近似を用いて計算する
+	float F = SpcFresnel(f0, VdotH);
+
+	// G項を求める
+	float G = min(1.0f, min(2 * NdotH * NdotV / VdotH, 2 * NdotH * NdotL / VdotH));
+
+	// m項を求める
+	float m = PI * NdotV * NdotH;
+
+	// ここまで求めた、値を利用して、クックトランスモデルの鏡面反射を求める
+	return max(F * D * G / m, 0.0);
+}
+
+/// <summary>
+/// フレネル反射を考慮した拡散反射を計算
+/// </summary>
+float CalcDiffuseFromFresnel(float3 N, float3 L, float3 V)
+{
+	float3 H = normalize(L + V);
+
+	float roughness = 0.5f;
+	float energyBias = lerp(0.0f, 0.5f, roughness);
+
+	float dotLH = saturate(dot(L, H));
+
+	float Fd90 = energyBias + 2.0 * dotLH * dotLH * roughness;
+
+	float dotNL = saturate(dot(N, L));
+
+	float FL = Fd90 + (dotNL - Fd90);
+
+	float dotNV = saturate(dot(N, V));
+
+	float FV = Fd90 + (dotNV - Fd90);
+
+	return (FL * FV) / PI;
+}
 
 /// <summary>
 /// 影が落とされる3Dモデル用の頂点シェーダー。
@@ -44,14 +159,17 @@ SPSIn VSMain(SVSIn vsIn)
 {
 	//通常の座標変換。
 	SPSIn psIn;
-	float4 worldPos = mul(mWorld, vsIn.pos);
-	psIn.pos = mul(mView, worldPos);
+	psIn.worldPos = mul(mWorld, vsIn.pos);
+	psIn.pos = mul(mView, float4( psIn.worldPos, 1.0f ));
 	psIn.pos = mul(mProj, psIn.pos);
 	psIn.uv = vsIn.uv;
 	psIn.normal = mul(mWorld, vsIn.normal);
 
+	psIn.tangent = mul(mWorld, vsIn.tangent);
+	psIn.biNormal = mul(mWorld, vsIn.biNormal);
+
 	//ライトビュースクリーン空間の座標を計算する。
-	psIn.posInLVP = mul( mLVP, worldPos);
+	psIn.posInLVP = mul( mLVP, float4( psIn.worldPos,1.0f ) );
 
 	return psIn;
 }
@@ -60,7 +178,51 @@ SPSIn VSMain(SVSIn vsIn)
 /// </summary>
 float4 PSMain( SPSIn psIn ) : SV_Target0
 {
-	float4 color = g_albedo.Sample(g_sampler, psIn.uv);
+	//float4 color = g_albedo.Sample(g_sampler, psIn.uv);
+
+	// 法線を計算
+	float3 normal = GetNormal(psIn.normal, psIn.tangent, psIn.biNormal, psIn.uv);
+
+	// step-2 アルベドカラー、スペキュラカラー、金属度をサンプリングする
+	float4 albedoColor = g_albedo.Sample(g_sampler, psIn.uv);
+	float3 specColor = g_specularMap.SampleLevel(g_sampler, psIn.uv, 0).rgb;
+	float metaric = g_specularMap.Sample(g_sampler, psIn.uv).a;
+
+	
+	// 視線に向かって伸びるベクトルを計算する
+	float3 toEye = normalize(eyePos - psIn.worldPos);
+
+	float3 lig = 0;
+	for (int ligNo = 0; ligNo < NUM_DIRECTIONAL_LIGHT; ligNo++)
+	{
+		// step-3 ディズニーベースの拡散反射を実装する
+		float diffuseFromFresnel = CalcDiffuseFromFresnel(normal, -directionalLight[ligNo].direction, toEye);
+
+		float NdotL = saturate(dot(normal, -directionalLight[ligNo].direction));
+
+		float3 lambertDiffuse = directionalLight[ligNo].color * NdotL / PI;
+		//return float4(toEye, 1.0f);
+		float3 diffuse = albedoColor * diffuseFromFresnel * lambertDiffuse;
+		//return float4(diffuse, 1.0f);
+
+		// step-5 クックトランスモデルを利用した鏡面反射率を計算する
+		float3 spec = CookTorranceSpecular(-directionalLight[ligNo].direction,
+			toEye, normal, metaric) * directionalLight[ligNo].color;
+
+		float specTerm = length(specColor.xyz);
+
+		spec *= lerp(float3(specTerm, specTerm, specTerm), specColor, metaric);
+
+		// step-6 鏡面反射率を使って、拡散反射光と鏡面反射光を合成する
+
+		lig += diffuse * (1.0f - specTerm) + spec;
+	}
+
+	// step-7 環境光による底上げ
+
+	float4 finalColor = 1.0f;
+	finalColor.xyz = lig;
+	//return finalColor;
 
 	//ライトビュースクリーン空間からUV空間に座標変換。
 	float2 shadowMapUV = psIn.posInLVP.xy / psIn.posInLVP.w;
@@ -84,9 +246,10 @@ float4 PSMain( SPSIn psIn ) : SV_Target0
 		
 		float zInShadowMap = g_shadowMap.Sample(g_sampler, shadowMapUV).r;
 		if (zInLVP > zInShadowMap) {
-			color.xyz *= 0.5f;
+			finalColor.xyz *= 0.5f;
 		}
 	} 
 
-	return color;
+	//return finalColor;
+	return albedoColor;
 }

@@ -22,12 +22,12 @@ bool Player::Start()
 
 	//プレイヤーのtkmとtksをロードする種。
 	const char* tkmFilePaths[] = {
-		"Assets/modelData/tkm/Player_N.tkm",
-		"Assets/modelData/tkm/Player_S.tkm"
+		"Assets/modelData/tkm/Player_N50.tkm",
+		"Assets/modelData/tkm/Player_S50.tkm"
 	};
 	const char* tksFilePaths[] = {
-		"Assets/modelData/tkm/Player_N.tks",
-		"Assets/modelData/tkm/Player_S.tks"
+		"Assets/modelData/tkm/Player_N50.tks",
+		"Assets/modelData/tkm/Player_S50.tks"
 	};
 
 
@@ -70,7 +70,7 @@ bool Player::Start()
 	m_rigidBody.Init(rbInitData);
 	m_rigidBody.GetBody()->setUserIndex(enCollisionAttr_Character);
 	m_rigidBody.GetBody()->setCollisionFlags(btCollisionObject::CF_CHARACTER_OBJECT);
-	m_rigidBody.GetBody()->setIgnoreCollisionCheck(m_game->m_ghostBox.GetGhostObject(), true);
+	//m_rigidBody.GetBody()->setIgnoreCollisionCheck(m_game->m_ghostBox.GetGhostObject(), true);
 
 	//摩擦力を設定する。0～10
 	m_rigidBody.SetFriction(10.0f);
@@ -95,6 +95,8 @@ Player::~Player()
 
 void Player::Update()
 {
+
+		m_rigidBody.SetLinearFactor(1.0f, 1.0f, 0.0f);
 		if (m_backGround == nullptr) {
 			m_backGround = FindGO<Background>("background");
 		}
@@ -203,6 +205,10 @@ void Player::Update()
 				DeleteGO(this);
 			}
 		}
+}
+
+void Player::FreeUpdate() {
+	m_rigidBody.wantsSleeping();
 }
 
 void Player::ChangeState() {

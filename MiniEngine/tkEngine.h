@@ -5,6 +5,12 @@
 
 class GraphicsEngine;
 
+enum GameState {
+	State_Game,		//ゲーム中
+	State_Pause,	//ポーズ中
+	State_Free		//それ以外の、ユーザーが決めて良いステート
+};
+
 class TkEngine {
 public:
 	/// <summary>
@@ -19,6 +25,14 @@ public:
 	/// フレームの終了時に呼ばれる処理。
 	/// </summary>
 	void EndFrame();
+
+	void SetGameState(GameState state) {
+		m_gameState = state;
+	}
+
+	GameState GetGameState() {
+		return m_gameState;
+	}
 	/// <summary>
 	/// ゲームエンジンの初期化。
 	/// </summary>
@@ -32,6 +46,8 @@ private:
 	GamePad m_pad[GamePad::CONNECT_PAD_MAX];		//ゲームパッド。
 	GameTime m_gameTime;
 	int m_rate = 0;
+
+	GameState m_gameState = State_Game;
 	
 };
 

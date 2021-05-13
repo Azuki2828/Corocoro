@@ -491,6 +491,7 @@
     <ClCompile Include="..\..\MiniEngine\VertexBuffer.cpp">
       <Filter>cpp</Filter>
     </ClCompile>
+
     <ClInclude Include="..\..\ExEngine\physics\DebugWireframe.h">
       <Filter>h</Filter>
     </ClInclude>
@@ -505,6 +506,7 @@
     </ClInclude>
     <ClInclude Include="StageSelect.h" />
     <ClInclude Include="StageSelectLevel2D.h" />
+
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\MiniEngine\Animation.h">

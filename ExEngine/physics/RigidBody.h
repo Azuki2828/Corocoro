@@ -59,6 +59,7 @@ public:
 		trans.setRotation(btRot);
 		m_rigidBody->setWorldTransform(trans);
 	}
+	void wantsSleeping() { m_rigidBody->clearForces(); }
 
 
 	/*!

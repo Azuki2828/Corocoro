@@ -71,7 +71,7 @@ void Key::Update() {
 	Vector3 keyLength;
 
 	keyLength = m_player->GetPosition() - m_keyPos;
-	if (keyLength.Length() <= 300.0f && !m_player->GetKeyFlg() || g_pad[0]->IsTrigger(enButtonX)) {
+	if (keyLength.Length() <= 200.0f && !m_player->GetKeyFlg()) {
 
 		//鍵を消去して取得効果音を再生。
 		DeleteGO(m_skinModelRender_Key);
