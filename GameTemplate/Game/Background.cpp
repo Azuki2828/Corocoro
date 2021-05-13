@@ -41,7 +41,7 @@ bool Background::Start()
 	//背景画像を初期化。
 	m_spriteRender = NewGO<SpriteRender>(0);
 	m_spriteRender->SetPosition({ 0.0f,0.0f,0.0f });
-	m_spriteRender->Init("Assets/image/eheheNS.dds", 1300.0f, 750.0f);
+	m_spriteRender->Init("Assets/image/eheheNS03.dds", 1300.0f, 750.0f);
 
 
 	//これがlevelのLoadの基盤。

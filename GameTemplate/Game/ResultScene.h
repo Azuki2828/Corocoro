@@ -27,7 +27,6 @@ public:
 private:
 	float nowTime = 0.0f;
 	float bestTime = 0.0f;
-	SpriteRender* m_spriteRender = nullptr;		//スプライトレンダー
 	FontRender* m_nowTime = nullptr;
 	FontRender* m_BestTime = nullptr;
 	ResultLevel2D* sprite = nullptr;
@@ -55,4 +54,11 @@ private:
 	//ボタンの初期の大きさ。
 	Vector3 vscale = { 0.25f,0.25f,0.25f };
 	Vector3 vscale1 = { 0.2f,0.2f,0.2f };
+
+	//trueの時、新記録！表示。
+	bool NewRecordFlg = false;
+	//NewGOされるのを1回にするためのフラグ
+	bool NewRecordFlgSub = true;
+	SpriteRender* m_spriteRender = nullptr;		//スプライトレンダー
+	float RecordPos = 1100.0f;
 };

@@ -12,19 +12,23 @@
 bool Game::Start() {
 
 
-	//hysicsWorld::GetInstance()->EnableDrawDebugWireFrame();
-	m_gameStartTime = 3.0f * g_graphicsEngine->GetGraphicTime();
+
+	//PhysicsWorld::GetInstance()->EnableDrawDebugWireFrame();
+	//m_gameStartTime = 3.0f * g_graphicsEngine->GetGraphicTime();
+
 
 	//セーブを追加
 	m_savedata = NewGO<SaveData>(0, "savedata");
 	//m_savedata->FileSave();
 	m_savedata->Load();
+
 	
 	//m_ghostBox.CreateBox(
 	//	{ 500.0f, 405.0f, 0.0f },	//第一引数は座標。
 	//	Quaternion::Identity,		//第二引数は回転クォータニオン。
 	//	{ 200.0f, 200.0f, 750.0f }	//第三引数はボックスのサイズ。
 	//);
+
 
 	m_dirLight = NewGO<DirectionLight>(0,"mainLight");
 	m_dirLight->SetLigDirection();
@@ -70,7 +74,6 @@ Game::~Game()
 }
 
 void Game::Update() {
-	
 
 	//カメラのスクロールが終わってプレイヤーの視点になる。且つ、ワンショット再生させるためのフラグ。
 	if (m_camera->CameraScrollFlag == false&& m_startsoundflg == true) {

@@ -1,0 +1,7 @@
+6
+9,eheheNS03,72,C:/Users/bm20b04/Desktop/MyGame/GameTemplate/Game/Resource/eheheNS03.png,0.0,0.0,1024,512,9,1.45,1.45,13,eheheNS03.dds
+7,Setting,30,../../../../../_UI/Setting.png,-250.0,-245.0,2133,2133,10,0.21,0.21,11,Setting.dds
+4,Back,67,C:/Users/bm20b04/Desktop/MyGame/GameTemplate/Game/Resource/Back.png,-250.0,-90.0,2048,2048,10,0.27,0.27,8,Back.dds
+3,End,66,C:/Users/bm20b04/Desktop/MyGame/GameTemplate/Game/Resource/End.png,235.0,-245.0,2048,2048,10,0.217,0.217,7,End.dds
+6,Return,29,../../../../../_UI/Return.png,235.0,-90.0,2133,2133,10,0.26,0.26,10,Return.dds
+5,Pause,28,../../../../../_UI/Pause.png,0.0,170.0,2048,2048,10,0.7,0.7,9,Pause.dds

@@ -16,8 +16,12 @@ bool ResultScene::Start()
 	nowTime = m_game->GetTime();
 	bestTime = m_game->GetBestTime();
 
+	if(nowTime > bestTime)
+	{
+		NewRecordFlg = true;
+	}
 
-	m_nowTime = NewGO<FontRender>(3);
+	m_nowTime = NewGO<FontRender>(2);
 	wchar_t text[4][64];
 	swprintf_s(text[0], L"%2.1f", nowTime);
 	m_nowTime->Init(text[0], { 20.0f,70.0f }, { 1.0f,1.0f,1.0f,1.0f });
@@ -40,7 +44,7 @@ bool ResultScene::Start()
 		m_nowTime->SetPosition({ -45.0f,70.0f });	//場所
 	}
 
-	m_BestTime = NewGO<FontRender>(3);
+	m_BestTime = NewGO<FontRender>(2);
 	swprintf_s(text[1], L"%2.1f", bestTime);
 	m_BestTime->Init(text[1], { 20.0f,-30.0f }, { 1.0f,1.0f,1.0f,1.0f });
 	m_BestTime->SetPivot({ 0.0f,0.0f });
@@ -180,7 +184,6 @@ void ResultScene::Update()
 	if (g_pad[0]->IsTrigger(enButtonA)) {
 
 		//決定ボタン音再生。
-
 		DecisionSound = NewGO<CSoundSource>(0);
 		DecisionSound->Init(L"Assets/sound/DecisionButton.wav");
 		DecisionSound->SetVolume(1.0f);
@@ -191,7 +194,7 @@ void ResultScene::Update()
 			//「たいとる」ボタンが選ばれているとき、
 		case TitleBackButton:
 			//ゲーム画面に遷移。
-			//NewGO<TitleScene>(0);
+			NewGO<TitleScene>(0);
 
 			break;
 
@@ -203,6 +206,27 @@ void ResultScene::Update()
 			break;
 		};
 		//クラスを削除。
-		//DeleteGO(this);
+		DeleteGO(this);
+	}
+
+	//しんきろく！の文字が流れていく処理
+	if (NewRecordFlg)
+	{
+		if (NewRecordFlgSub) {
+			//しんきろく！画像を初期化。
+			m_spriteRender = NewGO<SpriteRender>(2);
+			m_spriteRender->SetPosition({ RecordPos,0.0f,0.0f });
+			m_spriteRender->Init("Assets/image/Record.dds", 750.0f, 750.0f);
+			NewRecordFlgSub = false;
+		}
+		//右から左に移動する処理
+			m_spriteRender->SetPosition({ RecordPos,0.0f,0.0f });
+			RecordPos-=5;
+			//画面外に移動すると無駄に残さずにスプライトを消す
+			if (RecordPos < -1000.0f)
+			{
+				//初期位置に戻す
+				RecordPos = 1100.0f;
+			}
 	}
 }
