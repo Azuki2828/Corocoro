@@ -60,4 +60,6 @@ private:
 	FontRender* m_fontRender = nullptr;
 
 	MainCamera* maincamera;
+	LigData m_ligKeyData;
+	LigData m_ligDoorData;
 };

@@ -48,7 +48,8 @@ public:
 		const char* psEntryPointFunc,
 		void* expandData,
 		int expandDataSize,
-		IShaderResource* expandShaderResourceView
+		IShaderResource* expandShaderResourceView,
+		IShaderResource* expandShaderResourceView_2
 	);
 	/// <summary>
 	/// 描画。
@@ -106,6 +107,7 @@ private:
 private:
 	//拡張SRVが設定されるレジスタの開始番号。
 	const int EXPAND_SRV_REG__START_NO = 10;
+	const int EXPAND_SRV_REG__START_NO_2 = 11;
 	/// <summary>
 	/// 定数バッファ。
 	/// </summary>
@@ -121,6 +123,7 @@ private:
 	ConstantBuffer m_commonConstantBuffer;					//メッシュ共通の定数バッファ。
 	ConstantBuffer m_expandConstantBuffer;					//ユーザー拡張用の定数バッファ
 	IShaderResource* m_expandShaderResourceView = nullptr;	//ユーザー拡張シェーダーリソースビュー。
+	IShaderResource* m_expandShaderResourceView_2 = nullptr;	//ユーザー拡張シェーダーリソースビュー。
 	StructuredBuffer m_boneMatricesStructureBuffer;	//ボーン行列の構造化バッファ。
 	std::vector< SMesh* > m_meshs;							//メッシュ。
 	std::vector< DescriptorHeap > m_descriptorHeap;		//ディスクリプタヒープ。

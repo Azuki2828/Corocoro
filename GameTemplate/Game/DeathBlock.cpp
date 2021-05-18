@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "DeathBlock.h"
 #include "Player.h"
+#include "MainCamera.h"
 #include "Key.h"
 
 bool DeathBlock::Start() {
@@ -8,6 +9,12 @@ bool DeathBlock::Start() {
 	m_player = FindGO<Player>("player");
 	m_key = FindGO<Key>("key");
 	m_skinModelRender->SetPosition(m_pos);
+	auto mainCamera = FindGO<MainCamera>("maincamera");
+	mainCamera->changeRotCameraEvent.push_back([&]() {
+		Quaternion m_rotZ;
+		m_rotZ.SetRotationDeg(Vector3::AxisZ, -2.0f);
+		m_rotZ.Apply(m_ligData.m_directionLigData[0].Dir);
+		});
 
 	Vector3 ghostPos;
 	ghostPos = m_pos;
@@ -35,6 +42,8 @@ void DeathBlock::Update() {
 				m_player->SetPosition(m_startPos);
 			}
 			m_player->ClearPower();
+
+			//g_engine->SetGameState(GameState::State_Dead);
 		}
-		});
+	});
 }

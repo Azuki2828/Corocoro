@@ -16,6 +16,7 @@ public:
 	typedef enum {
 		RenderMode_Normal,
 		RenderMode_Shadow,
+		RenderMode_ZPrepass,
 
 		RenderMode_Num
 	}Render_Mode;

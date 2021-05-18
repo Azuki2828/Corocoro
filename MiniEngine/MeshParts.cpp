@@ -26,7 +26,8 @@ void MeshParts::InitFromTkmFile(
 	const char* psEntryPointFunc,
 	void* expandData,
 	int expandDataSize,
-	IShaderResource* expandShaderResourceView
+	IShaderResource* expandShaderResourceView,
+	IShaderResource* expandShaderResourceView_2
 )
 {
 	m_meshs.resize(tkmFile.GetNumMesh());
@@ -44,6 +45,7 @@ void MeshParts::InitFromTkmFile(
 		m_expandData = expandData;
 	}
 	m_expandShaderResourceView = expandShaderResourceView;
+	m_expandShaderResourceView_2 = expandShaderResourceView_2;
 	//ディスクリプタヒープを作成。
 	CreateDescriptorHeaps();
 }
@@ -71,6 +73,9 @@ void MeshParts::CreateDescriptorHeaps()
 			descriptorHeap.RegistShaderResource(3, m_boneMatricesStructureBuffer);							//ボーンのストラクチャードバッファ。
 			if (m_expandShaderResourceView){
 				descriptorHeap.RegistShaderResource(EXPAND_SRV_REG__START_NO, *m_expandShaderResourceView);
+			}
+			if (m_expandShaderResourceView_2) {
+				descriptorHeap.RegistShaderResource(EXPAND_SRV_REG__START_NO_2, *m_expandShaderResourceView_2);
 			}
 			descriptorHeap.RegistConstantBuffer(0, m_commonConstantBuffer);
 			if (m_expandConstantBuffer.IsValid()) {

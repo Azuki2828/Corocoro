@@ -25,6 +25,10 @@ cbuffer ModelCb : register(b0){
 cbuffer DirectionLightCb : register(b1) {
 	DirectionalLight directionalLight[NUM_DIRECTIONAL_LIGHT];
 	float3 eyePos;
+	float3 ambinet;
+	float4x4 mLVP;
+	float metaric;
+	float smooth;
 }
 
 ////////////////////////////////////////////////
@@ -210,24 +214,34 @@ float CookTorranceSpecular(float3 L, float3 V, float3 N, float metaric)
 /// </summary>
 float CalcDiffuseFromFresnel(float3 N, float3 L, float3 V)
 {
+	// step-1 ディズニーベースのフレネル反射による拡散反射を真面目に実装する。
+   // 光源に向かうベクトルと視線に向かうベクトルのハーフベクトルを求める
 	float3 H = normalize(L + V);
 
+	// 粗さは0.5で固定。
 	float roughness = 0.5f;
-	float energyBias = lerp(0.0f, 0.5f, roughness);
 
+	float energyBias = lerp(0.0f, 0.5f, roughness);
+	float energyFactor = lerp(1.0, 1.0 / 1.51, roughness);
+
+	// 光源に向かうベクトルとハーフベクトルがどれだけ似ているかを内積で求める
 	float dotLH = saturate(dot(L, H));
 
+	// 光源に向かうベクトルとハーフベクトル、
+	// 光が平行に入射したときの拡散反射量を求めている
 	float Fd90 = energyBias + 2.0 * dotLH * dotLH * roughness;
 
+	// 法線と光源に向かうベクトルwを利用して拡散反射率を求める
 	float dotNL = saturate(dot(N, L));
+	float FL = (1 + (Fd90 - 1) * pow(1 - dotNL, 5));
 
-	float FL = Fd90 + (dotNL - Fd90);
-
+	// 法線と視点に向かうベクトルを利用して拡散反射率を求める
 	float dotNV = saturate(dot(N, V));
+	float FV = (1 + (Fd90 - 1) * pow(1 - dotNV, 5));
 
-	float FV = Fd90 + (dotNV - Fd90);
-
-	return (FL * FV) / PI;
+	// 法線と光源への方向に依存する拡散反射率と、法線と視点ベクトルに依存する拡散反射率を
+	// 乗算して最終的な拡散反射率を求めている。PIで除算しているのは正規化を行うため
+	return (FL * FV * energyFactor);
 }
 
 
@@ -242,8 +256,7 @@ float4 PSMain(SPSIn psIn) : SV_Target0
 
 	// step-2 アルベドカラー、スペキュラカラー、金属度をサンプリングする
 	float4 albedoColor = g_albedo.Sample(g_sampler, psIn.uv);
-	float3 specColor = g_specularMap.SampleLevel(g_sampler, psIn.uv, 0).rgb;
-	float metaric = g_specularMap.Sample(g_sampler, psIn.uv).a;
+	float3 specColor = albedoColor;
 
 	// 視線に向かって伸びるベクトルを計算する
 	float3 toEye = normalize(eyePos - psIn.worldPos);
@@ -275,6 +288,7 @@ float4 PSMain(SPSIn psIn) : SV_Target0
 	}
 
 	// step-7 環境光による底上げ
+	lig += ambinet * albedoColor;
 
 	float4 finalColor = 1.0f;
 	finalColor.xyz = lig;

@@ -7,6 +7,20 @@ class GameTime;
 class Key;
 class SaveData;
 
+enum SoundList {
+	BGM_Title,
+	BGM_Game,
+	BGM_GameUpTempo,
+	SE_GameClear,
+	SE_CursolMove,
+	SE_DecisionButton,
+	SE_CountDown,
+	SE_NSChange,
+	SE_KeyGet,
+
+	Sound_Num
+};
+
 class Game : public IGameObject
 {
 public:

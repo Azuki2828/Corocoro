@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "TitleScene.h"
 #include "TitleLevel2D.h"
-
+#include "Game.h"
 #include "StageSelect.h"
 #include "RuleScene.h"
 #include "SettingScene.h"
@@ -9,16 +9,18 @@
 
 bool TitleScene::Start()
 {
+
 	//タイトル画面表示
 	sprite = NewGO<TitleLevel2D>(0,"titleLevel2D");
 
 	m_titleLevel2D = FindGO<TitleLevel2D>("titleLevel2D");
 
 	//タイトルBGM再生。
-	TitleBGMSound = NewGO<CSoundSource>(0);
-	TitleBGMSound->Init(L"Assets/sound/TitleBGM.wav");
-	TitleBGMSound->SetVolume(1.0f);
-	TitleBGMSound->Play(true);		//ループ再生。
+	SoundManager::GetInstance()->Play(BGM_Title);
+	//TitleBGMSound = NewGO<CSoundSource>(0);
+	//TitleBGMSound->Init(L"Assets/sound/TitleBGM.wav");
+	//TitleBGMSound->SetVolume(1.0f);
+	//TitleBGMSound->Play(true);		//ループ再生。
 
 	//Start関数のreturn true;
 	return true;
@@ -29,7 +31,7 @@ TitleScene::~TitleScene()
 	//タイトル画面のレベルを削除。
 	DeleteGO(sprite);
 	//タイトルBGMを削除。
-	DeleteGO(TitleBGMSound);
+	SoundManager::GetInstance()->Release(BGM_Title);
 }
 
 void TitleScene::Update()
@@ -52,10 +54,8 @@ void TitleScene::Update()
 			NowSelect -= 1;
 		}
 		//移動効果音鳴らす。
-		CursorMooveSound = NewGO<CSoundSource>(0);
-		CursorMooveSound->Init(L"Assets/sound/CursorMoove.wav");
-		CursorMooveSound->SetVolume(1.0f);
-		CursorMooveSound->Play(false);		//ワンショット再生。
+
+		SoundManager::GetInstance()->Play(SE_CursolMove);
 	}
 	//上入力or下入力されたら、
 	if (g_pad[0]->IsTrigger(enButtonUp) || g_pad[0]->IsTrigger(enButtonDown)) {
@@ -70,10 +70,12 @@ void TitleScene::Update()
 			NowSelect -= 2;
 		}
 		//移動効果音鳴らす。
-		CursorMooveSound = NewGO<CSoundSource>(0);
-		CursorMooveSound->Init(L"Assets/sound/CursorMoove.wav");
-		CursorMooveSound->SetVolume(1.0f);
-		CursorMooveSound->Play(false);		//ワンショット再生。
+
+		SoundManager::GetInstance()->Play(SE_CursolMove);
+		//CursorMooveSound = NewGO<CSoundSource>(0);
+		//CursorMooveSound->Init(L"Assets/sound/CursorMove.wav");
+		//CursorMooveSound->SetVolume(1.0f);
+		//CursorMooveSound->Play(false);		//ワンショット再生。
 	}
 
 
@@ -229,10 +231,7 @@ void TitleScene::Update()
 
 		//決定ボタン音再生。
 
-		DecisionSound = NewGO<CSoundSource>(0);
-		DecisionSound->Init(L"Assets/sound/DecisionButton.wav");
-		DecisionSound->SetVolume(1.0f);
-		DecisionSound->Play(false);		//1ショット再生。
+		SoundManager::GetInstance()->Play(SE_DecisionButton);
 
 		switch (NowSelect) {
 
@@ -260,7 +259,7 @@ void TitleScene::Update()
 		 //「おわる」ボタンが選ばれているとき、
 		 case EndButton:
 			//ゲームを終了。
-			 exit(1);
+			 exit(EXIT_SUCCESS);
 
 			break;
 		};

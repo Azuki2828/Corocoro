@@ -2,6 +2,7 @@
 
 class Player;
 class DirectionLight;
+class MapChip;
 
 class MainCamera : public IGameObject
 {
@@ -29,6 +30,7 @@ public:
 
 	Player* m_player = nullptr;
 	DirectionLight* m_dir = nullptr;
+	MapChip* m_mapChip = nullptr;
 
 	//ゲームスタート前にステージ全体をカメラで眺める関数。x==カメラのx座標、y==カメラのy座標を入れる。
 	void Stage1ScrollCamera();
@@ -39,5 +41,6 @@ public:
 
 	//1回だけカメラを180度回転させるためのフラグ
 	bool RotFlg = false;
+	std::list<std::function< void() >> changeRotCameraEvent;
 };
 

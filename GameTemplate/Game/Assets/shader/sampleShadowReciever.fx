@@ -22,7 +22,11 @@ cbuffer ModelCb : register(b0){
 cbuffer ShadowCb : register(b1){
 	DirectionalLight directionalLight[NUM_DIRECTIONAL_LIGHT];
 	float3 eyePos;
+	float3 ambinet;
 	float4x4 mLVP;
+	float metaric;
+	float smooth;
+	bool edge;
 };
 
 //頂点シェーダーへの入力。
@@ -43,6 +47,7 @@ struct SPSIn{
 	float3 worldPos		: TEXCOORD2;
 	//ライトビュースクリーン空間での座標を追加。
 	float4 posInLVP		: TEXCOORD1;	//ライトビュースクリーン空間でのピクセルの座標
+	float4 posInProj    : TEXCOORD3;
 };
 
 ///////////////////////////////////////////////////
@@ -53,6 +58,7 @@ Texture2D<float4> g_albedo : register(t0);		//アルベドマップ。
 Texture2D<float4> g_normalMap : register(t1);
 Texture2D<float4> g_specularMap : register(t2);
 Texture2D<float4> g_shadowMap : register(t10);	//シャドウマップ。
+Texture2D<float4> g_depthTexture : register(t11);	//深度テクスチャ。
 sampler g_sampler : register(s0);				// サンプラステート。
 
 
@@ -94,13 +100,11 @@ float SpcFresnel(float f0, float u)
 /// <param name="V">視点に向かうベクトル</param>
 /// <param name="N">法線ベクトル</param>
 /// <param name="metaric">金属度</param>
-float CookTorranceSpecular(float3 L, float3 V, float3 N, float metaric)
+float CookTorranceSpecular(float3 L, float3 V, float3 N, float metaric, float microfacet)
 {
-	float microfacet = 0.76f;
-
 	// 金属度を垂直入射の時のフレネル反射率として扱う
 	// 金属度が高いほどフレネル反射は大きくなる
-	float f0 = metaric;
+	float f0 = 1.0f - microfacet;
 
 	// ライトに向かうベクトルと視線に向かうベクトルのハーフベクトルを求める
 	float3 H = normalize(L + V);
@@ -130,26 +134,33 @@ float CookTorranceSpecular(float3 L, float3 V, float3 N, float metaric)
 /// <summary>
 /// フレネル反射を考慮した拡散反射を計算
 /// </summary>
-float CalcDiffuseFromFresnel(float3 N, float3 L, float3 V)
+float CalcDiffuseFromFresnel(float3 N, float3 L, float3 V, float roughness)
 {
+	// step-1 ディズニーベースのフレネル反射による拡散反射を真面目に実装する。
+   // 光源に向かうベクトルと視線に向かうベクトルのハーフベクトルを求める
 	float3 H = normalize(L + V);
 
-	float roughness = 0.5f;
 	float energyBias = lerp(0.0f, 0.5f, roughness);
+	float energyFactor = lerp(1.0, 1.0 / 1.51, roughness);
 
+	// 光源に向かうベクトルとハーフベクトルがどれだけ似ているかを内積で求める
 	float dotLH = saturate(dot(L, H));
 
+	// 光源に向かうベクトルとハーフベクトル、
+	// 光が平行に入射したときの拡散反射量を求めている
 	float Fd90 = energyBias + 2.0 * dotLH * dotLH * roughness;
 
+	// 法線と光源に向かうベクトルwを利用して拡散反射率を求める
 	float dotNL = saturate(dot(N, L));
+	float FL = (1 + (Fd90 - 1) * pow(1 - dotNL, 5));
 
-	float FL = Fd90 + (dotNL - Fd90);
-
+	// 法線と視点に向かうベクトルを利用して拡散反射率を求める
 	float dotNV = saturate(dot(N, V));
+	float FV = (1 + (Fd90 - 1) * pow(1 - dotNV, 5));
 
-	float FV = Fd90 + (dotNV - Fd90);
-
-	return (FL * FV) / PI;
+	// 法線と光源への方向に依存する拡散反射率と、法線と視点ベクトルに依存する拡散反射率を
+	// 乗算して最終的な拡散反射率を求めている。PIで除算しているのは正規化を行うため
+	return (FL * FV * energyFactor);
 }
 
 /// <summary>
@@ -171,6 +182,9 @@ SPSIn VSMain(SVSIn vsIn)
 	//ライトビュースクリーン空間の座標を計算する。
 	psIn.posInLVP = mul( mLVP, float4( psIn.worldPos,1.0f ) );
 
+	psIn.posInProj = psIn.pos;
+	
+
 	return psIn;
 }
 /// <summary>
@@ -180,14 +194,15 @@ float4 PSMain( SPSIn psIn ) : SV_Target0
 {
 	//float4 color = g_albedo.Sample(g_sampler, psIn.uv);
 
+	psIn.posInProj.xy /= psIn.posInProj.w;
+
 	// 法線を計算
 	float3 normal = GetNormal(psIn.normal, psIn.tangent, psIn.biNormal, psIn.uv);
 
 	// step-2 アルベドカラー、スペキュラカラー、金属度をサンプリングする
 	float4 albedoColor = g_albedo.Sample(g_sampler, psIn.uv);
-	float3 specColor = g_specularMap.SampleLevel(g_sampler, psIn.uv, 0).rgb;
-	float metaric = g_specularMap.Sample(g_sampler, psIn.uv).a;
-
+	float3 specColor = albedoColor;
+	
 	
 	// 視線に向かって伸びるベクトルを計算する
 	float3 toEye = normalize(eyePos - psIn.worldPos);
@@ -196,7 +211,7 @@ float4 PSMain( SPSIn psIn ) : SV_Target0
 	for (int ligNo = 0; ligNo < NUM_DIRECTIONAL_LIGHT; ligNo++)
 	{
 		// step-3 ディズニーベースの拡散反射を実装する
-		float diffuseFromFresnel = CalcDiffuseFromFresnel(normal, -directionalLight[ligNo].direction, toEye);
+		float diffuseFromFresnel = CalcDiffuseFromFresnel(normal, -directionalLight[ligNo].direction, toEye, 1.0f - smooth);
 
 		float NdotL = saturate(dot(normal, -directionalLight[ligNo].direction));
 
@@ -207,18 +222,18 @@ float4 PSMain( SPSIn psIn ) : SV_Target0
 
 		// step-5 クックトランスモデルを利用した鏡面反射率を計算する
 		float3 spec = CookTorranceSpecular(-directionalLight[ligNo].direction,
-			toEye, normal, metaric) * directionalLight[ligNo].color;
+			toEye, normal, metaric, 1.0f - smooth) * directionalLight[ligNo].color;
 
-		float specTerm = length(specColor.xyz);
 
-		spec *= lerp(float3(specTerm, specTerm, specTerm), specColor, metaric);
+		spec *= lerp(float3(1.0f, 1.0f, 1.0f), specColor, smooth);
 
 		// step-6 鏡面反射率を使って、拡散反射光と鏡面反射光を合成する
 
-		lig += diffuse * (1.0f - specTerm) + spec;
+		lig += diffuse * (1.0f - smooth) + spec * smooth;
 	}
 
 	// step-7 環境光による底上げ
+	lig += ambinet * albedoColor;
 
 	float4 finalColor = 1.0f;
 	finalColor.xyz = lig;
@@ -250,6 +265,62 @@ float4 PSMain( SPSIn psIn ) : SV_Target0
 		}
 	} 
 
-	//return finalColor;
-	return albedoColor;
+	//if (edge) {
+	//	float2 uv = psIn.posInProj.xy * float2(0.5f, -0.5f) + 0.5f;
+
+	//	float2 uvOffset[8] = {
+	//		float2(0.0f,  1.0f / 720.0f),
+	//		float2(0.0f, -1.0f / 720.0f),
+	//		float2(1.0f / 1280.0f,           0.0f),
+	//		float2(-1.0f / 1280.0f,           0.0f),
+	//		float2(1.0f / 1280.0f,  1.0f / 720.0f),
+	//		float2(-1.0f / 1280.0f,  1.0f / 720.0f),
+	//		float2(1.0f / 1280.0f, -1.0f / 720.0f),
+	//		float2(-1.0f / 1280.0f, -1.0f / 720.0f)
+	//	};
+
+	//	float depth = g_depthTexture.Sample(g_sampler, uv).x;
+
+	//	float depth2 = 0.0f;
+	//	for (int i = 0; i < 8; i++) {
+	//		depth2 += g_depthTexture.Sample(g_sampler, uv + uvOffset[i]).x;
+	//	}
+	//	depth2 /= 8.0f;
+	//	if (abs(depth - depth2) > 0.00005f) {
+	//		return float4(0.0f, 0.0f, 0.0f, 1.0f);
+	//	}
+	//	
+	//	float normalDistance1a = g_depthTexture.Sample(g_sampler, uv).y;
+	//	float normalDistance2a = 0.0f;
+	//	for (int i = 0; i < 8; i++) {
+	//		normalDistance2a += g_depthTexture.Sample(g_sampler, uv + uvOffset[i]).y;
+	//	}
+	//	normalDistance2a /= 8.0f;
+	//	if (abs(normalDistance1a - normalDistance2a) > 0.00005f) {
+	//		return float4(0.0f, 0.0f, 0.0f, 1.0f);
+	//	}
+
+	//	float normalDistance3a = g_depthTexture.Sample(g_sampler, uv).z;
+	//	float normalDistance4a = 0.0f;
+	//	for (int i = 0; i < 8; i++) {
+	//		normalDistance4a += g_depthTexture.Sample(g_sampler, uv + uvOffset[i]).z;
+	//	}
+	//	normalDistance4a /= 8.0f;
+	//	if (abs(normalDistance3a - normalDistance4a) > 0.00005f) {
+	//		return float4(0.0f, 0.0f, 0.0f, 1.0f);
+	//	}
+
+	//	//float normalDistance5a = g_depthTexture.Sample(g_sampler, uv).w;
+	//	//float normalDistance6a = 0.0f;
+	//	//for (int i = 0; i < 8; i++) {
+	//	//	normalDistance6a += g_depthTexture.Sample(g_sampler, uv + uvOffset[i]).w;
+	//	//}
+	//	//normalDistance6a /= 8.0f;
+	//	//if (abs(normalDistance5a - normalDistance6a) > 0.00005f) {
+	//	//	return float4(0.0f, 0.0f, 0.0f, 1.0f);
+	//	//}
+	//}
+
+	return finalColor;
+	//return albedoColor;
 }

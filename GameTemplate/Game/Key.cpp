@@ -1,18 +1,17 @@
 #include "stdafx.h"
 #include "Key.h"
 #include "Player.h"
-
 #include "Background.h"
 #include "ResultScene.h"
-
 #include "GameLevel2D.h"
 #include "MainCamera.h"
+#include "Game.h"
 
 bool Key::Start() {
 
 	m_player = FindGO<Player>("player");
 
-
+	
 	//鍵があったら座標を登録。
 	if (m_skinModelRender_Key != nullptr) {
 
@@ -50,6 +49,11 @@ void Key::InitKey(const char* name) {
 	m_skinModelRender_Key = NewGO<SkinModelRender>(0);
 	m_skinModelRender_Key->SetFileNametkm(filePathtkm);
 	m_skinModelRender_Key->SetShadowReceiverFlag(true);
+	m_ligKeyData.m_directionLigData[0].Dir.Set(0, 0, 1);
+	m_ligKeyData.m_directionLigData[0].Dir.Normalize();
+	m_ligKeyData.m_directionLigData[0].Col.Set(20.0f, 20.0f, 0.0f, 1.0f);
+	m_ligKeyData.ambient.Set(0.8f, 0.8f, 0.8f);
+	m_skinModelRender_Key->SetUserLigData(&m_ligKeyData);
 	m_skinModelRender_Key->Init(true, false);
 }
 
@@ -61,11 +65,37 @@ void Key::InitDoor(const char* name) {
 	m_skinModelRender_Door = NewGO<SkinModelRender>(0);
 	m_skinModelRender_Door->SetFileNametkm(filePathtkm);
 	m_skinModelRender_Door->SetShadowReceiverFlag(true);
+	m_ligDoorData.m_directionLigData[0].Dir.Set(-1, -1, -1);
+	m_ligDoorData.m_directionLigData[0].Dir.Normalize();
+	m_ligDoorData.m_directionLigData[0].Col.Set(5.0f, 5.0f, 5.0f, 1.0f);
+	m_ligDoorData.ambient.Set(0.8f, 0.8f, 0.8f);
+
+	auto mainCamera = FindGO<MainCamera>("maincamera");
+	mainCamera->changeRotCameraEvent.push_back([&]() {
+		Quaternion m_rotZ;
+		m_rotZ.SetRotationDeg(Vector3::AxisZ, -2.0f);
+		m_rotZ.Apply(m_ligKeyData.m_directionLigData[0].Dir);
+		m_rotZ.Apply(m_ligDoorData.m_directionLigData[0].Dir);
+	});
+
+	m_skinModelRender_Door->SetUserLigData(&m_ligDoorData);
 	m_skinModelRender_Door->Init(true, false);
 }
 
 void Key::Update() {
 
+	static float keyTime = 0.0f;
+
+	if (m_skinModelRender_Key != nullptr) {
+		
+		keyTime += GameTime::GameTimeFunc().GetFrameDeltaTime();
+		static Quaternion rot;
+		rot.SetRotationDeg(Vector3::AxisY, 180.0f * keyTime);
+		m_skinModelRender_Key->SetRotation(rot);
+		if (keyTime >= 4.0f) {
+			keyTime = 0.0f;
+		}
+	}
 
 	//3m以内なら鍵取得。
 	Vector3 keyLength;
@@ -87,7 +117,7 @@ void Key::Update() {
 
 			//通常BGMを削除。
 			Background* background = FindGO<Background>("background");
-			DeleteGO(background->GameBGMSound);
+			SoundManager::GetInstance()->Release(BGM_Game);
 
 
 			//GameScreen_NoGetKey.casl��폜���AGameScreen_YesGetKey.casl��ĂԂ��ƂŌ��擾��UI��쐬����B
@@ -100,11 +130,7 @@ void Key::Update() {
 
 			//���擾���̌�ʉ��Đ��B
 
-			KeyGetSound = NewGO<CSoundSource>(0);
-
-			KeyGetSound->Init(L"Assets/sound/KeyGet.wav");
-			KeyGetSound->SetVolume(1.0f);
-			KeyGetSound->Play(false);
+			SoundManager::GetInstance()->Play(SE_KeyGet);
 
 			//falseにして抜ける。
 			KeyGetSoundFlag = false;
@@ -121,11 +147,7 @@ void Key::Update() {
 
 	if (GetDelay == 120) {
 		//通常BGMのアップテンポ版を再生し変化をつけ、焦らす演出。
-		GameBGMSound_UpTempo = NewGO<CSoundSource>(0);
-
-		GameBGMSound_UpTempo->Init(L"Assets/sound/GameBGM._UpTempo.wav");
-		GameBGMSound_UpTempo->SetVolume(1.0f);
-		GameBGMSound_UpTempo->Play(true);		//ループ再生。
+		SoundManager::GetInstance()->Play(BGM_GameUpTempo);
 	}
 
 	//鍵を取得しているうえでドアとの距離が3m以内ならドアを破壊。
@@ -137,14 +159,10 @@ void Key::Update() {
 			if (GameClearSoundFlag == true) {
 
 				//BGMを削除。
-				DeleteGO(GameBGMSound_UpTempo);
+				SoundManager::GetInstance()->Release(BGM_GameUpTempo);
 
 				//ゲームクリアのサウンドを再生。
-				GameClearSound = NewGO<CSoundSource>(0);
-
-				GameClearSound->Init(L"Assets/sound/GameClear.wav");
-				GameClearSound->SetVolume(1.0f);
-				GameClearSound->Play(false);		//�����V���b�g�Đ��B
+				SoundManager::GetInstance()->Play(SE_GameClear);
 
 				//falseにして抜ける。
 				GameClearSoundFlag = false;

@@ -341,6 +341,7 @@
     <ClCompile Include="Seesaw.cpp" />
     <ClCompile Include="SettingScene.cpp" />
     <ClCompile Include="SkinModelRender.cpp" />
+    <ClCompile Include="SoundManager.cpp" />
     <ClCompile Include="SpriteRender.cpp" />
     <ClCompile Include="StageSelect.cpp" />
     <ClCompile Include="StageSelectLevel2D.cpp" />
@@ -457,6 +458,7 @@
     <ClInclude Include="Seesaw.h" />
     <ClInclude Include="SettingScene.h" />
     <ClInclude Include="SkinModelRender.h" />
+    <ClInclude Include="SoundManager.h" />
     <ClInclude Include="SpriteRender.h" />
     <ClInclude Include="StageSelect.h" />
     <ClInclude Include="StageSelectLevel2D.h" />

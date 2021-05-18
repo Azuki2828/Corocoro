@@ -111,6 +111,10 @@ bool Background::Start()
 				m_magnet[sampleNum]->SetState_N();
 				m_magnet[sampleNum]->Init("Magnet_N100_200triangle");
 				m_magnet[sampleNum]->SetPosition(objData.position);
+				Vector3 m_magPos = objData.position;
+				m_magPos.x += 150.0f;
+				m_magPos.y += 50.0f;
+				m_magnet[sampleNum]->SetMagnetPosition(m_magPos);
 				m_magnet[sampleNum]->SetMagnetNum(sampleNum);
 				sampleNum++;
 				return true;
@@ -145,6 +149,10 @@ bool Background::Start()
 				m_magnet[sampleNum]->SetState_S();
 				m_magnet[sampleNum]->Init("Magnet_S-100_200triangle");
 				m_magnet[sampleNum]->SetPosition(objData.position);
+				Vector3 m_magPos = objData.position;
+				m_magPos.x += 150.0f;
+				m_magPos.y -= 50.0f;
+				m_magnet[sampleNum]->SetMagnetPosition(m_magPos);
 				m_magnet[sampleNum]->SetMagnetNum(sampleNum);
 				sampleNum++;
 				return true;
@@ -471,11 +479,7 @@ bool Background::Start()
 
 	//BGM再生。
 
-	GameBGMSound = NewGO<CSoundSource>(0);
-
-	GameBGMSound->Init(L"Assets/sound/GameBGM.wav");
-	GameBGMSound->SetVolume(1.0f);
-	GameBGMSound->Play(true);			//ループ再生。
+	SoundManager::GetInstance()->Play(BGM_Game);
 
 	//ModelInitData initData;
 	//initData.m_tkmFilePath = "Assets/modelData/bg/bg.tkm";

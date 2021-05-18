@@ -109,6 +109,7 @@
     <ClCompile Include="..\..\ExEngine\effect\Effect.cpp" />
     <ClCompile Include="..\..\ExEngine\effect\EffectEngine.cpp" />
     <ClCompile Include="DeathBlock.cpp" />
+    <ClCompile Include="SoundManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\ExEngine\ExEngine.h" />
@@ -346,12 +347,6 @@
     <ClCompile Include="..\..\MiniEngine\NullTextureMaps.cpp">
       <Filter>cpp</Filter>
     </ClCompile>
-    <ClCompile Include="PauseLevel2D.cpp">
-      <Filter>cpp</Filter>
-    </ClCompile>
-    <ClCompile Include="PauseScene.cpp">
-      <Filter>cpp</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\ExEngine\physics\Physics.cpp">
       <Filter>cpp</Filter>
     </ClCompile>
@@ -507,6 +502,7 @@
     <ClInclude Include="..\..\ExEngine\effect\Effect.h" />
     <ClInclude Include="..\..\ExEngine\effect\EffectEngine.h" />
     <ClInclude Include="DeathBlock.h" />
+    <ClInclude Include="SoundManager.h" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\MiniEngine\Animation.h">
@@ -657,12 +653,6 @@
       <Filter>h</Filter>
     </ClInclude>
     <ClInclude Include="..\..\MiniEngine\NullTextureMaps.h">
-      <Filter>h</Filter>
-    </ClInclude>
-    <ClInclude Include="PauseLevel2D.h">
-      <Filter>h</Filter>
-    </ClInclude>
-    <ClInclude Include="PauseScene.h">
       <Filter>h</Filter>
     </ClInclude>
     <ClInclude Include="..\..\ExEngine\physics\Physics.h">

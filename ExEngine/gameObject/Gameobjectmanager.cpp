@@ -54,6 +54,13 @@ void GameObjectManager::ExecuteUpdate()
 			}
 		}
 		break;
+	case GameState::State_Dead:
+		for (auto& goList : m_gameObjectListArray) {
+			for (auto& go : goList) {
+				go->DeadUpdateWrapper();
+			}
+		}
+		break;
 	case GameState::State_Free:
 		for (auto& goList : m_gameObjectListArray) {
 			for (auto& go : goList) {
@@ -85,6 +92,24 @@ void GameObjectManager::ExecuteRender(RenderContext& rc)
 	//書き込み完了待ち。
 	rc.WaitUntilFinishDrawingToRenderTarget(*RenderTarget::GetShadowMap());
 
+	// まず、レンダリングターゲットとして設定できるようになるまで待つ
+	rc.WaitUntilToPossibleSetRenderTarget(*RenderTarget::GetZPrepassRenderTarget());
+
+	// レンダリングターゲットを設定
+	rc.SetRenderTargetAndViewport(*RenderTarget::GetZPrepassRenderTarget());
+
+	// レンダリングターゲットをクリア
+	rc.ClearRenderTargetView(*RenderTarget::GetZPrepassRenderTarget());
+	rc.SetRenderMode(RenderContext::Render_Mode::RenderMode_ZPrepass);
+
+	for (auto& goList : m_gameObjectListArray) {
+		for (auto& go : goList) {
+			go->RenderWrapper(rc);
+		}
+	}
+
+	rc.WaitUntilFinishDrawingToRenderTarget(*RenderTarget::GetZPrepassRenderTarget());
+
 	// レンダリングターゲットをmainRenderTargetに変更する
 		// レンダリングターゲットとして利用できるまで待つ
 	rc.WaitUntilToPossibleSetRenderTarget(*RenderTarget::GetMainRenderTarget());
@@ -99,6 +124,9 @@ void GameObjectManager::ExecuteRender(RenderContext& rc)
 			go->RenderWrapper(rc);
 		}
 	}
+
+	//書き込み完了待ち。
+	rc.WaitUntilFinishDrawingToRenderTarget(*RenderTarget::GetMainRenderTarget());
 
 	PhysicsWorld::GetInstance()->DebubDrawWorld(rc);
 }

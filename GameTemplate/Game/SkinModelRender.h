@@ -50,11 +50,15 @@ public:
 	void UpdateWorldMatrix()
 	{
 		m_model.UpdateWorldMatrix(m_pos, m_rot, m_sca);
+		m_zprepassModel.UpdateWorldMatrix(m_pos, m_rot, m_sca);
+		m_shadowModel.UpdateWorldMatrix(m_pos, m_rot, m_sca);
 	}
 
 	void UpdateWorldMatrix(Vector3 pos, Quaternion rot, Vector3 sca)
 	{
 		m_model.UpdateWorldMatrix(pos, rot, sca);
+		m_zprepassModel.UpdateWorldMatrix(pos, rot, sca);
+		m_shadowModel.UpdateWorldMatrix(pos, rot, sca);
 	}
 
 	//シャドウキャスターフラグを設定。
@@ -67,6 +71,17 @@ public:
 
 		m_shadowReceiverFlag = flg;
 	}
+
+	void SetZprepassFlag(bool flg) {
+		m_zPrepassFlg = true;
+	}
+
+	void SetExpandShaderResourceView(IShaderResource* expandShaderResoruceView) {
+		initData.m_expandShaderResoruceView = expandShaderResoruceView;
+	}
+	void SetExpandShaderResourceView_2(IShaderResource* expandShaderResoruceView_2) {
+		initData.m_expandShaderResoruceView_2 = expandShaderResoruceView_2;
+	}
 	void SetUserLigData(LigData* lig) {
 		m_userLigData = lig;
 	}
@@ -76,9 +91,11 @@ private:
 	const char* m_fileNametks = nullptr;
 	bool m_shadowCasterFlag = false;	//シャドウキャスターフラグ。
 	bool m_shadowReceiverFlag = false;	//シャドウレシーバーフラグ。
+	bool m_zPrepassFlg = false;
 
 	Model m_model;			//モデル表示処理。
 	Model m_shadowModel;	//シャドウ作成用のモデル。
+	Model m_zprepassModel;   // ZPrepassで描画されるモデル
 	ModelInitData initData;
 	Animation m_animation;	//アニメション再生処理。
 	AnimationClip* m_animClip;
@@ -87,10 +104,11 @@ private:
 	DirectionLight* m_directionLight = nullptr;
 
 	LightCameraData m_lightCameraData;
-	LigData* m_userLigData = nullptr;	//ユーザー固有のライトデータ
+	LigData* m_userLigData = nullptr;	//ユーザーが設定するライトデータ
 	Vector3 m_pos = Vector3::Zero;
 	Vector3 m_sca = Vector3::One;
 	Quaternion m_rot = Quaternion::Identity;
+
 	//struct DirectionLightData {
 	//	Vector3 Direction;
 	//	Vector3 Color;

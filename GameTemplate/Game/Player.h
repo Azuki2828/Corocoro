@@ -82,7 +82,7 @@ private:
 	};
 	//プレイヤーのステート。
 	Player_State pState = State_N;
-
+	LigData m_ligData[enPlayer_Num];
 	Model m_model;										//モデル表示処理。
 	ModelInitData initData;								//モデルのデータ。
 	Animation m_animation;								//アニメション再生処理。

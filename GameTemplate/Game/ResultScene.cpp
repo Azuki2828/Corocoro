@@ -16,9 +16,10 @@ bool ResultScene::Start()
 	nowTime = m_game->GetTime();
 	bestTime = m_game->GetBestTime();
 
-	if(nowTime > bestTime)
+	if(nowTime < bestTime)
 	{
 		NewRecordFlg = true;
+		bestTime = nowTime;
 	}
 
 	m_nowTime = NewGO<FontRender>(2);
@@ -98,10 +99,7 @@ void ResultScene::Update()
 			NowSelect = 0;
 		}
 		//移動効果音鳴らす。
-		CursorMooveSound = NewGO<CSoundSource>(0);
-		CursorMooveSound->Init(L"Assets/sound/CursorMoove.wav");
-		CursorMooveSound->SetVolume(1.0f);
-		CursorMooveSound->Play(false);		//ワンショット再生。
+		SoundManager::GetInstance()->Play(SE_CursolMove);
 	}
 
 	//ボタンを全て半透明にする。
@@ -184,10 +182,7 @@ void ResultScene::Update()
 	if (g_pad[0]->IsTrigger(enButtonA)) {
 
 		//決定ボタン音再生。
-		DecisionSound = NewGO<CSoundSource>(0);
-		DecisionSound->Init(L"Assets/sound/DecisionButton.wav");
-		DecisionSound->SetVolume(1.0f);
-		DecisionSound->Play(false);		//1ショット再生。
+		SoundManager::GetInstance()->Play(SE_DecisionButton);
 
 		switch (NowSelect) {
 
@@ -210,23 +205,23 @@ void ResultScene::Update()
 	}
 
 	//しんきろく！の文字が流れていく処理
-	if (NewRecordFlg)
-	{
-		if (NewRecordFlgSub) {
-			//しんきろく！画像を初期化。
-			m_spriteRender = NewGO<SpriteRender>(2);
-			m_spriteRender->SetPosition({ RecordPos,0.0f,0.0f });
-			m_spriteRender->Init("Assets/image/Record.dds", 750.0f, 750.0f);
-			NewRecordFlgSub = false;
-		}
-		//右から左に移動する処理
-			m_spriteRender->SetPosition({ RecordPos,0.0f,0.0f });
-			RecordPos-=5;
-			//画面外に移動すると無駄に残さずにスプライトを消す
-			if (RecordPos < -1000.0f)
-			{
-				//初期位置に戻す
-				RecordPos = 1100.0f;
-			}
-	}
+	//if (NewRecordFlg)
+	//{
+	//	if (NewRecordFlgSub) {
+	//		//しんきろく！画像を初期化。
+	//		m_spriteRender = NewGO<SpriteRender>(2);
+	//		m_spriteRender->SetPosition({ RecordPos,0.0f,0.0f });
+	//		m_spriteRender->Init("Assets/image/Record.dds", 750.0f, 750.0f);
+	//		NewRecordFlgSub = false;
+	//	}
+	//	//右から左に移動する処理
+	//		m_spriteRender->SetPosition({ RecordPos,0.0f,0.0f });
+	//		RecordPos-=5;
+	//		//画面外に移動すると無駄に残さずにスプライトを消す
+	//		if (RecordPos < -1000.0f)
+	//		{
+	//			//初期位置に戻す
+	//			RecordPos = 1100.0f;
+	//		}
+	//}
 }

@@ -10,10 +10,11 @@ bool StageSelect::Start()
 	sprite = NewGO<StageSelectLevel2D>(0, "StageSelectLevel2D");
 
 	//BGM再生。
-	BGMSound = NewGO<CSoundSource>(0);
-	BGMSound->Init(L"Assets/sound/TitleBGM.wav");
-	BGMSound->SetVolume(1.0f);
-	BGMSound->Play(true);		//ループ再生。
+	SoundManager::GetInstance()->Play(BGM_Title);
+	//BGMSound = NewGO<CSoundSource>(0);
+	//BGMSound->Init(L"Assets/sound/TitleBGM.wav");
+	//BGMSound->SetVolume(1.0f);
+	//BGMSound->Play(true);		//ループ再生。
 
 	//Stage1
 	m_StageSpriteRender[0] = NewGO<SpriteRender>(1);
@@ -40,7 +41,7 @@ bool StageSelect::Start()
 StageSelect::~StageSelect()
 {
 	DeleteGO(sprite);	//レベル削除
-	DeleteGO(BGMSound);	//BGM削除
+	SoundManager::GetInstance()->Release(BGM_Title);	//BGM削除
 	for (int i = 0; i < (FinalStage-1); i++)
 	{
 		DeleteGO(m_StageSpriteRender[i]);
@@ -62,10 +63,7 @@ void StageSelect::Update()
 			NowSelect = 0;
 		}
 		//移動効果音鳴らす。
-		CursorMooveSound = NewGO<CSoundSource>(0);
-		CursorMooveSound->Init(L"Assets/sound/CursorMoove.wav");
-		CursorMooveSound->SetVolume(1.0f);
-		CursorMooveSound->Play(false);		//ワンショット再生。
+		SoundManager::GetInstance()->Play(SE_CursolMove);
 	}
 
 	//ボタンを全て半透明にする。
@@ -185,10 +183,7 @@ void StageSelect::Update()
 		if (NowSelectStage != StageOne)
 		{
 			//移動効果音鳴らす。
-			CursorMooveSound = NewGO<CSoundSource>(0);
-			CursorMooveSound->Init(L"Assets/sound/CursorMoove.wav");
-			CursorMooveSound->SetVolume(1.0f);
-			CursorMooveSound->Play(false);		//ワンショット再生。
+			SoundManager::GetInstance()->Play(SE_CursolMove);
 			//ステージ番号を１つ下にずらす
 			NowSelectStage -= 1;
 		}
@@ -198,10 +193,7 @@ void StageSelect::Update()
 	{
 		if (NowSelectStage != (FinalStage-1)) {
 			//移動効果音鳴らす。
-			CursorMooveSound = NewGO<CSoundSource>(0);
-			CursorMooveSound->Init(L"Assets/sound/CursorMoove.wav");
-			CursorMooveSound->SetVolume(1.0f);
-			CursorMooveSound->Play(false);		//ワンショット再生。
+			SoundManager::GetInstance()->Play(SE_CursolMove);
 			//ステージ番号を１つ上にずらす
 			NowSelectStage += 1;
 		}
@@ -227,10 +219,7 @@ void StageSelect::Update()
 	//Aボタン(キーボードのJ)が押されたら
 	if (g_pad[0]->IsTrigger(enButtonA)) {
 		//決定ボタン音再生。
-		DecisionSound = NewGO<CSoundSource>(0);
-		DecisionSound->Init(L"Assets/sound/DecisionButton.wav");
-		DecisionSound->SetVolume(1.0f);
-		DecisionSound->Play(false);		//1ショット再生。
+		SoundManager::GetInstance()->Play(SE_DecisionButton);
 
 		switch (NowSelect) {
 

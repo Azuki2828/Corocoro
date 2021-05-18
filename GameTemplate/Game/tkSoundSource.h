@@ -161,6 +161,10 @@
 		{
 			return m_velocity;
 		}
+		IXAudio2SourceVoice* GetSourceVoice() {
+			return m_sourceVoice;
+		}
+
 		/*!
 		* @brief	ループフラグを取得。
 		*/

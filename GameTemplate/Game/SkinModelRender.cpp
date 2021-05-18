@@ -48,10 +48,10 @@ void SkinModelRender::Init(bool DirectionFlg, bool PointLightFlg) {
 		initData.m_fxFilePath = "Assets/shader/model.fx";
 		if(m_userLigData){
 			//ユーザー固有のライトを使う。
-			//initData.m_expandConstantBuffer = m_userLigData;
+			initData.m_expandConstantBuffer = m_userLigData;
 
 			//まだ実装途中なので共通のライトを使う。
-			initData.m_expandConstantBuffer = LightManager::GetInstance()->GetLigData();
+			//initData.m_expandConstantBuffer = LightManager::GetInstance()->GetLigData();
 		}
 		else {
 			//グローバルライトを使う。
@@ -65,16 +65,18 @@ void SkinModelRender::Init(bool DirectionFlg, bool PointLightFlg) {
 		//initData.m_fxFilePath = "Assets/shader/model.fx";
 		initData.m_vsEntryPointFunc = "VSMain";
 		initData.m_vsSkinEntryPointFunc = "VSMain";
+
 		//シャドウマップを拡張SRVに設定する。
 		initData.m_expandShaderResoruceView = &RenderTarget::GetShadowMap()->GetRenderTargetTexture();
+		initData.m_expandShaderResoruceView_2 = &RenderTarget::GetZPrepassRenderTarget()->GetRenderTargetTexture();
 
 		//m_lightCameraData.m_viewProj = Camera::GetLightCamera()->GetViewProjectionMatrix();
 		//m_lightCameraData.eyePos = g_camera3D->GetPosition();
 
 		if (m_userLigData) {
 			//ユーザー固有のライトを使う。
-			//initData.m_expandConstantBuffer = m_userLigData;
-			initData.m_expandConstantBuffer = LightManager::GetInstance()->GetLigData();
+			initData.m_expandConstantBuffer = m_userLigData;
+			//initData.m_expandConstantBuffer = LightManager::GetInstance()->GetLigData();
 		}
 		else {
 			//グローバルライトを使う。
@@ -116,6 +118,14 @@ void SkinModelRender::Init(bool DirectionFlg, bool PointLightFlg) {
 			g_quatIdentity,
 			g_vec3One
 		);
+	}
+	if(m_zPrepassFlg) {
+		ModelInitData modelInitData;
+		modelInitData.m_tkmFilePath = m_fileNametkm;
+		modelInitData.m_fxFilePath = "Assets/shader/ZPrepass.fx";
+		modelInitData.m_colorBufferFormat = DXGI_FORMAT_R32G32_FLOAT;
+
+		m_zprepassModel.Init(modelInitData);
 	}
 
 	//作成した初期化データをもとにモデルを初期化する、
@@ -163,6 +173,9 @@ void SkinModelRender::Render(RenderContext& rc)
 		break;
 	case RenderContext::Render_Mode::RenderMode_Normal:
 		m_model.Draw(rc);
+		break;
+	case RenderContext::Render_Mode::RenderMode_ZPrepass:
+		m_zprepassModel.Draw(rc);
 		break;
 	}
 }

@@ -9,4 +9,5 @@
 #include "tkSoundEngine.h"
 #include "tkSoundSource.h"
 #include "LightManager.h"
+#include "SoundManager.h"
 #include "GameTime.h"
