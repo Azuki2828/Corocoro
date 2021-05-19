@@ -51,16 +51,18 @@ public:
 	
 	void Release(int num);
 
-	void SetBGMVolume(float vol) {
-		m_bgmVolume = vol;
-	}
-
-	void SetSEVolume(float vol) {
-		m_seVolume = vol;
-	}
-
-	void SetEffectVolume(float vol) {
-		m_effectVolume = vol;
+	void SetVolume(float vol,SoundType type = SoundType::Type_BGM) {
+		switch (type) {
+		case SoundType::Type_BGM:
+			m_bgmVolume = vol;
+			break;
+		case SoundType::Type_SE:
+			m_seVolume = vol;
+			break;
+		case SoundType::Type_Effect:
+			m_effectVolume = vol;
+			break;
+		}
 	}
 	std::vector<SoundData> m_soundData;
 };
