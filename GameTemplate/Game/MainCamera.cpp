@@ -65,19 +65,9 @@ void MainCamera::Update() {
 		Stage1ScrollCamera();
 	}
 	//通常時の処理。
-	else {
-		if (m_player != nullptr) {
-			//プレイヤーの場所を取得し、注視点の変数に入れる。
-			m_tar = m_player->GetPosition();
-			////プレイヤーのちょっと上に注視点を置く。
-			//if (m_player->GetKeyFlg()) {
-			//	m_tar.y -= 50.0f;
-			//}
-			//else {
-			//	m_tar.y += 50.0f;
-			//}
-
-		}
+	else if(m_player != nullptr){
+		//プレイヤーの場所を取得し、注視点の変数に入れる。
+		m_tar = m_player->GetPosition();
 	}
 
 	//新しい視点を、「新しい注視点　＋　toCameraPos」で求める。
