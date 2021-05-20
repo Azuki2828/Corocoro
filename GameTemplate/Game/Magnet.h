@@ -64,6 +64,7 @@ public:
 		m_ligData.metaric = 1.0f;
 		m_ligData.smooth = 0.35f;
 		m_ligData.edge = true;
+		m_ligData.powValue = 10.0f;
 		m_skinModelRender->SetUserLigData(&m_ligData);
 		//m_skinModelRender->SetExpandShaderResourceView_2(&RenderTarget::GetZPrepassRenderTarget()->GetRenderTargetTexture());
 		m_skinModelRender->SetColorBufferFormat(DXGI_FORMAT_R32G32B32A32_FLOAT);

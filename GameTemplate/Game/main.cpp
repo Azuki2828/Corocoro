@@ -4,6 +4,8 @@
 #include "PostEffect.h"
 #include "Game.h"
 
+
+GaussianBlur g_blur;
 ///////////////////////////////////////////////////////////////////
 // ウィンドウプログラムのメイン関数。
 ///////////////////////////////////////////////////////////////////
@@ -114,6 +116,8 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	RenderTarget::CreateShadowMap();
 	RenderTarget::CreateZPrepassRenderTarget();
 
+	
+	g_blur.Init(&RenderTarget::GetZPrepassRenderTarget()->GetRenderTargetTexture());
 	////影描画用のライトカメラを作成する。
 	//Camera lightCamera;
 	////カメラの位置を設定。これはライトの位置。
@@ -135,7 +139,6 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 		//	//再生開始。
 		//	laserEffect->Play();
 		//}
-
 		//レンダリング開始。
 		g_engine->BeginFrame();
 

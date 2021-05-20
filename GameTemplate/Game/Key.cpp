@@ -49,10 +49,21 @@ void Key::InitKey(const char* name) {
 	m_skinModelRender_Key = NewGO<SkinModelRender>(0);
 	m_skinModelRender_Key->SetFileNametkm(filePathtkm);
 	m_skinModelRender_Key->SetShadowReceiverFlag(true);
-	m_ligKeyData.m_directionLigData[0].Dir.Set(0, 0, 1);
+	m_skinModelRender_Key->SetZprepassFlag(true);
+	m_skinModelRender_Key->SetColorBufferFormat(DXGI_FORMAT_R32G32B32A32_FLOAT);
+	m_ligKeyData.m_directionLigData[0].Dir.Set(1, -1, 1);
 	m_ligKeyData.m_directionLigData[0].Dir.Normalize();
 	m_ligKeyData.m_directionLigData[0].Col.Set(20.0f, 20.0f, 0.0f, 1.0f);
-	m_ligKeyData.ambient.Set(0.8f, 0.8f, 0.8f);
+
+	m_ligKeyData.m_directionLigData[1].Dir.Set(1, 1, 1);
+	m_ligKeyData.m_directionLigData[1].Dir.Normalize();
+	m_ligKeyData.m_directionLigData[1].Col.Set(10.0f, 10.0f, 0.0f, 1.0f);
+
+	m_ligKeyData.metaric = 1.0f;
+	m_ligKeyData.smooth = 0.6f;
+	m_ligKeyData.ambient.Set(0.2f, 0.2f, 0.2f);
+	m_ligKeyData.edge = true;
+	m_ligKeyData.powValue = 0.7f;
 	m_skinModelRender_Key->SetUserLigData(&m_ligKeyData);
 	m_skinModelRender_Key->Init(true, false);
 }
@@ -173,10 +184,10 @@ void Key::Update() {
 			//m_fontRender->Init(L"Clear!!", { 50.0),25.0f });
 
 			//ドアのモデルデータを削除。
-			DeleteGO(m_skinModelRender_Door);
+			//DeleteGO(m_skinModelRender_Door);
 
 			//ドアの当たり判定を削除。
-			m_physicsStaticObject.Release();
+			//m_physicsStaticObject.Release();
 			m_doorbreakFlg = true;
 		}
 	}

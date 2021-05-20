@@ -361,6 +361,7 @@
     <ClCompile Include="tkSoundSource.cpp" />
     <ClCompile Include="tkWaveFile.cpp" />
     <ClCompile Include="tkWaveFileBank.cpp" />
+    <ClCompile Include="TreasureBox.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\ExEngine\effect\Effect.h" />
@@ -473,6 +474,7 @@
     <ClInclude Include="tkUtil.h" />
     <ClInclude Include="tkWaveFile.h" />
     <ClInclude Include="tkWaveFileBank.h" />
+    <ClInclude Include="TreasureBox.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -110,6 +110,7 @@
     <ClCompile Include="..\..\ExEngine\effect\EffectEngine.cpp" />
     <ClCompile Include="DeathBlock.cpp" />
     <ClCompile Include="SoundManager.cpp" />
+    <ClCompile Include="TreasureBox.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\ExEngine\ExEngine.h" />
@@ -503,6 +504,7 @@
     <ClInclude Include="..\..\ExEngine\effect\EffectEngine.h" />
     <ClInclude Include="DeathBlock.h" />
     <ClInclude Include="SoundManager.h" />
+    <ClInclude Include="TreasureBox.h" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\MiniEngine\Animation.h">

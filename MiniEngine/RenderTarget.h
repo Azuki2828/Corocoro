@@ -66,7 +66,7 @@ public:
 			g_graphicsEngine->GetFrameBufferHeight(),
 			1,
 			1,
-			DXGI_FORMAT_R32G32_FLOAT,
+			DXGI_FORMAT_R32G32B32A32_FLOAT,
 			DXGI_FORMAT_D32_FLOAT
 		);
 	}

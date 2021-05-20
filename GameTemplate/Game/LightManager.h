@@ -22,6 +22,7 @@ struct LigData {
 	float metaric = 0.0f;
 	float smooth = 0.5f;
 	bool edge = false;
+	float powValue = 0.0f;
 };
 
 class LightManager

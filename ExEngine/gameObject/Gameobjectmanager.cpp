@@ -70,6 +70,7 @@ void GameObjectManager::ExecuteUpdate()
 		break;
 	}
 }
+extern GaussianBlur g_blur;
 void GameObjectManager::ExecuteRender(RenderContext& rc)
 {
 	//レンダラーを変更するならここを改造していくと良い。
@@ -102,6 +103,7 @@ void GameObjectManager::ExecuteRender(RenderContext& rc)
 	rc.ClearRenderTargetView(*RenderTarget::GetZPrepassRenderTarget());
 	rc.SetRenderMode(RenderContext::Render_Mode::RenderMode_ZPrepass);
 
+	
 	for (auto& goList : m_gameObjectListArray) {
 		for (auto& go : goList) {
 			go->RenderWrapper(rc);
@@ -110,6 +112,7 @@ void GameObjectManager::ExecuteRender(RenderContext& rc)
 
 	rc.WaitUntilFinishDrawingToRenderTarget(*RenderTarget::GetZPrepassRenderTarget());
 
+	g_blur.ExecuteOnGPU(rc, 50.0f);
 	// レンダリングターゲットをmainRenderTargetに変更する
 		// レンダリングターゲットとして利用できるまで待つ
 	rc.WaitUntilToPossibleSetRenderTarget(*RenderTarget::GetMainRenderTarget());

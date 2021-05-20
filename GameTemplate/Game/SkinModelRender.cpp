@@ -2,6 +2,9 @@
 #include "DirectionLight.h"
 
 
+extern GaussianBlur g_blur;
+
+
 void SkinModelRender::Init(bool DirectionFlg, bool PointLightFlg) {
 
 	//char textureDir[256];
@@ -68,7 +71,7 @@ void SkinModelRender::Init(bool DirectionFlg, bool PointLightFlg) {
 
 		//シャドウマップを拡張SRVに設定する。
 		initData.m_expandShaderResoruceView = &RenderTarget::GetShadowMap()->GetRenderTargetTexture();
-		initData.m_expandShaderResoruceView_2 = &RenderTarget::GetZPrepassRenderTarget()->GetRenderTargetTexture();
+		initData.m_expandShaderResoruceView_2 = &g_blur.GetBokeTexture();//&RenderTarget::GetZPrepassRenderTarget()->GetRenderTargetTexture();
 
 		//m_lightCameraData.m_viewProj = Camera::GetLightCamera()->GetViewProjectionMatrix();
 		//m_lightCameraData.eyePos = g_camera3D->GetPosition();
@@ -123,7 +126,7 @@ void SkinModelRender::Init(bool DirectionFlg, bool PointLightFlg) {
 		ModelInitData modelInitData;
 		modelInitData.m_tkmFilePath = m_fileNametkm;
 		modelInitData.m_fxFilePath = "Assets/shader/ZPrepass.fx";
-		modelInitData.m_colorBufferFormat = DXGI_FORMAT_R32G32_FLOAT;
+		modelInitData.m_colorBufferFormat = DXGI_FORMAT_R32G32B32A32_FLOAT;
 
 		m_zprepassModel.Init(modelInitData);
 	}
@@ -139,7 +142,10 @@ void SkinModelRender::Update() {
 	//スケルトンを更新。
 	m_skeleton.Update(m_model.GetWorldMatrix());
 	//アニメーションを進める。
-	m_animation.Progress(1.0f / 60.0f);
+
+	if (m_animFlg) {
+		m_animation.Progress(1.0f / 60.0f);
+	}
 
 	m_model.UpdateWorldMatrix(m_pos, m_rot, m_sca);
 	m_shadowModel.UpdateWorldMatrix(

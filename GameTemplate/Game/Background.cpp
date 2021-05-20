@@ -5,6 +5,7 @@
 #include "GameLevel2D.h"
 #include "Game.h"
 #include "Player.h"
+#include "TreasureBox.h"
 #include "DeathBlock.h"
 
 bool Background::Start()
@@ -53,7 +54,7 @@ bool Background::Start()
 	case 1:
 		//これがlevelのLoadの基盤。
 		//特定のオブジェクトを指定する（ここでいうフック）場合は、名前検索する。
-		m_level.Init("Assets/level/stage01_inv.tkl", [&](LevelObjectData& objData) {
+		m_level.Init("Assets/level/stage01_tresure.tkl", [&](LevelObjectData& objData) {
 
 
 			//return true;が自分で生成。return false;がパソコンが生成してくれる。
@@ -75,6 +76,21 @@ bool Background::Start()
 				}
 				m_key->InitDoor("KeyBox");
 				m_key->SetPositionDoor(objData.position);
+				return true;
+			}
+			else if (objData.EqualObjectName(L"TreasureBox") == true) {
+
+				m_treasureBox = NewGO<TreasureBox>(0, "treasureBox");
+				Vector3 pos = objData.position;
+				pos.x -= 75.0f;
+				pos.z -= 50.0f;
+				m_treasureBox->SetPosition(pos);
+				m_treasureBox->SetRotation(objData.rotation);
+				Vector3 sca = objData.scale;
+				sca.x = 2.5f;
+				sca.y = 2.5f;
+				sca.z = 2.5f;
+				m_treasureBox->SetScale(sca);
 				return true;
 			}
 			else if (objData.EqualObjectName(L"Magnet_N100_100") == true) {

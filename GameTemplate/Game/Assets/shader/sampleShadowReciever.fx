@@ -27,6 +27,7 @@ cbuffer ShadowCb : register(b1){
 	float metaric;
 	float smooth;
 	bool edge;
+	float powValue;
 };
 
 //頂点シェーダーへの入力。
@@ -265,61 +266,77 @@ float4 PSMain( SPSIn psIn ) : SV_Target0
 		}
 	} 
 
-	//if (edge) {
-	//	float2 uv = psIn.posInProj.xy * float2(0.5f, -0.5f) + 0.5f;
-	//
-	//	float2 uvOffset[8] = {
-	//		float2(0.0f,  1.0f / 720.0f),
-	//		float2(0.0f, -1.0f / 720.0f),
-	//		float2(1.0f / 1280.0f,           0.0f),
-	//		float2(-1.0f / 1280.0f,           0.0f),
-	//		float2(1.0f / 1280.0f,  1.0f / 720.0f),
-	//		float2(-1.0f / 1280.0f,  1.0f / 720.0f),
-	//		float2(1.0f / 1280.0f, -1.0f / 720.0f),
-	//		float2(-1.0f / 1280.0f, -1.0f / 720.0f)
-	//	};
-	//
-	//	float depth = g_depthTexture.Sample(g_sampler, uv).x;
-	//
-	//	float depth2 = 0.0f;
-	//	for (int i = 0; i < 8; i++) {
-	//		depth2 += g_depthTexture.Sample(g_sampler, uv + uvOffset[i]).x;
-	//	}
-	//	depth2 /= 8.0f;
-	//	if (abs(depth - depth2) > 0.00005f) {
-	//		return float4(0.0f, 0.0f, 0.0f, 1.0f);
-	//	}
-	//	
-	//	float normalDistance1a = g_depthTexture.Sample(g_sampler, uv).y;
-	//	float normalDistance2a = 0.0f;
-	//	for (int i = 0; i < 8; i++) {
-	//		normalDistance2a += g_depthTexture.Sample(g_sampler, uv + uvOffset[i]).y;
-	//	}
-	//	normalDistance2a /= 8.0f;
-	//	if (abs(normalDistance1a - normalDistance2a) > 0.00005f) {
-	//		return float4(0.0f, 0.0f, 0.0f, 1.0f);
-	//	}
-	//
-	//	float normalDistance3a = g_depthTexture.Sample(g_sampler, uv).z;
-	//	float normalDistance4a = 0.0f;
-	//	for (int i = 0; i < 8; i++) {
-	//		normalDistance4a += g_depthTexture.Sample(g_sampler, uv + uvOffset[i]).z;
-	//	}
-	//	normalDistance4a /= 8.0f;
-	//	if (abs(normalDistance3a - normalDistance4a) > 0.00005f) {
-	//		return float4(0.0f, 0.0f, 0.0f, 1.0f);
-	//	}
-	//
-	//	float normalDistance5a = g_depthTexture.Sample(g_sampler, uv).w;
-	//	float normalDistance6a = 0.0f;
-	//	for (int i = 0; i < 8; i++) {
-	//		normalDistance6a += g_depthTexture.Sample(g_sampler, uv + uvOffset[i]).w;
-	//	}
-	//	normalDistance6a /= 8.0f;
-	//	if (abs(normalDistance5a - normalDistance6a) > 0.00005f) {
-	//		return float4(0.0f, 0.0f, 0.0f, 1.0f);
-	//	}
-	//}
+	if (edge) {
+		float2 uv = psIn.posInProj.xy * float2(0.5f, -0.5f) + 0.5f;
+	
+		float2 uvOffset[8] = {
+			float2(0.0f,  0.5f / 720.0f),
+			float2(0.0f, -0.5f / 720.0f),
+			float2(0.5f / 1280.0f,           0.0f),
+			float2(-0.5f / 1280.0f,           0.0f),
+			float2(0.5f / 1280.0f,  0.5f / 720.0f),
+			float2(-0.5f / 1280.0f,  0.5f / 720.0f),
+			float2(0.5f / 1280.0f, -0.5f / 720.0f),
+			float2(-0.5f / 1280.0f, -0.5f / 720.0f)
+		};
+	
+		float depth = g_depthTexture.Sample(g_sampler, uv).x;
+	
+		float depth2 = 0.0f;
+		for (int i = 0; i < 8; i++) {
+			depth2 += g_depthTexture.Sample(g_sampler, uv + uvOffset[i]).x;
+		}
+		depth2 /= 8.0f;
+		/*if (abs(depth - depth2) > 0.0005f) {
+			return float4(0.0f, 0.0f, 0.0f, 1.0f);
+		}*/
+		
+		float3 normalDistance1 = g_depthTexture.Sample(g_sampler, uv).xyz;
+		float3 normalDistance2 = 0.0f;
+		for (int i = 0; i < 8; i++) {
+			normalDistance2 = g_depthTexture.Sample(g_sampler, uv + uvOffset[i]).xyz;
+			
+			
+			float t = dot(normalDistance1, normalDistance2);
+			if (t < 0.5f) {
+				//法線が結構違う。
+				t = max(0.0f, t);
+				t += 0.5f;
+				finalColor *= pow( t, powValue);
+				break;
+			}
+		}
+		
+		/*float normalDistance1a = g_depthTexture.Sample(g_sampler, uv).y;
+		float normalDistance2a = 0.0f;
+		for (int i = 0; i < 8; i++) {
+			normalDistance2a += g_depthTexture.Sample(g_sampler, uv + uvOffset[i]).y;
+		}
+		normalDistance2a /= 8.0f;
+		if (abs(normalDistance1a - normalDistance2a) > 0.1f) {
+			return float4(0.0f, 0.0f, 0.0f, 1.0f);
+		}
+	
+		float normalDistance3a = g_depthTexture.Sample(g_sampler, uv).z;
+		float normalDistance4a = 0.0f;
+		for (int i = 0; i < 8; i++) {
+			normalDistance4a += g_depthTexture.Sample(g_sampler, uv + uvOffset[i]).z;
+		}
+		normalDistance4a /= 8.0f;
+		if (abs(normalDistance3a - normalDistance4a) > 0.1f) {
+			return float4(0.0f, 0.0f, 0.0f, 1.0f);
+		}
+	
+		float normalDistance5a = g_depthTexture.Sample(g_sampler, uv).w;
+		float normalDistance6a = 0.0f;
+		for (int i = 0; i < 8; i++) {
+			normalDistance6a += g_depthTexture.Sample(g_sampler, uv + uvOffset[i]).w;
+		}
+		normalDistance6a /= 8.0f;
+		if (abs(normalDistance5a - normalDistance6a) > 0.1f) {
+			return float4(0.0f, 0.0f, 0.0f, 1.0f);
+		}*/
+	}
 
 	return finalColor;
 	//return albedoColor;

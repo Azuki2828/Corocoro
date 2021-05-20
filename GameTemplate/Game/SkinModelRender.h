@@ -31,6 +31,15 @@ public:
 		m_animNum = animNum;
 	}
 
+	void SetAnimFlg(bool flg) {
+		m_animFlg = flg;
+	}
+
+	void PlayAnimation(int animNo, float interpolateTime = 0.0f)
+	{
+		m_animation.Play(animNo, interpolateTime);
+	}
+
 	//モデルを取得。
 	Model* GetModel() { return &m_model; }
 
@@ -87,6 +96,7 @@ public:
 	}
 private:
 	int m_animNum;
+	bool m_animFlg = false;
 	const char* m_fileNametkm = nullptr;
 	const char* m_fileNametks = nullptr;
 	bool m_shadowCasterFlag = false;	//シャドウキャスターフラグ。

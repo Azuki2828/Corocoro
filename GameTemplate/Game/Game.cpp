@@ -176,7 +176,7 @@ void Game::Update() {
 		m_fontRender->SetText(text1);
 
 
-	if (m_player->GetdoorbreakFlg() == true && doorbreakSoundFlg == true) {
+	if (m_player->GetTreasureFlg() == true && doorbreakSoundFlg == true) {
 		doorbreakSoundFlg = false;			//ゴールしたら計測終了
 		NewGO<ResultScene>(0,"resultscene");
 	}
