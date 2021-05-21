@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "TreasureBox.h"
 #include "Player.h"
+#include "Game.h"
 
 bool TreasureBox::Start() {
 
@@ -55,11 +56,37 @@ bool TreasureBox::Start() {
 
 void TreasureBox::Update() {
 
+	static float effectTime = 0.0f;
+
 	PhysicsWorld::GetInstance()->ContactTest(*m_player->GetRigidBody(), [&](const btCollisionObject& contactObject) {
 
 		if (m_ghostBox.IsSelf(contactObject) == true && m_player->GetKeyFlg()) {
+
+			if (!soundFlg) {
+				SoundManager::GetInstance()->Play(SE_BoxOpen);
+				soundFlg = true;
+			}
 			m_skinModelRender->SetAnimFlg(true);
 			m_treasureFlg = true;
 		}
-		});
+	});
+
+
+	static bool effectFlg = false;
+	//if (m_player->GetTreasureFlg()) {
+	//	effectTime += GameTime().GameTimeFunc().GetFrameDeltaTime();
+	//	if (effectTime >= 0.5f && !effectFlg) {
+	//		Effect* treasure = nullptr;
+	//		treasure = NewGO<Effect>(0);
+	//		treasure->Init(u"Assets/effect/treasure_4.efk");
+	//		treasure->SetScale({ 80.0f,80.0f,80.0f });
+	//		Vector3 effPos = m_pos;
+	//		effPos += { 200.0f, -150.0f, -500.0f };
+	//		treasure->SetPosition(effPos);
+	//		//treasure->Update();
+	//		treasure->Play();
+	//	
+	//		effectFlg = true;
+	//	}
+	//}
 }

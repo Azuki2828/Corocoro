@@ -148,7 +148,7 @@ void Game::Update() {
 	if (m_startsoundflg == false) {
 		m_timer += GameTime::GameTimeFunc().GetFrameDeltaTime();		//タイム計測開始のためのタイム
 	}
-	if (m_timer >= m_gameStartTime && doorbreakSoundFlg == true) {
+	if (m_timer >= m_gameStartTime) {
 		m_time += GameTime::GameTimeFunc().GetFrameDeltaTime();
 	}
 
@@ -176,9 +176,20 @@ void Game::Update() {
 		m_fontRender->SetText(text1);
 
 
-	if (m_player->GetTreasureFlg() == true && doorbreakSoundFlg == true) {
-		doorbreakSoundFlg = false;			//ゴールしたら計測終了
-		//NewGO<ResultScene>(0,"resultscene");
+	if (m_player->GetTreasureFlg() == true) {			//ゴールしたら計測終了
+
+		static float resultTime = 0.0f;
+
+		resultTime += GameTime().GameTimeFunc().GetFrameDeltaTime();
+
+		if (m_resultScene == nullptr && resultTime >= 3.0f) {
+			//BGMを削除。
+			SoundManager::GetInstance()->Release(BGM_GameUpTempo);
+
+			//ゲームクリアのサウンドを再生。
+			SoundManager::GetInstance()->Play(SE_GameClear);
+			m_resultScene = NewGO<ResultScene>(0, "resultscene");
+		}
 	}
 
 

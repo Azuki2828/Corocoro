@@ -108,16 +108,16 @@ void Key::Update() {
 
 	static float keyTime = 0.0f;
 
-	//if (m_skinModelRender_Key != nullptr) {
-	//	
-	//	keyTime += GameTime::GameTimeFunc().GetFrameDeltaTime();
-	//	static Quaternion rot;
-	//	rot.SetRotationDeg(Vector3::AxisY, 180.0f * keyTime);
-	//	m_skinModelRender_Key->SetRotation(rot);
-	//	if (keyTime >= 4.0f) {
-	//		keyTime = 0.0f;
-	//	}
-	//}
+	if (m_skinModelRender_Key != nullptr) {
+		
+		keyTime += GameTime::GameTimeFunc().GetFrameDeltaTime();
+		static Quaternion rot;
+		rot.SetRotationDeg(Vector3::AxisY, 180.0f * keyTime);
+		m_skinModelRender_Key->SetRotation(rot);
+		if (keyTime >= 4.0f) {
+			keyTime = 0.0f;
+		}
+	}
 
 	//3m以内なら鍵取得。
 	Vector3 keyLength;
@@ -147,6 +147,7 @@ void Key::Update() {
 			ChangeState->Init(u"Assets/effect/KeyGet.efk");
 			ChangeState->SetScale({ 200.0f,200.0f,200.0f });
 			Vector3 effPos = m_keyPos;
+			effPos.y += 150.0f;
 			ChangeState->SetPosition(effPos);
 			ChangeState->Play();
 
@@ -182,18 +183,12 @@ void Key::Update() {
 	}
 
 	//鍵を取得しているうえでドアとの距離が3m以内ならドアを破壊。
-	if (m_player->GetKeyFlg()) {
-		Vector3 doorLength;
-		doorLength = m_player->GetPosition() - m_doorPos;
-		if (doorLength.Length() <= 300.0f) {
+
+		if (m_player->GetTreasureFlg()) {
 
 			if (GameClearSoundFlag == true) {
 
-				//BGMを削除。
-				SoundManager::GetInstance()->Release(BGM_GameUpTempo);
-
-				//ゲームクリアのサウンドを再生。
-				SoundManager::GetInstance()->Play(SE_GameClear);
+				
 
 				//falseにして抜ける。
 				GameClearSoundFlag = false;
@@ -208,7 +203,5 @@ void Key::Update() {
 
 			//ドアの当たり判定を削除。
 			//m_physicsStaticObject.Release();
-			m_doorbreakFlg = true;
 		}
-	}
 }

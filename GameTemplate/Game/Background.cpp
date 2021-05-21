@@ -85,7 +85,7 @@ bool Background::Start()
 				treasure->Init(u"Assets/effect/treasure_4.efk");
 				treasure->SetScale({ 80.0f,80.0f,80.0f });
 				Vector3 effPos = objData.position;
-				 effPos += { 200.0f,50.0f,-200.0f };
+				 effPos += { 200.0f,-150.0f,-200.0f };
 				treasure->SetPosition(effPos);
 				//treasure->Update();
 				treasure->Play();
@@ -259,6 +259,16 @@ bool Background::Start()
 				m_key->SetPositionDoor(objData.position);
 
 				m_key->SetScaleDoor(objData.scale);
+				
+				Effect* treasure = nullptr;
+				treasure = NewGO<Effect>(0);
+				treasure->Init(u"Assets/effect/treasure_4.efk");
+				treasure->SetScale({ 80.0f,80.0f,80.0f });
+				Vector3 effPos = objData.position;
+				effPos += { 200.0f, -150.0f, -200.0f };
+				treasure->SetPosition(effPos);
+				//treasure->Update();
+				treasure->Play();
 				return true;
 			}
 			else if (objData.EqualObjectName(L"TreasureBox") == true) {
@@ -416,6 +426,16 @@ bool Background::Start()
 				m_key->SetPositionDoor(objData.position);
 
 				m_key->SetScaleDoor(objData.scale);
+
+				Effect* treasure = nullptr;
+				treasure = NewGO<Effect>(0);
+				treasure->Init(u"Assets/effect/treasure_4.efk");
+				treasure->SetScale({ 80.0f,80.0f,80.0f });
+				Vector3 effPos = objData.position;
+				effPos += { 200.0f, -150.0f, -200.0f };
+				treasure->SetPosition(effPos);
+				//treasure->Update();
+				treasure->Play();
 				return true;
 			}
 			else if (objData.EqualObjectName(L"TreasureBox") == true) {

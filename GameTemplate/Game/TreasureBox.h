@@ -25,6 +25,7 @@ public:
 	}
 
 private:
+	bool soundFlg = false;
 	bool m_treasureFlg;
 	Vector3 m_pos;
 	Quaternion m_rot;

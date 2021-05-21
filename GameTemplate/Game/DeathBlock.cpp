@@ -14,7 +14,7 @@ bool DeathBlock::Start() {
 
 	m_death = NewGO<Effect>(0);
 	m_death->Init(u"Assets/effect/death.efk");
-	m_death->SetScale({ 100,100.0f,100.0f });
+	m_death->SetScale({ 100.0f,100.0f,100.0f });
 
 	m_skinModelRender->SetScale(m_sca);
 	auto mainCamera = FindGO<MainCamera>("maincamera");
@@ -40,33 +40,32 @@ bool DeathBlock::Start() {
 	return true;
 }
 
-
-void DeathBlock::Update()
-{
-
 void DeathBlock::Update() {
+
+	Vector3 effPos;
+
 	PhysicsWorld::GetInstance()->ContactTest(*m_player->GetRigidBody(), [&](const btCollisionObject& contactObject) {
 		m_ligData.uvNoiseOffset += 0.01f;
 		float t;
 		m_ligData.uvNoiseOffset = modf(m_ligData.uvNoiseOffset, &t);
 		if (m_ghostBox.IsSelf(contactObject) == true) {
-			
+
 			//m_ghostObjectとぶつかった
 			//m_pointLig->SetActiveFlag(true);	//ポイントライトをつける。
 			//m_ghostBox.SetPosition({ 700.0f,405.0f,0.0f });
-			if (m_player->GetKeyFlg()) {
-				m_player->SetPosition(m_key->GetKeyPos());
-			}
+			m_hitPlayer = true;
+			effPos = m_player->GetPosition();
+			//if (m_player->GetKeyFlg()) {
+			//	m_player->SetPosition(m_key->GetKeyPos());
+			//}
+		}
 		});
-	}
 
 	if (m_hitPlayer)
 	{
 			//死ぬエフェクト再生と効果音
 		if (m_player->Getrespawn() == false) {
 
-
-			Vector3 effPos = m_player->GetPosition();
 			m_player->Setrespawn(true);
 			m_death->SetPosition(effPos);
 			deathActiveState = m_player->DeactivatePlayerModel();
@@ -113,6 +112,6 @@ void DeathBlock::Update() {
 			m_player->ClearPower();
 
 			//g_engine->SetGameState(GameState::State_Dead);
-		}
 	}
+}
 

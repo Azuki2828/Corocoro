@@ -6,6 +6,7 @@ class MainCamera;
 class GameTime;
 class Key;
 class SaveData;
+class ResultScene;
 
 enum SoundList {
 	BGM_Title,
@@ -17,6 +18,7 @@ enum SoundList {
 	SE_CountDown,
 	SE_NSChange,
 	SE_KeyGet,
+	SE_BoxOpen,
 
 	Sound_Num
 };
@@ -62,7 +64,6 @@ private:
 	float m_time = 0;
 	CSoundSource* m_sound = nullptr;
 	bool m_startsoundflg = true;
-	bool doorbreakSoundFlg = true;
 	float m_gameStartTime = 0.0f;
 
 
@@ -72,6 +73,7 @@ private:
 	DirectionLight* m_dirLight = nullptr;
 	SaveData* m_savedata = nullptr;
 	SaveData* m_besttime = nullptr;
+	ResultScene* m_resultScene = nullptr;
 
 	bool KauntoDownSprite = false;
 	int KauntoDownTimer = 0;

@@ -45,6 +45,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	SoundManager::GetInstance()->Init(L"Assets/sound/CountDown.wav", SE_CountDown, false, SoundType::Type_SE);
 	SoundManager::GetInstance()->Init(L"Assets/sound/NSChange.wav", SE_NSChange, false, SoundType::Type_SE);
 	SoundManager::GetInstance()->Init(L"Assets/sound/KeyGet.wav", SE_KeyGet, false, SoundType::Type_SE);
+	SoundManager::GetInstance()->Init(L"Assets/sound/BoxOpen.wav", SE_BoxOpen, false, SoundType::Type_SE);
 
 	//////////////////////////////////////
 	// 初期化を行うコードを書くのはここまで！！！

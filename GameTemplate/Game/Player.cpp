@@ -214,11 +214,6 @@ void Player::Update()
 
 				SoundManager::GetInstance()->Play(SE_NSChange);
 
-
-					NSChangeSound->Init(L"Assets/sound/NSChange.wav");
-					NSChangeSound->SetVolume(0.5f);
-					NSChangeSound->Play(false);	//ワンショット再生
-
 					//アクティブフラグを更新。
 					for (int i = 0; i < enPlayer_Num; i++) {
 						if (m_skinModelRender[i]->IsActive() == true) {
