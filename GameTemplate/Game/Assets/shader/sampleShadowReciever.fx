@@ -26,8 +26,10 @@ cbuffer ShadowCb : register(b1){
 	float4x4 mLVP;
 	float metaric;
 	float smooth;
-	bool edge;
+	int edge;
 	float powValue;
+	float uvNoiseMul;
+	float uvNoiseOffset;
 };
 
 //頂点シェーダーへの入力。
@@ -163,7 +165,27 @@ float CalcDiffuseFromFresnel(float3 N, float3 L, float3 V, float roughness)
 	// 乗算して最終的な拡散反射率を求めている。PIで除算しているのは正規化を行うため
 	return (FL * FV * energyFactor);
 }
+// ハッシュ関数
+float hash(float n)
+{
+	return frac(sin(n) * 43758.5453);
+}
 
+// 3次元ベクトルからシンプレックスノイズを生成する関数
+float SimplexNoise(float3 x)
+{
+	// The noise function returns a value in the range -1.0f -> 1.0f
+	float3 p = floor(x);
+	float3 f = frac(x);
+
+	f = f * f * (3.0 - 2.0 * f);
+	float n = p.x + p.y * 57.0 + 113.0 * p.z;
+
+	return lerp(lerp(lerp(hash(n + 0.0), hash(n + 1.0), f.x),
+		lerp(hash(n + 57.0), hash(n + 58.0), f.x), f.y),
+		lerp(lerp(hash(n + 113.0), hash(n + 114.0), f.x),
+			lerp(hash(n + 170.0), hash(n + 171.0), f.x), f.y), f.z);
+}
 /// <summary>
 /// 影が落とされる3Dモデル用の頂点シェーダー。
 /// </summary>
@@ -200,8 +222,13 @@ float4 PSMain( SPSIn psIn ) : SV_Target0
 	// 法線を計算
 	float3 normal = GetNormal(psIn.normal, psIn.tangent, psIn.biNormal, psIn.uv);
 
+	float2 uv = psIn.posInProj.xy * float2(0.5f, -0.5f) + 0.5f;
+
+	// シンプレックスノイズを利用して、UVオフセットを計算する
+	float uOffset = SimplexNoise(float3(uv+ uvNoiseOffset, 0.0f) * 256.0f) * 0.5f;
+
 	// step-2 アルベドカラー、スペキュラカラー、金属度をサンプリングする
-	float4 albedoColor = g_albedo.Sample(g_sampler, psIn.uv);
+	float4 albedoColor = g_albedo.Sample(g_sampler, psIn.uv + uOffset * uvNoiseMul);
 	float3 specColor = albedoColor;
 	
 	
@@ -266,7 +293,7 @@ float4 PSMain( SPSIn psIn ) : SV_Target0
 		}
 	} 
 
-	if (edge) {
+	if (edge > 0) {
 		float2 uv = psIn.posInProj.xy * float2(0.5f, -0.5f) + 0.5f;
 	
 		float2 uvOffset[8] = {
@@ -297,13 +324,27 @@ float4 PSMain( SPSIn psIn ) : SV_Target0
 			normalDistance2 = g_depthTexture.Sample(g_sampler, uv + uvOffset[i]).xyz;
 			
 			
-			float t = dot(normalDistance1, normalDistance2);
-			if (t < 0.5f) {
-				//法線が結構違う。
-				t = max(0.0f, t);
-				t += 0.5f;
-				finalColor *= pow( t, powValue);
-				break;
+			if (edge == 1) {
+				float t = dot(normalDistance1, normalDistance2);
+				if (t < 0.5f) {
+					//法線が結構違う。
+					t = max(0.0f, t);
+					t += 0.5f;
+					finalColor *= pow(t, powValue);
+					break;
+				}
+			}
+			else if (edge == 2) {
+
+				float t = dot(normalDistance1, normalDistance2);
+				if (t > 0.5f) {
+					//法線が結構違う。
+					t = max(0.0f, t);
+					t -= 0.5f;
+					t *= 2.0f;
+					finalColor *= pow(1.0-t, 0.5f);
+					break;
+				}
 			}
 		}
 		

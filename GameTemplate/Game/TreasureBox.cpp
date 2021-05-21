@@ -32,7 +32,7 @@ bool TreasureBox::Start() {
 	m_ligData.ambient.Set(0.8f, 0.8f, 0.8f);
 	m_ligData.metaric = 1.0f;
 	m_ligData.smooth = 0.35f; 
-	m_ligData.edge = true;
+	m_ligData.edge = Edge_1;
 	m_ligData.powValue = 0.7f;
 
 	m_skinModelRender->SetUserLigData(&m_ligData);
@@ -57,7 +57,7 @@ void TreasureBox::Update() {
 
 	PhysicsWorld::GetInstance()->ContactTest(*m_player->GetRigidBody(), [&](const btCollisionObject& contactObject) {
 
-		if (m_ghostBox.IsSelf(contactObject) == true) {
+		if (m_ghostBox.IsSelf(contactObject) == true && m_player->GetKeyFlg()) {
 			m_skinModelRender->SetAnimFlg(true);
 			m_treasureFlg = true;
 		}

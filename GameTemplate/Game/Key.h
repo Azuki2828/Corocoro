@@ -21,10 +21,18 @@ public:
 	const Vector3 GetKeyPos() { return m_keyPos; }
 
 	//鍵の座標を設定する関数。
-	void SetPositionKey(Vector3 pos) { m_keyPos = pos; }
+	void SetPositionKey(const Vector3& pos) { m_keyPos = pos; }
 
 	//ドアの座標を設定する関数。
-	void SetPositionDoor(Vector3 pos) { m_doorPos = pos; }
+	void SetPositionDoor(const Vector3& pos) { m_doorPos = pos; }
+
+	void SetScaleKey(const Vector3& sca) {
+		m_keyScale = sca;
+	}
+
+	void SetScaleDoor(const Vector3& sca) {
+		m_Doorscale = sca;
+	}
 
 	void Update()override final;
 	bool GetdoorbreakFlg() { return m_doorbreakFlg; };
@@ -45,7 +53,9 @@ private:
 
 	Player* m_player = nullptr;
 	Vector3 m_keyPos;		//鍵の座標。
+	Vector3 m_keyScale;
 	Vector3 m_doorPos;		//ドアの座標。
+	Vector3 m_Doorscale;
 	SpriteRender* m_spriteRender = nullptr;		//スプライトレンダー
 	CSoundSource* m_sound = nullptr;			//効果音追加
 

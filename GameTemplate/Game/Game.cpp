@@ -178,7 +178,7 @@ void Game::Update() {
 
 	if (m_player->GetTreasureFlg() == true && doorbreakSoundFlg == true) {
 		doorbreakSoundFlg = false;			//ゴールしたら計測終了
-		NewGO<ResultScene>(0,"resultscene");
+		//NewGO<ResultScene>(0,"resultscene");
 	}
 
 

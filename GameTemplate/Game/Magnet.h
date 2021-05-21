@@ -63,7 +63,7 @@ public:
 		m_ligData.ambient.Set(0.8f, 0.8f, 0.8f);
 		m_ligData.metaric = 1.0f;
 		m_ligData.smooth = 0.35f;
-		m_ligData.edge = true;
+		m_ligData.edge = Edge_1;
 		m_ligData.powValue = 10.0f;
 		m_skinModelRender->SetUserLigData(&m_ligData);
 		//m_skinModelRender->SetExpandShaderResourceView_2(&RenderTarget::GetZPrepassRenderTarget()->GetRenderTargetTexture());
