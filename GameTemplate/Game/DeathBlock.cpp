@@ -9,6 +9,13 @@ bool DeathBlock::Start() {
 	m_player = FindGO<Player>("player");
 	m_key = FindGO<Key>("key");
 	m_skinModelRender->SetPosition(m_pos);
+
+	m_skinModelRender->SetScale(m_scale);
+
+	m_death = NewGO<Effect>(0);
+	m_death->Init(u"Assets/effect/death.efk");
+	m_death->SetScale({ 100,100.0f,100.0f });
+
 	m_skinModelRender->SetScale(m_sca);
 	auto mainCamera = FindGO<MainCamera>("maincamera");
 	mainCamera->changeRotCameraEvent.push_back([&]() {
@@ -21,16 +28,21 @@ bool DeathBlock::Start() {
 	ghostPos = m_pos;
 	ghostPos.x += 50.0f * m_sca.x;
 	ghostPos.y += 50.0f;
+
 	ghostPos.z -= 200.0f;
 	m_ghostBox.CreateBox(
-		ghostPos,	//‘æˆêˆø”‚ÍÀ•WB
-		Quaternion::Identity,		//‘æ“ñˆø”‚Í‰ñ“]ƒNƒH[ƒ^ƒjƒIƒ“B
-		{ 100.0f * m_sca.x, 100.0f * m_sca.y, 400.0f * m_sca.z}	//‘æŽOˆø”‚Íƒ{ƒbƒNƒX‚ÌƒTƒCƒYB
+		ghostPos,	//ç¬¬ä¸€å¼•æ•°ã¯åº§æ¨™ã€‚
+		Quaternion::Identity,		//ç¬¬äºŒå¼•æ•°ã¯å›žè»¢ã‚¯ã‚©ãƒ¼ã‚¿ãƒ‹ã‚ªãƒ³ã€‚
+		{ 100.0f * m_sca.x, 100.0f * m_sca.y, 400.0f * m_sca.z}	//ç¬¬ä¸‰å¼•æ•°ã¯ãƒœãƒƒã‚¯ã‚¹ã®ã‚µã‚¤ã‚ºã€‚
 	);
 
 	m_skinModelRender->UpdateWorldMatrix();
 	return true;
 }
+
+
+void DeathBlock::Update()
+{
 
 void DeathBlock::Update() {
 	PhysicsWorld::GetInstance()->ContactTest(*m_player->GetRigidBody(), [&](const btCollisionObject& contactObject) {
@@ -39,18 +51,68 @@ void DeathBlock::Update() {
 		m_ligData.uvNoiseOffset = modf(m_ligData.uvNoiseOffset, &t);
 		if (m_ghostBox.IsSelf(contactObject) == true) {
 			
-			//m_ghostObject‚Æ‚Ô‚Â‚©‚Á‚½
-			//m_pointLig->SetActiveFlag(true);	//ƒ|ƒCƒ“ƒgƒ‰ƒCƒg‚ð‚Â‚¯‚éB
+			//m_ghostObjectã¨ã¶ã¤ã‹ã£ãŸ
+			//m_pointLig->SetActiveFlag(true);	//ãƒã‚¤ãƒ³ãƒˆãƒ©ã‚¤ãƒˆã‚’ã¤ã‘ã‚‹ã€‚
 			//m_ghostBox.SetPosition({ 700.0f,405.0f,0.0f });
 			if (m_player->GetKeyFlg()) {
 				m_player->SetPosition(m_key->GetKeyPos());
 			}
-			else {
-				m_player->SetPosition(m_startPos);
+		});
+	}
+
+	if (m_hitPlayer)
+	{
+			//æ­»ã¬ã‚¨ãƒ•ã‚§ã‚¯ãƒˆå†ç”Ÿã¨åŠ¹æžœéŸ³
+		if (m_player->Getrespawn() == false) {
+
+
+			Vector3 effPos = m_player->GetPosition();
+			m_player->Setrespawn(true);
+			m_death->SetPosition(effPos);
+			deathActiveState = m_player->DeactivatePlayerModel();
+			m_death->Play();
+			deathFlg = true;
+
+			DeathSound = NewGO<CSoundSource>(0);
+
+			DeathSound->Init(L"Assets/sound/death.wav");
+			DeathSound->SetVolume(0.5f);
+			DeathSound->Play(false);	//ãƒ¯ãƒ³ã‚·ãƒ§ãƒƒãƒˆå†ç”Ÿ
+
+			/*m_timer++;
+			if (m_timer == 60) {
+				g_engine->SetGameState(GameState::State_Game);
+				m_timer = 0;*/
 			}
+			m_timer++;
+			if (m_timer >= 90)
+			{
+				m_player->Setrespawn(false);
+				m_timer = 0;
+				m_hitPlayer = false;
+				bool* flag = &m_hitPlayer;
+
+			}
+			else if (m_timer >= 80) {
+
+				if (m_player->GetKeyFlg()) {
+					m_player->SetPosition(m_key->GetKeyPos());
+					m_player->ActivatePlayerModel(deathActiveState);
+					deathFlg = false;
+				}
+				else {
+					m_player->SetPosition(m_startPos);
+					m_player->ActivatePlayerModel(deathActiveState);
+					deathFlg = false;
+				}
+				//m_hitPlayer = false;
+
+			}
+
+
 			m_player->ClearPower();
 
 			//g_engine->SetGameState(GameState::State_Dead);
 		}
-	});
-}
+	}
+

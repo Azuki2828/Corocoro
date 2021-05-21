@@ -15,10 +15,11 @@ public:
 	void SetPosition(const Vector3& pos) {
 		m_pos = pos;
 	}
+
 	void SetScale(const Vector3& sca) {
 		m_sca = sca;
 	}
-	//�������֐��B
+	//初期化関数。
 	void Init(const char* name)
 	{
 		char filePathtkm[256];
@@ -28,7 +29,7 @@ public:
 		m_skinModelRender->SetShadowReceiverFlag(true);
 		m_skinModelRender->SetZprepassFlag(true);
 
-		//���W��o�^�B
+		//座標を登録。
 		m_ligData.m_directionLigData[0].Dir.Set(-1, -1, -1);
 		m_ligData.m_directionLigData[0].Dir.Normalize();
 		//m_ligData.m_directionLigData[0].Col.Set(10.0f, 10.0f, 0.0f, 1.0f);
@@ -46,13 +47,28 @@ public:
 		m_skinModelRender->Init(true, false);
 	}
 
+private:
+	int m_timer = 0;
+	bool m_hitPlayer = false;
+	int m_returnTimer = 0;
+	Effect *m_death = nullptr;
+	CSoundSource* DeathSound = nullptr;
+	bool n_contactTestFlag = true;
+	bool deathFlg = false;
+
+	int deathActiveState = 0; //デスブロックに触れたときのキャラクターのステートを保持
+
+public:
 	Vector3 m_pos;
 	Vector3 m_sca;
 	Vector3 m_startPos = { 0.0f,0.0f,0.0f };
+	Vector3 m_scale = g_vec3One;
 	CPhysicsGhostObject m_ghostBox;
 	SkinModelRender* m_skinModelRender = nullptr;
 	Player* m_player = nullptr;
+//	Player* m_skinMdelRender = nullptr;
 	Key* m_key = nullptr;
+
 
 	LigData m_ligData;
 };

@@ -1,6 +1,7 @@
 #pragma once
 class ResultLevel2D;
 class Game;
+class SaveData;
 
 class ResultScene : public IGameObject
 {
@@ -8,7 +9,7 @@ public:
 	~ResultScene();
 	bool Start();
 	void Update();
-
+	SaveData* NewrecordFlg = nullptr;
 
 
 	float m_result;
@@ -20,7 +21,7 @@ public:
 	FontRender* m_fontRender;		//今回のタイムを表示するためのフォントレンダー
 	Game* m_game;
 	float m_time;
-
+	
 
 
 

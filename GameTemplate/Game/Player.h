@@ -56,6 +56,20 @@ public:
 		return m_treasureBox->GetTreasureFlg();
 	};
 
+	Effect * m_NCahgeState;
+	Effect* m_SCahgeState;
+
+	const bool Getrespawn()const
+	{
+		return m_respawn;
+	}
+
+
+	void Setrespawn(const bool b) 
+	{
+		m_respawn = b;
+	}
+
 private:
 	/// <summary>
 	/// アニメーションクリップ。
@@ -102,7 +116,53 @@ private:
 
 	SkinModelRender* m_skinModelRender[enPlayer_Num] = { nullptr };
 	Font m_font;
+	
 
+//////////////////////////////
+// DeathBlockの処理で使用
+//////////////////////////////
+private:
+	bool m_deathFlag = false; //プレイヤーが死亡しているかのフラグ
+
+
+public:
+	/// <summary>
+	/// プレイヤーモデルの表示
+	/// </summary>
+	void ActivatePlayerModel(int i)
+	{
+		m_deathFlag = false;
+
+		if (i == 0) {
+			m_skinModelRender[enPlayer_0]->Activate();
+		}
+		else if (i == 1) {
+			m_skinModelRender[enPlayer_1]->Activate();
+		}
+	}
+
+	/// <summary>
+	/// プレイヤーモデルの削除
+	/// </summary>
+	int DeactivatePlayerModel()
+	{
+		m_deathFlag = true;
+
+		if (m_skinModelRender[enPlayer_0]->IsActive() == true) {
+			m_skinModelRender[enPlayer_0]->Deactivate();
+			return enPlayer_0;
+		}
+		else if (m_skinModelRender[enPlayer_1]->IsActive() == true) {
+			m_skinModelRender[enPlayer_1]->Deactivate();
+			return enPlayer_1;
+		}
+	}
+
+	
+
+
+private:
+			
 
 	SphereCollider m_sphereCollider;
 	RigidBody m_rigidBody;
@@ -111,5 +171,9 @@ private:
 	Background* m_backGround = nullptr;
 	Game* m_game = nullptr;
 	CSoundSource* NSChangeSound = nullptr;		//NS反転サウンドソース
+	
+
+	bool m_respawn = false;
+
 
 };

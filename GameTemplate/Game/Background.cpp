@@ -77,6 +77,20 @@ bool Background::Start()
 				}
 				m_key->InitDoor("KeyBox");
 				m_key->SetPositionDoor(objData.position);
+
+				
+
+				Effect* treasure = nullptr;
+				treasure = NewGO<Effect>(0);
+				treasure->Init(u"Assets/effect/treasure_4.efk");
+				treasure->SetScale({ 80.0f,80.0f,80.0f });
+				Vector3 effPos = objData.position;
+				 effPos += { 200.0f,50.0f,-200.0f };
+				treasure->SetPosition(effPos);
+				//treasure->Update();
+				treasure->Play();
+
+
 				m_key->SetScaleDoor(objData.scale);
 				return true;
 			}
@@ -93,6 +107,7 @@ bool Background::Start()
 				sca.y = 2.5f;
 				sca.z = 2.5f;
 				m_treasureBox->SetScale(sca);
+
 				return true;
 			}
 			else if (objData.EqualObjectName(L"Magnet_N100_100") == true) {
@@ -242,6 +257,7 @@ bool Background::Start()
 				}
 				m_key->InitDoor("KeyBox");
 				m_key->SetPositionDoor(objData.position);
+
 				m_key->SetScaleDoor(objData.scale);
 				return true;
 			}
@@ -374,6 +390,7 @@ bool Background::Start()
 			m_player->SetPosition({ 300.0f,300.0f,-300.0f });
 		break;
 	case 3:
+
 		m_level.Init("Assets/level/stage03_treasure.tkl", [&](LevelObjectData& objData) {
 
 
@@ -397,6 +414,7 @@ bool Background::Start()
 				}
 				m_key->InitDoor("KeyBox");
 				m_key->SetPositionDoor(objData.position);
+
 				m_key->SetScaleDoor(objData.scale);
 				return true;
 			}
@@ -521,6 +539,7 @@ bool Background::Start()
 				m_deathBlock->SetPosition(objData.position);
 				m_deathBlock->SetScale(objData.scale);
 				m_deathBlock->SetStartPos({ 300.0f,1300.0f,-300.0f });
+				m_deathBlock->SetScale(objData.scale);
 				return true;
 			}
 

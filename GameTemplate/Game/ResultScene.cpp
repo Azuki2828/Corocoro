@@ -7,7 +7,7 @@
 
 bool ResultScene::Start()
 {
-	//���U���g��ʕ\��
+	//リザルト画面表示
 	sprite = NewGO<ResultLevel2D>(0, "ResultLevel2D");
 	m_game = FindGO<Game>("game");
 
@@ -29,20 +29,20 @@ bool ResultScene::Start()
 	m_nowTime->SetScale(1.5f);
 	m_nowTime->SetPivot({ 0.0f,0.0f });
 
-	//�L�^��1���̎�
+	//記録が1桁の時
 	if (nowTime < 10) {
-		//x���W�𒲐��B
-		m_nowTime->SetPosition({ 20.0f,70.0f });	//�ꏊ
+		//x座標を調整。
+		m_nowTime->SetPosition({ 20.0f,70.0f });	//場所
 	}
-	//�L�^��10���̎�
+	//記録が10桁の時
 	if (nowTime > 10 && nowTime < 100) {
-		//x���W�𒲐��B
-		m_nowTime->SetPosition({ -15.0f,70.0f });	//�ꏊ
+		//x座標を調整。
+		m_nowTime->SetPosition({ -15.0f,70.0f });	//場所
 	}
-	//�L�^��100���̎�
+	//記録が100桁の時
 	if (nowTime > 100 && nowTime < 1000) {
-		//x���W�𒲐��B
-		m_nowTime->SetPosition({ -45.0f,70.0f });	//�ꏊ
+		//x座標を調整。
+		m_nowTime->SetPosition({ -45.0f,70.0f });	//場所
 	}
 
 	m_BestTime = NewGO<FontRender>(2);
@@ -51,31 +51,31 @@ bool ResultScene::Start()
 	m_BestTime->SetPivot({ 0.0f,0.0f });
 	m_BestTime->SetScale(1.5f);
 
-	//�L�^��1���̎�
+	//記録が1桁の時
 	if (bestTime < 10) {
-		//x���W�𒲐��B
-		m_BestTime->SetPosition({ 20.0f,-30.0f });	//�ꏊ
+		//x座標を調整。
+		m_BestTime->SetPosition({ 20.0f,-30.0f });	//場所
 	}
-	//�L�^��10���̎�
+	//記録が10桁の時
 	if (bestTime > 10 && bestTime < 100) {
-		//x���W�𒲐��B
-		m_BestTime->SetPosition({ -15.0f,-30.0f });	//�ꏊ
+		//x座標を調整。
+		m_BestTime->SetPosition({ -15.0f,-30.0f });	//場所
 	}
-	//�L�^��100���̎�
+	//記録が100桁の時
 	if (bestTime > 100 && bestTime < 1000) {
-		//x���W�𒲐��B
-		m_BestTime->SetPosition({ -45.0f,-30.0f });	//�ꏊ
+		//x座標を調整。
+		m_BestTime->SetPosition({ -45.0f,-30.0f });	//場所
 	}
 
-	//C++����̃L���X�g���@�B
+	//C++限定のキャスト方法。
 	//static_cast<int>(bestTime);
 
 	m_game = FindGO<Game>("game");
-	m_time = m_game->GetTime();		//Game�Ŏ擾�����^�C��
+	m_time = m_game->GetTime();		//Gameで取得したタイム
 	SaveData* savedata = FindGO<SaveData>("savedata");
-	savedata->FileSave();	//�^�C�����Z�[�u����
+	savedata->FileSave();	//タイムをセーブする
 
-	//Start�֐���return true;
+	//Start関数のreturn true;
 	return true;
 }
 
@@ -86,141 +86,142 @@ ResultScene::~ResultScene()
 
 void ResultScene::Update()
 {
-	//�E����or�����͂��ꂽ��A
+	//右入力or左入力されたら、
 	if (g_pad[0]->IsTrigger(enButtonRight) || g_pad[0]->IsTrigger(enButtonLeft)) {
-		//���݃Z���N�g����Ă���{�^�����u�����Ƃ�v(0��)��������A
+		//現在セレクトされているボタンが「たいとる」(0番)だったら、
 		if (NowSelect % 2 == 0) {
-			//�I�����E��1���炷�B
+			//選択を右に1つずらす。
 			NowSelect = 1;
 		}
-		//���݃Z���N�g����Ă���{�^�����u���イ��傤�v(1��)��������A
+		//現在セレクトされているボタンが「しゅうりょう」(1番)だったら、
 		else {
-			//�I��������1���炷�B
+			//選択を左に1つずらす。
 			NowSelect = 0;
 		}
-		//�ړ����ʉ��炷�B
+		//移動効果音鳴らす。
 		SoundManager::GetInstance()->Play(SE_CursolMove);
 	}
 
-	//�{�^����S�Ĕ������ɂ���B
+	//ボタンを全て半透明にする。
 	for (int i = 8; i <10 ; i++) {
 		m_resultLevel2D->GetSprite(i)->SetMulColor({ 1.0f,1.0f,1.0f,0.3f });
 	}
 
-	//���ݑI�����Ă���{�^���̋����\��
+	//現在選択しているボタンの強調表示
 	switch (NowSelect) {
 
-	//�u�����Ƃ�v�{�^�����I�΂�Ă���Ƃ��A
+	//「たいとる」ボタンが選ばれているとき、
 	case TitleBackButton:
-		//�{�^����s�����x100���ɂ���B
+		//ボタンを不透明度100％にする。
 		m_resultLevel2D->GetSprite(8)->SetMulColor({ 1.0f,1.0f,1.0f,1.0f });
 
-		//�P�U���̌������g���ă{�^�����g��k������B
+		//単振動の公式を使ってボタンを拡大縮小する。
 
-		 //�傫�����ŏ��ɂȂ����Ƃ��A
+		 //大きさが最小になったとき、
 		if (Fscale < 0.25f) {
 			ScaleUpFlag = true;
 		}
-		//�傫�����ő�ɂȂ����Ƃ��A
+		//大きさが最大になったとき、
 		if (Fscale > 0.275f) {
 			ScaleUpFlag = false;
 		}
 
 		if (ScaleUpFlag == true) {
-			//�g��
+			//拡大
 			Fscale += 0.0005f;
 		}
 		if (ScaleUpFlag == false) {
-			//�k��
+			//縮小
 			Fscale -= 0.0005f;
 		}
-		//�X�v���C�g�ɔ��f�B
+		//スプライトに反映。
 		Vscale = { Fscale,Fscale,Fscale };
 		m_resultLevel2D->GetSprite(8)->SetScale(Vscale);
 
-		//�I������Ă��Ȃ��{�^���̊g�嗦�����ɖ߂��B
+		//選択されていないボタンの拡大率を元に戻す。
 		m_resultLevel2D->GetSprite(9)->SetScale(vscale1);
 
 		break;
 
-	//�u���イ��傤�v�{�^�����I�΂�Ă���Ƃ��A
+	//「しゅうりょう」ボタンが選ばれているとき、
 	case EndButton:
-		//�{�^����s�����x100���ɂ���B
+		//ボタンを不透明度100％にする。
 		m_resultLevel2D->GetSprite(9)->SetMulColor({ 1.0f,1.0f,1.0f,1.0f });
 
-		//�P�U���̌������g���ă{�^�����g��k������B
+		//単振動の公式を使ってボタンを拡大縮小する。
 
-		 //�傫�����ŏ��ɂȂ����Ƃ��A
+		 //大きさが最小になったとき、
 		if (Fscale1 < 0.2f) {
 			ScaleUpFlag = true;
 		}
-		//�傫�����ő�ɂȂ����Ƃ��A
+		//大きさが最大になったとき、
 		if (Fscale1 > 0.225f) {
 			ScaleUpFlag = false;
 		}
 
 		if (ScaleUpFlag == true) {
-			//�g��
+			//拡大
 			Fscale1 += 0.0005f;
 		}
 		if (ScaleUpFlag == false) {
-			//�k��
+			//縮小
 			Fscale1 -= 0.0005f;
 		}
-		//�X�v���C�g�ɔ��f�B
+		//スプライトに反映。
 		Vscale = { Fscale1,Fscale1,Fscale1 };
 		m_resultLevel2D->GetSprite(9)->SetScale(Vscale);
 
-		//�I������Ă��Ȃ��{�^���̊g�嗦�����ɖ߂��B
+		//選択されていないボタンの拡大率を元に戻す。
 		m_resultLevel2D->GetSprite(8)->SetScale(vscale);
 
 		break;
 	};
 
 
-	//A�{�^��(�L�[�{�[�h��J)�������ꂽ��
+	//Aボタン(キーボードのJ)が押されたら
 	if (g_pad[0]->IsTrigger(enButtonA)) {
 
-		//����{�^�����Đ��B
+		//決定ボタン音再生。
 		SoundManager::GetInstance()->Play(SE_DecisionButton);
 
 		switch (NowSelect) {
 
-			//�u�����Ƃ�v�{�^�����I�΂�Ă���Ƃ��A
+			//「たいとる」ボタンが選ばれているとき、
 		case TitleBackButton:
-			//�Q�[����ʂɑJ�ځB
+			//ゲーム画面に遷移。
 			NewGO<TitleScene>(0);
 
 			break;
 
-			//�u�����v�{�^�����I�΂�Ă���Ƃ��A
+			//「おわる」ボタンが選ばれているとき、
 		case EndButton:
-			//�Q�[�����I���B
+			//ゲームを終了。
 			exit(EXIT_SUCCESS);
 
 			break;
 		};
-		//�N���X���폜�B
+		//クラスを削除。
 		DeleteGO(this);
 	}
 
-	//���񂫂낭�I�̕���������Ă�������
+	//しんきろく！の文字が流れていく処理
+
 	//if (NewRecordFlg)
 	//{
 	//	if (NewRecordFlgSub) {
-	//		//���񂫂낭�I�摜���������B
+	//		//しんきろく！画像を初期化。
 	//		m_spriteRender = NewGO<SpriteRender>(2);
 	//		m_spriteRender->SetPosition({ RecordPos,0.0f,0.0f });
 	//		m_spriteRender->Init("Assets/image/Record.dds", 750.0f, 750.0f);
 	//		NewRecordFlgSub = false;
 	//	}
-	//	//�E���獶�Ɉړ����鏈��
+	//	//右から左に移動する処理
 	//		m_spriteRender->SetPosition({ RecordPos,0.0f,0.0f });
 	//		RecordPos-=5;
-	//		//��ʊO�Ɉړ�����Ɩ��ʂɎc�����ɃX�v���C�g������
+	//		//画面外に移動すると無駄に残さずにスプライトを消す
 	//		if (RecordPos < -1000.0f)
 	//		{
-	//			//�����ʒu�ɖ߂�
+	//			//初期位置に戻す
 	//			RecordPos = 1100.0f;
 	//		}
 	//}
