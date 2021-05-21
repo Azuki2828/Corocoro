@@ -14,10 +14,14 @@ public:
 	filesave_t Data;
 
 
+
 	void FileSave();
 	//void Save();
 	void Load();
 	//void Update();
+
+	bool m_NewrecordFlg = false;
+	bool GetNewrecordFlg() { return m_NewrecordFlg; };
 
 	float m_time = 0.0f;
 

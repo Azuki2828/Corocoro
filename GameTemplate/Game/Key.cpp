@@ -89,6 +89,15 @@ void Key::Update() {
 			Background* background = FindGO<Background>("background");
 			DeleteGO(background->GameBGMSound);
 
+			//エフェクト再生
+			Effect* ChangeState = nullptr;
+			ChangeState = NewGO<Effect>(0);
+			ChangeState->Init(u"Assets/effect/KeyGet.efk");
+			ChangeState->SetScale({ 200.0f,200.0f,200.0f });
+			Vector3 effPos = m_keyPos;
+			ChangeState->SetPosition(effPos);
+			ChangeState->Play();
+
 
 			//GameScreen_NoGetKey.casl��폜���AGameScreen_YesGetKey.casl��ĂԂ��ƂŌ��擾��UI��쐬����B
 

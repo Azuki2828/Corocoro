@@ -48,6 +48,21 @@ bool Player::Start()
 		}
 	}
 
+	{
+		//エフェクト設定
+		m_NCahgeState = NewGO<Effect>(0);
+		m_NCahgeState->Init(u"Assets/effect/State_N2.efk");
+		m_NCahgeState->SetScale({ 95.0f,95.0f,95.0f });
+	}
+
+	{
+		//エフェクト再生
+		m_SCahgeState = NewGO<Effect>(0);
+		m_SCahgeState->Init(u"Assets/effect/State_S2.efk");
+		m_SCahgeState->SetScale({ 95.0f,95.0f,95.0f });
+	}
+	
+
 	//アニメーションを設定。
 	//m_skinModelRender->InitAnimation(m_animationClips, enAnimClip_Num);
 
@@ -147,30 +162,41 @@ void Player::Update()
 			g_vec3Zero	//力を加える剛体の相対位置
 		);
 		m_movePower = { 0.0f,0.0f,0.0f };
-		//Aボタンでプレイヤーの磁力を反転させる
+
+		//プレイヤーの位置に合わせる。
+		m_SCahgeState->SetPosition(m_pos);
+		m_NCahgeState->SetPosition(m_pos);
+
 
 		if (m_game->m_timer >= m_game->GetGameStartTime()) {
-			if (g_pad[0]->IsTrigger(enButtonA)) {
-				ChangeState();
+				//Aボタンでプレイヤーの磁力を反転させる
+			if (m_deathFlag == false) { //死んでいる場合、処理を動かさない。
+				if (g_pad[0]->IsTrigger(enButtonA)) {
+					ChangeState();
 
-				//NとSを切り替えるときの効果音再生。
+					//NとSを切り替えるときの効果音再生。
 
-				NSChangeSound = NewGO<CSoundSource>(0);
+					NSChangeSound = NewGO<CSoundSource>(0);
 
-				NSChangeSound->Init(L"Assets/sound/NSChange.wav");
-				NSChangeSound->SetVolume(0.5f);
-				NSChangeSound->Play(false);	//ワンショット再生
 
-				//アクティブフラグを更新。
-				for (int i = 0; i < enPlayer_Num; i++) {
-					if (m_skinModelRender[i]->IsActive() == true) {
-						m_skinModelRender[i]->Deactivate();
+
+					NSChangeSound->Init(L"Assets/sound/NSChange.wav");
+					NSChangeSound->SetVolume(0.5f);
+					NSChangeSound->Play(false);	//ワンショット再生
+
+					//アクティブフラグを更新。
+					for (int i = 0; i < enPlayer_Num; i++) {
+						if (m_skinModelRender[i]->IsActive() == true) {
+							m_skinModelRender[i]->Deactivate();
+						}
+						else {
+							m_skinModelRender[i]->Activate();
+						}
 					}
-					else {
-						m_skinModelRender[i]->Activate();
-					}
+
 				}
 			}
+			
 
 			Vector3 m_lightCameraTar = m_pos;
 
@@ -205,6 +231,25 @@ void Player::Update()
 				DeleteGO(this);
 			}
 		}
+
+		//pStateの極とモデルの極が違う場合、モデルの極をpStateの極に合わせる。
+		if (m_deathFlag == false) { //死んでいる場合、処理を動かさない。
+			if (pState == State_N && m_skinModelRender[enPlayer_0]->IsActive() == true)
+			{
+
+			}
+			else if (pState == State_S && m_skinModelRender[enPlayer_1]->IsActive() == true)
+			{
+
+			}
+			else {
+				for (int i = 0; i < enPlayer_Num; i++) {
+					m_skinModelRender[i]->Deactivate();
+				}
+
+				m_skinModelRender[pState]->Activate();
+			}
+		}
 }
 
 void Player::FreeUpdate() {
@@ -215,9 +260,18 @@ void Player::FreeUpdate() {
 void Player::ChangeState() {
 	if (pState == State_N) {
 		pState = State_S;
+	
+		Vector3 effPos = m_pos;
+		m_SCahgeState->SetPosition(effPos);
+		m_SCahgeState->Play();
 	}
 	else {
 		pState = State_N;
+	
+		Vector3 effPos = m_pos;
+		m_NCahgeState->SetPosition(effPos);
+		m_NCahgeState->Play();
+		
 	}
 }
 

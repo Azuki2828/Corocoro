@@ -10,6 +10,11 @@ void SaveData::FileSave()
 	float Record = m_result->GetTime();
 	//float Record = 1000.0f;
 	if (Data.record >= Record) {
+		m_NewrecordFlg = true;
+		//新記録の文字を流す
+
+
+		//新記録を入れ替える
 		Data.record = Record;
 	}
 

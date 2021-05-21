@@ -75,6 +75,18 @@ bool Background::Start()
 				}
 				m_key->InitDoor("KeyBox");
 				m_key->SetPositionDoor(objData.position);
+				
+
+				Effect* treasure = nullptr;
+				treasure = NewGO<Effect>(0);
+				treasure->Init(u"Assets/effect/treasure_4.efk");
+				treasure->SetScale({ 80.0f,80.0f,80.0f });
+				Vector3 effPos = objData.position;
+				 effPos += { 200.0f,50.0f,-200.0f };
+				treasure->SetPosition(effPos);
+				//treasure->Update();
+				treasure->Play();
+
 				return true;
 			}
 			else if (objData.EqualObjectName(L"Magnet_N100_100") == true) {
@@ -214,6 +226,18 @@ bool Background::Start()
 				}
 				m_key->InitDoor("KeyBox");
 				m_key->SetPositionDoor(objData.position);
+
+
+
+				/*Effect* treasure = nullptr;
+				treasure = NewGO<Effect>(0);
+				treasure->Init(u"Assets/effect/treasure.efk");
+				treasure->SetScale({ 95.0f,95.0f,95.0f });
+				Vector3 effPos = m_pos;
+				treasure->SetPosition(effPos);
+				treasure->Update();
+				treasure->Play();*/
+
 				return true;
 			}
 			else if (objData.EqualObjectName(L"Magnet_N100_100") == true) {
@@ -329,7 +353,7 @@ bool Background::Start()
 			m_player->SetPosition({ 300.0f,300.0f,-300.0f });
 		break;
 	case 3:
-		m_level.Init("Assets/level/stage03_inv.tkl", [&](LevelObjectData& objData) {
+		m_level.Init("Assets/level/stage03_inv_2.tkl", [&](LevelObjectData& objData) {
 
 
 			//return true;が自分で生成。return false;がパソコンが生成してくれる。
@@ -351,6 +375,16 @@ bool Background::Start()
 				}
 				m_key->InitDoor("KeyBox");
 				m_key->SetPositionDoor(objData.position);
+
+				/*Effect* treasure = nullptr;
+				treasure = NewGO<Effect>(0);
+				treasure->Init(u"Assets/effect/treasure.efk");
+				treasure->SetScale({ 95.0f,95.0f,95.0f });
+				Vector3 effPos = m_pos;
+				treasure->SetPosition(effPos);
+				treasure->Update();
+				treasure->Play();*/
+
 				return true;
 			}
 			else if (objData.EqualObjectName(L"Magnet_N100_100") == true) {
@@ -458,6 +492,7 @@ bool Background::Start()
 				m_deathBlock->Init("DeathBlock");
 				m_deathBlock->SetPosition(objData.position);
 				m_deathBlock->SetStartPos({ 300.0f,1300.0f,-300.0f });
+				m_deathBlock->SetScale(objData.scale);
 				return true;
 			}
 

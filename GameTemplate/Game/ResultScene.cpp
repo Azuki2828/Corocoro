@@ -210,23 +210,28 @@ void ResultScene::Update()
 	}
 
 	//しんきろく！の文字が流れていく処理
-	if (NewRecordFlg)
-	{
-		if (NewRecordFlgSub) {
-			//しんきろく！画像を初期化。
-			m_spriteRender = NewGO<SpriteRender>(2);
+
+
+
+		if (NewRecordFlg)
+		{
+			
+			if (NewRecordFlgSub) {
+				//しんきろく！画像を初期化。
+				m_spriteRender = NewGO<SpriteRender>(2);
+				m_spriteRender->SetPosition({ RecordPos,0.0f,0.0f });
+				m_spriteRender->Init("Assets/image/Record.dds", 750.0f, 750.0f);
+				NewRecordFlgSub = false;
+			}
+			//右から左に移動する処理
 			m_spriteRender->SetPosition({ RecordPos,0.0f,0.0f });
-			m_spriteRender->Init("Assets/image/Record.dds", 750.0f, 750.0f);
-			NewRecordFlgSub = false;
-		}
-		//右から左に移動する処理
-			m_spriteRender->SetPosition({ RecordPos,0.0f,0.0f });
-			RecordPos-=5;
+			RecordPos -= 5;
 			//画面外に移動すると無駄に残さずにスプライトを消す
 			if (RecordPos < -1000.0f)
 			{
 				//初期位置に戻す
 				RecordPos = 1100.0f;
 			}
-	}
+		}
+	
 }

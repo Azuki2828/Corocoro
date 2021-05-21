@@ -108,17 +108,17 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	//lightCamera.SetUp(1, 0, 0);
 	////ライトビュープロジェクション行列を計算している。
 	//lightCamera.Update();
-	//Effect* laserEffect = nullptr;
-	//laserEffect = NewGO<Effect>(0);
-	//laserEffect->Init(u"Assets/effect/laser.efk");
-	//laserEffect->SetScale({ 5.0f,5.0f,5.0f });
+/*	Effect* laserEffect = nullptr;
+	laserEffect = NewGO<Effect>(0);
+	laserEffect->Init(u"Assets/effect/laser.efk");
+	laserEffect->SetScale({ 15.0f,15.0f,15.0f });*/
 	// ここからゲームループ。
 	while (DispatchWindowMessage())
 	{
 		//if (g_pad[0]->IsTrigger(enButtonA)) {
 		//	//再生開始。
 		//	laserEffect->Play();
-		//}
+	//	}
 
 		//レンダリング開始。
 		g_engine->BeginFrame();

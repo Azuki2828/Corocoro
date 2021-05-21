@@ -40,6 +40,7 @@ private:
 
 	NormalBackground* m_normalbg;
 	Player* m_player = nullptr;
+	Player* m_skinModelRender = nullptr;
 	DeathBlock* m_deathBlock = nullptr;
 };
 
