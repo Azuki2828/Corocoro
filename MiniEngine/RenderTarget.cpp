@@ -4,6 +4,7 @@
 
 RenderTarget* RenderTarget::m_shadowMap = nullptr;
 RenderTarget* RenderTarget::m_mainRenderTarget = nullptr;
+RenderTarget* RenderTarget::m_zprepassRenderTarget = nullptr;
 
 bool RenderTarget::Create(
 	int w,

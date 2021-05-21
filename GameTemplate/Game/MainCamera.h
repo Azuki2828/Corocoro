@@ -2,6 +2,7 @@
 
 class Player;
 class DirectionLight;
+class MapChip;
 
 class MainCamera : public IGameObject
 {
@@ -18,7 +19,7 @@ public:
 
 	//注視点からのベクトル。
 	//Vector3 toPos = { 0.0f,200.0f,-1400.0f };
-	Vector3 toPos = { 0.0f,200.0f,-1400.0f };	//全体確認用のポジション。
+	Vector3 toPos = { 0.0f,200.0f,-2000.0f };	//全体確認用のポジション。
 	Quaternion m_rotX;
 	Quaternion m_rotY;
 	Quaternion m_rotZ;
@@ -29,6 +30,7 @@ public:
 
 	Player* m_player = nullptr;
 	DirectionLight* m_dir = nullptr;
+	MapChip* m_mapChip = nullptr;
 
 	//ゲームスタート前にステージ全体をカメラで眺める関数。x==カメラのx座標、y==カメラのy座標を入れる。
 	void Stage1ScrollCamera();
@@ -39,5 +41,6 @@ public:
 
 	//1回だけカメラを180度回転させるためのフラグ
 	bool RotFlg = false;
+	std::list<std::function< void() >> changeRotCameraEvent;
 };
 

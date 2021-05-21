@@ -10,6 +10,7 @@ class Key;
 class Game;
 class Player;
 class DeathBlock;
+class TreasureBox;
 
 class NormalBackground;
 
@@ -36,6 +37,7 @@ private:
 
 	std::vector<Magnet*> m_magnet;
 	Key* m_key = nullptr;
+	TreasureBox* m_treasureBox = nullptr;
 	Game* m_game = nullptr;
 
 	NormalBackground* m_normalbg;

@@ -13,6 +13,7 @@ public:
 	//磁力をNにする関数。
 	void SetState_N(bool plusflg = false) {
 		mState = State_N;
+		m_ligData.m_directionLigData[0].Col.Set(10.0f, 10.0f, 10.0f, 1.0f);
 		if (plusflg) {
 			plusFlg = true;
 		}
@@ -20,6 +21,7 @@ public:
 	//磁力Sにする関数。
 	void SetState_S(bool plusflg = false) {
 		mState = State_S;
+		m_ligData.m_directionLigData[0].Col.Set(10.0f, 10.0f, 30.0f, 1.0f);
 		if (plusflg) {
 			plusFlg = true;
 		}
@@ -52,6 +54,21 @@ public:
 		m_skinModelRender = NewGO<SkinModelRender>(0);
 		m_skinModelRender->SetFileNametkm(filePathtkm);
 		m_skinModelRender->SetShadowReceiverFlag(true);
+
+		m_skinModelRender->SetZprepassFlag(true);
+		//座標を登録。
+		m_ligData.m_directionLigData[0].Dir.Set(-1, -1, -1);
+		m_ligData.m_directionLigData[0].Dir.Normalize();
+		
+		m_ligData.ambient.Set(0.8f, 0.8f, 0.8f);
+		m_ligData.metaric = 1.0f;
+		m_ligData.smooth = 0.35f;
+		m_ligData.edge = Edge_1;
+		m_ligData.powValue = 10.0f;
+		m_skinModelRender->SetUserLigData(&m_ligData);
+		//m_skinModelRender->SetExpandShaderResourceView_2(&RenderTarget::GetZPrepassRenderTarget()->GetRenderTargetTexture());
+		m_skinModelRender->SetColorBufferFormat(DXGI_FORMAT_R32G32B32A32_FLOAT);
+
 		m_skinModelRender->Init(true, false);
 	}
 private:
@@ -59,12 +76,12 @@ private:
 	int m_timer = 0;			//<変更>動く磁石の一時停止のためm_timerを追加
 
 	//プレイヤーに力を与える関数。
-	void SetMagnetPower()const;
+	void SetMagnetPower();
 	void SetMagnetTriggerBox(int stageNum);
 
 	bool plusFlg = false;		//強い磁石フラグ。
 	bool moveFlg = false;		//動くフラグ。
-	mutable Vector3 m_length;	//プレイヤーとの距離。
+	Vector3 m_length;			//プレイヤーとの距離。
 	Vector3 m_pos;				//座標。
 	Vector3 m_magnetPos;		//磁力の発生場所。基点は左下なため、中心にする。
 	Vector3 moveRange_front;	//移動範囲の左端。
@@ -104,5 +121,6 @@ private:
 	SkinModelRender* m_skinModelRender = nullptr;
 	PhysicsStaticObject m_physicsStaticObject;	//当たり判定
 	CPhysicsGhostObject m_ghostBox;
+	LigData m_ligData;
 };
 

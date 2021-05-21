@@ -39,6 +39,8 @@ public:
 
 	virtual void PauseUpdate(){}
 
+	virtual void DeadUpdate(){}
+
 	virtual void FreeUpdate() {}
 	/*!
 	 *@brief	•`‰æ
@@ -116,6 +118,13 @@ public:
 	{
 		if (m_isActive && m_isStart && !m_isDead) {
 			PauseUpdate();
+		}
+	}
+
+	void DeadUpdateWrapper()
+	{
+		if (m_isActive && m_isStart && !m_isDead) {
+			DeadUpdate();
 		}
 	}
 	void FreeUpdateWrapper()

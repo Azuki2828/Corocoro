@@ -2,6 +2,7 @@
 #include "MapChip.h"
 #include "Level.h"
 #include "Material.h"
+#include "MainCamera.h"
 
 struct LevelObjectData;
 
@@ -25,6 +26,18 @@ MapChip::MapChip(const LevelObjectData& objData) {
 	m_skinModelRender->SetFileNametks(static_cast<const char*>(filePathtks));
 
 	m_skinModelRender->SetShadowReceiverFlag(true);
+	m_ligData.m_directionLigData[0].Dir.Set(-1, -1, 1);
+	m_ligData.m_directionLigData[0].Dir.Normalize();
+	m_ligData.m_directionLigData[0].Col.Set(1.5f, 1.5f, 1.5f, 1.0f);
+	m_ligData.ambient.Set(0.8f, 0.8f, 0.8f);
+	m_ligData.metaric = 0.0f;
+	m_ligData.smooth = 0.0f;
+	auto mainCamera = FindGO<MainCamera>("maincamera");
+	mainCamera->changeRotCameraEvent.push_back([&]() {
+		Quaternion m_rotZ;
+		m_rotZ.SetRotationDeg(Vector3::AxisZ, 2.0f);
+		m_rotZ.Apply(m_ligData.m_directionLigData[0].Dir);
+	});
 	m_skinModelRender->SetUserLigData(&m_ligData);
 	m_skinModelRender->Init(true, false);
 	
@@ -57,6 +70,8 @@ void MapChip::Draw(RenderContext& rc,
 	//プリミティブのトポロジーはトライアングルリストのみ。
 	rc.SetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
+	m_ligData.eyePos = g_camera3D->GetPosition();
+	
 	//定数バッファを更新する。
 	MConstantBuffer cb;
 	cb.mWorld = mWorld;

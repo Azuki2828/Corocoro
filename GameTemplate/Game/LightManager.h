@@ -12,12 +12,24 @@ static const int MAX_DIRECTION_LIGHT = 8;
 //	Vector3 Col;
 //};
 
+enum {
+	Edge_NULL,
+	Edge_1,
+	Edge_2
+};
 struct LigData {
 	DirectionLigData m_directionLigData[MAX_DIRECTION_LIGHT];
 	Vector3 eyePos;
 	float pad;
+	Vector3 ambient;
+	float pad1;
 	Matrix m_viewProj;
-	//Matrix viewProj;
+	float metaric = 0.0f;
+	float smooth = 0.5f;
+	int edge = Edge_NULL;
+	float powValue = 0.0f;
+	float uvNoiseMul = 0.0f;
+	float uvNoiseOffset = 0.0f;
 };
 
 class LightManager

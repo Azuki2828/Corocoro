@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "DeathBlock.h"
 #include "Player.h"
+#include "MainCamera.h"
 #include "Key.h"
 
 bool DeathBlock::Start() {
@@ -8,47 +9,60 @@ bool DeathBlock::Start() {
 	m_player = FindGO<Player>("player");
 	m_key = FindGO<Key>("key");
 	m_skinModelRender->SetPosition(m_pos);
+
 	m_skinModelRender->SetScale(m_scale);
 
 	m_death = NewGO<Effect>(0);
 	m_death->Init(u"Assets/effect/death.efk");
 	m_death->SetScale({ 100,100.0f,100.0f });
 
+	m_skinModelRender->SetScale(m_sca);
+	auto mainCamera = FindGO<MainCamera>("maincamera");
+	mainCamera->changeRotCameraEvent.push_back([&]() {
+		Quaternion m_rotZ;
+		m_rotZ.SetRotationDeg(Vector3::AxisZ, -2.0f);
+		m_rotZ.Apply(m_ligData.m_directionLigData[0].Dir);
+		});
+
 	Vector3 ghostPos;
 	ghostPos = m_pos;
-	ghostPos.x += 50.0f;
+	ghostPos.x += 50.0f * m_sca.x;
 	ghostPos.y += 50.0f;
-	Vector3 ghostScale = { 100.0f, 100.0f, 400.0f };
-	ghostScale.x *= m_scale.x;
-	ghostScale.y *= m_scale.y;
-	ghostScale.z *= m_scale.z;
 
+	ghostPos.z -= 200.0f;
 	m_ghostBox.CreateBox(
-		ghostPos,	//‘æˆêˆø”‚ÍÀ•WB
-		Quaternion::Identity,		//‘æ“ñˆø”‚Í‰ñ“]ƒNƒH[ƒ^ƒjƒIƒ“B
-		ghostScale	//‘æŽOˆø”‚Íƒ{ƒbƒNƒX‚ÌƒTƒCƒYB
+		ghostPos,	//ç¬¬ä¸€å¼•æ•°ã¯åº§æ¨™ã€‚
+		Quaternion::Identity,		//ç¬¬äºŒå¼•æ•°ã¯å›žè»¢ã‚¯ã‚©ãƒ¼ã‚¿ãƒ‹ã‚ªãƒ³ã€‚
+		{ 100.0f * m_sca.x, 100.0f * m_sca.y, 400.0f * m_sca.z}	//ç¬¬ä¸‰å¼•æ•°ã¯ãƒœãƒƒã‚¯ã‚¹ã®ã‚µã‚¤ã‚ºã€‚
 	);
+
+	m_skinModelRender->UpdateWorldMatrix();
 	return true;
 }
 
+
 void DeathBlock::Update()
 {
-	if (n_contactTestFlag)
-	{
-		PhysicsWorld::GetInstance()->ContactTest(*m_player->GetRigidBody(), [&](const btCollisionObject& contactObject) {
 
-			if (m_ghostBox.IsSelf(contactObject) == true) {
-				//m_ghostObject‚Æ‚Ô‚Â‚©‚Á‚½
-				//m_pointLig->SetActiveFlag(true);	//ƒ|ƒCƒ“ƒgƒ‰ƒCƒg‚ð‚Â‚¯‚éB
-				//m_ghostBox.SetPosition({ 700.0f,405.0f,0.0f });
-				m_hitPlayer = true;
+void DeathBlock::Update() {
+	PhysicsWorld::GetInstance()->ContactTest(*m_player->GetRigidBody(), [&](const btCollisionObject& contactObject) {
+		m_ligData.uvNoiseOffset += 0.01f;
+		float t;
+		m_ligData.uvNoiseOffset = modf(m_ligData.uvNoiseOffset, &t);
+		if (m_ghostBox.IsSelf(contactObject) == true) {
+			
+			//m_ghostObjectã¨ã¶ã¤ã‹ã£ãŸ
+			//m_pointLig->SetActiveFlag(true);	//ãƒã‚¤ãƒ³ãƒˆãƒ©ã‚¤ãƒˆã‚’ã¤ã‘ã‚‹ã€‚
+			//m_ghostBox.SetPosition({ 700.0f,405.0f,0.0f });
+			if (m_player->GetKeyFlg()) {
+				m_player->SetPosition(m_key->GetKeyPos());
 			}
 		});
 	}
 
 	if (m_hitPlayer)
 	{
-			//Ž€‚ÊƒGƒtƒFƒNƒgÄ¶‚ÆŒø‰Ê‰¹
+			//æ­»ã¬ã‚¨ãƒ•ã‚§ã‚¯ãƒˆå†ç”Ÿã¨åŠ¹æžœéŸ³
 		if (m_player->Getrespawn() == false) {
 
 
@@ -63,7 +77,7 @@ void DeathBlock::Update()
 
 			DeathSound->Init(L"Assets/sound/death.wav");
 			DeathSound->SetVolume(0.5f);
-			DeathSound->Play(false);	//ƒƒ“ƒVƒ‡ƒbƒgÄ¶
+			DeathSound->Play(false);	//ãƒ¯ãƒ³ã‚·ãƒ§ãƒƒãƒˆå†ç”Ÿ
 
 			/*m_timer++;
 			if (m_timer == 60) {
@@ -97,5 +111,8 @@ void DeathBlock::Update()
 
 
 			m_player->ClearPower();
+
+			//g_engine->SetGameState(GameState::State_Dead);
 		}
 	}
+

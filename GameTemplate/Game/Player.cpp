@@ -8,8 +8,34 @@
 
 bool Player::Start()
 {
+	m_ligData[enPlayer_0].m_directionLigData[0].Dir.Set(0, -1, 1);
+	m_ligData[enPlayer_0].m_directionLigData[0].Dir.Normalize();
+	m_ligData[enPlayer_0].m_directionLigData[0].Col.Set(25.0f, 25.0f, 25.0f, 1.0f);
+	m_ligData[enPlayer_0].ambient.Set(0.8f, 0.8f, 0.8f);
+	m_ligData[enPlayer_0].metaric = 1.0f;
+	m_ligData[enPlayer_0].smooth = 0.35f;
+	m_ligData[enPlayer_0].edge = Edge_1;
+	m_ligData[enPlayer_0].powValue = 2.0f;
+
+	m_ligData[enPlayer_1].m_directionLigData[0].Dir.Set(0, -1, 1);
+	m_ligData[enPlayer_1].m_directionLigData[0].Dir.Normalize();
+	m_ligData[enPlayer_1].m_directionLigData[0].Col.Set(25.0f, 25.0f, 55.0f, 1.0f);
+	m_ligData[enPlayer_1].ambient.Set(0.8f, 0.8f, 0.8f);
+	m_ligData[enPlayer_1].metaric = 1.0f;
+	m_ligData[enPlayer_1].smooth = 0.35f;
+	m_ligData[enPlayer_1].edge = Edge_1;
+	m_ligData[enPlayer_1].powValue = 2.0f;
 
 	m_game = FindGO<Game>("game");
+
+	auto mainCamera = FindGO<MainCamera>("maincamera");
+
+	mainCamera->changeRotCameraEvent.push_back([&]() {
+		Quaternion m_rotZ;
+		m_rotZ.SetRotationDeg(Vector3::AxisZ, -2.0f);
+		m_rotZ.Apply(m_ligData[enPlayer_0].m_directionLigData[0].Dir);
+		m_rotZ.Apply(m_ligData[enPlayer_1].m_directionLigData[0].Dir);
+		});
 
 	////アニメーションクリップをロードする。
 	//m_animationClips[enAnimClip_Idle].Load("Assets/animData/idle.tka");
@@ -39,10 +65,12 @@ bool Player::Start()
 		m_skinModelRender[i]->SetFileNametkm(tkmFilePaths[i]);
 		//tksファイルをロード。
 		m_skinModelRender[i]->SetFileNametks(tksFilePaths[i]);
-		m_skinModelRender[i]->SetShadowCasterFlag(true);
-		m_skinModelRender[i]->SetColorBufferFormat(DXGI_FORMAT_R32_FLOAT);
+		m_skinModelRender[i]->SetShadowReceiverFlag(true);
+		m_skinModelRender[i]->SetColorBufferFormat(DXGI_FORMAT_R32G32B32A32_FLOAT);
+		m_skinModelRender[i]->SetUserLigData(&m_ligData[i]);
+		m_skinModelRender[i]->SetZprepassFlag(true);
 		m_skinModelRender[i]->Init(true, false);
-		if (i == enPlayer_1) {
+		if (i == enPlayer_1 || i == enPlayer_0) {
 			//プレイヤー1は最初は非アクティブ。
 			m_skinModelRender[i]->Deactivate();
 		}
@@ -111,6 +139,10 @@ Player::~Player()
 void Player::Update()
 {
 
+	for (auto& ligData : m_ligData) {
+		ligData.eyePos = g_camera3D->GetPosition();
+	}
+
 		m_rigidBody.SetLinearFactor(1.0f, 1.0f, 0.0f);
 		if (m_backGround == nullptr) {
 			m_backGround = FindGO<Background>("background");
@@ -132,6 +164,9 @@ void Player::Update()
 		if (m_key == nullptr) {
 			m_key = FindGO<Key>("key");
 
+		}
+		if (m_treasureBox == nullptr) {
+			m_treasureBox = FindGO<TreasureBox>("treasureBox");
 		}
 
 		for (int i = 0; i < enPlayer_Num; i++) {
@@ -176,8 +211,8 @@ void Player::Update()
 
 					//NとSを切り替えるときの効果音再生。
 
-					NSChangeSound = NewGO<CSoundSource>(0);
 
+				SoundManager::GetInstance()->Play(SE_NSChange);
 
 
 					NSChangeSound->Init(L"Assets/sound/NSChange.wav");

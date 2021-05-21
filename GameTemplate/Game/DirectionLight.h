@@ -25,6 +25,7 @@ public:
 		m_dirLigData.Dir = dir;
 		m_dirLigData.Dir.Normalize();
 	}
+	Vector3* GetLigDirection() { return &m_dirLigData.Dir; }
 
 	void SetLigColor(float _x = 50.0f, float _y = 50.0f, float _z = 50.0f) {
 		m_dirLigData.Col.x = _x;

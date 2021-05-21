@@ -5,6 +5,7 @@
 #include "GameLevel2D.h"
 #include "Game.h"
 #include "Player.h"
+#include "TreasureBox.h"
 #include "DeathBlock.h"
 
 bool Background::Start()
@@ -53,7 +54,7 @@ bool Background::Start()
 	case 1:
 		//これがlevelのLoadの基盤。
 		//特定のオブジェクトを指定する（ここでいうフック）場合は、名前検索する。
-		m_level.Init("Assets/level/stage01_inv.tkl", [&](LevelObjectData& objData) {
+		m_level.Init("Assets/level/stage01_treasure.tkl", [&](LevelObjectData& objData) {
 
 
 			//return true;が自分で生成。return false;がパソコンが生成してくれる。
@@ -61,12 +62,13 @@ bool Background::Start()
 
 			deathPosY = -500.0f;		//state02では-500.0fで死ぬ！
 
-			if (objData.EqualObjectName(L"Key") == true) {
+			if (objData.EqualObjectName(L"Key_after") == true) {
 				if (m_key == nullptr) {
 					m_key = NewGO<Key>(0, "key");
 				}
-				m_key->InitKey("Key");
+				m_key->InitKey("Key_after");
 				m_key->SetPositionKey(objData.position);
+				m_key->SetScaleKey(objData.scale);
 				return true;
 			}
 			else if (objData.EqualObjectName(L"KeyBox") == true) {
@@ -75,6 +77,7 @@ bool Background::Start()
 				}
 				m_key->InitDoor("KeyBox");
 				m_key->SetPositionDoor(objData.position);
+
 				
 
 				Effect* treasure = nullptr;
@@ -86,6 +89,24 @@ bool Background::Start()
 				treasure->SetPosition(effPos);
 				//treasure->Update();
 				treasure->Play();
+
+
+				m_key->SetScaleDoor(objData.scale);
+				return true;
+			}
+			else if (objData.EqualObjectName(L"TreasureBox") == true) {
+
+				m_treasureBox = NewGO<TreasureBox>(0, "treasureBox");
+				Vector3 pos = objData.position;
+				pos.x -= 75.0f;
+				pos.z -= 50.0f;
+				m_treasureBox->SetPosition(pos);
+				m_treasureBox->SetRotation(objData.rotation);
+				Vector3 sca = objData.scale;
+				sca.x = 2.5f;
+				sca.y = 2.5f;
+				sca.z = 2.5f;
+				m_treasureBox->SetScale(sca);
 
 				return true;
 			}
@@ -123,6 +144,10 @@ bool Background::Start()
 				m_magnet[sampleNum]->SetState_N();
 				m_magnet[sampleNum]->Init("Magnet_N100_200triangle");
 				m_magnet[sampleNum]->SetPosition(objData.position);
+				Vector3 m_magPos = objData.position;
+				m_magPos.x += 150.0f;
+				m_magPos.y += 50.0f;
+				m_magnet[sampleNum]->SetMagnetPosition(m_magPos);
 				m_magnet[sampleNum]->SetMagnetNum(sampleNum);
 				sampleNum++;
 				return true;
@@ -157,6 +182,10 @@ bool Background::Start()
 				m_magnet[sampleNum]->SetState_S();
 				m_magnet[sampleNum]->Init("Magnet_S-100_200triangle");
 				m_magnet[sampleNum]->SetPosition(objData.position);
+				Vector3 m_magPos = objData.position;
+				m_magPos.x += 150.0f;
+				m_magPos.y -= 50.0f;
+				m_magnet[sampleNum]->SetMagnetPosition(m_magPos);
 				m_magnet[sampleNum]->SetMagnetNum(sampleNum);
 				sampleNum++;
 				return true;
@@ -193,6 +222,7 @@ bool Background::Start()
 				m_deathBlock = NewGO<DeathBlock>(0);
 				m_deathBlock->Init("DeathBlock");
 				m_deathBlock->SetPosition(objData.position);
+				m_deathBlock->SetScale(objData.scale);
 				m_deathBlock->SetStartPos({ 300.0f,1200.0f,-300.0f });
 				return true;
 			}
@@ -204,7 +234,7 @@ bool Background::Start()
 		m_player->SetPosition({ 300.0f,1200.0f,-300.0f });
 		break;
 	case 2:
-		m_level.Init("Assets/level/stage02_inv.tkl", [&](LevelObjectData& objData) {
+		m_level.Init("Assets/level/stage02_treasure.tkl", [&](LevelObjectData& objData) {
 
 
 			//return true;が自分で生成。return false;がパソコンが生成してくれる。
@@ -212,12 +242,13 @@ bool Background::Start()
 
 			deathPosY = -500.0f;		//state02では-500.0fで死ぬ！
 
-			if (objData.EqualObjectName(L"Key") == true) {
+			if (objData.EqualObjectName(L"Key_after") == true) {
 				if (m_key == nullptr) {
 					m_key = NewGO<Key>(0, "key");
 				}
-				m_key->InitKey("Key");
+				m_key->InitKey("Key_after");
 				m_key->SetPositionKey(objData.position);
+				m_key->SetScaleKey(objData.scale);
 				return true;
 			}
 			else if (objData.EqualObjectName(L"KeyBox") == true) {
@@ -227,17 +258,22 @@ bool Background::Start()
 				m_key->InitDoor("KeyBox");
 				m_key->SetPositionDoor(objData.position);
 
+				m_key->SetScaleDoor(objData.scale);
+				return true;
+			}
+			else if (objData.EqualObjectName(L"TreasureBox") == true) {
 
-
-				/*Effect* treasure = nullptr;
-				treasure = NewGO<Effect>(0);
-				treasure->Init(u"Assets/effect/treasure.efk");
-				treasure->SetScale({ 95.0f,95.0f,95.0f });
-				Vector3 effPos = m_pos;
-				treasure->SetPosition(effPos);
-				treasure->Update();
-				treasure->Play();*/
-
+				m_treasureBox = NewGO<TreasureBox>(0, "treasureBox");
+				Vector3 pos = objData.position;
+				pos.x -= 75.0f;
+				pos.z -= 50.0f;
+				m_treasureBox->SetPosition(pos);
+				m_treasureBox->SetRotation(objData.rotation);
+				Vector3 sca = objData.scale;
+				sca.x = 2.5f;
+				sca.y = 2.5f;
+				sca.z = 2.5f;
+				m_treasureBox->SetScale(sca);
 				return true;
 			}
 			else if (objData.EqualObjectName(L"Magnet_N100_100") == true) {
@@ -344,6 +380,7 @@ bool Background::Start()
 			m_deathBlock = NewGO<DeathBlock>(0);
 			m_deathBlock->Init("DeathBlock");
 			m_deathBlock->SetPosition(objData.position);
+			m_deathBlock->SetScale(objData.scale);
 			m_deathBlock->SetStartPos({ 300.0f,300.0f,-300.0f });
 			return true;
 			}
@@ -353,7 +390,8 @@ bool Background::Start()
 			m_player->SetPosition({ 300.0f,300.0f,-300.0f });
 		break;
 	case 3:
-		m_level.Init("Assets/level/stage03_inv_2.tkl", [&](LevelObjectData& objData) {
+
+		m_level.Init("Assets/level/stage03_treasure.tkl", [&](LevelObjectData& objData) {
 
 
 			//return true;が自分で生成。return false;がパソコンが生成してくれる。
@@ -361,12 +399,13 @@ bool Background::Start()
 
 			deathPosY = -500.0f;		//state02では-500.0fで死ぬ！
 
-			if (objData.EqualObjectName(L"Key") == true) {
+			if (objData.EqualObjectName(L"Key_after") == true) {
 				if (m_key == nullptr) {
 					m_key = NewGO<Key>(0, "key");
 				}
-				m_key->InitKey("Key");
+				m_key->InitKey("Key_after");
 				m_key->SetPositionKey(objData.position);
+				m_key->SetScaleKey(objData.scale);
 				return true;
 			}
 			else if (objData.EqualObjectName(L"KeyBox") == true) {
@@ -376,15 +415,22 @@ bool Background::Start()
 				m_key->InitDoor("KeyBox");
 				m_key->SetPositionDoor(objData.position);
 
-				/*Effect* treasure = nullptr;
-				treasure = NewGO<Effect>(0);
-				treasure->Init(u"Assets/effect/treasure.efk");
-				treasure->SetScale({ 95.0f,95.0f,95.0f });
-				Vector3 effPos = m_pos;
-				treasure->SetPosition(effPos);
-				treasure->Update();
-				treasure->Play();*/
+				m_key->SetScaleDoor(objData.scale);
+				return true;
+			}
+			else if (objData.EqualObjectName(L"TreasureBox") == true) {
 
+				m_treasureBox = NewGO<TreasureBox>(0, "treasureBox");
+				Vector3 pos = objData.position;
+				pos.x -= 75.0f;
+				pos.z -= 50.0f;
+				m_treasureBox->SetPosition(pos);
+				m_treasureBox->SetRotation(objData.rotation);
+				Vector3 sca = objData.scale;
+				sca.x = 2.5f;
+				sca.y = 2.5f;
+				sca.z = 2.5f;
+				m_treasureBox->SetScale(sca);
 				return true;
 			}
 			else if (objData.EqualObjectName(L"Magnet_N100_100") == true) {
@@ -491,6 +537,7 @@ bool Background::Start()
 				m_deathBlock = NewGO<DeathBlock>(0);
 				m_deathBlock->Init("DeathBlock");
 				m_deathBlock->SetPosition(objData.position);
+				m_deathBlock->SetScale(objData.scale);
 				m_deathBlock->SetStartPos({ 300.0f,1300.0f,-300.0f });
 				m_deathBlock->SetScale(objData.scale);
 				return true;
@@ -506,11 +553,7 @@ bool Background::Start()
 
 	//BGM再生。
 
-	GameBGMSound = NewGO<CSoundSource>(0);
-
-	GameBGMSound->Init(L"Assets/sound/GameBGM.wav");
-	GameBGMSound->SetVolume(1.0f);
-	GameBGMSound->Play(true);			//ループ再生。
+	SoundManager::GetInstance()->Play(BGM_Game);
 
 	//ModelInitData initData;
 	//initData.m_tkmFilePath = "Assets/modelData/bg/bg.tkm";

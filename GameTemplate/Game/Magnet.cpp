@@ -3,15 +3,20 @@
 #include "Player.h"
 #include "Key.h"
 #include "Game.h"
-
+#include "MainCamera.h"
 bool Magnet::Start() {
 
-	//座標を登録。
-
+	
 	m_skinModelRender->SetPosition(m_pos);
 	m_key = FindGO<Key>("key");
 	m_game = FindGO<Game>("game");
 
+	auto mainCamera = FindGO<MainCamera>("maincamera");
+	mainCamera->changeRotCameraEvent.push_back([&]() {
+		Quaternion m_rotZ;
+		m_rotZ.SetRotationDeg(Vector3::AxisZ, -2.0f);
+		m_rotZ.Apply(m_ligData.m_directionLigData[0].Dir);
+	});
 	/*
 	名前分けしようとしてたときのやつ。
 	////自身の名前によってステートを分けて初期化する。
@@ -23,6 +28,7 @@ bool Magnet::Start() {
 	//}
 
 	*/
+
 	
 	//動く物体じゃないなら座標を更新して当たり判定を付ける。
 	if (!moveFlg) {
@@ -50,6 +56,8 @@ bool Magnet::Start() {
 
 void Magnet::Update() {
 	
+	m_ligData.eyePos = g_camera3D->GetPosition();
+
 	//動く物体なら
 	if (moveFlg) {
 
@@ -107,7 +115,7 @@ void Magnet::Update() {
 
 }
 
-void Magnet::SetMagnetPower()const {
+void Magnet::SetMagnetPower() {
 
 	//基礎磁力の強さ。
 	float magnetPower = 100000.0f;

@@ -47,6 +47,6 @@ private:
 		FinalStage		//FinalStageにマイナス1することでステージの総数を求める。
 	};
 
-	SpriteRender* m_StageSpriteRender[3] = { nullptr };		//ステージ文字スプライトレンダー
+	SpriteRender* m_StageSpriteRender[3][2] = { nullptr };		//ステージ文字スプライトレンダー
 	Game* m_game = nullptr;
 };

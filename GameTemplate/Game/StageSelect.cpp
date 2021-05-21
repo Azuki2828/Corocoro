@@ -10,29 +10,48 @@ bool StageSelect::Start()
 	sprite = NewGO<StageSelectLevel2D>(0, "StageSelectLevel2D");
 
 	//BGM再生。
-	BGMSound = NewGO<CSoundSource>(0);
-	BGMSound->Init(L"Assets/sound/TitleBGM.wav");
-	BGMSound->SetVolume(1.0f);
-	BGMSound->Play(true);		//ループ再生。
+	SoundManager::GetInstance()->Play(BGM_Title);
+	//BGMSound = NewGO<CSoundSource>(0);
+	//BGMSound->Init(L"Assets/sound/TitleBGM.wav");
+	//BGMSound->SetVolume(1.0f);
+	//BGMSound->Play(true);		//ループ再生。
 
 	//Stage1
-	m_StageSpriteRender[0] = NewGO<SpriteRender>(1);
-	m_StageSpriteRender[0]->SetPosition({ 0.0f,-270.0f,0.0f });
-	m_StageSpriteRender[0]->Init("Assets/image/Stage1.dds", 350.0f, 350.0f);
-	m_StageSpriteRender[0]->SetScale({ 1.3f,1.3f,1.3f });
-	m_StageSpriteRender[0]->Deactivate();		//非表示
+	m_StageSpriteRender[0][0] = NewGO<SpriteRender>(1);
+	m_StageSpriteRender[0][0]->SetPosition({ 0.0f,-270.0f,0.0f });
+	m_StageSpriteRender[0][0]->Init("Assets/image/Stage1.dds", 350.0f, 350.0f);
+	m_StageSpriteRender[0][0]->SetScale({ 1.3f,1.3f,1.3f });
+	m_StageSpriteRender[0][0]->Deactivate();		//非表示
+
+	m_StageSpriteRender[0][1] = NewGO<SpriteRender>(1);
+	m_StageSpriteRender[0][1]->SetPosition({ 0.0f,0.0f,0.0f });
+	m_StageSpriteRender[0][1]->Init("Assets/image/Stage01.dds", 1024.0f, 768.0f);
+	m_StageSpriteRender[0][1]->SetScale({ 0.5f,0.5f,0.5f });
+	m_StageSpriteRender[0][1]->Deactivate();		//非表示
 	//Stage2
-	m_StageSpriteRender[1] = NewGO<SpriteRender>(1);
-	m_StageSpriteRender[1]->SetPosition({ 0.0f,-270.0f,0.0f });
-	m_StageSpriteRender[1]->Init("Assets/image/Stage2.dds", 350.0f, 350.0f);
-	m_StageSpriteRender[1]->SetScale({ 1.3f,1.3f,1.3f });
-	m_StageSpriteRender[1]->Deactivate();		//非表示
+	m_StageSpriteRender[1][0] = NewGO<SpriteRender>(1);
+	m_StageSpriteRender[1][0]->SetPosition({ 0.0f,-270.0f,0.0f });
+	m_StageSpriteRender[1][0]->Init("Assets/image/Stage2.dds", 350.0f, 350.0f);
+	m_StageSpriteRender[1][0]->SetScale({ 1.3f,1.3f,1.3f });
+	m_StageSpriteRender[1][0]->Deactivate();		//非表示
+
+	m_StageSpriteRender[1][1] = NewGO<SpriteRender>(1);
+	m_StageSpriteRender[1][1]->SetPosition({ 0.0f,0.0f,0.0f });
+	m_StageSpriteRender[1][1]->Init("Assets/image/Stage02.dds", 1024.0f, 768.0f);
+	m_StageSpriteRender[1][1]->SetScale({ 0.5f,0.5f,0.5f });
+	m_StageSpriteRender[1][1]->Deactivate();		//非表示
 	//Stage3
-	m_StageSpriteRender[2] = NewGO<SpriteRender>(1);
-	m_StageSpriteRender[2]->SetPosition({ 0.0f,-270.0f,0.0f });
-	m_StageSpriteRender[2]->Init("Assets/image/Stage3.dds", 350.0f, 350.0f);
-	m_StageSpriteRender[2]->SetScale({ 1.3f,1.3f,1.3f });
-	m_StageSpriteRender[2]->Deactivate();		//非表示
+	m_StageSpriteRender[2][0] = NewGO<SpriteRender>(1);
+	m_StageSpriteRender[2][0]->SetPosition({ 0.0f,-270.0f,0.0f });
+	m_StageSpriteRender[2][0]->Init("Assets/image/Stage3.dds", 350.0f, 350.0f);
+	m_StageSpriteRender[2][0]->SetScale({ 1.3f,1.3f,1.3f });
+	m_StageSpriteRender[2][0]->Deactivate();		//非表示
+
+	m_StageSpriteRender[2][1] = NewGO<SpriteRender>(1);
+	m_StageSpriteRender[2][1]->SetPosition({ 0.0f, 0.0f,0.0f });
+	m_StageSpriteRender[2][1]->Init("Assets/image/Stage03.dds", 1024.0f, 768.0f);
+	m_StageSpriteRender[2][1]->SetScale({ 0.5f,0.5f,0.5f });
+	m_StageSpriteRender[2][1]->Deactivate();		//非表示
 
 	return true;
 }
@@ -40,10 +59,11 @@ bool StageSelect::Start()
 StageSelect::~StageSelect()
 {
 	DeleteGO(sprite);	//レベル削除
-	DeleteGO(BGMSound);	//BGM削除
+	SoundManager::GetInstance()->Release(BGM_Title);	//BGM削除
 	for (int i = 0; i < (FinalStage-1); i++)
 	{
-		DeleteGO(m_StageSpriteRender[i]);
+		DeleteGO(m_StageSpriteRender[i][0]);
+		DeleteGO(m_StageSpriteRender[i][1]);
 	}
 }
 
@@ -62,10 +82,7 @@ void StageSelect::Update()
 			NowSelect = 0;
 		}
 		//移動効果音鳴らす。
-		CursorMooveSound = NewGO<CSoundSource>(0);
-		CursorMooveSound->Init(L"Assets/sound/CursorMoove.wav");
-		CursorMooveSound->SetVolume(1.0f);
-		CursorMooveSound->Play(false);		//ワンショット再生。
+		SoundManager::GetInstance()->Play(SE_CursolMove);
 	}
 
 	//ボタンを全て半透明にする。
@@ -185,10 +202,7 @@ void StageSelect::Update()
 		if (NowSelectStage != StageOne)
 		{
 			//移動効果音鳴らす。
-			CursorMooveSound = NewGO<CSoundSource>(0);
-			CursorMooveSound->Init(L"Assets/sound/CursorMoove.wav");
-			CursorMooveSound->SetVolume(1.0f);
-			CursorMooveSound->Play(false);		//ワンショット再生。
+			SoundManager::GetInstance()->Play(SE_CursolMove);
 			//ステージ番号を１つ下にずらす
 			NowSelectStage -= 1;
 		}
@@ -198,10 +212,7 @@ void StageSelect::Update()
 	{
 		if (NowSelectStage != (FinalStage-1)) {
 			//移動効果音鳴らす。
-			CursorMooveSound = NewGO<CSoundSource>(0);
-			CursorMooveSound->Init(L"Assets/sound/CursorMoove.wav");
-			CursorMooveSound->SetVolume(1.0f);
-			CursorMooveSound->Play(false);		//ワンショット再生。
+			SoundManager::GetInstance()->Play(SE_CursolMove);
 			//ステージ番号を１つ上にずらす
 			NowSelectStage += 1;
 		}
@@ -210,27 +221,31 @@ void StageSelect::Update()
 	switch (NowSelectStage)
 	{
 	case StageOne:
-		m_StageSpriteRender[0]->Activate();			//表示
-		m_StageSpriteRender[1]->Deactivate();		//非表示
+		m_StageSpriteRender[0][0]->Activate();			//表示
+		m_StageSpriteRender[0][1]->Activate();			//表示
+		m_StageSpriteRender[1][0]->Deactivate();		//非表示
+		m_StageSpriteRender[1][1]->Deactivate();		//非表示
 		break;
 	case StageTwo:
-		m_StageSpriteRender[0]->Deactivate();		//非表示
-		m_StageSpriteRender[1]->Activate();			//表示
-		m_StageSpriteRender[2]->Deactivate();		//非表示
+		m_StageSpriteRender[0][0]->Deactivate();		//非表示
+		m_StageSpriteRender[0][1]->Deactivate();		//表示
+		m_StageSpriteRender[1][0]->Activate();			//表示
+		m_StageSpriteRender[1][1]->Activate();			//表示
+		m_StageSpriteRender[2][0]->Deactivate();		//非表示
+		m_StageSpriteRender[2][1]->Deactivate();		//非表示
 		break;
 	case StageThree:
-		m_StageSpriteRender[1]->Deactivate();		//非表示
-		m_StageSpriteRender[2]->Activate();			//表示
+		m_StageSpriteRender[1][0]->Deactivate();		//非表示
+		m_StageSpriteRender[1][1]->Deactivate();		//非表示
+		m_StageSpriteRender[2][0]->Activate();			//表示
+		m_StageSpriteRender[2][1]->Activate();			//表示
 		break;
 	}
 
 	//Aボタン(キーボードのJ)が押されたら
 	if (g_pad[0]->IsTrigger(enButtonA)) {
 		//決定ボタン音再生。
-		DecisionSound = NewGO<CSoundSource>(0);
-		DecisionSound->Init(L"Assets/sound/DecisionButton.wav");
-		DecisionSound->SetVolume(1.0f);
-		DecisionSound->Play(false);		//1ショット再生。
+		SoundManager::GetInstance()->Play(SE_DecisionButton);
 
 		switch (NowSelect) {
 

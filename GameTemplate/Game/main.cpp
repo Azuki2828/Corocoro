@@ -2,7 +2,10 @@
 #include "system/system.h"
 #include "TitleScene.h"
 #include "PostEffect.h"
+#include "Game.h"
 
+
+GaussianBlur g_blur;
 ///////////////////////////////////////////////////////////////////
 // ウィンドウプログラムのメイン関数。
 ///////////////////////////////////////////////////////////////////
@@ -19,8 +22,9 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	GameObjectManager::CreateInstance();
 	PhysicsWorld::CreateInstance();
 	CSoundEngine::CreateInstance();
-	CSoundEngine::GetInstance()->Init();
+	CSoundEngine::GetInstance()->Init(); 
 	LightManager::CreateInstance();
+	SoundManager::CreateInstance();
 	EffectEngine::CreateInstance();
 	Camera::CreateLightCamera();
 
@@ -28,6 +32,19 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 
 	//タイトル画面からスタート
 	NewGO<TitleScene>(0);
+
+	//BGMの設定。
+	SoundManager::GetInstance()->Init(L"Assets/sound/TitleBGM.wav", BGM_Title, true, SoundType::Type_BGM);
+	SoundManager::GetInstance()->Init(L"Assets/sound/GameBGM.wav", BGM_Game, true, SoundType::Type_BGM);
+	SoundManager::GetInstance()->Init(L"Assets/sound/GameBGM_UpTempo.wav", BGM_GameUpTempo, true, SoundType::Type_BGM);
+
+	//SEの設定。
+	SoundManager::GetInstance()->Init(L"Assets/sound/GameClear.wav", SE_GameClear, false, SoundType::Type_SE);
+	SoundManager::GetInstance()->Init(L"Assets/sound/CursorMove.wav", SE_CursolMove, false, SoundType::Type_SE);
+	SoundManager::GetInstance()->Init(L"Assets/sound/DecisionButton.wav", SE_DecisionButton, false, SoundType::Type_SE);
+	SoundManager::GetInstance()->Init(L"Assets/sound/CountDown.wav", SE_CountDown, false, SoundType::Type_SE);
+	SoundManager::GetInstance()->Init(L"Assets/sound/NSChange.wav", SE_NSChange, false, SoundType::Type_SE);
+	SoundManager::GetInstance()->Init(L"Assets/sound/KeyGet.wav", SE_KeyGet, false, SoundType::Type_SE);
 
 	//////////////////////////////////////
 	// 初期化を行うコードを書くのはここまで！！！
@@ -97,7 +114,10 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	//step-1 シャドウマップ描画用のレンダリングターゲットを作成する。
 
 	RenderTarget::CreateShadowMap();
+	RenderTarget::CreateZPrepassRenderTarget();
 
+	
+	g_blur.Init(&RenderTarget::GetZPrepassRenderTarget()->GetRenderTargetTexture());
 	////影描画用のライトカメラを作成する。
 	//Camera lightCamera;
 	////カメラの位置を設定。これはライトの位置。
@@ -118,7 +138,6 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 		//if (g_pad[0]->IsTrigger(enButtonA)) {
 		//	//再生開始。
 		//	laserEffect->Play();
-	//	}
 
 		//レンダリング開始。
 		g_engine->BeginFrame();
@@ -131,6 +150,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 		//物理ワールドの更新。
 		PhysicsWorld::GetInstance()->Update(g_gameTime->GetFrameDeltaTime());
 		EffectEngine::GetInstance()->Update(g_gameTime->GetFrameDeltaTime());
+		SoundManager::GetInstance()->Update();
 		GameObjectManager::GetInstance()->ExecuteRender(renderContext);
 		EffectEngine::GetInstance()->Draw();
 

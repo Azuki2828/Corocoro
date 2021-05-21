@@ -7,6 +7,7 @@ class DeathBlock : public IGameObject
 private:
 	bool Start()override;
 	void Update()override;
+	//void DeadUpdate()override;
 public:
 	void SetStartPos(const Vector3& pos) {
 		m_startPos = pos;
@@ -14,11 +15,11 @@ public:
 	void SetPosition(const Vector3& pos) {
 		m_pos = pos;
 	}
-	void SetScale(const Vector3& scale)
-	{
-		m_scale = scale;
+
+	void SetScale(const Vector3& sca) {
+		m_sca = sca;
 	}
-	//‰Šú‰»ŠÖ”B
+	//åˆæœŸåŒ–é–¢æ•°ã€‚
 	void Init(const char* name)
 	{
 		char filePathtkm[256];
@@ -26,6 +27,23 @@ public:
 		m_skinModelRender = NewGO<SkinModelRender>(0);
 		m_skinModelRender->SetFileNametkm(filePathtkm);
 		m_skinModelRender->SetShadowReceiverFlag(true);
+		m_skinModelRender->SetZprepassFlag(true);
+
+		//åº§æ¨™ã‚’ç™»éŒ²ã€‚
+		m_ligData.m_directionLigData[0].Dir.Set(-1, -1, -1);
+		m_ligData.m_directionLigData[0].Dir.Normalize();
+		//m_ligData.m_directionLigData[0].Col.Set(10.0f, 10.0f, 0.0f, 1.0f);
+
+		m_ligData.ambient.Set(0.8f, 0.8f, 0.8f);
+		m_ligData.metaric = 1.0f;
+		m_ligData.smooth = 0.1f;
+		m_ligData.edge = Edge_1;
+		m_ligData.powValue = 10.0f;
+		m_ligData.uvNoiseMul = 1.0f;
+		m_skinModelRender->SetUserLigData(&m_ligData);
+		//m_skinModelRender->SetExpandShaderResourceView_2(&RenderTarget::GetZPrepassRenderTarget()->GetRenderTargetTexture());
+		m_skinModelRender->SetColorBufferFormat(DXGI_FORMAT_R32G32B32A32_FLOAT);
+
 		m_skinModelRender->Init(true, false);
 	}
 
@@ -38,10 +56,11 @@ private:
 	bool n_contactTestFlag = true;
 	bool deathFlg = false;
 
-	int deathActiveState = 0; //ƒfƒXƒuƒƒbƒN‚ÉG‚ê‚½‚Æ‚«‚ÌƒLƒƒƒ‰ƒNƒ^[‚ÌƒXƒe[ƒg‚ğ•Û
+	int deathActiveState = 0; //ãƒ‡ã‚¹ãƒ–ãƒ­ãƒƒã‚¯ã«è§¦ã‚ŒãŸã¨ãã®ã‚­ãƒ£ãƒ©ã‚¯ã‚¿ãƒ¼ã®ã‚¹ãƒ†ãƒ¼ãƒˆã‚’ä¿æŒ
 
 public:
 	Vector3 m_pos;
+	Vector3 m_sca;
 	Vector3 m_startPos = { 0.0f,0.0f,0.0f };
 	Vector3 m_scale = g_vec3One;
 	CPhysicsGhostObject m_ghostBox;
@@ -51,6 +70,6 @@ public:
 	Key* m_key = nullptr;
 
 
-
+	LigData m_ligData;
 };
 

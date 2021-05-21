@@ -1,10 +1,12 @@
 #pragma once
 
-class Key;
 #include "Key.h"
+#include "TreasureBox.h"
+class Key;
 
 class Background;
 class Game;
+class TreasureBox;
 
 class Player : public IGameObject
 {
@@ -47,11 +49,11 @@ public:
 	void SetKeyFlg(bool flg) { getKeyFlg = flg; }
 	bool GetKeyFlg() { return getKeyFlg; }
 
-	bool GetdoorbreakFlg() {
-		if (m_key == nullptr) {
+	bool GetTreasureFlg() {
+		if (m_treasureBox == nullptr) {
 			return false;
 		}
-		return m_key->GetdoorbreakFlg();
+		return m_treasureBox->GetTreasureFlg();
 	};
 
 	Effect * m_NCahgeState;
@@ -96,7 +98,7 @@ private:
 	};
 	//プレイヤーのステート。
 	Player_State pState = State_N;
-
+	LigData m_ligData[enPlayer_Num];
 	Model m_model;										//モデル表示処理。
 	ModelInitData initData;								//モデルのデータ。
 	Animation m_animation;								//アニメション再生処理。
@@ -165,6 +167,7 @@ private:
 	SphereCollider m_sphereCollider;
 	RigidBody m_rigidBody;
 	Key* m_key = nullptr;
+	TreasureBox* m_treasureBox = nullptr;
 	Background* m_backGround = nullptr;
 	Game* m_game = nullptr;
 	CSoundSource* NSChangeSound = nullptr;		//NS反転サウンドソース

@@ -1,4 +1,5 @@
 #include "stdafx.h"
+#include "Game.h"
 #include "RuleScene.h"
 #include "RuleLevel2D.h"
 #include "TitleScene.h"
@@ -11,10 +12,7 @@ bool RuleScene::Start()
 	m_RuleLevel2D = FindGO<RuleLevel2D>("RuleLevel2D");
 
 	//BGM再生
-	BGMSound = NewGO<CSoundSource>(0);
-	BGMSound->Init(L"Assets/sound/TitleBGM.wav");
-	BGMSound->SetVolume(1.0f);
-	BGMSound->Play(true);		//ループ再生。
+	SoundManager::GetInstance()->Play(BGM_Title);
 
 	//はじめだけStart関数でNewGOする
 	//鍵
@@ -68,7 +66,7 @@ RuleScene::~RuleScene()
 	DeleteGO(m_QuarterSpriteRender[0]);
 
 	//タイトルBGMを削除。
-	DeleteGO(BGMSound);
+	SoundManager::GetInstance()->Release(BGM_Title);
 }
 
 void RuleScene::Update()
@@ -91,10 +89,7 @@ void RuleScene::Update()
 			NowSelect -= 1;
 		}
 		//移動効果音鳴らす。
-		CursorMooveSound = NewGO<CSoundSource>(0);
-		CursorMooveSound->Init(L"Assets/sound/CursorMoove.wav");
-		CursorMooveSound->SetVolume(1.0f);
-		CursorMooveSound->Play(false);		//ワンショット再生。
+		SoundManager::GetInstance()->Play(SE_CursolMove);
 	}
 
 	//現在選択しているボタンの強調表示
@@ -171,10 +166,7 @@ void RuleScene::Update()
 	if (g_pad[0]->IsTrigger(enButtonA)) {
 
 		//決定ボタン音再生。
-		DecisionSound = NewGO<CSoundSource>(0);
-		DecisionSound->Init(L"Assets/sound/DecisionButton.wav");
-		DecisionSound->SetVolume(1.0f);
-		DecisionSound->Play(false);		//1ショット再生。
+		SoundManager::GetInstance()->Play(SE_DecisionButton);
 
 		switch (NowSelect) {
 
@@ -509,7 +501,7 @@ void RuleScene::Update()
 		 if (FourPageTimer < 85)
 		 {
 			 //ボールの位置を右にずらしていく。
-			 FourPageBallPos +=5;
+			 FourPageBallPos += 5;
 		 }
 		 else
 		 {

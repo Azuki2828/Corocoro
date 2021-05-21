@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "MainCamera.h"
 #include "Player.h"
+#include "MapChip.h"
 #include "DirectionLight.h"
 
 bool MainCamera::Start() {
@@ -40,14 +41,15 @@ void MainCamera::Update() {
 
 
 	if (RotFlg == true) {
+
 		m_dir = FindGO<DirectionLight>("mainLight");
-		m_dir->SetLigDirection({ 0.0f,1.0f,1.0f });
+		//m_dir->SetLigDirection({ 0.0f,1.0f,1.0f });
 		//鍵をとったら天井を走るようにカメラを180°回す。
 		//カメラに回転情報を伝える。
 
 
 		//プラスで重力を反転させる。
-		PhysicsWorld::GetInstance()->SetGravity({ 0, 0, 0 });
+		//PhysicsWorld::GetInstance()->SetGravity({ 0, 0, 0 });
 
 		//ぬける。
 		RotFlg = false;
@@ -63,19 +65,9 @@ void MainCamera::Update() {
 		Stage1ScrollCamera();
 	}
 	//通常時の処理。
-	else {
-		if (m_player != nullptr) {
-			//プレイヤーの場所を取得し、注視点の変数に入れる。
-			m_tar = m_player->GetPosition();
-			////プレイヤーのちょっと上に注視点を置く。
-			//if (m_player->GetKeyFlg()) {
-			//	m_tar.y -= 50.0f;
-			//}
-			//else {
-			//	m_tar.y += 50.0f;
-			//}
-
-		}
+	else if(m_player != nullptr){
+		//プレイヤーの場所を取得し、注視点の変数に入れる。
+		m_tar = m_player->GetPosition();
 	}
 
 	//新しい視点を、「新しい注視点　＋　toCameraPos」で求める。
@@ -89,7 +81,6 @@ void MainCamera::Update() {
 
 void MainCamera::FreeUpdate() {
 
-	int a = 0;
 	if (m_cameraRotFlg) {
 
 		waitRot += GameTime::GameTimeFunc().GetFrameDeltaTime();
@@ -99,12 +90,17 @@ void MainCamera::FreeUpdate() {
 			m_rotZ.SetRotationDeg(Vector3::AxisZ, -2.0f);
 			m_rotZ.Apply(toPos);
 			m_rotZ.Apply(m_rotAxis);
+			
 			g_camera3D->SetUp(m_rotAxis);
+
 			count++;
 			if (count == 90) {
 				m_cameraRotFlg = false;
 				g_engine->SetGameState(GameState::State_Game);
 				PhysicsWorld::GetInstance()->SetGravity({ 0, 300, 0 });
+			}
+			for (auto func : changeRotCameraEvent) {
+				func();
 			}
 		}
 	}

@@ -8,6 +8,7 @@ class GraphicsEngine;
 enum GameState {
 	State_Game,		//ゲーム中
 	State_Pause,	//ポーズ中
+	State_Dead,		//死んだときのステート
 	State_Free		//それ以外の、ユーザーが決めて良いステート
 };
 

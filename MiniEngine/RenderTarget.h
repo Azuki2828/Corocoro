@@ -57,6 +57,24 @@ public:
 
 		return m_shadowMap;
 	}
+
+	static void CreateZPrepassRenderTarget() {
+
+		m_zprepassRenderTarget = new RenderTarget;
+		m_zprepassRenderTarget->Create(
+			g_graphicsEngine->GetFrameBufferWidth(),
+			g_graphicsEngine->GetFrameBufferHeight(),
+			1,
+			1,
+			DXGI_FORMAT_R32G32B32A32_FLOAT,
+			DXGI_FORMAT_D32_FLOAT
+		);
+	}
+
+	static RenderTarget* GetZPrepassRenderTarget() {
+
+		return m_zprepassRenderTarget;
+	}
 	/// <summary>
 	/// CPU側のレンダリングターゲットのディスクリプタハンドルを取得。
 	/// </summary>
@@ -174,6 +192,7 @@ private:
 private:
 	static RenderTarget* m_shadowMap;
 	static RenderTarget* m_mainRenderTarget;
+	static RenderTarget* m_zprepassRenderTarget;
 	Texture m_renderTargetTexture;
 	ID3D12Resource* m_renderTargetTextureDx12;	//レンダリングターゲットとなるテクスチャ。
 	ID3D12Resource* m_depthStencilTexture;		//深度ステンシルバッファとなるテクスチャ。

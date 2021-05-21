@@ -77,11 +77,8 @@ void Game::Update() {
 
 	//カメラのスクロールが終わってプレイヤーの視点になる。且つ、ワンショット再生させるためのフラグ。
 	if (m_camera->CameraScrollFlag == false&& m_startsoundflg == true) {
-		m_sound = NewGO<CSoundSource>(0);
 
-		m_sound->Init(L"Assets/sound/CountDown.wav");	//３、２、１、スタート！カウントダウン効果音
-		m_sound->SetVolume(1.0f);
-		m_sound->Play(false);
+		SoundManager::GetInstance()->Play(SE_CountDown);
 
 		KauntoDownSprite = true;
 		m_startsoundflg = false;
@@ -179,9 +176,9 @@ void Game::Update() {
 		m_fontRender->SetText(text1);
 
 
-	if (m_player->GetdoorbreakFlg() == true && doorbreakSoundFlg == true) {
+	if (m_player->GetTreasureFlg() == true && doorbreakSoundFlg == true) {
 		doorbreakSoundFlg = false;			//ゴールしたら計測終了
-		NewGO<ResultScene>(0,"resultscene");
+		//NewGO<ResultScene>(0,"resultscene");
 	}
 
 
