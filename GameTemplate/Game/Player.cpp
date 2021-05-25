@@ -132,7 +132,9 @@ bool Player::Start()
 
 Player::~Player()
 {
-
+	for (int i = 0; i < enPlayer_Num; i++) {
+		DeleteGO(m_skinModelRender[i]);
+	}
 }
 
 
@@ -206,7 +208,7 @@ void Player::Update()
 		if (m_game->m_timer >= m_game->GetGameStartTime()) {
 				//Aボタンでプレイヤーの磁力を反転させる
 			if (m_deathFlag == false) { //死んでいる場合、処理を動かさない。
-				if (g_pad[0]->IsTrigger(enButtonA)) {
+				if (g_pad[0]->IsTrigger(enButtonA) && !m_treasureBox->GetTreasureFlg()) {
 					ChangeState();
 
 					//NとSを切り替えるときの効果音再生。

@@ -16,7 +16,6 @@ private:
 	bool m_startFlg = false;
 
 public:
-	CharacterController m_charaCon;						//キャラコン。
 	bool Start() override;
 	~Player();
 	void Update() override;

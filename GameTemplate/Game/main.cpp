@@ -33,6 +33,10 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	//タイトル画面からスタート
 	NewGO<TitleScene>(0);
 
+	DirectionLight* m_dirLight = NewGO<DirectionLight>(0, "mainLight");
+	m_dirLight->SetLigDirection();
+	m_dirLight->SetLigColor();
+
 	//BGMの設定。
 	SoundManager::GetInstance()->Init(L"Assets/sound/TitleBGM.wav", BGM_Title, true, SoundType::Type_BGM);
 	SoundManager::GetInstance()->Init(L"Assets/sound/GameBGM.wav", BGM_Game, true, SoundType::Type_BGM);

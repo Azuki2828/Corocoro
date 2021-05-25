@@ -46,7 +46,7 @@ bool ResultScene::Start()
 	}
 
 	m_BestTime = NewGO<FontRender>(2);
-	swprintf_s(text[1], L"%2.1f", bestTime);
+	swprintf_s(text[1], L"%2.1f", nowTime);
 	m_BestTime->Init(text[1], { 20.0f,-30.0f }, { 1.0f,1.0f,1.0f,1.0f });
 	m_BestTime->SetPivot({ 0.0f,0.0f });
 	m_BestTime->SetScale(1.5f);
@@ -82,6 +82,8 @@ bool ResultScene::Start()
 ResultScene::~ResultScene()
 {
 	DeleteGO(sprite);
+	DeleteGO(m_nowTime);
+	DeleteGO(m_BestTime);
 }
 
 void ResultScene::Update()
@@ -190,6 +192,10 @@ void ResultScene::Update()
 		case TitleBackButton:
 			//ゲーム画面に遷移。
 			NewGO<TitleScene>(0);
+			DeleteGO(m_game);
+			if (SoundManager::GetInstance()->IsPlaying(SE_GameClear)) {
+				SoundManager::GetInstance()->Release(SE_GameClear);
+			}
 
 			break;
 

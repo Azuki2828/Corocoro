@@ -54,6 +54,10 @@ bool TreasureBox::Start() {
 	return true;
 }
 
+TreasureBox::~TreasureBox() {
+	DeleteGO(m_skinModelRender);
+}
+
 void TreasureBox::Update() {
 
 	static float effectTime = 0.0f;

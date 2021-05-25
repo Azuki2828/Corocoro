@@ -23,7 +23,6 @@ private:
 	enum Select {
 		StartButton,
 		RuleButton,
-		SettingButton,
 		EndButton,
 	};
 	int NowSelect = 0;	//列挙の値を格納する変数。はじめは「はじめる」ボタンの0。

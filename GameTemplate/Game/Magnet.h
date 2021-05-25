@@ -7,6 +7,7 @@ class Game;
 class Magnet : public IGameObject
 {
 public:
+	~Magnet();
 	bool Start() override final;
 	void Update() override final;
 
@@ -34,6 +35,13 @@ public:
 
 	//座標を登録する関数。
 	void SetPosition(Vector3 pos) { m_pos = pos; }
+	void SetRotation(const Quaternion& rot) {
+		m_rot = rot;
+	}
+
+	void SetScale(const Vector3& sca) {
+		m_sca = sca;
+	}
 	Vector3 GetPosition() { return m_pos; }
 	void CreateTriggerBox(int type);
 
@@ -83,6 +91,8 @@ private:
 	bool moveFlg = false;		//動くフラグ。
 	Vector3 m_length;			//プレイヤーとの距離。
 	Vector3 m_pos;				//座標。
+	Quaternion m_rot;
+	Vector3 m_sca = { 1.0f,1.0f,1.0f };
 	Vector3 m_magnetPos;		//磁力の発生場所。基点は左下なため、中心にする。
 	Vector3 moveRange_front;	//移動範囲の左端。
 	Vector3 moveRange_back;		//移動範囲の右端。

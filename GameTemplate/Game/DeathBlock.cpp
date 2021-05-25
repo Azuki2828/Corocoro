@@ -24,14 +24,13 @@ bool DeathBlock::Start() {
 		m_rotZ.Apply(m_ligData.m_directionLigData[0].Dir);
 		});
 
-	Vector3 ghostPos;
-	ghostPos = m_pos;
-	ghostPos.x += 50.0f * m_sca.x;
-	ghostPos.y += 50.0f;
+	m_ghostPos = m_pos;
+	m_ghostPos.x += 50.0f * m_sca.x;
+	m_ghostPos.y += 50.0f * m_sca.y;
 
-	ghostPos.z -= 200.0f;
+	m_ghostPos.z -= 200.0f;
 	m_ghostBox.CreateBox(
-		ghostPos,	//第一引数は座標。
+		m_ghostPos,	//第一引数は座標。
 		Quaternion::Identity,		//第二引数は回転クォータニオン。
 		{ 100.0f * m_sca.x, 100.0f * m_sca.y, 400.0f * m_sca.z}	//第三引数はボックスのサイズ。
 	);
@@ -42,6 +41,29 @@ bool DeathBlock::Start() {
 
 void DeathBlock::Update() {
 
+	if (m_moveFlg) {
+		static bool move = false;
+		if (!move) {
+			Vector3 length = m_movePos[1] - m_pos;
+			length.Normalize();
+			m_pos += length;
+			m_ghostPos += length;
+			if (m_pos.x >= m_movePos[1].x) {
+				move = true;
+			}
+		}
+		else {
+			Vector3 length = m_movePos[0] - m_pos;
+			length.Normalize();
+			m_pos += length;
+			m_ghostPos += length;
+			if (m_pos.x <= m_movePos[0].x) {
+				move = false;
+			}
+		}
+		m_skinModelRender->SetPosition(m_pos);
+		m_ghostBox.SetPosition(m_ghostPos);
+	}
 	Vector3 effPos;
 
 	PhysicsWorld::GetInstance()->ContactTest(*m_player->GetRigidBody(), [&](const btCollisionObject& contactObject) {

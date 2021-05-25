@@ -56,7 +56,18 @@ bool TitleLevel2D::Start()
 			return true;
 		}
 		//もし名前Settingだったら、
-		else if (objdata.EqualObjectName("Setting")) {
+		//else if (objdata.EqualObjectName("Setting")) {
+		//
+		//	m_sprite[4] = NewGO<SpriteRender>(1);
+		//	//Sprite初期化オブジェクトを使用して、Spriteを初期化する
+		//	m_sprite[4]->Init(objdata.ddsFilePath, objdata.width, objdata.height, AlphaBlendMode_Trans);
+		//	m_sprite[4]->SetPosition(objdata.position);
+		//	m_sprite[4]->SetScale(objdata.scale);
+		//	m_sprite[4]->SetMulColor({ 1.0f, 1.0f, 1.0f, 0.5f });
+		//
+		//	return true;
+		//}
+		else if (objdata.EqualObjectName("End")) {
 
 			m_sprite[4] = NewGO<SpriteRender>(1);
 			//Sprite初期化オブジェクトを使用して、Spriteを初期化する
@@ -64,17 +75,6 @@ bool TitleLevel2D::Start()
 			m_sprite[4]->SetPosition(objdata.position);
 			m_sprite[4]->SetScale(objdata.scale);
 			m_sprite[4]->SetMulColor({ 1.0f, 1.0f, 1.0f, 0.5f });
-
-			return true;
-		}
-		else if (objdata.EqualObjectName("End")) {
-
-			m_sprite[5] = NewGO<SpriteRender>(1);
-			//Sprite初期化オブジェクトを使用して、Spriteを初期化する
-			m_sprite[5]->Init(objdata.ddsFilePath, objdata.width, objdata.height, AlphaBlendMode_Trans);
-			m_sprite[5]->SetPosition(objdata.position);
-			m_sprite[5]->SetScale(objdata.scale);
-			m_sprite[5]->SetMulColor({ 1.0f, 1.0f, 1.0f, 0.5f });
 
 			return true;
 		}
@@ -90,7 +90,7 @@ bool TitleLevel2D::Start()
 TitleLevel2D::~TitleLevel2D()
 {
 	//ゲーム画面に遷移するときに画像を全て破棄。
-	for (int i = 0; i < 6; i++) {
+	for (int i = 0; i < 5; i++) {
 		DeleteGO(m_sprite[i]);
 	}
 }

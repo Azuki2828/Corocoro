@@ -4,6 +4,7 @@ class Player;
 class TreasureBox : public IGameObject
 {
 public:
+	~TreasureBox();
 	bool Start()override;
 	void Update()override;
 
@@ -35,6 +36,7 @@ private:
 	LigData m_ligData;
 	Animation m_animation;
 	AnimationClip m_animClip;
+	AnimationPlayController animCon;
 	PhysicsStaticObject m_physicsStaticObject;	//“–‚½‚è”»’è
 	CPhysicsGhostObject m_ghostBox;
 };

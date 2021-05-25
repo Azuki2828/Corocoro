@@ -37,22 +37,28 @@ TitleScene::~TitleScene()
 void TitleScene::Update()
 {
 	//ボタンを全て半透明にする。
-	for (int i = 2; i < 6; i++) {
+	for (int i = 2; i < 5; i++) {
 		m_titleLevel2D->GetSprite(i)->SetMulColor({ 1.0f,1.0f,1.0f,0.3f });
 	}
 
 	//右入力or左入力されたら、
 	if (g_pad[0]->IsTrigger(enButtonRight) || g_pad[0]->IsTrigger(enButtonLeft)) {
 		//現在セレクトされているボタンが「はじめる」(0番)or「せってい」(2番)だったら、
-		if (NowSelect % 2 == 0) {
-			//選択を右に1つずらす。
-			NowSelect += 1;
+		switch (NowSelect) {
+		case 0:
+			NowSelect = 1;
+			break;
+		case 1:
+			NowSelect = 0;
+			break;
+		case 2:
+			break;
 		}
 		//現在セレクトされているボタンが「あそびかた」(1番)or「しゅうりょう」(3番)だったら、
-		else {
-			//選択を左に1つずらす。
-			NowSelect -= 1;
-		}
+		//else {
+		//	//選択を左に1つずらす。
+		//	NowSelect -= 1;
+		//}
 		//移動効果音鳴らす。
 
 		SoundManager::GetInstance()->Play(SE_CursolMove);
@@ -62,12 +68,12 @@ void TitleScene::Update()
 		//現在セレクトされているボタンが「はじめる」(0番)or「あそびかた」(1番)だったら、
 		if (NowSelect < 2) {
 			//選択を真下に1つずらす。
-			NowSelect += 2;
+			NowSelect = 2;
 		}
 		//現在セレクトされているボタンが「せってい」(2番)or「おわる」(3番)だったら、
 		else {
 			//選択を真上にずらす。
-			NowSelect -= 2;
+			NowSelect = 1;
 		}
 		//移動効果音鳴らす。
 
@@ -114,7 +120,6 @@ void TitleScene::Update()
 		 //選択されていないボタンの拡大率を元に戻す。
 		 m_titleLevel2D->GetSprite(3)->SetScale(vscale);
 		 m_titleLevel2D->GetSprite(4)->SetScale(vscale);
-		 m_titleLevel2D->GetSprite(5)->SetScale(vscale);
 
 		break;
 
@@ -149,12 +154,46 @@ void TitleScene::Update()
 		 //選択されていないボタンの拡大率を元に戻す。
 		 m_titleLevel2D->GetSprite(2)->SetScale(vscale);
 		 m_titleLevel2D->GetSprite(4)->SetScale(vscale);
-		 m_titleLevel2D->GetSprite(5)->SetScale(vscale);
 
 		break;
 
 	 //「せってい」ボタンが選ばれているとき、
-	 case SettingButton:
+	// case SettingButton:
+	//	 //ボタンを不透明度100％にする。
+	//	 m_titleLevel2D->GetSprite(4)->SetMulColor({ 1.0f,1.0f,1.0f,1.0f });
+	//
+	//	//単振動の公式を使ってボタンを拡大縮小する。
+	//
+	//	 //大きさが最小になったとき、
+	//	 if (Fscale < 0.20f) {
+	//		 ScaleUpFlag = true;
+	//	 }
+	//	 //大きさが最大になったとき、
+	//	 if (Fscale > 0.225f) {
+	//		 ScaleUpFlag = false;
+	//	 }
+	//
+	//	 if (ScaleUpFlag == true) {
+	//		 //拡大
+	//		 Fscale += 0.0005f;
+	//	 }
+	//	 if (ScaleUpFlag == false) {
+	//		 //縮小
+	//		 Fscale -= 0.0005f;
+	//	 }
+	//	 //スプライトに反映。
+	//	 Vscale = { Fscale,Fscale,Fscale };
+	//	 m_titleLevel2D->GetSprite(4)->SetScale(Vscale);
+	//
+	//	 //選択されていないボタンの拡大率を元に戻す。
+	//	 m_titleLevel2D->GetSprite(2)->SetScale(vscale);
+	//	 m_titleLevel2D->GetSprite(3)->SetScale(vscale);
+	//	 m_titleLevel2D->GetSprite(5)->SetScale(vscale);
+	//
+	//	break;
+
+	 //「しゅうりょう」ボタンが選ばれているとき、
+	 case EndButton:
 		 //ボタンを不透明度100％にする。
 		 m_titleLevel2D->GetSprite(4)->SetMulColor({ 1.0f,1.0f,1.0f,1.0f });
 
@@ -184,42 +223,6 @@ void TitleScene::Update()
 		 //選択されていないボタンの拡大率を元に戻す。
 		 m_titleLevel2D->GetSprite(2)->SetScale(vscale);
 		 m_titleLevel2D->GetSprite(3)->SetScale(vscale);
-		 m_titleLevel2D->GetSprite(5)->SetScale(vscale);
-
-		break;
-
-	 //「しゅうりょう」ボタンが選ばれているとき、
-	 case EndButton:
-		 //ボタンを不透明度100％にする。
-		 m_titleLevel2D->GetSprite(5)->SetMulColor({ 1.0f,1.0f,1.0f,1.0f });
-
-		//単振動の公式を使ってボタンを拡大縮小する。
-
-		   //大きさが最小になったとき、
-		 if (Fscale < 0.20f) {
-			 ScaleUpFlag = true;
-		 }
-		 //大きさが最大になったとき、
-		 if (Fscale > 0.225f) {
-			 ScaleUpFlag = false;
-		 }
-
-		 if (ScaleUpFlag == true) {
-			 //拡大
-			 Fscale += 0.0005f;
-		 }
-		 if (ScaleUpFlag == false) {
-			 //縮小
-			 Fscale -= 0.0005f;
-		 }
-		 //スプライトに反映。
-		 Vscale = { Fscale,Fscale,Fscale };
-		 m_titleLevel2D->GetSprite(5)->SetScale(Vscale);
-
-		 //選択されていないボタンの拡大率を元に戻す。
-		 m_titleLevel2D->GetSprite(2)->SetScale(vscale);
-		 m_titleLevel2D->GetSprite(3)->SetScale(vscale);
-		 m_titleLevel2D->GetSprite(4)->SetScale(vscale);
 
 
 		break;
@@ -235,35 +238,35 @@ void TitleScene::Update()
 
 		switch (NowSelect) {
 
-		 //「はじめる」ボタンが選ばれているとき、
-		 case StartButton:
+			//「はじめる」ボタンが選ばれているとき、
+		case StartButton:
 			//ステージセレクト画面に遷移。
-			NewGO<StageSelect>(0,"stageselect");
+			NewGO<StageSelect>(0, "stageselect");
 
 			break;
 
-		 //「あそびかた」ボタンが選ばれているとき、
-		 case RuleButton:
+			//「あそびかた」ボタンが選ばれているとき、
+		case RuleButton:
 			//ルール(操作)説明画面に遷移。
-			NewGO<RuleScene>(0,"rule");
+			NewGO<RuleScene>(0, "rule");
 
 			break;
 
-		 //「せってい」ボタンが選ばれているとき、
-		 case SettingButton:
-			//設定画面に遷移。
-			NewGO<SettingScene>(0);
+			//「せってい」ボタンが選ばれているとき、
+		   //case SettingButton:
+		   //	//設定画面に遷移。
+		   //	NewGO<SettingScene>(0);
+		   //
+		   //	break;
 
-			break;
-
-		 //「おわる」ボタンが選ばれているとき、
-		 case EndButton:
+			//「おわる」ボタンが選ばれているとき、
+		case EndButton:
 			//ゲームを終了。
-			 exit(EXIT_SUCCESS);
+			exit(EXIT_SUCCESS);
 
 			break;
 		};
 		//クラスを削除。
 		DeleteGO(this);
-	}
+	};
 }

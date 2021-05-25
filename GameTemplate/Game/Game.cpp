@@ -15,7 +15,8 @@ bool Game::Start() {
 
 	//PhysicsWorld::GetInstance()->EnableDrawDebugWireFrame();
 	m_gameStartTime = 3.0f * g_graphicsEngine->GetGraphicTime();
-
+	PhysicsWorld::GetInstance()->SetGravity({ 0, -300, 0 });
+	g_camera3D->SetUp({ 0.0f,1.0f,0.0f });
 
 	//セーブを追加
 	m_savedata = NewGO<SaveData>(0, "savedata");
@@ -28,11 +29,6 @@ bool Game::Start() {
 	//	Quaternion::Identity,		//第二引数は回転クォータニオン。
 	//	{ 200.0f, 200.0f, 750.0f }	//第三引数はボックスのサイズ。
 	//);
-
-
-	m_dirLight = NewGO<DirectionLight>(0,"mainLight");
-	m_dirLight->SetLigDirection();
-	m_dirLight->SetLigColor();
 
 	//m_dirLight = NewGO<DirectionLight>(0, "backGroundLight");
 	//m_dirLight->SetLigDirection(0.0f, 1.0f, 0.0f);
@@ -65,12 +61,11 @@ bool Game::Start() {
 Game::~Game()
 {
 	DeleteGO(m_savedata);
-	DeleteGO(m_dirLight);
+	//DeleteGO(m_dirLight);
 	DeleteGO(m_player);
 	DeleteGO(m_backGround);
 	DeleteGO(m_camera);
 	DeleteGO(m_fontRender);
-	DeleteGO(m_recordfontRender);
 }
 
 void Game::Update() {
@@ -148,7 +143,7 @@ void Game::Update() {
 	if (m_startsoundflg == false) {
 		m_timer += GameTime::GameTimeFunc().GetFrameDeltaTime();		//タイム計測開始のためのタイム
 	}
-	if (m_timer >= m_gameStartTime) {
+	if (m_timer >= m_gameStartTime && !m_player->GetTreasureFlg()) {
 		m_time += GameTime::GameTimeFunc().GetFrameDeltaTime();
 	}
 

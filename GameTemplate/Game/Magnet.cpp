@@ -8,6 +8,8 @@ bool Magnet::Start() {
 
 	
 	m_skinModelRender->SetPosition(m_pos);
+	m_skinModelRender->SetRotation(m_rot);
+	m_skinModelRender->SetScale(m_sca);
 	m_key = FindGO<Key>("key");
 	m_game = FindGO<Game>("game");
 
@@ -52,6 +54,10 @@ bool Magnet::Start() {
 	SetMagnetTriggerBox(m_game->GetStageNum());
 	m_player->GetRigidBody()->GetBody()->setIgnoreCollisionCheck(m_ghostBox.GetGhostObject(), true);
 	return true;
+}
+
+Magnet::~Magnet() {
+	DeleteGO(m_skinModelRender);
 }
 
 void Magnet::Update() {
@@ -107,6 +113,9 @@ void Magnet::Update() {
 				//m_pointLig->SetActiveFlag(true);	//ポイントライトをつける。
 				//m_ghostBox.SetPosition({ 700.0f,405.0f,0.0f });
 				SetMagnetPower();
+				//if (m_magnetNum == 42) {
+				//	MessageBoxA(nullptr, "まだ存在しないサウンドです。先にInit()関数を呼んでください。", "エラー", MB_OK);
+				//}
 			}
 		});
 		//triggerTime = 0.0f;
@@ -435,6 +444,76 @@ void Magnet::SetMagnetTriggerBox(int stageNum) {
 				Quaternion::Identity,		//第二引数は回転クォータニオン。
 				{ 500.0f, 300.0f, 400.0f }	//第三引数はボックスのサイズ。
 			);
+			break;
+		}
+		break;
+	case 4:
+		switch (m_magnetNum) {
+		case 0:
+		case 1:
+			CreateTriggerBox(Up3);
+			break;
+		case 2:
+		case 3:
+		case 4:
+			CreateTriggerBox(Down2);
+			break;
+		case 5:
+			ghostPos.x -= 50.0f;
+			ghostPos.y -= 100.0f;
+			m_ghostBox.CreateBox(
+				ghostPos,	//第一引数は座標。
+				Quaternion::Identity,		//第二引数は回転クォータニオン。
+				{ 300.0f, 200.0f, 400.0f }	//第三引数はボックスのサイズ。
+			);
+			break;
+		case 6:
+		case 10:
+			CreateTriggerBox(Left3);
+			break;
+		case 7:
+		case 8:
+		case 9:
+		case 33:
+		case 34:
+		case 35:
+			CreateTriggerBox(Right3);
+			break;
+		case 11:
+		case 36:
+		case 37:
+			ghostPos.x += 150.0f;
+			ghostPos.y += 150.0f;
+			m_ghostBox.CreateBox(
+				ghostPos,	//第一引数は座標。
+				Quaternion::Identity,		//第二引数は回転クォータニオン。
+				{ 300.0f, 300.0f, 400.0f }	//第三引数はボックスのサイズ。
+			);
+			break;
+		case 12:
+		case 13:
+		case 14:
+		case 15:
+		case 16:
+		case 17:
+		case 18:
+		case 19:
+			CreateTriggerBox(Up2);
+			break;
+		case 20:
+		case 21:
+		case 22:
+		case 23:
+		case 24:
+		case 25:
+		case 26:
+		case 27:
+		case 28:
+		case 29:
+		case 30:
+		case 31:
+		case 32:
+			CreateTriggerBox(Down3);
 			break;
 		}
 		break;

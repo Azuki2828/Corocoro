@@ -54,6 +54,10 @@ MapChip::MapChip(const LevelObjectData& objData) {
 	m_physicsStaticObject.SetFriction(10.0f);
 }
 
+MapChip::~MapChip() {
+	DeleteGO(m_skinModelRender);
+}
+
 void MapChip::Draw(RenderContext& rc) {
 	//Draw(rc,
 	//	m_skinModelRender->GetModel()->GetWorldMatrix(),

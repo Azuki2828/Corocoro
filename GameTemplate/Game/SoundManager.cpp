@@ -51,6 +51,19 @@ void SoundManager::Play(int num) {
 	}
 }
 
+bool SoundManager::IsPlaying(int num) {
+	for (int i = 0; i < m_soundData.size(); i++) {
+		//登録番号が同じだったら再生。
+		if (m_soundData[i].soundNum == num) {
+			return m_soundData[i].sound->IsPlaying();
+		}
+	}
+
+	
+	MessageBoxA(nullptr, "まだ存在しないサウンドです。先にInit()関数を呼んでください。", "エラー", MB_OK);
+	return false;
+}
+
 void SoundManager::SetRoopFlg(int num, bool flg) {
 
 	bool Flg = false;

@@ -9,6 +9,7 @@ class MapChip
 {
 public:
 	MapChip(const LevelObjectData& objData);
+	~MapChip();
 	LigData* GetLigData() { return &m_ligData; }
 	void Draw(RenderContext& rc);
 	void Draw(RenderContext& rc,

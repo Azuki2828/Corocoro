@@ -11,6 +11,7 @@ class Game;
 class Player;
 class DeathBlock;
 class TreasureBox;
+class Seesaw;
 
 class NormalBackground;
 
@@ -44,5 +45,6 @@ private:
 	Player* m_player = nullptr;
 	Player* m_skinModelRender = nullptr;
 	DeathBlock* m_deathBlock = nullptr;
+	Seesaw* m_seesaw = nullptr;
 };
 

@@ -19,6 +19,13 @@ public:
 	void SetScale(const Vector3& sca) {
 		m_sca = sca;
 	}
+
+	void SetMove(const Vector3& pos_1, const Vector3& pos_2) {
+
+		m_moveFlg = true;
+		m_movePos[0] = pos_1;
+		m_movePos[1] = pos_2;
+	}
 	//初期化関数。
 	void Init(const char* name)
 	{
@@ -50,7 +57,9 @@ public:
 private:
 	int m_timer = 0;
 	bool m_hitPlayer = false;
+	bool m_moveFlg = false;
 	int m_returnTimer = 0;
+	Vector3 m_movePos[2] = { {0.0f,0.0f,0.0f} };
 	Effect *m_death = nullptr;
 	CSoundSource* DeathSound = nullptr;
 	bool n_contactTestFlag = true;
@@ -62,6 +71,7 @@ public:
 	Vector3 m_pos;
 	Vector3 m_sca;
 	Vector3 m_startPos = { 0.0f,0.0f,0.0f };
+	Vector3 m_ghostPos;
 	Vector3 m_scale = g_vec3One;
 	CPhysicsGhostObject m_ghostBox;
 	SkinModelRender* m_skinModelRender = nullptr;

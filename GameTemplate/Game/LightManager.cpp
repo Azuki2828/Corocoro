@@ -70,6 +70,7 @@ void LightManager::Update() {
 	m_ligData.ambient.Set(0.3f, 0.3f, 0.3f);
 	m_lightManager->m_ligData.eyePos = g_camera3D->GetPosition();
 
+
 	for (auto itr = m_directionLights.begin(); itr != m_directionLights.end(); ++itr) {
 
 		int a = 0;

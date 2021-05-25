@@ -7,6 +7,7 @@
 #include "Player.h"
 #include "TreasureBox.h"
 #include "DeathBlock.h"
+#include "Seesaw.h"
 
 bool Background::Start()
 {
@@ -147,6 +148,21 @@ bool Background::Start()
 				Vector3 m_magPos = objData.position;
 				m_magPos.x += 150.0f;
 				m_magPos.y += 50.0f;
+				m_magnet[sampleNum]->SetMagnetPosition(m_magPos);
+				m_magnet[sampleNum]->SetMagnetNum(sampleNum);
+				sampleNum++;
+				return true;
+			}
+			else if (objData.EqualObjectName(L"Magnet_N100_-200triangle") == true) {
+				m_magnet.push_back(*(m_magnet.end() - 1));
+				m_magnet[sampleNum] = NewGO<Magnet>(0);
+				m_magnet[sampleNum]->SetState_N();
+				m_magnet[sampleNum]->Init("Magnet_N100_-200triangle");
+				m_magnet[sampleNum]->SetPosition(objData.position);
+				m_magnet[sampleNum]->SetRotation(objData.rotation);
+				Vector3 m_magPos = objData.position;
+				m_magPos.x += 50.0f;
+				m_magPos.y -= 50.0f;
 				m_magnet[sampleNum]->SetMagnetPosition(m_magPos);
 				m_magnet[sampleNum]->SetMagnetNum(sampleNum);
 				sampleNum++;
@@ -348,6 +364,21 @@ bool Background::Start()
 				sampleNum++;
 				return true;
 			}
+			else if (objData.EqualObjectName(L"Magnet_N100_-200triangle") == true) {
+			m_magnet.push_back(*(m_magnet.end() - 1));
+			m_magnet[sampleNum] = NewGO<Magnet>(0);
+			m_magnet[sampleNum]->SetState_N();
+			m_magnet[sampleNum]->Init("Magnet_N100_-200triangle");
+			m_magnet[sampleNum]->SetPosition(objData.position);
+			m_magnet[sampleNum]->SetRotation(objData.rotation);
+			Vector3 m_magPos = objData.position;
+			m_magPos.x += 50.0f;
+			m_magPos.y -= 50.0f;
+			m_magnet[sampleNum]->SetMagnetPosition(m_magPos);
+			m_magnet[sampleNum]->SetMagnetNum(sampleNum);
+			sampleNum++;
+			return true;
+				}
 			else if (objData.EqualObjectName(L"Magnet_S-100_200triangle") == true) {
 				m_magnet.push_back(*(m_magnet.end() - 1));
 				m_magnet[sampleNum] = NewGO<Magnet>(0);
@@ -515,6 +546,21 @@ bool Background::Start()
 				sampleNum++;
 				return true;
 			}
+			else if (objData.EqualObjectName(L"Magnet_N100_-200triangle") == true) {
+			m_magnet.push_back(*(m_magnet.end() - 1));
+			m_magnet[sampleNum] = NewGO<Magnet>(0);
+			m_magnet[sampleNum]->SetState_N();
+			m_magnet[sampleNum]->Init("Magnet_N100_-200triangle");
+			m_magnet[sampleNum]->SetPosition(objData.position);
+			m_magnet[sampleNum]->SetRotation(objData.rotation);
+			Vector3 m_magPos = objData.position;
+			m_magPos.x += 50.0f;
+			m_magPos.y -= 50.0f;
+			m_magnet[sampleNum]->SetMagnetPosition(m_magPos);
+			m_magnet[sampleNum]->SetMagnetNum(sampleNum);
+			sampleNum++;
+			return true;
+				}
 			else if (objData.EqualObjectName(L"Magnet_S-100_200triangle") == true) {
 				m_magnet.push_back(*(m_magnet.end() - 1));
 				m_magnet[sampleNum] = NewGO<Magnet>(0);
@@ -568,6 +614,208 @@ bool Background::Start()
 
 			m_player->SetPosition({ 300.0f,1300.0f,-300.0f });
 		break;
+	case 4:
+
+			m_level.Init("Assets/level/stage04_treasure.tkl", [&](LevelObjectData& objData) {
+
+
+				//return true;が自分で生成。return false;がパソコンが生成してくれる。
+				//falseだと生成勝手にしてくれるけど、位置変えたりとかいじれない！！
+
+				deathPosY = -500.0f;		//state02では-500.0fで死ぬ！
+
+				if (objData.EqualObjectName(L"Key_after") == true) {
+					if (m_key == nullptr) {
+						m_key = NewGO<Key>(0, "key");
+					}
+					m_key->InitKey("Key_after");
+					m_key->SetPositionKey(objData.position);
+					m_key->SetScaleKey(objData.scale);
+					return true;
+				}
+				else if (objData.EqualObjectName(L"KeyBox") == true) {
+					if (m_key == nullptr) {
+						m_key = NewGO<Key>(0, "key");
+					}
+					m_key->InitDoor("KeyBox");
+					m_key->SetPositionDoor(objData.position);
+
+					m_key->SetScaleDoor(objData.scale);
+
+					Effect* treasure = nullptr;
+					treasure = NewGO<Effect>(0);
+					treasure->Init(u"Assets/effect/treasure_4.efk");
+					treasure->SetScale({ 80.0f,80.0f,80.0f });
+					Vector3 effPos = objData.position;
+					effPos += { 200.0f, -150.0f, -200.0f };
+					treasure->SetPosition(effPos);
+					//treasure->Update();
+					treasure->Play();
+					return true;
+				}
+				else if (objData.EqualObjectName(L"TreasureBox") == true) {
+
+					m_treasureBox = NewGO<TreasureBox>(0, "treasureBox");
+					Vector3 pos = objData.position;
+					pos.x -= 75.0f;
+					pos.z -= 50.0f;
+					m_treasureBox->SetPosition(pos);
+					m_treasureBox->SetRotation(objData.rotation);
+					Vector3 sca = objData.scale;
+					sca.x = 2.5f;
+					sca.y = 2.5f;
+					sca.z = 2.5f;
+					m_treasureBox->SetScale(sca);
+					return true;
+				}
+				else if (objData.EqualObjectName(L"Magnet_N100_100") == true) {
+					m_magnet.push_back(*(m_magnet.end() - 1));
+					m_magnet[sampleNum] = NewGO<Magnet>(0);
+					m_magnet[sampleNum]->SetState_N();
+					m_magnet[sampleNum]->Init("Magnet_N100_100");
+					m_magnet[sampleNum]->SetPosition(objData.position);
+					m_magnet[sampleNum]->SetRotation(objData.rotation);
+					Vector3 m_magPos = objData.position;
+					m_magPos.x += 50.0f;
+					m_magPos.y += 50.0f;
+					m_magnet[sampleNum]->SetMagnetPosition(m_magPos);
+					m_magnet[sampleNum]->SetMagnetNum(sampleNum);
+					sampleNum++;
+					return true;
+				}
+				else if (objData.EqualObjectName(L"Magnet_S100_100") == true) {
+					m_magnet.push_back(*(m_magnet.end() - 1));
+					m_magnet[sampleNum] = NewGO<Magnet>(0);
+					m_magnet[sampleNum]->SetState_S();
+					m_magnet[sampleNum]->Init("Magnet_S100_100");
+					m_magnet[sampleNum]->SetPosition(objData.position);
+					m_magnet[sampleNum]->SetRotation(objData.rotation);
+					Vector3 m_magPos = objData.position;
+					m_magPos.x += 50.0f;
+					m_magPos.y += 50.0f;
+					m_magnet[sampleNum]->SetMagnetPosition(m_magPos);
+					m_magnet[sampleNum]->SetMagnetNum(sampleNum);
+					sampleNum++;
+					return true;
+				}
+				else if (objData.EqualObjectName(L"Magnet_N100_200triangle") == true) {
+					m_magnet.push_back(*(m_magnet.end() - 1));
+					m_magnet[sampleNum] = NewGO<Magnet>(0);
+					m_magnet[sampleNum]->SetState_N();
+					m_magnet[sampleNum]->Init("Magnet_N100_200triangle");
+					m_magnet[sampleNum]->SetPosition(objData.position);
+					m_magnet[sampleNum]->SetRotation(objData.rotation);
+					m_magnet[sampleNum]->SetMagnetNum(sampleNum);
+					sampleNum++;
+					return true;
+				}
+				else if (objData.EqualObjectName(L"Magnet_S100_200triangle") == true) {
+					m_magnet.push_back(*(m_magnet.end() - 1));
+					m_magnet[sampleNum] = NewGO<Magnet>(0);
+					m_magnet[sampleNum]->SetState_S();
+					m_magnet[sampleNum]->Init("Magnet_S100_200triangle");
+					m_magnet[sampleNum]->SetPosition(objData.position);
+					m_magnet[sampleNum]->SetRotation(objData.rotation);
+					Vector3 m_magPos = objData.position;
+					m_magPos.x += 150.0f;
+					m_magPos.y -= 50.0f;
+					m_magnet[sampleNum]->SetMagnetPosition(m_magPos);
+					m_magnet[sampleNum]->SetMagnetNum(sampleNum);
+					sampleNum++;
+					return true;
+				}
+				else if (objData.EqualObjectName(L"Magnet_N-100_200triangle") == true) {
+					m_magnet.push_back(*(m_magnet.end() - 1));
+					m_magnet[sampleNum] = NewGO<Magnet>(0);
+					m_magnet[sampleNum]->SetState_N();
+					m_magnet[sampleNum]->Init("Magnet_N-100_200triangle");
+					m_magnet[sampleNum]->SetPosition(objData.position);
+					m_magnet[sampleNum]->SetRotation(objData.rotation);
+					m_magnet[sampleNum]->SetMagnetNum(sampleNum);
+					sampleNum++;
+					return true;
+				}
+				else if (objData.EqualObjectName(L"Magnet_N100_-200triangle") == true) {
+					m_magnet.push_back(*(m_magnet.end() - 1));
+					m_magnet[sampleNum] = NewGO<Magnet>(0);
+					m_magnet[sampleNum]->SetState_N();
+					m_magnet[sampleNum]->Init("Magnet_N100_-200triangle");
+					m_magnet[sampleNum]->SetPosition(objData.position);
+					m_magnet[sampleNum]->SetRotation(objData.rotation);
+					Vector3 m_magPos = objData.position;
+					m_magPos.x += 50.0f;
+					m_magPos.y += 50.0f;
+					m_magnet[sampleNum]->SetMagnetPosition(m_magPos);
+					m_magnet[sampleNum]->SetMagnetNum(sampleNum);
+					sampleNum++;
+					return true;
+				}
+				else if (objData.EqualObjectName(L"Magnet_S-100_200triangle") == true) {
+					m_magnet.push_back(*(m_magnet.end() - 1));
+					m_magnet[sampleNum] = NewGO<Magnet>(0);
+					m_magnet[sampleNum]->SetState_S();
+					m_magnet[sampleNum]->Init("Magnet_S-100_200triangle");
+					m_magnet[sampleNum]->SetPosition(objData.position);
+					m_magnet[sampleNum]->SetRotation(objData.rotation);
+					m_magnet[sampleNum]->SetMagnetNum(sampleNum);
+					sampleNum++;
+					return true;
+				}
+				else if (objData.EqualObjectName(L"Magnet_S-100_-200triangle") == true) {
+					m_magnet.push_back(*(m_magnet.end() - 1));
+					m_magnet[sampleNum] = NewGO<Magnet>(0);
+					m_magnet[sampleNum]->SetState_S();
+					m_magnet[sampleNum]->Init("Magnet_S-100_-200triangle");
+					m_magnet[sampleNum]->SetPosition(objData.position);
+					m_magnet[sampleNum]->SetRotation(objData.rotation);
+					Vector3 m_magPos = objData.position;
+					m_magPos.x += 50.0f;
+					m_magPos.y += 50.0f;
+					m_magnet[sampleNum]->SetMagnetPosition(m_magPos);
+					m_magnet[sampleNum]->SetMagnetNum(sampleNum);
+					sampleNum++;
+					return true;
+				}
+				else if (objData.EqualObjectName(L"Magnet_S100_-200triangle") == true) {
+					m_magnet.push_back(*(m_magnet.end() - 1));
+					m_magnet[sampleNum] = NewGO<Magnet>(0);
+					m_magnet[sampleNum]->SetState_S();
+					m_magnet[sampleNum]->Init("Magnet_S100_-200triangle");
+					m_magnet[sampleNum]->SetPosition(objData.position);
+					m_magnet[sampleNum]->SetRotation(objData.rotation);
+					Vector3 m_magPos = objData.position;
+					m_magPos.x += 50.0f;
+					m_magPos.y -= 50.0f;
+					m_magnet[sampleNum]->SetMagnetPosition(m_magPos);
+					m_magnet[sampleNum]->SetMagnetNum(sampleNum);
+					sampleNum++;
+					return true;
+				}
+				else if (objData.EqualObjectName(L"DeathBlock") == true) {
+					m_deathBlock = NewGO<DeathBlock>(0);
+					m_deathBlock->Init("DeathBlock");
+					m_deathBlock->SetPosition(objData.position);
+					m_deathBlock->SetScale(objData.scale);
+					m_deathBlock->SetStartPos({ 300.0f,1900.0f,-300.0f });
+					m_deathBlock->SetScale(objData.scale);
+					return true;
+				}
+				else if (objData.EqualObjectName(L"seesaw") == true) {
+				m_seesaw = NewGO<Seesaw>(0);
+				m_seesaw->SetPosition(objData.position);
+				m_seesaw->SetRotation(objData.rotation);
+				m_seesaw->Init("seesaw");
+				//m_seesaw->SetScale(objData.scale);
+				//m_seesaw->SetStartPos({ 300.0f,1300.0f,-300.0f });
+				//m_seesaw->SetScale(objData.scale);
+				return true;
+				}
+
+				return false;//levelのオブジェクトをそのままロード。
+				});
+
+			m_player->SetPosition({ 300.0f,1900.0f,-300.0f });
+			break;
 
 	}
 
@@ -595,6 +843,13 @@ Background::~Background()
 	DeleteGO(m_spriteRender);
 	//タイム削除。
 	DeleteGO(m_fontRender);
+	DeleteGO(m_key);
+	DeleteGO(m_player);
+	DeleteGO(m_deathBlock);
+	DeleteGO(m_treasureBox);
+	for (int i = 0; i < m_magnet.size(); i++) {
+		DeleteGO(m_magnet[i]);
+	}
 }
 
 

@@ -40,6 +40,8 @@ public:
 
 	void Play(int num);
 
+	bool IsPlaying(int num);
+
 	/// <summary>
 	/// ‰¹—Ê‚ğİ’è‚·‚éŠÖ”B
 	/// </summary>
