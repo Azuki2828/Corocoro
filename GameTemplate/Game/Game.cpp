@@ -44,6 +44,7 @@ bool Game::Start() {
 	//時間経過を表示
 	m_fontRender->Init(L"Time", { -500.0f,310.0f });	//場所
 	m_fontRender->SetColor({ 1.0f,1.0f,1.0f,1.0f });	//白色
+	m_fontRender->SetShadowParam(true, 1.0f, Vector4::Black);
 
 	//pivotが使えないからコメントアウトしています。
 	//m_fontRender->SetPivot({ 1.0f, 0.0f });				//中心を右側に

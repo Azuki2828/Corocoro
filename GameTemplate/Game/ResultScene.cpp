@@ -28,6 +28,7 @@ bool ResultScene::Start()
 	m_nowTime->Init(text[0], { 20.0f,70.0f }, { 1.0f,1.0f,1.0f,1.0f });
 	m_nowTime->SetScale(1.5f);
 	m_nowTime->SetPivot({ 0.0f,0.0f });
+	m_nowTime->SetShadowParam(true, 1.0f, Vector4::Black);
 
 	//記録が1桁の時
 	if (nowTime < 10) {
@@ -52,6 +53,7 @@ bool ResultScene::Start()
 	m_BestTime->Init(text[1], { 20.0f,-30.0f }, { 1.0f,1.0f,1.0f,1.0f });
 	m_BestTime->SetPivot({ 0.0f,0.0f });
 	m_BestTime->SetScale(1.5f);
+	m_BestTime->SetShadowParam(true, 1.0f, Vector4::Black);
 
 	//記録が1桁の時
 	if (bestTime < 10) {
