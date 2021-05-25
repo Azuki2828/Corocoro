@@ -48,10 +48,11 @@ void FontEngine::Init()
 	//SpriteFontを作成。
 	D3D12_CPU_DESCRIPTOR_HANDLE cpuHandle = m_srvDescriptorHeap->GetCPUDescriptorHandleForHeapStart();
 	D3D12_GPU_DESCRIPTOR_HANDLE gpuHandle = m_srvDescriptorHeap->GetGPUDescriptorHandleForHeapStart();
+	//使うフォントを設定。
 	m_spriteFont = make_unique<SpriteFont>(
 		d3dDevice, 
 		re,
-		L"Assets/font/azuki.spritefont", 
+		L"Assets/font/azukiB.spritefont", 
 		cpuHandle, 
 		gpuHandle);
 
