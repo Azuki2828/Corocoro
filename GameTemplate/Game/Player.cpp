@@ -37,7 +37,7 @@ bool Player::Start()
 		m_rotZ.SetRotationDeg(Vector3::AxisZ, -2.0f);
 		m_rotZ.Apply(m_ligData[enPlayer_0].m_directionLigData[0].Dir);
 		m_rotZ.Apply(m_ligData[enPlayer_1].m_directionLigData[0].Dir);
-		});
+	});
 
 	////アニメーションクリップをロードする。
 	//m_animationClips[enAnimClip_Idle].Load("Assets/animData/idle.tka");
@@ -84,7 +84,7 @@ bool Player::Start()
 		m_NCahgeState->Init(u"Assets/effect/State_N2.efk");
 		m_NCahgeState->SetScale({ 95.0f,95.0f,95.0f });
 	}
-
+	
 	{
 		//エフェクト再生
 		m_SCahgeState = NewGO<Effect>(0);

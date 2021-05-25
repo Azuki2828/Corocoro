@@ -51,7 +51,7 @@ void FontEngine::Init()
 	m_spriteFont = make_unique<SpriteFont>(
 		d3dDevice, 
 		re,
-		L"Assets/font/myfont.spritefont", 
+		L"Assets/font/azuki.spritefont", 
 		cpuHandle, 
 		gpuHandle);
 

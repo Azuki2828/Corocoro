@@ -37,16 +37,18 @@ bool ResultScene::Start()
 	//記録が10桁の時
 	if (nowTime > 10 && nowTime < 100) {
 		//x座標を調整。
-		m_nowTime->SetPosition({ -15.0f,70.0f });	//場所
+		m_nowTime->SetPosition({ -12.0f,70.0f });	//場所
 	}
 	//記録が100桁の時
 	if (nowTime > 100 && nowTime < 1000) {
 		//x座標を調整。
-		m_nowTime->SetPosition({ -45.0f,70.0f });	//場所
+		m_nowTime->SetPosition({ -44.0f,70.0f });	//場所
 	}
 
+	float t = 123.4f;
+	bestTime = t;
 	m_BestTime = NewGO<FontRender>(2);
-	swprintf_s(text[1], L"%2.1f", nowTime);
+	swprintf_s(text[1], L"%2.1f", bestTime);
 	m_BestTime->Init(text[1], { 20.0f,-30.0f }, { 1.0f,1.0f,1.0f,1.0f });
 	m_BestTime->SetPivot({ 0.0f,0.0f });
 	m_BestTime->SetScale(1.5f);
@@ -59,12 +61,12 @@ bool ResultScene::Start()
 	//記録が10桁の時
 	if (bestTime > 10 && bestTime < 100) {
 		//x座標を調整。
-		m_BestTime->SetPosition({ -15.0f,-30.0f });	//場所
+		m_BestTime->SetPosition({ -12.0f,-30.0f });	//場所
 	}
 	//記録が100桁の時
 	if (bestTime > 100 && bestTime < 1000) {
 		//x座標を調整。
-		m_BestTime->SetPosition({ -45.0f,-30.0f });	//場所
+		m_BestTime->SetPosition({ -44.0f,-30.0f });	//場所
 	}
 
 	//C++限定のキャスト方法。
