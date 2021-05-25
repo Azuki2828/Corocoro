@@ -28,6 +28,8 @@ void MainCamera::Update() {
 	//コントローラーの入力でY軸周りに回転するカメラを作成する。
 	
 	//g_pad[0]->GetRStickXF()はコントローラーの右スティックの入力量が取得できる関数。
+
+
 	//m_rotY.SetRotationY(g_pad[0]->GetRStickXF() * 0.05f);
 	////回転クォータニオンでtoCameraPosを回す。
 	//m_rotY.Apply(toPos);

@@ -10,20 +10,22 @@ bool Player::Start()
 {
 	m_ligData[enPlayer_0].m_directionLigData[0].Dir.Set(0, -1, 1);
 	m_ligData[enPlayer_0].m_directionLigData[0].Dir.Normalize();
+	//m_ligData[enPlayer_0].m_directionLigData[0].Col.Set(50.0f, 50.0f, 50.0f, 1.0f);
 	m_ligData[enPlayer_0].m_directionLigData[0].Col.Set(25.0f, 25.0f, 25.0f, 1.0f);
 	m_ligData[enPlayer_0].ambient.Set(0.8f, 0.8f, 0.8f);
 	m_ligData[enPlayer_0].metaric = 1.0f;
 	m_ligData[enPlayer_0].smooth = 0.35f;
-	m_ligData[enPlayer_0].edge = Edge_1;
+	//m_ligData[enPlayer_0].edge = Edge_1;
 	m_ligData[enPlayer_0].powValue = 2.0f;
 
 	m_ligData[enPlayer_1].m_directionLigData[0].Dir.Set(0, -1, 1);
 	m_ligData[enPlayer_1].m_directionLigData[0].Dir.Normalize();
+	//m_ligData[enPlayer_1].m_directionLigData[0].Col.Set(50.0f, 50.0f, 110.0f, 1.0f);
 	m_ligData[enPlayer_1].m_directionLigData[0].Col.Set(25.0f, 25.0f, 55.0f, 1.0f);
 	m_ligData[enPlayer_1].ambient.Set(0.8f, 0.8f, 0.8f);
 	m_ligData[enPlayer_1].metaric = 1.0f;
 	m_ligData[enPlayer_1].smooth = 0.35f;
-	m_ligData[enPlayer_1].edge = Edge_1;
+	//m_ligData[enPlayer_1].edge = Edge_1;
 	m_ligData[enPlayer_1].powValue = 2.0f;
 
 	m_game = FindGO<Game>("game");
