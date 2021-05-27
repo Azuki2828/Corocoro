@@ -55,6 +55,10 @@ public:
 			m_skinModelRender[i]->UpdateWorldMatrix();
 		}
 	}
+
+	Vector3 GetStartPos() {
+		return m_startPos;
+	}
 	void SetKeyFlg(bool flg) { getKeyFlg = flg; }
 	bool GetKeyFlg() { return getKeyFlg; }
 

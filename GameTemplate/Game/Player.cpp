@@ -178,13 +178,14 @@ void Player::Update()
 			m_rot = rot;
 			if (m_pos.y < deathPosY || g_pad[0]->IsTrigger(enButtonB)) {
 
-				if (getKeyFlg) {
-					m_pos = m_key->GetKeyPos();
-				}
-				else {
-					m_pos = m_startPos;	//<変更>yが500以下になったら初期位置に戻るようにif文追加
-				}
-				m_rigidBody.SetPositionAndRotation(m_pos, m_rot);
+				//if (getKeyFlg) {
+				//	m_pos = m_key->GetKeyPos();
+				//}
+				//else {
+				//	m_pos = m_startPos;	//<変更>yが500以下になったら初期位置に戻るようにif文追加
+				//}
+				//m_rigidBody.SetPositionAndRotation(m_pos, m_rot);
+				m_game->SetHitPlayer(true);
 			}
 			//m_skinModelRender[i]->UpdateWorldMatrix(pos, rot, Vector3::One);
 			m_skinModelRender[i]->SetPosition(m_pos);

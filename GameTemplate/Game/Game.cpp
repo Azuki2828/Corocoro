@@ -198,6 +198,63 @@ void Game::Update() {
 		}
 	}
 
+	if (m_hitPlayer)
+	{
+		//死ぬエフェクト再生と効果音
+		if (m_player->Getrespawn() == false) {
+			m_playerPos = m_player->GetPosition();
+			Effect* m_death = NewGO<Effect>(0);
+			m_death->Init(u"Assets/effect/death.efk");
+			m_death->SetScale({ 100.0f,100.0f,100.0f });
+			m_player->Setrespawn(true);
+			m_death->SetPosition(m_playerPos);
+			deathActiveState = m_player->DeactivatePlayerModel();
+			m_death->Play();
+			deathFlg = true;
+
+			CSoundSource* DeathSound = NewGO<CSoundSource>(0);
+
+			DeathSound->Init(L"Assets/sound/death.wav");
+			DeathSound->SetVolume(0.5f);
+			DeathSound->Play(false);	//ワンショット再生
+
+			/*m_timer++;
+			if (m_timer == 60) {
+				g_engine->SetGameState(GameState::State_Game);
+				m_timer = 0;*/
+		}
+		m_playerTimer++;
+		if (m_playerTimer >= 90)
+		{
+			m_player->Setrespawn(false);
+			m_playerTimer = 0;
+			m_backGround->SetStart(true);
+			m_hitPlayer = false;
+
+		}
+		else if (m_playerTimer >= 80) {
+
+			if (m_player->GetKeyFlg()) {
+				m_key = FindGO<Key>("key");
+				m_player->SetPosition(m_key->GetKeyPos());
+				m_player->ActivatePlayerModel(deathActiveState);
+				deathFlg = false;
+			}
+			else {
+				m_player->SetPosition(m_player->GetStartPos());
+				m_player->ActivatePlayerModel(deathActiveState);
+				deathFlg = false;
+			}
+			//m_hitPlayer = false;
+
+		}
+		else {
+			m_player->SetPosition(m_playerPos);
+		}
+		m_player->ClearPower();
+
+		//g_engine->SetGameState(GameState::State_Dead);
+	}
 
 	///デバック用のコマンド。
 	//if (g_pad[0]->IsTrigger(enButtonX)) {

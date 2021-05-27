@@ -29,7 +29,8 @@ public:
 	CPhysicsGhostObject m_ghostBox;
 	float m_resulttime = 0.0f;
 	float m_resultSceneTime = 0.0f;
-	float m_timer = 0;
+	float m_timer = 0.0f;
+	float m_playerTimer = 0.0f;
 	bool Start()override final;
 	~Game();
 	void Update()override final;
@@ -57,6 +58,10 @@ public: //GetŠÖ”
 		m_stageNum = num;
 	}
 
+	void SetHitPlayer(bool flg) {
+		m_hitPlayer = flg;
+	}
+
 	//void SetGameFlg(bool flg) {
 	//	m_gameFlg = flg;
 	//}
@@ -67,6 +72,9 @@ public: //GetŠÖ”
 
 private:
 	bool m_gameFlg = false;
+	bool deathFlg = false;
+	bool m_hitPlayer = false;
+	int deathActiveState = 0; //デスブロックに触れたときのキャラクターのステートを保持
 	int m_stageNum = 3;
 	bool m_resetFlg = false;
 	FontRender* m_fontRender = nullptr;
@@ -76,6 +84,7 @@ private:
 	CSoundSource* m_sound = nullptr;
 	bool m_startsoundflg = true;
 	float m_gameStartTime = 0.0f;
+	Vector3 m_playerPos;
 
 
 	Player* m_player = nullptr;
@@ -89,5 +98,6 @@ private:
 	bool KauntoDownSprite = false;
 	int KauntoDownTimer = 0;
 	SpriteRender* m_sprite[4];
+	Key* m_key = nullptr;
 };
 
