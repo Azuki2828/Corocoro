@@ -182,7 +182,7 @@ void Player::Update()
 					m_pos = m_key->GetKeyPos();
 				}
 				else {
-					m_pos = { 300.0f,310.0f,0.0f };	//<変更>yが500以下になったら初期位置に戻るようにif文追加
+					m_pos = m_startPos;	//<変更>yが500以下になったら初期位置に戻るようにif文追加
 				}
 				m_rigidBody.SetPositionAndRotation(m_pos, m_rot);
 			}

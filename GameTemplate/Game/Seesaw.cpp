@@ -22,7 +22,7 @@ bool Seesaw::Start()
 
 	//‰ñ“]‚Ì‚µ‚â‚·‚³‚ðÝ’è‚·‚éB
 	//•¨—ƒGƒ“ƒWƒ“”C‚¹‚Ì‰ñ“]‚Í‚µ‚È‚¢‚Ì‚ÅA‘S•”‚ÌŽ²0‚É‚·‚éB
-	rbInitData.localInteria.Set(0.0f, 0.0f, 5000.0f);
+	rbInitData.localInteria.Set(0.0f, 0.0f, 3000.0f);
 	m_rigidBody.Init(rbInitData);
 
 	//–€ŽC—Í‚ðÝ’è‚·‚éB
@@ -35,43 +35,47 @@ bool Seesaw::Start()
 	return true;
 }
 
+Seesaw::~Seesaw() {
+	DeleteGO(m_skinModelRender);
+}
+
 void Seesaw::Update()
 {
-	//„‘Ì‚ÌÀ•W‚Æ‰ñ“]‚ðŽæ“¾B
+	////„‘Ì‚ÌÀ•W‚Æ‰ñ“]‚ðŽæ“¾B
 	static Vector3 angularVel = { 0.0f, 0.0f, 0.0f };
 
 	Vector3 pos;
 	Quaternion rot;
 	static Quaternion oldRot;
-	oldRot.SetRotationZ(0.26f);
+	//oldRot.SetRotationZ(0.26f);
 	m_rigidBody.GetPositionAndRotation(pos, rot);
 
-	Vector3 v1 = Vector3::Right;
-	Quaternion r1 = Quaternion::Identity;
-	rot.Apply(v1);
-	float rad = Dot(v1, Vector3::Up);
+	//Vector3 v1 = Vector3::Right;
+	//Quaternion r1 = Quaternion::Identity;
+	//rot.Apply(v1);
+	//float rad = Dot(v1, Vector3::Up);
 
-	if (rad > 0.26f) {
-		rot = oldRot;
-		m_rigidBody.SetPositionAndRotation(pos, rot);
-		m_rigidBody.ClearPower();
-	}
-	else if (rad < -0.26f) {
-		oldRot.SetRotationZ(-0.26f);
-		rot = oldRot;
-		m_rigidBody.SetPositionAndRotation(pos, rot);
-		m_rigidBody.ClearPower();
-	}
+	//if (rad > 0.26f) {
+	//	rot = oldRot;
+	//	m_rigidBody.SetPositionAndRotation(pos, rot);
+	//	m_rigidBody.ClearPower();
+	//}
+	//else if (rad < -0.26f) {
+	//	oldRot.SetRotationZ(-0.26f);
+	//	rot = oldRot;
+	//	m_rigidBody.SetPositionAndRotation(pos, rot);
+	//	m_rigidBody.ClearPower();
+	//}
 
 	auto rb = m_rigidBody.GetBody();
-	//if (fabsf(g_pad[0]->GetRStickXF()) > 0.0f) {
-	//	angularVel.Set(0.0f, 0.0f, g_pad[0]->GetRStickXF() * -2.0f);
+	if (fabsf(g_pad[0]->GetRStickXF()) > 0.0f) {
+		angularVel.Set(0.0f, 0.0f, g_pad[0]->GetRStickXF() * -2.0f);
+	
+	}
+	//™X‚ÉŒ¸Š
+	angularVel *= 0.98f;
 	//
-	//}
-	////™X‚ÉŒ¸Š
-	//angularVel *= 0.98f;
-	//
-	//m_rigidBody.SetAngularVelocity(angularVel);
+	m_rigidBody.SetAngularVelocity(angularVel);
 	//„‘Ì‚ÌÀ•W‚Æ‰ñ“]‚ðƒ‚ƒfƒ‹‚É”½‰fB
 	m_skinModelRender->SetPosition(pos);
 	m_skinModelRender->SetRotation(rot);

@@ -12,7 +12,9 @@
 bool Background::Start()
 {
 	m_magnet.resize(1);
+	//m_seesaw.resize(1);
 	int sampleNum = 0;
+	int seesawNum = 0;
 	m_game = FindGO<Game>("game");
 	m_player = FindGO<Player>("player");
 
@@ -44,7 +46,7 @@ bool Background::Start()
 	};*/
 
 	//ゲーム画面のUI表示
-	NewGO<GameLevel2D>(1,"gamescreenlevel2d");
+	m_level2D = NewGO<GameLevel2D>(1,"gamescreenlevel2d");
 
 	//背景画像を初期化。
 	m_spriteRender = NewGO<SpriteRender>(0);
@@ -248,6 +250,7 @@ bool Background::Start()
 		});
 
 		m_player->SetPosition({ 300.0f,1200.0f,-300.0f });
+		m_player->SetStartPos({ 300.0f,1200.0f,-300.0f });
 		break;
 	case 2:
 		m_level.Init("Assets/level/stage02_treasure.tkl", [&](LevelObjectData& objData) {
@@ -429,6 +432,7 @@ bool Background::Start()
 			return false;//levelのオブジェクトをそのままロード。
 			});
 			m_player->SetPosition({ 300.0f,300.0f,-300.0f });
+			m_player->SetStartPos({ 300.0f,300.0f,-300.0f });
 		break;
 	case 3:
 
@@ -613,6 +617,7 @@ bool Background::Start()
 		});
 
 			m_player->SetPosition({ 300.0f,1300.0f,-300.0f });
+			m_player->SetStartPos({ 300.0f,1300.0f,-300.0f });
 		break;
 	case 4:
 
@@ -801,10 +806,13 @@ bool Background::Start()
 					return true;
 				}
 				else if (objData.EqualObjectName(L"seesaw") == true) {
-				m_seesaw = NewGO<Seesaw>(0);
-				m_seesaw->SetPosition(objData.position);
-				m_seesaw->SetRotation(objData.rotation);
-				m_seesaw->Init("seesaw");
+				m_seesaw.push_back(NewGO<Seesaw>(0));
+				//m_seesaw[seesawNum] = NewGO<Seesaw>(0);
+				m_seesaw[seesawNum]->SetPosition(objData.position);
+				m_seesaw[seesawNum]->SetRotation(objData.rotation);
+				m_seesaw[seesawNum]->Init("seesaw");
+				m_seesaw[seesawNum]->StartRot(objData.rotation);
+				seesawNum++;
 				//m_seesaw->SetScale(objData.scale);
 				//m_seesaw->SetStartPos({ 300.0f,1300.0f,-300.0f });
 				//m_seesaw->SetScale(objData.scale);
@@ -815,6 +823,7 @@ bool Background::Start()
 				});
 
 			m_player->SetPosition({ 300.0f,1900.0f,-300.0f });
+			m_player->SetStartPos({ 300.0f,1900.0f,-300.0f });
 			break;
 
 	}
@@ -845,16 +854,27 @@ Background::~Background()
 	DeleteGO(m_fontRender);
 	DeleteGO(m_key);
 	DeleteGO(m_player);
+	m_player = nullptr;
 	DeleteGO(m_deathBlock);
 	DeleteGO(m_treasureBox);
+	DeleteGO(m_level2D);
 	for (int i = 0; i < m_magnet.size(); i++) {
 		DeleteGO(m_magnet[i]);
 	}
+	//for (int i = 0; i < m_seesaw.size(); i++) {
+	//	DeleteGO(m_seesaw[i]);
+	//}
 }
 
 
 void Background::Update()
 {
+	if (m_seesawFlg) {
+		for (int i = 0; i < m_seesaw.size(); i++) {
+			m_seesaw[i]->SetStart();
+		}
+		m_seesawFlg = false;
+	}
 	//static int sampleNum = 0;
 	//Vector3 pos = m_magnet[sampleNum]->GetPosition();
 	//if (g_pad[0]->IsTrigger(enButtonA)) {

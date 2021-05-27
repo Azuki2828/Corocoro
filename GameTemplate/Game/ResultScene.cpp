@@ -10,18 +10,15 @@ bool ResultScene::Start()
 	//リザルト画面表示
 	sprite = NewGO<ResultLevel2D>(0, "ResultLevel2D");
 	m_game = FindGO<Game>("game");
-
 	m_resultLevel2D = FindGO<ResultLevel2D>("ResultLevel2D");
-
 	nowTime = m_game->GetTime();
 	bestTime = m_game->GetBestTime();
-
-	if(nowTime < bestTime)
+	if (nowTime < bestTime)
 	{
 		NewRecordFlg = true;
+		//このチームのコードは詳しくないから消さないけど、この１文っているの？
 		bestTime = nowTime;
 	}
-
 	m_nowTime = NewGO<FontRender>(2);
 	wchar_t text[4][64];
 	swprintf_s(text[0], L"%2.1f", nowTime);
@@ -29,33 +26,33 @@ bool ResultScene::Start()
 	m_nowTime->SetScale(1.5f);
 	m_nowTime->SetPivot({ 0.0f,0.0f });
 	m_nowTime->SetShadowParam(true, 1.0f, Vector4::Black);
-
 	//記録が1桁の時
 	if (nowTime < 10) {
 		//x座標を調整。
 		m_nowTime->SetPosition({ 20.0f,70.0f });	//場所
 	}
 	//記録が10桁の時
-	if (nowTime > 10 && nowTime < 100) {
+	else if (nowTime > 10 && nowTime < 100) {
 		//x座標を調整。
 		m_nowTime->SetPosition({ -12.0f,70.0f });	//場所
 	}
 	//記録が100桁の時
-	if (nowTime > 100 && nowTime < 1000) {
+	else if (nowTime > 100 && nowTime < 1000) {
 		//x座標を調整。
 		m_nowTime->SetPosition({ -44.0f,70.0f });	//場所
 	}
+	else if (nowTime > 1000 && nowTime < 10000) {
+		//x座標を調整。
+		m_nowTime->SetPosition({ -76.0f,70.0f });	//場所
+	}
 
-	float t = 123.4f;
-	bestTime = t;
 	m_BestTime = NewGO<FontRender>(2);
 	swprintf_s(text[1], L"%2.1f", bestTime);
 	m_BestTime->Init(text[1], { 20.0f,-30.0f }, { 1.0f,1.0f,1.0f,1.0f });
 	m_BestTime->SetPivot({ 0.0f,0.0f });
 	m_BestTime->SetScale(1.5f);
 	m_BestTime->SetShadowParam(true, 1.0f, Vector4::Black);
-
-	//記録が1桁の時
+		//記録が1桁の時
 	if (bestTime < 10) {
 		//x座標を調整。
 		m_BestTime->SetPosition({ 20.0f,-30.0f });	//場所
@@ -71,15 +68,10 @@ bool ResultScene::Start()
 		m_BestTime->SetPosition({ -44.0f,-30.0f });	//場所
 	}
 
-	//C++限定のキャスト方法。
-	//static_cast<int>(bestTime);
-
 	m_game = FindGO<Game>("game");
 	m_time = m_game->GetTime();		//Gameで取得したタイム
 	SaveData* savedata = FindGO<SaveData>("savedata");
 	savedata->FileSave();	//タイムをセーブする
-
-	//Start関数のreturn true;
 	return true;
 }
 

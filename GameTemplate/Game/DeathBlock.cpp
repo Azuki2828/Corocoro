@@ -3,11 +3,15 @@
 #include "Player.h"
 #include "MainCamera.h"
 #include "Key.h"
+#include "Background.h"
+#include "Game.h"
 
 bool DeathBlock::Start() {
 
 	m_player = FindGO<Player>("player");
 	m_key = FindGO<Key>("key");
+	m_backGround = FindGO<Background>("background");
+	m_game = FindGO<Game>("game");
 	m_skinModelRender->SetPosition(m_pos);
 
 	m_skinModelRender->SetScale(m_scale);
@@ -66,22 +70,26 @@ void DeathBlock::Update() {
 	}
 	Vector3 effPos;
 
-	PhysicsWorld::GetInstance()->ContactTest(*m_player->GetRigidBody(), [&](const btCollisionObject& contactObject) {
-		m_ligData.uvNoiseOffset += 0.01f;
-		float t;
-		m_ligData.uvNoiseOffset = modf(m_ligData.uvNoiseOffset, &t);
-		if (m_ghostBox.IsSelf(contactObject) == true) {
+	if (!m_game->GetGameFlg()) {
+		PhysicsWorld::GetInstance()->ContactTest(*m_player->GetRigidBody(), [&](const btCollisionObject& contactObject) {
+			m_ligData.uvNoiseOffset += 0.01f;
+			float t;
+			m_ligData.uvNoiseOffset = modf(m_ligData.uvNoiseOffset, &t);
+			if (m_ghostBox.IsSelf(contactObject) == true) {
 
-			//m_ghostObjectとぶつかった
-			//m_pointLig->SetActiveFlag(true);	//ポイントライトをつける。
-			//m_ghostBox.SetPosition({ 700.0f,405.0f,0.0f });
-			m_hitPlayer = true;
-			effPos = m_player->GetPosition();
-			//if (m_player->GetKeyFlg()) {
-			//	m_player->SetPosition(m_key->GetKeyPos());
-			//}
-		}
-		});
+				//m_ghostObjectとぶつかった
+				//m_pointLig->SetActiveFlag(true);	//ポイントライトをつける。
+				//m_ghostBox.SetPosition({ 700.0f,405.0f,0.0f });
+				m_hitPlayer = true;
+				if (m_player != nullptr) {
+					effPos = m_player->GetPosition();
+				}
+				//if (m_player->GetKeyFlg()) {
+				//	m_player->SetPosition(m_key->GetKeyPos());
+				//}
+			}
+			});
+	}
 
 	if (m_hitPlayer)
 	{
@@ -110,8 +118,8 @@ void DeathBlock::Update() {
 			{
 				m_player->Setrespawn(false);
 				m_timer = 0;
+				m_backGround->SetStart(true);
 				m_hitPlayer = false;
-				bool* flag = &m_hitPlayer;
 
 			}
 			else if (m_timer >= 80) {

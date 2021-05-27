@@ -15,6 +15,8 @@ bool GameLevel2D::Start()
 				m_sprite->SetPosition(objdata.position);
 				m_sprite->SetScale(objdata.scale);
 
+				m_flagSprite = true;
+
 				return true;
 			}
 			//名前がTimeBackだったら。
@@ -25,6 +27,8 @@ bool GameLevel2D::Start()
 				m_sprite1->Init(objdata.ddsFilePath, objdata.width, objdata.height, AlphaBlendMode_Trans);
 				m_sprite1->SetPosition(objdata.position);
 				m_sprite1->SetScale(objdata.scale);
+
+				m_flagSprite1 = true;
 
 				return true;
 			}
@@ -40,8 +44,22 @@ bool GameLevel2D::Start()
 
 GameLevel2D::~GameLevel2D()
 {
-	DeleteGO(m_sprite);
-	DeleteGO(m_sprite1);
+	if (m_flagSprite == true) {
+		DeleteGO(m_sprite);
+		m_flagSprite = false;
+	}
+	if (m_flagSprite1 == true) {
+		DeleteGO(m_sprite1);
+		m_flagSprite1 = false;
+	}
+	if (m_flagSprite2 == true) {
+		DeleteGO(m_sprite2);
+		m_flagSprite2 = false;
+	}
+	if (m_flagSprite3 == true) {
+		DeleteGO(m_sprite3);
+		m_flagSprite3 = false;
+	}
 }
 
 void GameLevel2D::Update()
@@ -72,6 +90,14 @@ void GameLevel2D::Update()
 				m_sprite2->SetPosition(objdata.position);
 				m_sprite2->SetScale(objdata.scale);
 
+				m_flagSprite2 = true;
+
+				//鍵の点線のやつを削除
+				if (m_flagSprite == true) {
+					DeleteGO(m_sprite);
+					m_flagSprite = false;
+				}
+
 				return true;
 			}
 			//名前がTimeBackだったら。
@@ -92,6 +118,8 @@ void GameLevel2D::Update()
 				m_sprite3->Init(objdata.ddsFilePath, objdata.width, objdata.height, AlphaBlendMode_Trans);
 				m_sprite3->SetPosition(objdata.position);
 				m_sprite3->SetScale(objdata.scale);
+
+				m_flagSprite3 = true;
 
 				return true;
 			}

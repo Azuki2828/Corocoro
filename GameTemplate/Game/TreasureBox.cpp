@@ -6,6 +6,7 @@
 bool TreasureBox::Start() {
 
 	m_player = FindGO<Player>("player");
+	m_game = FindGO<Game>("game");
 	m_player->GetRigidBody()->GetBody()->setIgnoreCollisionCheck(m_ghostBox.GetGhostObject(), true);
 	Vector3 ghostPos = m_pos;
 	ghostPos.x += 130.0f;
@@ -72,6 +73,8 @@ void TreasureBox::Update() {
 			}
 			m_skinModelRender->SetAnimFlg(true);
 			m_treasureFlg = true;
+			//m_game->SetGameFlg(true);
+			
 		}
 	});
 

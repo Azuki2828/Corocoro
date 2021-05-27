@@ -14,6 +14,7 @@ private:
 	bool getKeyFlg = false;		//鍵取得フラグ。
 	bool m_keySoundFlg = false;
 	bool m_startFlg = false;
+	bool m_resetPosFlg = false;
 
 public:
 	bool Start() override;
@@ -45,6 +46,15 @@ public:
 		m_rigidBody.SetPositionAndRotation(m_pos, m_rot);
 	}
 
+	void SetStartPos(const Vector3& pos) {
+		m_startPos = pos;
+		m_rigidBody.SetPositionAndRotation(m_startPos, m_rot);
+		for (int i = 0; i < enPlayer_Num; i++) {
+			m_skinModelRender[i]->SetPosition(m_startPos);
+			m_skinModelRender[i]->SetRotation(m_rot);
+			m_skinModelRender[i]->UpdateWorldMatrix();
+		}
+	}
 	void SetKeyFlg(bool flg) { getKeyFlg = flg; }
 	bool GetKeyFlg() { return getKeyFlg; }
 
@@ -52,7 +62,9 @@ public:
 		if (m_treasureBox == nullptr) {
 			return false;
 		}
-		return m_treasureBox->GetTreasureFlg();
+		else{
+			return m_treasureBox->GetTreasureFlg();
+		}
 	};
 
 	Effect * m_NCahgeState;
@@ -108,6 +120,7 @@ private:
 	//Vector3 m_pos = { 300.0f,1200.0f,-300.0f };		//初期座標。ステージ１
 	//Vector3 m_pos = { 300.0f,300.0f,-300.0f };			//初期座標。ステージ２
 	Vector3 m_pos = { 300.0f,1300.0f,-300.0f };		//初期座標。ステージ３
+	Vector3 m_startPos;
 	Quaternion m_rot = Quaternion::Identity;
 	//Vector3 m_pos = { 1500.0f,2800.0f,0.0f };
 	//Vector3 m_pos = { 1500.0f,2800.0f,20.0f };

@@ -3,6 +3,7 @@
 class Player;
 class Background;
 class MainCamera;
+class GameLevel2D;
 
 class Key : public IGameObject
 {
@@ -52,6 +53,7 @@ private:
 	bool m_doorbreakFlg = false;
 
 	Player* m_player = nullptr;
+	GameLevel2D* m_level2D = nullptr;
 	Vector3 m_keyPos;		//鍵の座標。
 	Vector3 m_keyScale;
 	Vector3 m_doorPos;		//ドアの座標。

@@ -3,6 +3,7 @@
 class Seesaw : public IGameObject
 {
 public:
+	~Seesaw();
 	bool Start() override;
 	void Update() override;
 	void Init(const char* name) {
@@ -43,10 +44,23 @@ public:
 	void SetPosition(const Vector3& pos) {
 		m_pos = pos;
 	}
+	Vector3 GetPosition() {
+		return m_pos;
+	}
 	void SetRotation(const Quaternion& rot) {
 		m_rot = rot;
 	}
+	void StartRot(const Quaternion& rot) {
+		m_startRot = rot;
+	}
+	void SetStart() {
+		m_rigidBody.SetPositionAndRotation(m_pos, m_startRot);
+		m_skinModelRender->SetPosition(m_pos);
+		m_skinModelRender->SetRotation(m_startRot);
+		m_skinModelRender->UpdateWorldMatrix(m_pos, m_startRot, g_vec3One);
+	}
 private:
+	Quaternion m_startRot;
 	Vector3 m_pos;
 	Quaternion m_rot;
 	Vector3 m_sca;

@@ -1,5 +1,6 @@
 #pragma once
 class Player;
+class Game;
 
 class TreasureBox : public IGameObject
 {
@@ -27,11 +28,12 @@ public:
 
 private:
 	bool soundFlg = false;
-	bool m_treasureFlg;
+	bool m_treasureFlg = false;
 	Vector3 m_pos;
 	Quaternion m_rot;
 	Vector3 m_sca;
 	Player* m_player = nullptr;
+	Game* m_game = nullptr;
 	SkinModelRender* m_skinModelRender = nullptr;
 	LigData m_ligData;
 	Animation m_animation;

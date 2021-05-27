@@ -23,7 +23,7 @@ bool Game::Start() {
 	//m_savedata->FileSave();
 	m_savedata->Load();
 
-	
+	float a = m_resulttime;
 	//m_ghostBox.CreateBox(
 	//	{ 500.0f, 405.0f, 0.0f },	//第一引数は座標。
 	//	Quaternion::Identity,		//第二引数は回転クォータニオン。
@@ -174,11 +174,9 @@ void Game::Update() {
 
 	if (m_player->GetTreasureFlg() == true) {			//ゴールしたら計測終了
 
-		static float resultTime = 0.0f;
+		m_resultSceneTime += GameTime().GameTimeFunc().GetFrameDeltaTime();
 
-		resultTime += GameTime().GameTimeFunc().GetFrameDeltaTime();
-
-		if (m_resultScene == nullptr && resultTime >= 3.0f) {
+		if (m_resultScene == nullptr && m_resultSceneTime >= 3.0f) {
 			//BGMを削除。
 			SoundManager::GetInstance()->Release(BGM_GameUpTempo);
 

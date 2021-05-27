@@ -27,7 +27,8 @@ class Game : public IGameObject
 {
 public:
 	CPhysicsGhostObject m_ghostBox;
-	float m_resulttime = 0;
+	float m_resulttime = 0.0f;
+	float m_resultSceneTime = 0.0f;
 	float m_timer = 0;
 	bool Start()override final;
 	~Game();
@@ -56,8 +57,18 @@ public: //GetŠÖ”
 		m_stageNum = num;
 	}
 
+	//void SetGameFlg(bool flg) {
+	//	m_gameFlg = flg;
+	//}
+
+	//bool GetGameFlg() {
+	//	return m_gameFlg;
+	//}
+
 private:
+	bool m_gameFlg = false;
 	int m_stageNum = 3;
+	bool m_resetFlg = false;
 	FontRender* m_fontRender = nullptr;
 	FontRender* m_recordfontRender = nullptr;
 	GameTime* m_gametime = nullptr;

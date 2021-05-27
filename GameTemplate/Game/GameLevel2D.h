@@ -9,8 +9,14 @@ class GameLevel2D : public IGameObject
 {
 public:
 
-
+	//デストラクタでDeleteGOをする必要があるかを確認するためのフラグ
+	bool m_flagSprite = false;
+	bool m_flagSprite1 = false;
+	bool m_flagSprite2 = false;
+	bool m_flagSprite3 = false;
+	
 	//Keyクラスで使うためにpublicに置いている。
+	//↑関数作ってprivateで管理できるようにしてください。
 	bool NoGetKeyFlag = true;							//鍵を取得しているか取得していないかを判定する変数。
 	SpriteRender* m_sprite;			//スプライト。
 	SpriteRender* m_sprite1;			//スプライト。

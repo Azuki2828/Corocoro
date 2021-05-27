@@ -154,11 +154,12 @@ void Key::Update() {
 
 			//GameScreen_NoGetKey.casl��폜���AGameScreen_YesGetKey.casl��ĂԂ��ƂŌ��擾��UI��쐬����B
 
-			//Flag��false(���擾��)�ɂ���B
+			//GameLevel2DクラスのNoGetKeyFlagをfalseに変更。
+			//※余裕があったら、NoGetKeyFlagをprivateにして関数で変更してください。
 			GameLevel2D* gamescreenlevel2d = FindGO<GameLevel2D>("gamescreenlevel2d");
 			gamescreenlevel2d->NoGetKeyFlag = false;
-			//�O�̌���Q�b�g���Ă��Ȃ��Ƃ���UI��폜�B
-			DeleteGO(gamescreenlevel2d->m_sprite);
+			////�O�̌���Q�b�g���Ă��Ȃ��Ƃ���UI��폜�B
+			//DeleteGO(gamescreenlevel2d->m_sprite);
 
 			//���擾���̌�ʉ��Đ��B
 

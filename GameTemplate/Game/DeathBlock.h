@@ -1,6 +1,8 @@
 #pragma once
 class Player;
 class Key;
+class Background;
+class Game;
 
 class DeathBlock : public IGameObject
 {
@@ -64,10 +66,14 @@ private:
 	CSoundSource* DeathSound = nullptr;
 	bool n_contactTestFlag = true;
 	bool deathFlg = false;
+	void SetGameEndFlg(bool flg) {
+		m_gameflg = flg;
+	}
 
 	int deathActiveState = 0; //デスブロックに触れたときのキャラクターのステートを保持
 
 public:
+	bool m_gameflg = false;
 	Vector3 m_pos;
 	Vector3 m_sca;
 	Vector3 m_startPos = { 0.0f,0.0f,0.0f };
@@ -78,7 +84,8 @@ public:
 	Player* m_player = nullptr;
 //	Player* m_skinMdelRender = nullptr;
 	Key* m_key = nullptr;
-
+	Game* m_game = nullptr;
+	Background* m_backGround = nullptr;
 
 	LigData m_ligData;
 };

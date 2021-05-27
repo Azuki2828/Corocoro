@@ -12,6 +12,7 @@ class Player;
 class DeathBlock;
 class TreasureBox;
 class Seesaw;
+class GameLevel2D;
 
 class NormalBackground;
 
@@ -23,11 +24,15 @@ public:
 	void Update() override;
 	void Render(RenderContext& rc)override;
 	float GetDeathPosY() { return deathPosY; }
+	void SetStart(bool flg) {
+		m_seesawFlg = flg;
+	}
 
 	//Keyクラスでいじるためにpublicにしています。
 	CSoundSource* GameBGMSound = nullptr;		//BGM用サウンドソース
 
 private:
+	bool m_seesawFlg = false;
 	int m_stageNum = 0;
 	float deathPosY;							//死ぬY座標。ステージによってポジションは異なる。
 	Model m_model;								//モデル
@@ -37,6 +42,7 @@ private:
 	FontRender* m_fontRender = nullptr;
 
 	std::vector<Magnet*> m_magnet;
+	std::vector<Seesaw*> m_seesaw;
 	Key* m_key = nullptr;
 	TreasureBox* m_treasureBox = nullptr;
 	Game* m_game = nullptr;
@@ -45,6 +51,6 @@ private:
 	Player* m_player = nullptr;
 	Player* m_skinModelRender = nullptr;
 	DeathBlock* m_deathBlock = nullptr;
-	Seesaw* m_seesaw = nullptr;
+	GameLevel2D* m_level2D = nullptr;
 };
 

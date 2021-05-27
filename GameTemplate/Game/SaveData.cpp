@@ -46,6 +46,7 @@ void SaveData::Load() {
 
 		}
 		fwrite(&Data, sizeof(Data), 1, fp);
+		m_game->m_resulttime = Data.record;
 		fclose(fp);
 	}
 	else {

@@ -87,7 +87,6 @@ void MainCamera::FreeUpdate() {
 
 		waitRot += GameTime::GameTimeFunc().GetFrameDeltaTime();
 		if (waitRot > 1.5f) {
-			static int count = 0;
 			Quaternion m_rotZ;
 			m_rotZ.SetRotationDeg(Vector3::AxisZ, -2.0f);
 			m_rotZ.Apply(toPos);
