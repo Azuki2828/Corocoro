@@ -19,6 +19,7 @@ enum SoundList {
 	SE_NSChange,
 	SE_KeyGet,
 	SE_BoxOpen,
+	SE_Death,
 
 	Sound_Num
 };

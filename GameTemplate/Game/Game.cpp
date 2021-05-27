@@ -212,11 +212,7 @@ void Game::Update() {
 			m_death->Play();
 			deathFlg = true;
 
-			CSoundSource* DeathSound = NewGO<CSoundSource>(0);
-
-			DeathSound->Init(L"Assets/sound/death.wav");
-			DeathSound->SetVolume(0.5f);
-			DeathSound->Play(false);	//ワンショット再生
+			SoundManager::GetInstance()->Play(SE_Death);
 
 			/*m_timer++;
 			if (m_timer == 60) {
