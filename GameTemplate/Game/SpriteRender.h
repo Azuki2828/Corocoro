@@ -6,6 +6,7 @@ public:
 	//スプライト初期化関数。
 	void Init(const char* filepath, float width, float height , AlphaBlendMode mode = AlphaBlendMode::AlphaBlendMode_Trans);
 	void Render(RenderContext& rc) override;
+	void RenderSprite(RenderContext& rc)override;
 	void SetPosition(const Vector3& pos) { m_pos = pos; }
 	void SetRotation(const Quaternion& rot) { m_rot = rot; }
 	void SetScale(const Vector3& sca) { m_sca = sca; }

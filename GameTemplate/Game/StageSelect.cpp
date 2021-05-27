@@ -281,7 +281,7 @@ void StageSelect::Update()
 		 case KetteiButton:
 			 m_game = NewGO<Game>(0, "game");
 			 //ゲーム画面に遷移
-			 m_game->SetStageNum(4);
+			 m_game->SetStageNum(NowSelectStage);
 			break;
 		};
 		//クラスを削除。

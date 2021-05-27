@@ -33,3 +33,14 @@ void SpriteRender::Render(RenderContext& rc) {
 		break;
 	}
 }
+
+void SpriteRender::RenderSprite(RenderContext& rc) {
+
+	switch (rc.GetRenderMode()) {
+	case RenderContext::Render_Mode::RenderMode_Shadow:
+		break;
+	case RenderContext::Render_Mode::RenderMode_Normal:
+		m_sprite.Draw(rc);
+		break;
+	}
+}

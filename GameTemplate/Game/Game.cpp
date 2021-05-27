@@ -86,48 +86,60 @@ void Game::Update() {
 		switch (KauntoDownTimer) {
 		 case 0:
 			//「3」表示
-			m_sprite[0] = NewGO<SpriteRender>(1);
-			m_sprite[0]->SetPosition({ 0.0f,0.0f,0.0f });
-			m_sprite[0]->Init("Assets/image/3.dds", 1000.0f, 1000.0f);
+			 HUD::GetHUD()->Init("Assets/image/3.dds", 1000.0f, 1000.0f);
+			 HUD::GetHUD()->SetPosition(0, { 0.0f,0.0f,0.0f });
+			//m_sprite[0] = NewGO<SpriteRender>(3);
+			//m_sprite[0]->SetPosition({ 0.0f,0.0f,0.0f });
+			//m_sprite[0]->Init("Assets/image/3.dds", 1000.0f, 1000.0f);
 
 			break;
 
 		 case 60:
 			//「3」削除。
-			DeleteGO(m_sprite[0]);
+			//DeleteGO(m_sprite[0]);
+			 HUD::GetHUD()->Deactivate(0);
 
 			//「2」表示
-			m_sprite[1] = NewGO<SpriteRender>(1);
-			m_sprite[1]->SetPosition({ 0.0f,0.0f,0.0f });
-			m_sprite[1]->Init("Assets/image/2.dds", 1000.0f, 1000.0f);
+			HUD::GetHUD()->Init("Assets/image/2.dds", 1000.0f, 1000.0f);
+			HUD::GetHUD()->SetPosition(0, { 0.0f,0.0f,0.0f });
+			//m_sprite[1] = NewGO<SpriteRender>(3);
+			//m_sprite[1]->SetPosition({ 0.0f,0.0f,0.0f });
+			//m_sprite[1]->Init("Assets/image/2.dds", 1000.0f, 1000.0f);
 
 			break;
 
 		 case 120:
 			//「2」削除。
-			DeleteGO(m_sprite[1]);
+			//DeleteGO(m_sprite[1]);
+			 HUD::GetHUD()->Deactivate(1);
 
 			//「1」表示
-			m_sprite[2] = NewGO<SpriteRender>(1);
-			m_sprite[2]->SetPosition({ 0.0f,0.0f,0.0f });
-			m_sprite[2]->Init("Assets/image/1.dds", 1000.0f, 1000.0f);
+			HUD::GetHUD()->Init("Assets/image/1.dds", 1000.0f, 1000.0f);
+			HUD::GetHUD()->SetPosition(0, { 0.0f,0.0f,0.0f });
+			//m_sprite[2] = NewGO<SpriteRender>(3);
+			//m_sprite[2]->SetPosition({ 0.0f,0.0f,0.0f });
+			//m_sprite[2]->Init("Assets/image/1.dds", 1000.0f, 1000.0f);
 
 			break;
 
 		 case 180:
 			//「1」削除。
-			DeleteGO(m_sprite[2]);
+			//DeleteGO(m_sprite[2]);
+			 HUD::GetHUD()->Deactivate(2);
 
 			//「GO!!」表示
-			m_sprite[3] = NewGO<SpriteRender>(1);
-			m_sprite[3]->SetPosition({ 0.0f,0.0f,0.0f });
-			m_sprite[3]->Init("Assets/image/GO.dds", 1000.0f, 1000.0f);
+			HUD::GetHUD()->Init("Assets/image/GO.dds", 1000.0f, 1000.0f);
+			HUD::GetHUD()->SetPosition(0, { 0.0f,0.0f,0.0f });
+			//m_sprite[3] = NewGO<SpriteRender>(3);
+			//m_sprite[3]->SetPosition({ 0.0f,0.0f,0.0f });
+			//m_sprite[3]->Init("Assets/image/GO.dds", 1000.0f, 1000.0f);
 
 			break;
 
 		 case 300:
 			//「GO!!」削除。
-			DeleteGO(m_sprite[3]);
+			//DeleteGO(m_sprite[3]);
+			 HUD::GetHUD()->Deactivate(3);
 
 			KauntoDownSprite = false;
 

@@ -242,7 +242,7 @@ bool Background::Start()
 			m_deathBlock[deathBlockNum]->Init("DeathBlock");
 			m_deathBlock[deathBlockNum]->SetPosition(objData.position);
 			m_deathBlock[deathBlockNum]->SetScale(objData.scale);
-			m_deathBlock[deathBlockNum]->SetStartPos({ 300.0f,1900.0f,-300.0f });
+			m_deathBlock[deathBlockNum]->SetStartPos({ 300.0f,1200.0f,-300.0f });
 			m_deathBlock[deathBlockNum]->SetScale(objData.scale);
 			deathBlockNum++;
 			return true;
@@ -428,7 +428,7 @@ bool Background::Start()
 			m_deathBlock[deathBlockNum]->Init("DeathBlock");
 			m_deathBlock[deathBlockNum]->SetPosition(objData.position);
 			m_deathBlock[deathBlockNum]->SetScale(objData.scale);
-			m_deathBlock[deathBlockNum]->SetStartPos({ 300.0f,1900.0f,-300.0f });
+			m_deathBlock[deathBlockNum]->SetStartPos({ 300.0f,300.0f,-300.0f });
 			m_deathBlock[deathBlockNum]->SetScale(objData.scale);
 			deathBlockNum++;
 			return true;
@@ -613,7 +613,7 @@ bool Background::Start()
 			m_deathBlock[deathBlockNum]->Init("DeathBlock");
 			m_deathBlock[deathBlockNum]->SetPosition(objData.position);
 			m_deathBlock[deathBlockNum]->SetScale(objData.scale);
-			m_deathBlock[deathBlockNum]->SetStartPos({ 300.0f,1900.0f,-300.0f });
+			m_deathBlock[deathBlockNum]->SetStartPos({ 300.0f,1300.0f,-300.0f });
 			m_deathBlock[deathBlockNum]->SetScale(objData.scale);
 			deathBlockNum++;
 			return true;

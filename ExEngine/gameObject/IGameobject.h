@@ -50,6 +50,10 @@ public:
 		(void)renderContext;
 	}
 
+	virtual void RenderSprite(RenderContext& renderContext) {
+		(void)renderContext;
+	}
+
 public:
 	/*!
 	*@brief StartŠÖ”‚ªŠ®—¹‚µ‚½H
@@ -105,6 +109,12 @@ public:
 	{
 		if (m_isActive && m_isStart && !m_isDead ) {
 			Render(renderContext);
+		}
+	}
+
+	void RenderSpriteWrapper(RenderContext& renderContext) {
+		if (m_isActive && m_isStart && !m_isDead) {
+			RenderSprite(renderContext);
 		}
 	}
 

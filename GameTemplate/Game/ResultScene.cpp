@@ -190,6 +190,7 @@ void ResultScene::Update()
 			//ゲーム画面に遷移。
 			NewGO<TitleScene>(0);
 			DeleteGO(m_game);
+			HUD::GetHUD()->Release();
 			if (SoundManager::GetInstance()->IsPlaying(SE_GameClear)) {
 				SoundManager::GetInstance()->Release(SE_GameClear);
 			}

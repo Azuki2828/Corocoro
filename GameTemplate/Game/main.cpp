@@ -26,6 +26,8 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	LightManager::CreateInstance();
 	SoundManager::CreateInstance();
 	EffectEngine::CreateInstance();
+	HUD::CreateHUD();
+
 	Camera::CreateLightCamera();
 
 
@@ -158,7 +160,6 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 		SoundManager::GetInstance()->Update();
 		GameObjectManager::GetInstance()->ExecuteRender(renderContext);
 		EffectEngine::GetInstance()->Draw();
-
 		//LightManagerの更新。
 		LightManager::GetInstance()->Update();
 		//laserEffect.Update();
@@ -211,6 +212,9 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 			g_graphicsEngine->GetCurrentFrameBuffuerDSV()
 		);
 		copyToFrameBufferSprite.Draw(renderContext);
+
+
+		HUD::GetHUD()->Draw(renderContext);
 
 		//// ライトの強さを変更する
 		//light.directionalLight[0].color.x += g_pad[0]->GetLStickXF() * 0.5f;
