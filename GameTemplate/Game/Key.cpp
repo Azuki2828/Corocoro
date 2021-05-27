@@ -40,7 +40,8 @@ bool Key::Start() {
 }
 
 Key::~Key() {
-
+	DeleteGO(m_skinModelRender_Key);
+	DeleteGO(m_skinModelRender_Door);
 }
 
 void Key::InitKey(const char* name) {

@@ -129,6 +129,9 @@ float CookTorranceSpecular(float3 L, float3 V, float3 N, float metaric, float mi
 
 	// m項を求める
 	float m = PI * NdotV * NdotH;
+	if (m == 0.0f)
+		//0割り防止
+		return 0.0f;
 
 	// ここまで求めた、値を利用して、クックトランスモデルの鏡面反射を求める
 	return max(F * D * G / m, 0.0);

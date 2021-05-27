@@ -43,6 +43,10 @@ bool DeathBlock::Start() {
 	return true;
 }
 
+DeathBlock::~DeathBlock() {
+	DeleteGO(m_skinModelRender);
+}
+
 void DeathBlock::Update() {
 
 	if (m_moveFlg) {
@@ -70,26 +74,26 @@ void DeathBlock::Update() {
 	}
 	Vector3 effPos;
 
-	if (!m_game->GetGameFlg()) {
-		PhysicsWorld::GetInstance()->ContactTest(*m_player->GetRigidBody(), [&](const btCollisionObject& contactObject) {
-			m_ligData.uvNoiseOffset += 0.01f;
-			float t;
-			m_ligData.uvNoiseOffset = modf(m_ligData.uvNoiseOffset, &t);
-			if (m_ghostBox.IsSelf(contactObject) == true) {
 
-				//m_ghostObjectとぶつかった
-				//m_pointLig->SetActiveFlag(true);	//ポイントライトをつける。
-				//m_ghostBox.SetPosition({ 700.0f,405.0f,0.0f });
-				m_hitPlayer = true;
-				if (m_player != nullptr) {
-					effPos = m_player->GetPosition();
-				}
-				//if (m_player->GetKeyFlg()) {
-				//	m_player->SetPosition(m_key->GetKeyPos());
-				//}
+	PhysicsWorld::GetInstance()->ContactTest(*m_player->GetRigidBody(), [&](const btCollisionObject& contactObject) {
+		m_ligData.uvNoiseOffset += 0.01f;
+		float t;
+		m_ligData.uvNoiseOffset = modf(m_ligData.uvNoiseOffset, &t);
+		if (m_ghostBox.IsSelf(contactObject) == true) {
+		
+			//m_ghostObjectとぶつかった
+			//m_pointLig->SetActiveFlag(true);	//ポイントライトをつける。
+			//m_ghostBox.SetPosition({ 700.0f,405.0f,0.0f });
+			m_hitPlayer = true;
+			if (m_player != nullptr) {
+				effPos = m_player->GetPosition();
 			}
-			});
-	}
+			//if (m_player->GetKeyFlg()) {
+			//	m_player->SetPosition(m_key->GetKeyPos());
+			//}
+		}
+		});
+
 
 	if (m_hitPlayer)
 	{

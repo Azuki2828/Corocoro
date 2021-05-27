@@ -53,6 +53,19 @@ bool StageSelect::Start()
 	m_StageSpriteRender[2][1]->SetScale({ 0.5f,0.5f,0.5f });
 	m_StageSpriteRender[2][1]->Deactivate();		//非表示
 
+	//Stage4
+	m_StageSpriteRender[3][0] = NewGO<SpriteRender>(1);
+	m_StageSpriteRender[3][0]->SetPosition({ 0.0f,-270.0f,0.0f });
+	m_StageSpriteRender[3][0]->Init("Assets/image/Stage4.dds", 350.0f, 350.0f);
+	m_StageSpriteRender[3][0]->SetScale({ 1.3f,1.3f,1.3f });
+	m_StageSpriteRender[3][0]->Deactivate();		//非表示
+
+	m_StageSpriteRender[3][1] = NewGO<SpriteRender>(1);
+	m_StageSpriteRender[3][1]->SetPosition({ 0.0f, 0.0f,0.0f });
+	m_StageSpriteRender[3][1]->Init("Assets/image/Stage04.dds", 1024.0f, 768.0f);
+	m_StageSpriteRender[3][1]->SetScale({ 0.5f,0.5f,0.5f });
+	m_StageSpriteRender[3][1]->Deactivate();		//非表示
+
 	return true;
 }
 
@@ -228,7 +241,7 @@ void StageSelect::Update()
 		break;
 	case StageTwo:
 		m_StageSpriteRender[0][0]->Deactivate();		//非表示
-		m_StageSpriteRender[0][1]->Deactivate();		//表示
+		m_StageSpriteRender[0][1]->Deactivate();		//非表示
 		m_StageSpriteRender[1][0]->Activate();			//表示
 		m_StageSpriteRender[1][1]->Activate();			//表示
 		m_StageSpriteRender[2][0]->Deactivate();		//非表示
@@ -239,6 +252,14 @@ void StageSelect::Update()
 		m_StageSpriteRender[1][1]->Deactivate();		//非表示
 		m_StageSpriteRender[2][0]->Activate();			//表示
 		m_StageSpriteRender[2][1]->Activate();			//表示
+		m_StageSpriteRender[3][0]->Deactivate();		//非表示
+		m_StageSpriteRender[3][1]->Deactivate();		//非表示
+		break;
+	case StageFour:
+		m_StageSpriteRender[2][0]->Deactivate();		//非表示
+		m_StageSpriteRender[2][1]->Deactivate();		//非表示
+		m_StageSpriteRender[3][0]->Activate();			//表示
+		m_StageSpriteRender[3][1]->Activate();			//表示
 		break;
 	}
 

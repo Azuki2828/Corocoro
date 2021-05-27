@@ -9,6 +9,7 @@ class DeathBlock : public IGameObject
 private:
 	bool Start()override;
 	void Update()override;
+	~DeathBlock();
 	//void DeadUpdate()override;
 public:
 	void SetStartPos(const Vector3& pos) {

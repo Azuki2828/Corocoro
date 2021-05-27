@@ -15,6 +15,7 @@ bool Background::Start()
 	//m_seesaw.resize(1);
 	int sampleNum = 0;
 	int seesawNum = 0;
+	int deathBlockNum = 0;
 	m_game = FindGO<Game>("game");
 	m_player = FindGO<Player>("player");
 
@@ -237,12 +238,14 @@ bool Background::Start()
 				return true;
 			}
 			else if (objData.EqualObjectName(L"DeathBlock") == true) {
-				m_deathBlock = NewGO<DeathBlock>(0);
-				m_deathBlock->Init("DeathBlock");
-				m_deathBlock->SetPosition(objData.position);
-				m_deathBlock->SetScale(objData.scale);
-				m_deathBlock->SetStartPos({ 300.0f,1200.0f,-300.0f });
-				return true;
+			m_deathBlock.push_back(NewGO<DeathBlock>(0));
+			m_deathBlock[deathBlockNum]->Init("DeathBlock");
+			m_deathBlock[deathBlockNum]->SetPosition(objData.position);
+			m_deathBlock[deathBlockNum]->SetScale(objData.scale);
+			m_deathBlock[deathBlockNum]->SetStartPos({ 300.0f,1900.0f,-300.0f });
+			m_deathBlock[deathBlockNum]->SetScale(objData.scale);
+			deathBlockNum++;
+			return true;
 			}
 			
 
@@ -421,11 +424,13 @@ bool Background::Start()
 				return true;
 			}
 			else if (objData.EqualObjectName(L"DeathBlock") == true) {
-			m_deathBlock = NewGO<DeathBlock>(0);
-			m_deathBlock->Init("DeathBlock");
-			m_deathBlock->SetPosition(objData.position);
-			m_deathBlock->SetScale(objData.scale);
-			m_deathBlock->SetStartPos({ 300.0f,300.0f,-300.0f });
+			m_deathBlock.push_back(NewGO<DeathBlock>(0));
+			m_deathBlock[deathBlockNum]->Init("DeathBlock");
+			m_deathBlock[deathBlockNum]->SetPosition(objData.position);
+			m_deathBlock[deathBlockNum]->SetScale(objData.scale);
+			m_deathBlock[deathBlockNum]->SetStartPos({ 300.0f,1900.0f,-300.0f });
+			m_deathBlock[deathBlockNum]->SetScale(objData.scale);
+			deathBlockNum++;
 			return true;
 			}
 
@@ -604,13 +609,14 @@ bool Background::Start()
 				return true;
 			}
 			else if (objData.EqualObjectName(L"DeathBlock") == true) {
-				m_deathBlock = NewGO<DeathBlock>(0);
-				m_deathBlock->Init("DeathBlock");
-				m_deathBlock->SetPosition(objData.position);
-				m_deathBlock->SetScale(objData.scale);
-				m_deathBlock->SetStartPos({ 300.0f,1300.0f,-300.0f });
-				m_deathBlock->SetScale(objData.scale);
-				return true;
+			m_deathBlock.push_back(NewGO<DeathBlock>(0));
+			m_deathBlock[deathBlockNum]->Init("DeathBlock");
+			m_deathBlock[deathBlockNum]->SetPosition(objData.position);
+			m_deathBlock[deathBlockNum]->SetScale(objData.scale);
+			m_deathBlock[deathBlockNum]->SetStartPos({ 300.0f,1900.0f,-300.0f });
+			m_deathBlock[deathBlockNum]->SetScale(objData.scale);
+			deathBlockNum++;
+			return true;
 			}
 
 			return false;//levelのオブジェクトをそのままロード。
@@ -797,12 +803,13 @@ bool Background::Start()
 					return true;
 				}
 				else if (objData.EqualObjectName(L"DeathBlock") == true) {
-					m_deathBlock = NewGO<DeathBlock>(0);
-					m_deathBlock->Init("DeathBlock");
-					m_deathBlock->SetPosition(objData.position);
-					m_deathBlock->SetScale(objData.scale);
-					m_deathBlock->SetStartPos({ 300.0f,1900.0f,-300.0f });
-					m_deathBlock->SetScale(objData.scale);
+					m_deathBlock.push_back(NewGO<DeathBlock>(0));
+					m_deathBlock[deathBlockNum]->Init("DeathBlock");
+					m_deathBlock[deathBlockNum]->SetPosition(objData.position);
+					m_deathBlock[deathBlockNum]->SetScale(objData.scale);
+					m_deathBlock[deathBlockNum]->SetStartPos({ 300.0f,1900.0f,-300.0f });
+					m_deathBlock[deathBlockNum]->SetScale(objData.scale);
+					deathBlockNum++;
 					return true;
 				}
 				else if (objData.EqualObjectName(L"seesaw") == true) {
@@ -850,20 +857,22 @@ Background::~Background()
 {
 	//背景削除。
 	DeleteGO(m_spriteRender);
-	//タイム削除。
-	DeleteGO(m_fontRender);
-	DeleteGO(m_key);
-	DeleteGO(m_player);
-	m_player = nullptr;
-	DeleteGO(m_deathBlock);
-	DeleteGO(m_treasureBox);
-	DeleteGO(m_level2D);
 	for (int i = 0; i < m_magnet.size(); i++) {
 		DeleteGO(m_magnet[i]);
 	}
-	//for (int i = 0; i < m_seesaw.size(); i++) {
-	//	DeleteGO(m_seesaw[i]);
-	//}
+	for (int i = 0; i < m_seesaw.size(); i++) {
+		DeleteGO(m_seesaw[i]);
+	}
+	//タイム削除。
+	DeleteGO(m_fontRender);
+	DeleteGO(m_key);
+	for (int i = 0; i < m_deathBlock.size(); i++) {
+		DeleteGO(m_deathBlock[i]);
+	}
+	DeleteGO(m_player);
+	m_player = nullptr;
+	DeleteGO(m_treasureBox);
+	DeleteGO(m_level2D);
 }
 
 

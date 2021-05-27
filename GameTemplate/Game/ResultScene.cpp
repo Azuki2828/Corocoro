@@ -13,12 +13,6 @@ bool ResultScene::Start()
 	m_resultLevel2D = FindGO<ResultLevel2D>("ResultLevel2D");
 	nowTime = m_game->GetTime();
 	bestTime = m_game->GetBestTime();
-	if (nowTime < bestTime)
-	{
-		NewRecordFlg = true;
-		//このチームのコードは詳しくないから消さないけど、この１文っているの？
-		bestTime = nowTime;
-	}
 	m_nowTime = NewGO<FontRender>(2);
 	wchar_t text[4][64];
 	swprintf_s(text[0], L"%2.1f", nowTime);
@@ -66,6 +60,13 @@ bool ResultScene::Start()
 	if (bestTime > 100 && bestTime < 1000) {
 		//x座標を調整。
 		m_BestTime->SetPosition({ -44.0f,-30.0f });	//場所
+	}
+
+	if (nowTime < bestTime)
+	{
+		NewRecordFlg = true;
+		//このチームのコードは詳しくないから消さないけど、この１文っているの？
+		bestTime = nowTime;
 	}
 
 	m_game = FindGO<Game>("game");

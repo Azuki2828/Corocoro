@@ -43,6 +43,7 @@ private:
 
 	std::vector<Magnet*> m_magnet;
 	std::vector<Seesaw*> m_seesaw;
+	std::vector<DeathBlock*> m_deathBlock;
 	Key* m_key = nullptr;
 	TreasureBox* m_treasureBox = nullptr;
 	Game* m_game = nullptr;
@@ -50,7 +51,6 @@ private:
 	NormalBackground* m_normalbg;
 	Player* m_player = nullptr;
 	Player* m_skinModelRender = nullptr;
-	DeathBlock* m_deathBlock = nullptr;
 	GameLevel2D* m_level2D = nullptr;
 };
 

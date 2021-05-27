@@ -12,25 +12,21 @@ public:
 		m_skinModelRender = NewGO<SkinModelRender>(0);
 		m_skinModelRender->SetFileNametkm(filePathtkm);
 		m_skinModelRender->SetShadowReceiverFlag(true);
+		m_skinModelRender->SetZprepassFlag(true);
 
-		//À•W‚ð“o˜^B
-		m_ligData.m_directionLigData[0].Dir.Set(-1, -1, -1);
+		m_ligData.m_directionLigData[0].Dir.Set(0, 1, 1);
 		m_ligData.m_directionLigData[0].Dir.Normalize();
-		//m_ligData.m_directionLigData[0].Col.Set(10.0f, 10.0f, 0.0f, 1.0f);
-
+		m_ligData.m_directionLigData[0].Col.Set(10.0f, 10.0f, 10.0f, 1.0f);
 		m_ligData.ambient.Set(0.8f, 0.8f, 0.8f);
-		m_ligData.metaric = 0.5f;
-		m_ligData.smooth = 0.1f;
-		//m_ligData.edge = Edge_1;
-		m_ligData.powValue = 10.0f;
-		m_ligData.uvNoiseMul = 1.0f;
+		m_ligData.metaric = 1.0f;
+		m_ligData.smooth = 0.35f;
+		m_ligData.edge = Edge_1;
+		m_ligData.powValue = 0.7f;
+
 		m_skinModelRender->SetUserLigData(&m_ligData);
 		//m_skinModelRender->SetExpandShaderResourceView_2(&RenderTarget::GetZPrepassRenderTarget()->GetRenderTargetTexture());
 		m_skinModelRender->SetColorBufferFormat(DXGI_FORMAT_R32G32B32A32_FLOAT);
-
-		m_skinModelRender->SetPosition(m_pos);
-		m_skinModelRender->SetRotation(m_rot);
-		m_skinModelRender->Init(true, false);
+		m_skinModelRender->Init();
 
 		m_skinModelRender->UpdateWorldMatrix();
 
