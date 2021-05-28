@@ -28,7 +28,7 @@ class Game : public IGameObject
 {
 public:
 	CPhysicsGhostObject m_ghostBox;
-	float m_resulttime = 0.0f;
+	float m_resulttime[4];
 	float m_resultSceneTime = 0.0f;
 	float m_timer = 0.0f;
 	float m_playerTimer = 0.0f;
@@ -42,7 +42,7 @@ public: //GetŠÖ”
 		return m_time;
 	}
 	float GetBestTime() {
-		return m_resulttime;
+		return m_resulttime[m_stageNum - 1];
 	}
 
 	bool GetStartFlg() {

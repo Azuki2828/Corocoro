@@ -57,13 +57,16 @@ RuleScene::~RuleScene()
 	for (int i = 0; i < 6; i++)
 	{
 		DeleteGO(m_DeathSpriteRender[i]);
+		m_DeathSpriteRender[i] = nullptr;
 	}
 	DeleteGO(m_QuarterSpriteRender[3]);
 	for (int i = 0; i < 5; i++)
 	{
 		DeleteGO(m_KeySpriteRender[i]);
+		m_KeySpriteRender[i] = nullptr;
 	}
 	DeleteGO(m_QuarterSpriteRender[0]);
+	m_QuarterSpriteRender[0] = nullptr;
 
 	//タイトルBGMを削除。
 	SoundManager::GetInstance()->Release(BGM_Title);
@@ -226,8 +229,10 @@ void RuleScene::Update()
 			for (int i = 0; i < 6; i++)
 			{
 				DeleteGO(m_InryokuSpriteRender[i]);		//矢印引力スプライト削除
+				m_InryokuSpriteRender[i] = nullptr;
 			}
 			DeleteGO(m_QuarterSpriteRender[1]);		//2/4スプライト削除
+			m_QuarterSpriteRender[1] = nullptr;
 
 			break;
 
@@ -273,16 +278,20 @@ void RuleScene::Update()
 				for (int i = 0; i < 5; i++)
 				{
 					DeleteGO(m_KeySpriteRender[i]);		//鍵と赤ボールスプライト削除
+					m_KeySpriteRender[i] = nullptr;
 				}
 				DeleteGO(m_QuarterSpriteRender[0]);		//1/4スプライト削除
+				m_QuarterSpriteRender[0] = nullptr;
 			}
 			else
 			{
 				for (int i = 0; i < 6; i++)
 				{
 					DeleteGO(m_SekiryokuSpriteRender[i]);		//矢印斥力スプライト削除
+					m_SekiryokuSpriteRender[i] = nullptr;
 				}
 				DeleteGO(m_QuarterSpriteRender[2]);		//3/4スプライト削除
+				m_QuarterSpriteRender[2] = nullptr;
 			}
 
 			break;
@@ -327,16 +336,20 @@ void RuleScene::Update()
 				for (int i = 0; i < 6; i++)
 				{
 					DeleteGO(m_InryokuSpriteRender[i]);		//矢印引力スプライト削除
+					m_InryokuSpriteRender[i] = nullptr;
 				}
 				DeleteGO(m_QuarterSpriteRender[1]);		//2/4スプライト削除
+				m_QuarterSpriteRender[1] = nullptr;
 			}
 			else
 			{
 				for (int i = 0; i < 6; i++)
 				{
 					DeleteGO(m_DeathSpriteRender[i]);		//死ぬ床スプライト削除
+					m_DeathSpriteRender[i] = nullptr;
 				}
 				DeleteGO(m_QuarterSpriteRender[3]);		//4/4スプライト削除
+				m_QuarterSpriteRender[3] = nullptr;
 			}
 
 			break;
@@ -382,8 +395,10 @@ void RuleScene::Update()
 			for (int i = 0; i < 6; i++)
 			{
 				DeleteGO(m_SekiryokuSpriteRender[i]);		//矢印斥力スプライト削除
+				m_SekiryokuSpriteRender[i] = nullptr;
 			}
 			DeleteGO(m_QuarterSpriteRender[2]);		//3/4スプライト削除
+			m_QuarterSpriteRender[2] = nullptr;
 
 			break;
 		}

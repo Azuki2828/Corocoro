@@ -23,7 +23,7 @@ bool Game::Start() {
 	//m_savedata->FileSave();
 	m_savedata->Load();
 
-	float a = m_resulttime;
+	//float a = m_resulttime;
 	//m_ghostBox.CreateBox(
 	//	{ 500.0f, 405.0f, 0.0f },	//第一引数は座標。
 	//	Quaternion::Identity,		//第二引数は回転クォータニオン。
@@ -195,6 +195,7 @@ void Game::Update() {
 			//ゲームクリアのサウンドを再生。
 			SoundManager::GetInstance()->Play(SE_GameClear);
 			m_resultScene = NewGO<ResultScene>(0, "resultscene");
+			m_resultScene->SetStageNum(m_stageNum);
 		}
 	}
 

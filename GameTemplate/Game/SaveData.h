@@ -7,7 +7,7 @@ class SaveData : public IGameObject
 {
 public:
 	typedef struct {
-		float record;
+		float record[4];
 	}filesave_t;
 
 	float  savetime;
@@ -24,6 +24,7 @@ public:
 	bool GetNewrecordFlg() { return m_NewrecordFlg; };
 
 	float m_time = 0.0f;
+	int m_stageNum;
 
 	Game* m_resulttime = 0;
 

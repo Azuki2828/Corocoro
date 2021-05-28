@@ -18,6 +18,14 @@ public:
 	{
 		return m_time;
 	}
+
+	void SetStageNum(int num) {
+		m_stageNum = num;
+	}
+
+	int GetStageNum() {
+		return m_stageNum;
+	}
 	FontRender* m_fontRender;		//今回のタイムを表示するためのフォントレンダー
 	Game* m_game;
 	float m_time;
@@ -26,6 +34,7 @@ public:
 
 
 private:
+	int m_stageNum = 0;
 	float nowTime = 0.0f;
 	float bestTime = 0.0f;
 	FontRender* m_nowTime = nullptr;

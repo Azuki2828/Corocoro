@@ -8,18 +8,20 @@ void SaveData::FileSave()
 	m_result = FindGO<ResultScene>("resultscene");
 
 	float Record = m_result->GetTime();
+	m_stageNum = m_result->GetStageNum() - 1;
 	//float Record = 1000.0f;
-	if (Data.record >= Record) {
+	if (Data.record[m_stageNum] >= Record) {
 		m_NewrecordFlg = true;
 		//新記録の文字を流す
 
 
 		//新記録を入れ替える
-		Data.record = Record;
+		Data.record[m_stageNum] = Record;
+		int a = 0;
 	}
 
 
-	filesave_t data = { Data.record };
+	filesave_t data = { Data.record[0],Data.record[1],Data.record[2],Data.record[3] };
 	FILE* fp = fopen("Save_Data.dat", "wb");
 	if (fp == NULL) {
 
@@ -39,19 +41,25 @@ void SaveData::Load() {
 
 		FILE* fp = fopen("Save_Data.dat", "wb");
 
-		float Record = 1000.0f;
+		float Record = 999.9f;
 		m_time = Record;
-		Data.record = Record;
+		for (int i = 0; i < 4; i++) {
+			Data.record[i] = Record;
+		}
 		if (fp == NULL) {
 
 		}
 		fwrite(&Data, sizeof(Data), 1, fp);
-		m_game->m_resulttime = Data.record;
+		for (int i = 0; i < 4; i++) {
+			m_game->m_resulttime[i] = Data.record[i];
+		}
 		fclose(fp);
 	}
 	else {
 		fread(&Data, sizeof(Data), 1, fp);
-		m_game->m_resulttime = Data.record;
+		for (int i = 0; i < 4; i++) {
+			m_game->m_resulttime[i] = Data.record[i];
+		}
 
 		fclose(fp);
 	}
