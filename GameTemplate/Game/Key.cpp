@@ -69,6 +69,16 @@ void Key::InitKey(const char* name) {
 	m_ligKeyData.powValue = 0.7f;
 	m_skinModelRender_Key->SetUserLigData(&m_ligKeyData);
 	m_skinModelRender_Key->Init(true, false);
+
+	Vector3 ghostPos = m_keyPos;
+	ghostPos.x += 300.0f;
+	ghostPos.y += 300.0f;
+	ghostPos.z -= 300.0f;
+	m_ghostBox.CreateBox(
+		ghostPos,	//第一引数は座標。
+		Quaternion::Identity,		//第二引数は回転クォータニオン。
+		{ 100.0f, 200.0f, 100.0f }	//第三引数はボックスのサイズ。
+	);
 }
 
 void Key::InitDoor(const char* name) {
@@ -120,59 +130,112 @@ void Key::Update() {
 		}
 	}
 
-	//3m以内なら鍵取得。
-	Vector3 keyLength;
+	////3m以内なら鍵取得。
+	//Vector3 keyLength;
+	//
+	//keyLength = m_player->GetPosition() - m_keyPos;
+	PhysicsWorld::GetInstance()->ContactTest(*m_player->GetRigidBody(), [&](const btCollisionObject& contactObject) {
 
-	keyLength = m_player->GetPosition() - m_keyPos;
-	if (keyLength.Length() <= 100.0f && !m_player->GetKeyFlg()) {
+		if (m_ghostBox.IsSelf(contactObject) == true && !m_player->GetKeyFlg()) {
 
-		//鍵を消去して取得効果音を再生。
-		DeleteGO(m_skinModelRender_Key);
+			//鍵を消去して取得効果音を再生。
+			DeleteGO(m_skinModelRender_Key);
 
-		//MainCameraクラスのフラグ。ステージの回転をカメラと重力を回転させることで実装する。
-		//クラスにアクセスし、情報をもらう。
-		maincamera = FindGO<MainCamera>("maincamera");
-		//MainCameraクラスのRotFlg変数をtrueに。
-		maincamera->RotFlg = true;
-
-
-		if (KeyGetSoundFlag == true) {
-
-			//通常BGMを削除。
-			Background* background = FindGO<Background>("background");
-			SoundManager::GetInstance()->Release(BGM_Game);
-
-			//エフェクト再生
-			Effect* ChangeState = nullptr;
-			ChangeState = NewGO<Effect>(0);
-			ChangeState->Init(u"Assets/effect/KeyGet.efk");
-			ChangeState->SetScale({ 200.0f,200.0f,200.0f });
-			Vector3 effPos = m_keyPos;
-			effPos.y += 150.0f;
-			ChangeState->SetPosition(effPos);
-			ChangeState->Play();
+			//MainCameraクラスのフラグ。ステージの回転をカメラと重力を回転させることで実装する。
+			//クラスにアクセスし、情報をもらう。
+			maincamera = FindGO<MainCamera>("maincamera");
+			//MainCameraクラスのRotFlg変数をtrueに。
+			maincamera->RotFlg = true;
 
 
-			//GameScreen_NoGetKey.casl��폜���AGameScreen_YesGetKey.casl��ĂԂ��ƂŌ��擾��UI��쐬����B
+			if (KeyGetSoundFlag == true) {
 
-			//GameLevel2DクラスのNoGetKeyFlagをfalseに変更。
-			//※余裕があったら、NoGetKeyFlagをprivateにして関数で変更してください。
-			GameLevel2D* gamescreenlevel2d = FindGO<GameLevel2D>("gamescreenlevel2d");
-			gamescreenlevel2d->NoGetKeyFlag = false;
-			////�O�̌���Q�b�g���Ă��Ȃ��Ƃ���UI��폜�B
-			//DeleteGO(gamescreenlevel2d->m_sprite);
+				//通常BGMを削除。
+				Background* background = FindGO<Background>("background");
+				SoundManager::GetInstance()->Release(BGM_Game);
 
-			//���擾���̌�ʉ��Đ��B
+				//エフェクト再生
+				Effect* ChangeState = nullptr;
+				ChangeState = NewGO<Effect>(0);
+				ChangeState->Init(u"Assets/effect/KeyGet.efk");
+				ChangeState->SetScale({ 200.0f,200.0f,200.0f });
+				Vector3 effPos = m_keyPos;
+				effPos.y += 150.0f;
+				ChangeState->SetPosition(effPos);
+				ChangeState->Play();
 
-			SoundManager::GetInstance()->Play(SE_KeyGet);
 
-			//falseにして抜ける。
-			KeyGetSoundFlag = false;
+				//GameScreen_NoGetKey.casl��폜���AGameScreen_YesGetKey.casl��ĂԂ��ƂŌ��擾��UI��쐬����B
+
+				//GameLevel2DクラスのNoGetKeyFlagをfalseに変更。
+				//※余裕があったら、NoGetKeyFlagをprivateにして関数で変更してください。
+				GameLevel2D* gamescreenlevel2d = FindGO<GameLevel2D>("gamescreenlevel2d");
+				gamescreenlevel2d->NoGetKeyFlag = false;
+				////�O�̌���Q�b�g���Ă��Ȃ��Ƃ���UI��폜�B
+				//DeleteGO(gamescreenlevel2d->m_sprite);
+
+				//���擾���̌�ʉ��Đ��B
+
+				SoundManager::GetInstance()->Play(SE_KeyGet);
+
+				//falseにして抜ける。
+				KeyGetSoundFlag = false;
+			}
+
+			//鍵取得フラグをtrueに。
+			m_player->SetKeyFlg(true);
+
 		}
+		});
+	//if (keyLength.Length() <= 100.0f && !m_player->GetKeyFlg()) {
 
-		//鍵取得フラグをtrueに。
-		m_player->SetKeyFlg(true);
-	}
+	//	//鍵を消去して取得効果音を再生。
+	//	DeleteGO(m_skinModelRender_Key);
+
+	//	//MainCameraクラスのフラグ。ステージの回転をカメラと重力を回転させることで実装する。
+	//	//クラスにアクセスし、情報をもらう。
+	//	maincamera = FindGO<MainCamera>("maincamera");
+	//	//MainCameraクラスのRotFlg変数をtrueに。
+	//	maincamera->RotFlg = true;
+
+
+	//	if (KeyGetSoundFlag == true) {
+
+	//		//通常BGMを削除。
+	//		Background* background = FindGO<Background>("background");
+	//		SoundManager::GetInstance()->Release(BGM_Game);
+
+	//		//エフェクト再生
+	//		Effect* ChangeState = nullptr;
+	//		ChangeState = NewGO<Effect>(0);
+	//		ChangeState->Init(u"Assets/effect/KeyGet.efk");
+	//		ChangeState->SetScale({ 200.0f,200.0f,200.0f });
+	//		Vector3 effPos = m_keyPos;
+	//		effPos.y += 150.0f;
+	//		ChangeState->SetPosition(effPos);
+	//		ChangeState->Play();
+
+
+	//		//GameScreen_NoGetKey.casl��폜���AGameScreen_YesGetKey.casl��ĂԂ��ƂŌ��擾��UI��쐬����B
+
+	//		//GameLevel2DクラスのNoGetKeyFlagをfalseに変更。
+	//		//※余裕があったら、NoGetKeyFlagをprivateにして関数で変更してください。
+	//		GameLevel2D* gamescreenlevel2d = FindGO<GameLevel2D>("gamescreenlevel2d");
+	//		gamescreenlevel2d->NoGetKeyFlag = false;
+	//		////�O�̌���Q�b�g���Ă��Ȃ��Ƃ���UI��폜�B
+	//		//DeleteGO(gamescreenlevel2d->m_sprite);
+
+	//		//���擾���̌�ʉ��Đ��B
+
+	//		SoundManager::GetInstance()->Play(SE_KeyGet);
+
+	//		//falseにして抜ける。
+	//		KeyGetSoundFlag = false;
+	//	}
+
+	//	//鍵取得フラグをtrueに。
+	//	m_player->SetKeyFlg(true);
+	//}
 
 	//KeyGetSoundFlagがfalseになったら、
 	if(KeyGetSoundFlag ==false) {

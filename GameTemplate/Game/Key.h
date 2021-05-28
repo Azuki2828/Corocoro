@@ -74,4 +74,5 @@ private:
 	MainCamera* maincamera;
 	LigData m_ligKeyData;
 	LigData m_ligDoorData;
+	CPhysicsGhostObject m_ghostBox;
 };
