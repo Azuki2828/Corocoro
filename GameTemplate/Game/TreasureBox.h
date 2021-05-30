@@ -13,6 +13,10 @@ public:
 		m_pos = pos;
 	}
 
+	Vector3 GetPosition() {
+		return m_pos;
+	}
+
 	void SetRotation(const Quaternion& rot) {
 		m_rot = rot;
 	}
@@ -29,6 +33,7 @@ public:
 private:
 	bool soundFlg = false;
 	bool m_treasureFlg = false;
+	Effect* m_effect = nullptr;
 	Vector3 m_pos;
 	Quaternion m_rot;
 	Vector3 m_sca;

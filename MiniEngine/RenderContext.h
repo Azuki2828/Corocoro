@@ -17,6 +17,7 @@ public:
 		RenderMode_Normal,
 		RenderMode_Shadow,
 		RenderMode_ZPrepass,
+		RenderMode_Font,
 
 		RenderMode_Num
 	}Render_Mode;

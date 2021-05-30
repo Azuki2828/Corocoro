@@ -61,7 +61,7 @@ public:
 	/// <param name="rc"></param>
 	void ExecuteRender(RenderContext& rc);
 
-	void ExecuteSpriteRender(RenderContext& rc);
+	void ExecuteFontRender(RenderContext& rc);
 	
 	
 	/*!

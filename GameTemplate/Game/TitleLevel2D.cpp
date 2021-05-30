@@ -56,17 +56,17 @@ bool TitleLevel2D::Start()
 			return true;
 		}
 		//もし名前Settingだったら、
-		//else if (objdata.EqualObjectName("Setting")) {
-		//
-		//	m_sprite[4] = NewGO<SpriteRender>(1);
-		//	//Sprite初期化オブジェクトを使用して、Spriteを初期化する
-		//	m_sprite[4]->Init(objdata.ddsFilePath, objdata.width, objdata.height, AlphaBlendMode_Trans);
-		//	m_sprite[4]->SetPosition(objdata.position);
-		//	m_sprite[4]->SetScale(objdata.scale);
-		//	m_sprite[4]->SetMulColor({ 1.0f, 1.0f, 1.0f, 0.5f });
-		//
-		//	return true;
-		//}
+		else if (objdata.EqualObjectName("Setting")) {
+		
+			//m_sprite[4] = NewGO<SpriteRender>(1);
+			////Sprite初期化オブジェクトを使用して、Spriteを初期化する
+			//m_sprite[4]->Init(objdata.ddsFilePath, objdata.width, objdata.height, AlphaBlendMode_Trans);
+			//m_sprite[4]->SetPosition(objdata.position);
+			//m_sprite[4]->SetScale(objdata.scale);
+			//m_sprite[4]->SetMulColor({ 1.0f, 1.0f, 1.0f, 0.5f });
+		
+			return true;
+		}
 		else if (objdata.EqualObjectName("End")) {
 
 			m_sprite[4] = NewGO<SpriteRender>(1);

@@ -141,25 +141,25 @@ void GameObjectManager::ExecuteRender(RenderContext& rc)
 	PhysicsWorld::GetInstance()->DebubDrawWorld(rc);
 }
 
-void GameObjectManager::ExecuteSpriteRender(RenderContext& rc)
+void GameObjectManager::ExecuteFontRender(RenderContext& rc)
 {
 	// レンダリングターゲットをmainRenderTargetに変更する
 		// レンダリングターゲットとして利用できるまで待つ
-	rc.WaitUntilToPossibleSetRenderTarget(*RenderTarget::GetMainRenderTarget());
-	// レンダリングターゲットを設定
-	rc.SetRenderTargetAndViewport(*RenderTarget::GetMainRenderTarget());
-	// レンダリングターゲットをクリア
-	rc.ClearRenderTargetView(*RenderTarget::GetMainRenderTarget());
+	//rc.WaitUntilToPossibleSetRenderTarget(*RenderTarget::GetMainRenderTarget());
+	//// レンダリングターゲットを設定
+	//rc.SetRenderTargetAndViewport(*RenderTarget::GetMainRenderTarget());
+	//// レンダリングターゲットをクリア
+	//rc.ClearRenderTargetView(*RenderTarget::GetMainRenderTarget());
 
-	rc.SetRenderMode(RenderContext::Render_Mode::RenderMode_Normal);
+	rc.SetRenderMode(RenderContext::Render_Mode::RenderMode_Font);
 	for (auto& goList : m_gameObjectListArray) {
 		for (auto& go : goList) {
-			go->RenderSpriteWrapper(rc);
+			go->RenderWrapper(rc);
 		}
 	}
 
 	//書き込み完了待ち。
-	rc.WaitUntilFinishDrawingToRenderTarget(*RenderTarget::GetMainRenderTarget());
+	//rc.WaitUntilFinishDrawingToRenderTarget(*RenderTarget::GetMainRenderTarget());
 
 	PhysicsWorld::GetInstance()->DebubDrawWorld(rc);
 }

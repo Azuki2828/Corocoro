@@ -57,6 +57,9 @@ bool TreasureBox::Start() {
 
 TreasureBox::~TreasureBox() {
 	DeleteGO(m_skinModelRender);
+	if (m_effect != nullptr) {
+		DeleteGO(m_effect);
+	}
 }
 
 void TreasureBox::Update() {
@@ -70,6 +73,15 @@ void TreasureBox::Update() {
 			if (!soundFlg) {
 				SoundManager::GetInstance()->Play(SE_BoxOpen);
 				soundFlg = true;
+				m_effect = nullptr;
+				m_effect = NewGO<Effect>(0);
+				m_effect->Init(u"Assets/effect/treasure_4.efk");
+				m_effect->SetScale({ 80.0f,80.0f,80.0f });
+				Vector3 effPos = m_pos;
+				effPos += { 100.0f, -150.0f, 60.0f };
+				m_effect->SetPosition(effPos);
+				//treasure->Update();
+				m_effect->Play();
 			}
 			m_skinModelRender->SetAnimFlg(true);
 			m_treasureFlg = true;

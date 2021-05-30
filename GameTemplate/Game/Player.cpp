@@ -176,7 +176,7 @@ void Player::Update()
 		for (int i = 0; i < enPlayer_Num; i++) {
 			m_pos = pos;
 			m_rot = rot;
-			if (m_pos.y < deathPosY || g_pad[0]->IsTrigger(enButtonB)) {
+			if (m_pos.y < deathPosY) {
 
 				//if (getKeyFlg) {
 				//	m_pos = m_key->GetKeyPos();

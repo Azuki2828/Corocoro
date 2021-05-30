@@ -73,6 +73,7 @@ bool Background::Start()
 				m_key->InitKey("Key_after");
 				m_key->SetPositionKey(objData.position);
 				m_key->SetScaleKey(objData.scale);
+				m_key->SetTriggerBox(objData.position);
 				return true;
 			}
 			else if (objData.EqualObjectName(L"KeyBox") == true) {
@@ -82,23 +83,21 @@ bool Background::Start()
 				m_key->InitDoor("KeyBox");
 				m_key->SetPositionDoor(objData.position);
 
-				
+
+				m_key->SetScaleDoor(objData.scale);
+				return true;
+			}
+			else if (objData.EqualObjectName(L"TreasureBox") == true) {
 
 				Effect* treasure = nullptr;
 				treasure = NewGO<Effect>(0);
 				treasure->Init(u"Assets/effect/treasure_4.efk");
 				treasure->SetScale({ 80.0f,80.0f,80.0f });
 				Vector3 effPos = objData.position;
-				 effPos += { 200.0f,-150.0f,-200.0f };
+				effPos += { 50.0f, -150.0f, 60.0f };
 				treasure->SetPosition(effPos);
 				//treasure->Update();
 				treasure->Play();
-
-
-				m_key->SetScaleDoor(objData.scale);
-				return true;
-			}
-			else if (objData.EqualObjectName(L"TreasureBox") == true) {
 
 				m_treasureBox = NewGO<TreasureBox>(0, "treasureBox");
 				Vector3 pos = objData.position;
@@ -271,6 +270,7 @@ bool Background::Start()
 				m_key->InitKey("Key_after");
 				m_key->SetPositionKey(objData.position);
 				m_key->SetScaleKey(objData.scale);
+				m_key->SetTriggerBox(objData.position);
 				return true;
 			}
 			else if (objData.EqualObjectName(L"KeyBox") == true) {
@@ -456,6 +456,7 @@ bool Background::Start()
 				m_key->InitKey("Key_after");
 				m_key->SetPositionKey(objData.position);
 				m_key->SetScaleKey(objData.scale);
+				m_key->SetTriggerBox(objData.position);
 				return true;
 			}
 			else if (objData.EqualObjectName(L"KeyBox") == true) {
@@ -642,6 +643,7 @@ bool Background::Start()
 					m_key->InitKey("Key_after");
 					m_key->SetPositionKey(objData.position);
 					m_key->SetScaleKey(objData.scale);
+					m_key->SetTriggerBox(objData.position);
 					return true;
 				}
 				else if (objData.EqualObjectName(L"KeyBox") == true) {

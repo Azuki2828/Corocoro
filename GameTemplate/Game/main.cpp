@@ -53,6 +53,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	SoundManager::GetInstance()->Init(L"Assets/sound/KeyGet.wav", SE_KeyGet, false, SoundType::Type_SE);
 	SoundManager::GetInstance()->Init(L"Assets/sound/BoxOpen.wav", SE_BoxOpen, false, SoundType::Type_SE);
 	SoundManager::GetInstance()->Init(L"Assets/sound/death.wav", SE_Death, false, SoundType::Type_SE);
+	SoundManager::GetInstance()->Init(L"Assets/sound/restart.wav", SE_ReStart, false, SoundType::Type_SE);
 
 	//////////////////////////////////////
 	// 初期化を行うコードを書くのはここまで！！！
@@ -161,6 +162,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 		SoundManager::GetInstance()->Update();
 		GameObjectManager::GetInstance()->ExecuteRender(renderContext);
 		EffectEngine::GetInstance()->Draw();
+		GameObjectManager::GetInstance()->ExecuteFontRender(renderContext);
 		//LightManagerの更新。
 		LightManager::GetInstance()->Update();
 		//laserEffect.Update();

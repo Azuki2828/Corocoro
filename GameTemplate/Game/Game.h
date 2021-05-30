@@ -7,6 +7,7 @@ class GameTime;
 class Key;
 class SaveData;
 class ResultScene;
+class TreasureBox;
 
 enum SoundList {
 	BGM_Title,
@@ -20,6 +21,7 @@ enum SoundList {
 	SE_KeyGet,
 	SE_BoxOpen,
 	SE_Death,
+	SE_ReStart,
 
 	Sound_Num
 };
@@ -72,6 +74,7 @@ public: //GetŠÖ”
 	//}
 
 private:
+	bool m_treasureFlg = false;
 	bool m_gameFlg = false;
 	bool deathFlg = false;
 	bool m_hitPlayer = false;
@@ -86,6 +89,7 @@ private:
 	bool m_startsoundflg = true;
 	float m_gameStartTime = 0.0f;
 	Vector3 m_playerPos;
+	Effect* m_effect = nullptr;
 
 
 	Player* m_player = nullptr;
@@ -100,5 +104,6 @@ private:
 	int KauntoDownTimer = 0;
 	SpriteRender* m_sprite[4];
 	Key* m_key = nullptr;
+	TreasureBox* m_treasureBox = nullptr;
 };
 

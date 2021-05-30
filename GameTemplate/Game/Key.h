@@ -4,6 +4,7 @@ class Player;
 class Background;
 class MainCamera;
 class GameLevel2D;
+class Game;
 
 class Key : public IGameObject
 {
@@ -38,6 +39,18 @@ public:
 	void Update()override final;
 	bool GetdoorbreakFlg() { return m_doorbreakFlg; };
 
+	void SetTriggerBox(const Vector3 pos) {
+		Vector3 ghostPos = pos;
+		//ghostPos.x += 300.0f;
+		ghostPos.y += 125.0f;
+		//ghostPos.z -= 300.0f;
+		m_ghostBox.CreateBox(
+			ghostPos,	//第一引数は座標。
+			Quaternion::Identity,		//第二引数は回転クォータニオン。
+			{ 100.0f, 250.0f, 100.0f }	//第三引数はボックスのサイズ。
+		);
+	}
+
 
 
 	//ゲームクリアしてからの秒数をカウント
@@ -53,6 +66,7 @@ private:
 	bool m_doorbreakFlg = false;
 
 	Player* m_player = nullptr;
+	Game* m_game = nullptr;
 	GameLevel2D* m_level2D = nullptr;
 	Vector3 m_keyPos;		//鍵の座標。
 	Vector3 m_keyScale;

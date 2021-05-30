@@ -120,6 +120,7 @@ void DeathBlock::Update() {
 			m_timer++;
 			if (m_timer >= 90)
 			{
+				SoundManager::GetInstance()->Play(SE_ReStart);
 				m_player->Setrespawn(false);
 				m_timer = 0;
 				m_backGround->SetStart(true);

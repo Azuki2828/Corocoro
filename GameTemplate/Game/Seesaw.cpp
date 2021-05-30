@@ -67,11 +67,11 @@ void Seesaw::Update()
 	//	m_rigidBody.ClearPower();
 	//}
 
-	auto rb = m_rigidBody.GetBody();
-	if (fabsf(g_pad[0]->GetRStickXF()) > 0.0f) {
+	//auto rb = m_rigidBody.GetBody();
+	/*if (fabsf(g_pad[0]->GetRStickXF()) > 0.0f) {
 		angularVel.Set(0.0f, 0.0f, g_pad[0]->GetRStickXF() * -2.0f);
 	
-	}
+	}*/
 	//™X‚ÉŒ¸Š
 	angularVel *= 0.98f;
 	//

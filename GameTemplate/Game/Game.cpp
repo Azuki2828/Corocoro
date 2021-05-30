@@ -8,6 +8,7 @@
 #include "GameTime.h"
 #include "SaveData.h"
 #include "ResultScene.h"
+#include "TreasureBox.h"
 
 bool Game::Start() {
 
@@ -67,6 +68,9 @@ Game::~Game()
 	DeleteGO(m_backGround);
 	DeleteGO(m_camera);
 	DeleteGO(m_fontRender);
+	/*if (m_effect != nullptr) {
+		DeleteGO(m_effect);
+	}*/
 }
 
 void Game::Update() {
@@ -101,7 +105,7 @@ void Game::Update() {
 
 			//「2」表示
 			HUD::GetHUD()->Init("Assets/image/2.dds", 1000.0f, 1000.0f);
-			HUD::GetHUD()->SetPosition(0, { 0.0f,0.0f,0.0f });
+			HUD::GetHUD()->SetPosition(1, { 0.0f,0.0f,0.0f });
 			//m_sprite[1] = NewGO<SpriteRender>(3);
 			//m_sprite[1]->SetPosition({ 0.0f,0.0f,0.0f });
 			//m_sprite[1]->Init("Assets/image/2.dds", 1000.0f, 1000.0f);
@@ -115,7 +119,7 @@ void Game::Update() {
 
 			//「1」表示
 			HUD::GetHUD()->Init("Assets/image/1.dds", 1000.0f, 1000.0f);
-			HUD::GetHUD()->SetPosition(0, { 0.0f,0.0f,0.0f });
+			HUD::GetHUD()->SetPosition(2, { 0.0f,0.0f,0.0f });
 			//m_sprite[2] = NewGO<SpriteRender>(3);
 			//m_sprite[2]->SetPosition({ 0.0f,0.0f,0.0f });
 			//m_sprite[2]->Init("Assets/image/1.dds", 1000.0f, 1000.0f);
@@ -129,7 +133,7 @@ void Game::Update() {
 
 			//「GO!!」表示
 			HUD::GetHUD()->Init("Assets/image/GO.dds", 1000.0f, 1000.0f);
-			HUD::GetHUD()->SetPosition(0, { 0.0f,0.0f,0.0f });
+			HUD::GetHUD()->SetPosition(3, { 0.0f,0.0f,0.0f });
 			//m_sprite[3] = NewGO<SpriteRender>(3);
 			//m_sprite[3]->SetPosition({ 0.0f,0.0f,0.0f });
 			//m_sprite[3]->Init("Assets/image/GO.dds", 1000.0f, 1000.0f);
@@ -223,6 +227,7 @@ void Game::Update() {
 		m_playerTimer++;
 		if (m_playerTimer >= 90)
 		{
+			SoundManager::GetInstance()->Play(SE_ReStart);
 			m_player->Setrespawn(false);
 			m_playerTimer = 0;
 			m_backGround->SetStart(true);
@@ -252,6 +257,26 @@ void Game::Update() {
 
 		//g_engine->SetGameState(GameState::State_Dead);
 	}
+
+	//if (m_treasureBox != nullptr) {
+	//	if (static_cast<int>(m_time) % 14 == 0 && !m_treasureFlg) {
+	//		m_treasureBox = FindGO<TreasureBox>("treasureBox");
+	//		m_effect = nullptr;
+	//		m_effect = NewGO<Effect>(0);
+	//		m_effect->Init(u"Assets/effect/treasure_4.efk");
+	//		m_effect->SetScale({ 80.0f,80.0f,80.0f });
+	//		Vector3 effPos = m_treasureBox->GetPosition();
+	//		effPos += { 50.0f, -150.0f, 0.0f };
+	//		m_effect->SetPosition(effPos);
+	//		//treasure->Update();
+	//		m_effect->Play();
+	//		m_treasureFlg = true;
+
+	//	}
+	//	else if (static_cast<int>(m_time) % 15 == 1) {
+	//		m_treasureFlg = false;
+	//	}
+	//}
 
 	///デバック用のコマンド。
 	//if (g_pad[0]->IsTrigger(enButtonX)) {
