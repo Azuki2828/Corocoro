@@ -15,7 +15,7 @@ bool Player::Start()
 	m_ligData[enPlayer_0].ambient.Set(0.8f, 0.8f, 0.8f);
 	m_ligData[enPlayer_0].metaric = 1.0f;
 	m_ligData[enPlayer_0].smooth = 0.35f;
-	//m_ligData[enPlayer_0].edge = Edge_1;
+	m_ligData[enPlayer_0].edge = Edge_1;
 	m_ligData[enPlayer_0].powValue = 2.0f;
 
 	m_ligData[enPlayer_1].m_directionLigData[0].Dir.Set(0, -1, 1);
@@ -25,7 +25,7 @@ bool Player::Start()
 	m_ligData[enPlayer_1].ambient.Set(0.8f, 0.8f, 0.8f);
 	m_ligData[enPlayer_1].metaric = 1.0f;
 	m_ligData[enPlayer_1].smooth = 0.35f;
-	//m_ligData[enPlayer_1].edge = Edge_1;
+	m_ligData[enPlayer_1].edge = Edge_1;
 	m_ligData[enPlayer_1].powValue = 2.0f;
 
 	m_game = FindGO<Game>("game");

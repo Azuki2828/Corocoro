@@ -28,6 +28,10 @@ void Effect::Play()
 	//V‚µ‚­Ä¶B
 	m_handle = EffectEngine::GetInstance()->Play(m_effect);
 }
+
+void Effect::Stop() {
+	EffectEngine::GetInstance()->Stop(m_handle);
+}
 void Effect::Update()
 {
 	EffectEngine::GetInstance()->UpdateEffectWorldMatrix(

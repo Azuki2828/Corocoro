@@ -57,9 +57,9 @@ bool TreasureBox::Start() {
 
 TreasureBox::~TreasureBox() {
 	DeleteGO(m_skinModelRender);
-	if (m_effect != nullptr) {
-		DeleteGO(m_effect);
-	}
+	m_effect->Stop();
+	DeleteGO(m_effect);
+	m_effect = nullptr;
 }
 
 void TreasureBox::Update() {
