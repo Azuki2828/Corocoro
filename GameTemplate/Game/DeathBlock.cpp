@@ -17,7 +17,7 @@ bool DeathBlock::Start() {
 	m_skinModelRender->SetScale(m_scale);
 
 	m_death = NewGO<Effect>(0);
-	m_death->Init(u"Assets/effect/death.efk");
+	m_death->Init(u"Assets/effect/restart.efk");
 	m_death->SetScale({ 100.0f,100.0f,100.0f });
 
 	m_skinModelRender->SetScale(m_sca);
