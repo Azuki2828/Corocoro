@@ -61,9 +61,11 @@ private:
 	int m_timer = 0;
 	bool m_hitPlayer = false;
 	bool m_moveFlg = false;
+	bool m_respawnEfk = false;
 	int m_returnTimer = 0;
 	Vector3 m_movePos[2] = { {0.0f,0.0f,0.0f} };
 	Effect *m_death = nullptr;
+	Effect* m_efkRespawn = nullptr;
 	CSoundSource* DeathSound = nullptr;
 	bool n_contactTestFlag = true;
 	bool deathFlg = false;

@@ -232,6 +232,7 @@ void Game::Update() {
 			m_playerTimer = 0;
 			m_backGround->SetStart(true);
 			m_hitPlayer = false;
+			m_respawnEfk = false;
 
 		}
 		else if (m_playerTimer >= 80) {
@@ -248,13 +249,25 @@ void Game::Update() {
 				deathFlg = false;
 			}
 			//m_hitPlayer = false;
-
+			if (!m_respawnEfk) {
+				m_efkRespawn = NewGO<Effect>(0);
+				m_efkRespawn->Init(u"Assets/effect/respawn.efk");
+				m_efkRespawn->SetScale({ 100.0f,100.0f,100.0f });
+				Vector3 effPos = m_player->GetPosition();
+				m_efkRespawn->SetPosition(effPos);
+				//treasure->Update();
+				m_efkRespawn->Play();
+				m_respawnEfk = true;
+			}
 		}
 		else {
 			m_player->SetPosition(m_playerPos);
 		}
 		m_player->ClearPower();
 
+		if (m_efkRespawn != nullptr) {
+			m_efkRespawn->SetPosition(m_player->GetPosition());
+		}
 		//g_engine->SetGameState(GameState::State_Dead);
 	}
 

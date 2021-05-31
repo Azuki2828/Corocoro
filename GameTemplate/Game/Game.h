@@ -75,6 +75,7 @@ public: //GetŠÖ”
 
 private:
 	bool m_treasureFlg = false;
+	bool m_respawnEfk = false;
 	bool m_gameFlg = false;
 	bool deathFlg = false;
 	bool m_hitPlayer = false;
@@ -90,6 +91,7 @@ private:
 	float m_gameStartTime = 0.0f;
 	Vector3 m_playerPos;
 	Effect* m_effect = nullptr;
+	Effect* m_efkRespawn = nullptr;
 
 
 	Player* m_player = nullptr;
