@@ -71,20 +71,32 @@ public:
 		}
 	};
 
+	
 	Effect * m_NCahgeState;
 	Effect* m_SCahgeState;
-
+	/**
+	 * @brief スポーンフラグを取得。
+	 * @return すポーンフラグ
+	*/
 	const bool Getrespawn()const
 	{
 		return m_respawn;
 	}
 
-
+	/**
+	 * @brief スポーンフラグを設定する。
+	 * @param b フラグ。
+	*/
 	void Setrespawn(const bool b) 
 	{
 		m_respawn = b;
 	}
-
+	/**
+	 * @brief ダメージを与える。
+	*/
+	void ApplyDamage()
+	{
+	}
 private:
 	/// <summary>
 	/// アニメーションクリップ。
@@ -94,6 +106,7 @@ private:
 		enAnimClip_Run,
 		enAnimClip_Num,
 	};
+	int m_hp;
 
 	/// <summary>
 	/// 磁極。

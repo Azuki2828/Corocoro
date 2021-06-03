@@ -4,7 +4,11 @@
 #include "RuleLevel2D.h"
 #include "TitleScene.h"
 
-
+namespace{
+	const int NUM_HOGE = 10;
+	const float MOVE_SPEED = 100;
+	const int BAR = 10;
+}
 bool RuleScene::Start()
 {
 	//ルール画面表示
@@ -196,37 +200,36 @@ void RuleScene::Update()
 		{
 			//1ページ目
 		case OnePage:
-			//鍵表示
 			m_KeySpriteRender[0] = NewGO<SpriteRender>(2);
 			m_KeySpriteRender[0]->SetPosition({ 300.0f,-30.0f,0.0f });
 			m_KeySpriteRender[0]->Init("Assets/Level2D/KeyGet.dds", 150.0f, 150.0f);
-			//赤ボール
+
 			m_KeySpriteRender[1] = NewGO<SpriteRender>(2);
 			m_KeySpriteRender[1]->SetPosition({ -300.0f,-100.0f,0.0f });
 			m_KeySpriteRender[1]->Init("Assets/image/RedBall.dds", 350.0f, 350.0f);
-			//Start!
+
 			m_KeySpriteRender[2] = NewGO<SpriteRender>(1);
 			m_KeySpriteRender[2]->SetPosition({ 0.0f,-30.0f,0.0f });
 			m_KeySpriteRender[2]->Init("Assets/image/Start!!.dds", 350.0f, 350.0f);
 			m_KeySpriteRender[2]->SetScale({ 1.3f,1.3f,1.3f });
 			m_KeySpriteRender[2]->Deactivate();		//非表示
-			//Get
+
 			m_KeySpriteRender[3] = NewGO<SpriteRender>(1);
 			m_KeySpriteRender[3]->SetPosition({ 0.0f,-30.0f,0.0f });
 			m_KeySpriteRender[3]->Init("Assets/image/Get.dds", 350.0f, 350.0f);
 			m_KeySpriteRender[3]->SetScale({ 1.3f,1.3f,1.3f });
 			m_KeySpriteRender[3]->Deactivate();		//非表示
-			//Goal
+
 			m_KeySpriteRender[4] = NewGO<SpriteRender>(1);
 			m_KeySpriteRender[4]->SetPosition({ 0.0f,-30.0f,0.0f });
 			m_KeySpriteRender[4]->Init("Assets/image/Goal.dds", 350.0f, 350.0f);
 			m_KeySpriteRender[4]->SetScale({ 1.3f,1.3f,1.3f });
 			m_KeySpriteRender[4]->Deactivate();		//非表示
-			//1/4表示
 			m_QuarterSpriteRender[0] = NewGO<SpriteRender>(2);
 			m_QuarterSpriteRender[0]->SetPosition({ 0.0f,-280.0f,0.0f });
 			m_QuarterSpriteRender[0]->Init("Assets/image/OneQuarter.dds", 500.0f, 500.0f);
-			for (int i = 0; i < 6; i++)
+			
+			for (int i = 0; i < NUM_SPRITE; i++)
 			{
 				DeleteGO(m_InryokuSpriteRender[i]);		//矢印引力スプライト削除
 				m_InryokuSpriteRender[i] = nullptr;

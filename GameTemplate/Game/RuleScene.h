@@ -47,9 +47,9 @@ private:
 	int PageNum = 1;
 
 	bool NextPageFlg = true;
-
+	
 	SpriteRender* m_KeySpriteRender[5] = { nullptr };		//鍵スプライトレンダー
-	SpriteRender* m_InryokuSpriteRender[6] = { nullptr };		//引力スプライトレンダー
+	SpriteRender* m_InryokuSpriteRender[5] = { nullptr };		//引力スプライトレンダー
 	SpriteRender* m_SekiryokuSpriteRender[6] = { nullptr };		//斥力スプライトレンダー
 	SpriteRender* m_DeathSpriteRender[6] = { nullptr };		//デススプライトレンダー
 	SpriteRender* m_QuarterSpriteRender[4] = { nullptr };		//クオータースプライトレンダー

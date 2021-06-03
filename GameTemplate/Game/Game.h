@@ -34,6 +34,7 @@ public:
 	float m_resultSceneTime = 0.0f;
 	float m_timer = 0.0f;
 	float m_playerTimer = 0.0f;
+	bool m_gameStartFlg = false;
 	bool Start()override final;
 	~Game();
 	void Update()override final;
@@ -63,6 +64,10 @@ public: //GetŠÖ”
 
 	void SetHitPlayer(bool flg) {
 		m_hitPlayer = flg;
+	}
+
+	bool GetGameFlg() {
+		return m_gameStartFlg;
 	}
 
 	//void SetGameFlg(bool flg) {

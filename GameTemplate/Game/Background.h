@@ -13,23 +13,20 @@ class DeathBlock;
 class TreasureBox;
 class Seesaw;
 class GameLevel2D;
-
 class NormalBackground;
 
 class Background : public IGameObject
 {
 public:
-	bool Start() override;
 	~Background();
+	bool Start() override;
 	void Update() override;
-	void Render(RenderContext& rc)override;
+	void Render(RenderContext& rc) override;
 	float GetDeathPosY() { return deathPosY; }
 	void SetStart(bool flg) {
 		m_seesawFlg = flg;
 	}
 
-	//Keyクラスでいじるためにpublicにしています。
-	CSoundSource* GameBGMSound = nullptr;		//BGM用サウンドソース
 
 private:
 	bool m_seesawFlg = false;
@@ -40,6 +37,7 @@ private:
 	Level m_level;								//レベル
 	SpriteRender* m_spriteRender = nullptr;		//スプライトレンダー
 	FontRender* m_fontRender = nullptr;
+	CSoundSource* GameBGMSound = nullptr;		//BGM用サウンドソース
 
 	std::vector<Magnet*> m_magnet;
 	std::vector<Seesaw*> m_seesaw;

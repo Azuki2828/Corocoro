@@ -6,6 +6,14 @@
 #include "Background.h"
 #include "Game.h"
 
+namespace {
+	//プレイヤーのコリジョンの半径
+	const float PLAYER_COLLI_RADIUS = 50;
+	const float DEAD_LINE = 500.0f;
+	const float PLAYER_MOVE_SPEED = 100.0f;
+}
+
+
 bool Player::Start()
 {
 	m_ligData[enPlayer_0].m_directionLigData[0].Dir.Set(0, -1, 1);
@@ -15,7 +23,7 @@ bool Player::Start()
 	m_ligData[enPlayer_0].ambient.Set(0.8f, 0.8f, 0.8f);
 	m_ligData[enPlayer_0].metaric = 1.0f;
 	m_ligData[enPlayer_0].smooth = 0.35f;
-	m_ligData[enPlayer_0].edge = Edge_1;
+	//m_ligData[enPlayer_0].edge = Edge_1;
 	m_ligData[enPlayer_0].powValue = 2.0f;
 
 	m_ligData[enPlayer_1].m_directionLigData[0].Dir.Set(0, -1, 1);
@@ -25,7 +33,7 @@ bool Player::Start()
 	m_ligData[enPlayer_1].ambient.Set(0.8f, 0.8f, 0.8f);
 	m_ligData[enPlayer_1].metaric = 1.0f;
 	m_ligData[enPlayer_1].smooth = 0.35f;
-	m_ligData[enPlayer_1].edge = Edge_1;
+	//m_ligData[enPlayer_1].edge = Edge_1;
 	m_ligData[enPlayer_1].powValue = 2.0f;
 
 	m_game = FindGO<Game>("game");
@@ -208,7 +216,7 @@ void Player::Update()
 		m_NCahgeState->SetPosition(m_pos);
 
 
-		if (m_game->m_timer >= m_game->GetGameStartTime()) {
+		if (m_game->GetGameFlg()) {
 				//Aボタンでプレイヤーの磁力を反転させる
 			if (m_deathFlag == false) { //死んでいる場合、処理を動かさない。
 				if (g_pad[0]->IsTrigger(enButtonA) && !m_treasureBox->GetTreasureFlg()) {

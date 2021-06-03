@@ -1,9 +1,24 @@
 #pragma once
+/**
+ * @brief 
+*/
 class MoveObject : IGameObject
 {
 public:
+	/**
+	 * @brief 
+	 * @return 
+	*/
 	bool Start();
+	/**
+	 * @brief 
+	 * @param front 
+	 * @param back 
+	*/
 	void SetMove(Vector3 front, Vector3 back) { moveRange_front = front, moveRange_back = back; }
+	/**
+	 * @brief 
+	*/
 	void Update();
 private:
 	Vector3 moveRange_front;	//ˆÚ“®”ÍˆÍ‚Ì¶’[B

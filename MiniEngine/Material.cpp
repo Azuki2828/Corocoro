@@ -54,6 +54,7 @@ void Material::InitTexture(const TkmFile::SMaterial& tkmMat)
 			nullTextureMaps.GetRefractionMapSize());
 	}
 }
+
 void Material::InitFromTkmMaterila(
 	const TkmFile::SMaterial& tkmMat,
 	const wchar_t* fxFilePath,

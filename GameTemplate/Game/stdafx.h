@@ -11,4 +11,5 @@
 #include "LightManager.h"
 #include "SoundManager.h"
 #include "GameTime.h"
+#include "Stopwatch.h"
 #include "HUD.h"

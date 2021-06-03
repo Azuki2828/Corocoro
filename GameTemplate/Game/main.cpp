@@ -30,7 +30,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 
 	Camera::CreateLightCamera();
 
-
+	Stopwatch stopWatch;
 
 	//タイトル画面からスタート
 	NewGO<TitleScene>(0);
@@ -148,6 +148,8 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 		//	//再生開始。
 		//	laserEffect->Play();
 
+		//ストップウォッチの計測開始
+		stopWatch.Start();
 		//レンダリング開始。
 		g_engine->BeginFrame();
 
@@ -234,6 +236,19 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 		//絵を描くコードを書くのはここまで！！！
 		//////////////////////////////////////
 		g_engine->EndFrame();
+
+		//スピンロックを行う。
+		int restTime = 0;
+		do {
+			stopWatch.Stop();
+			restTime = 16 - (int)stopWatch.GetElapsedMillisecond();
+		} while (restTime > 0);
+
+
+		//ストップウォッチの計測終了
+		stopWatch.Stop();
+		//デルタタイムをストップウォッチの計測時間から、計算する
+		GameTime().PushFrameDeltaTime((float)stopWatch.GetElapsed());
 	}
 	//ゲームオブジェクトマネージャーを削除。
 	GameObjectManager::DeleteInstance();

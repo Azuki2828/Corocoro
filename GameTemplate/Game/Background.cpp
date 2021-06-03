@@ -20,14 +20,6 @@ bool Background::Start()
 	m_player = FindGO<Player>("player");
 
 	m_stageNum = m_game->GetStageNum();
-	//m_fontRender = NewGO<FontRender>(2);
-	//m_fontRender->Init(/*GameTime::GameTimeFunc().GetFrameDeltaTime()*/L"Hello",Vector2{(500.0f),(350.0f)});
-	//m_fontRender = NewGO<FontRender>(2);
-	//m_fontRender->Init(L"hello", Vector2{ (500.0f),(350.0f) });
-
-	//TimeBackスプライトの上に表示させたいからゲーム画面のUIレイヤー1に+1した2にしている。
-	//m_fontRender = NewGO<FontRender>(2);
-	//m_fontRender->Init(L"hello",Vector2{(-535.0f),(310.0f)});	//��ʍ���
 
 
 	/*const char* MagnetName[] = {
@@ -64,7 +56,7 @@ bool Background::Start()
 			//return true;が自分で生成。return false;がパソコンが生成してくれる。
 			//falseだと生成勝手にしてくれるけど、位置変えたりとかいじれない！！
 
-			deathPosY = -500.0f;		//state02では-500.0fで死ぬ！
+			m_deathPosY = -500.0f;		//state02では-500.0fで死ぬ！
 
 			if (objData.EqualObjectName(L"Key_after") == true) {
 				if (m_key == nullptr) {
@@ -261,7 +253,7 @@ bool Background::Start()
 			//return true;が自分で生成。return false;がパソコンが生成してくれる。
 			//falseだと生成勝手にしてくれるけど、位置変えたりとかいじれない！！
 
-			deathPosY = -500.0f;		//state02では-500.0fで死ぬ！
+			m_deathPosY = -500.0f;		//state02では-500.0fで死ぬ！
 
 			if (objData.EqualObjectName(L"Key_after") == true) {
 				if (m_key == nullptr) {
@@ -447,7 +439,7 @@ bool Background::Start()
 			//return true;が自分で生成。return false;がパソコンが生成してくれる。
 			//falseだと生成勝手にしてくれるけど、位置変えたりとかいじれない！！
 
-			deathPosY = -500.0f;		//state02では-500.0fで死ぬ！
+			m_deathPosY = -500.0f;		//state02では-500.0fで死ぬ！
 
 			if (objData.EqualObjectName(L"Key_after") == true) {
 				if (m_key == nullptr) {
@@ -634,7 +626,7 @@ bool Background::Start()
 				//return true;が自分で生成。return false;がパソコンが生成してくれる。
 				//falseだと生成勝手にしてくれるけど、位置変えたりとかいじれない！！
 
-				deathPosY = -500.0f;		//state02では-500.0fで死ぬ！
+				m_deathPosY = -500.0f;		//state02では-500.0fで死ぬ！
 
 				if (objData.EqualObjectName(L"Key_after") == true) {
 					if (m_key == nullptr) {

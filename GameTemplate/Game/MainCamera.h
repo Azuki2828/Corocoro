@@ -18,8 +18,8 @@ public:
 	//Vector3 toPos = { 0.0f,200.0f,-4000.0f };
 
 	//注視点からのベクトル。
-	//Vector3 toPos = { 0.0f,200.0f,-1400.0f };
-	Vector3 toPos = { 0.0f,200.0f,-2500.0f };	//全体確認用のポジション。
+	Vector3 toPos = { 0.0f,200.0f,-1400.0f };
+	//Vector3 toPos = { 0.0f,200.0f,-2500.0f };	//全体確認用のポジション。
 	Quaternion m_rotX;
 	Quaternion m_rotY;
 	Quaternion m_rotZ;

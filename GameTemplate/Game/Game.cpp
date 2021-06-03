@@ -130,7 +130,7 @@ void Game::Update() {
 			//「1」削除。
 			//DeleteGO(m_sprite[2]);
 			 HUD::GetHUD()->Deactivate(2);
-
+			 m_gameStartFlg = true;
 			//「GO!!」表示
 			HUD::GetHUD()->Init("Assets/image/GO.dds", 1000.0f, 1000.0f);
 			HUD::GetHUD()->SetPosition(3, { 0.0f,0.0f,0.0f });
@@ -160,14 +160,14 @@ void Game::Update() {
 	if (m_startsoundflg == false) {
 		m_timer += GameTime::GameTimeFunc().GetFrameDeltaTime();		//タイム計測開始のためのタイム
 	}
-	if (m_timer >= m_gameStartTime && !m_player->GetTreasureFlg()) {
+	if (m_gameStartFlg && !m_player->GetTreasureFlg()) {
 		m_time += GameTime::GameTimeFunc().GetFrameDeltaTime();
 	}
 
 
 		//スイッチ文で使いたいのでキャスト。
 		switch (static_cast<int>(m_time)) {
-		//10秒経過したら、
+		
 		case 10:
 
 			m_fontRender->SetPosition({ -520.0f,310.0f });	//場所
