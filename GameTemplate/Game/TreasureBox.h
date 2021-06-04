@@ -4,10 +4,12 @@ class Game;
 
 class TreasureBox : public IGameObject
 {
-public:
-	~TreasureBox();
+private:
 	bool Start()override;
+	~TreasureBox();
 	void Update()override;
+
+public:
 
 	void SetPosition(const Vector3& pos) {
 		m_pos = pos;
@@ -31,20 +33,25 @@ public:
 	}
 
 private:
-	bool soundFlg = false;
+	bool m_soundFlg = false;
 	bool m_treasureFlg = false;
-	Effect* m_effect = nullptr;
-	Vector3 m_pos;
-	Quaternion m_rot;
-	Vector3 m_sca;
-	Player* m_player = nullptr;
-	Game* m_game = nullptr;
-	SkinModelRender* m_skinModelRender = nullptr;
+	Vector3 m_pos = Vector3::Zero;
+	Vector3 m_sca = Vector3::One;
+	Quaternion m_rot = Quaternion::Identity;
+
 	LigData m_ligData;
 	Animation m_animation;
 	AnimationClip m_animClip;
-	AnimationPlayController animCon;
 	PhysicsStaticObject m_physicsStaticObject;	//当たり判定
 	CPhysicsGhostObject m_ghostBox;
+
+	/**
+	 * @brief それぞれのクラスのポインタ
+	*/
+
+	Effect* m_effect = nullptr;
+	Player* m_player = nullptr;
+	Game* m_game = nullptr;
+	SkinModelRender* m_skinModelRender = nullptr;
 };
 

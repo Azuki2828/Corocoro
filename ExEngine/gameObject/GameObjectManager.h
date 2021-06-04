@@ -58,9 +58,10 @@ public:
 	/// <summary>
 	/// 描画処理を実行。
 	/// </summary>
-	/// <param name="rc"></param>
 	void ExecuteRender(RenderContext& rc);
-
+	/// <summary>
+	/// フォントの描画処理を実行。
+	/// </summary>
 	void ExecuteFontRender(RenderContext& rc);
 	
 	

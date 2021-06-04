@@ -1,17 +1,20 @@
 #pragma once
 
 class Player;
-class Background;
+class BackGround;
 class MainCamera;
 class GameLevel2D;
 class Game;
 
 class Key : public IGameObject
 {
-public:
-	bool Start()override final;
-
+private:
 	~Key();
+	bool Start()override final;
+	void Update()override final;
+
+public:
+
 
 	//鍵を初期化する関数。
 	void InitKey(const char* name);
@@ -23,21 +26,23 @@ public:
 	const Vector3 GetKeyPos() { return m_keyPos; }
 
 	//鍵の座標を設定する関数。
-	void SetPositionKey(const Vector3& pos) { m_keyPos = pos; }
+	void SetKeyPos(const Vector3& pos) { m_keyPos = pos; }
 
 	//ドアの座標を設定する関数。
-	void SetPositionDoor(const Vector3& pos) { m_doorPos = pos; }
+	void SetDoorPos(const Vector3& pos) { m_doorPos = pos; }
 
 	void SetScaleKey(const Vector3& sca) {
 		m_keyScale = sca;
 	}
 
 	void SetScaleDoor(const Vector3& sca) {
-		m_Doorscale = sca;
+		m_doorScale = sca;
 	}
 
-	void Update()override final;
-	bool GetdoorbreakFlg() { return m_doorbreakFlg; };
+	float GetGameOverCount() {
+		return m_gameOverCount;
+	}
+
 
 	void SetTriggerBox(const Vector3 pos) {
 		Vector3 ghostPos = pos;
@@ -52,41 +57,34 @@ public:
 	}
 
 
-
-	//ゲームクリアしてからの秒数をカウント
-	//他クラスでもそのカウント時間を参照したいからpublicに入れている。
-	int GameOverCount = 0;
-
-
 private:
+	bool m_getKeyFlg = false;
+	bool m_gameClearSoundFlag = true;				//ゲームクリアのサウンド再生を1回だけにするフラグ
+	bool m_keyGetSoundFlag = true;	//鍵取得のサウンド再生を1回だけにするフラグ
+	int m_gameOverCount = 0;
+	int m_delayCount = 0;	//鍵を取得してから鍵取得のサウンド再生が終わるまでの時間を待たせる変数。
+	Vector3 m_keyPos = Vector3::Zero;		//鍵の座標。
+	Vector3 m_keyScale = Vector3::One;
+	Vector3 m_doorPos = Vector3::Zero;		//ドアの座標。
+	Vector3 m_doorScale = Vector3::One;
+
+	
+
+	LigData m_ligKeyData;
+	LigData m_ligDoorData;
+	PhysicsStaticObject m_physicsStaticObject;
+	CPhysicsGhostObject m_ghostBox;
+
+	/**
+	 * @brief それぞれのクラスのポインタ
+	*/
+
+	MainCamera* maincamera;
+	FontRender* m_fontRender = nullptr;
 	SkinModelRender* m_skinModelRender_Key = nullptr;
 	SkinModelRender* m_skinModelRender_Door = nullptr;
-	PhysicsStaticObject m_physicsStaticObject;
-	bool getKeyFlg = false;
-	bool m_doorbreakFlg = false;
-
 	Player* m_player = nullptr;
 	Game* m_game = nullptr;
 	GameLevel2D* m_level2D = nullptr;
-	Vector3 m_keyPos;		//鍵の座標。
-	Vector3 m_keyScale;
-	Vector3 m_doorPos;		//ドアの座標。
-	Vector3 m_Doorscale;
 	SpriteRender* m_spriteRender = nullptr;		//スプライトレンダー
-	CSoundSource* m_sound = nullptr;			//効果音追加
-
-	CSoundSource* GameClearSound = nullptr;		//ゲームクリアのサウンドソース
-	bool GameClearSoundFlag = true;				//ゲームクリアのサウンド再生を1回だけにするフラグ
-	CSoundSource* KeyGetSound = nullptr;		//鍵取得のサウンドソース
-	bool KeyGetSoundFlag = true;	//鍵取得のサウンド再生を1回だけにするフラグ
-	CSoundSource* GameBGMSound_UpTempo = nullptr;	//アップテンポ版BGMのサウンドソース
-
-	int GetDelay = 0;	//鍵を取得してから鍵取得のサウンド再生が終わるまでの時間を待たせる変数。
-
-	FontRender* m_fontRender = nullptr;
-
-	MainCamera* maincamera;
-	LigData m_ligKeyData;
-	LigData m_ligDoorData;
-	CPhysicsGhostObject m_ghostBox;
 };

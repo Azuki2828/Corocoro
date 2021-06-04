@@ -11,9 +11,7 @@ bool TitleScene::Start()
 {
 
 	//タイトル画面表示
-	sprite = NewGO<TitleLevel2D>(0,"titleLevel2D");
-
-	m_titleLevel2D = FindGO<TitleLevel2D>("titleLevel2D");
+	m_titleLevel2D = NewGO<TitleLevel2D>(0,"titleLevel2D");
 
 	//タイトルBGM再生。
 	SoundManager::GetInstance()->Play(BGM_Title);
@@ -29,7 +27,7 @@ bool TitleScene::Start()
 TitleScene::~TitleScene()
 {
 	//タイトル画面のレベルを削除。
-	DeleteGO(sprite);
+	DeleteGO(m_titleLevel2D);
 	//タイトルBGMを削除。
 	SoundManager::GetInstance()->Release(BGM_Title);
 }

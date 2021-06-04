@@ -9,7 +9,6 @@ struct DirectionLigData {
 
 class DirectionLight : public LightBase
 {
-	//DirectionLight(float _x = 1.0f, float _y = -1.0f, float _z = -1.0f);
 	bool StartSub();
 	~DirectionLight();
 public:
@@ -25,7 +24,10 @@ public:
 		m_dirLigData.Dir = dir;
 		m_dirLigData.Dir.Normalize();
 	}
-	Vector3* GetLigDirection() { return &m_dirLigData.Dir; }
+
+	Vector3* GetLigDirection() { 
+		return &m_dirLigData.Dir;
+	}
 
 	void SetLigColor(float _x = 50.0f, float _y = 50.0f, float _z = 50.0f) {
 		m_dirLigData.Col.x = _x;
@@ -38,12 +40,9 @@ public:
 		m_dirLigData.Col = col;
 	}
 
-
-	//void SetEyePos() { m_dirLigData.eyePos = g_camera3D->GetPosition(); }
+	void* GetLigData() { return &m_dirLigData; }
 
 	ConstantBuffer cb;
 	DescriptorHeap ds;
-
 	DirectionLigData m_dirLigData;
-	void* GetLigData() { return &m_dirLigData; }
 };

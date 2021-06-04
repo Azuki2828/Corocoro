@@ -33,7 +33,7 @@ bool Magnet::Start() {
 
 	
 	//動く物体じゃないなら座標を更新して当たり判定を付ける。
-	if (!moveFlg) {
+	if (!m_moveFlg) {
 		m_skinModelRender->UpdateWorldMatrix();
 		m_physicsStaticObject.CreateFromModel(
 			*m_skinModelRender->GetModel(),
@@ -44,8 +44,8 @@ bool Magnet::Start() {
 
 
 	//動く物体じゃないなら動く速さだけ設定。
-	if (moveFlg) {
-		moveSpeed = (moveRange_back - moveRange_front) /= 150.0f;
+	if (m_moveFlg) {
+		m_moveSpeed = (m_moveRange_back - m_moveRange_front) /= 150.0f;
 	}
 
 	//プレイヤーのオブジェクトを探す。
@@ -65,28 +65,28 @@ void Magnet::Update() {
 	m_ligData.eyePos = g_camera3D->GetPosition();
 
 	//動く物体なら
-	if (moveFlg) {
+	if (m_moveFlg) {
 
 
-		m_pos += moveSpeed;
+		m_pos += m_moveSpeed;
 
 		//設定された右端まできたら動く向きを逆にする。
-		if (m_pos.x > moveRange_back.x) {
-			m_pos.x = moveRange_back.x;
+		if (m_pos.x > m_moveRange_back.x) {
+			m_pos.x = m_moveRange_back.x;
 		
 		m_timer++;								//
 		if (m_timer == 60) {					//<変更>動く磁石が1秒間一時停止するようにif文追加
-			moveSpeed *= -1.0f;
+			m_moveSpeed *= -1.0f;
 			m_timer = 0;						//
 			}
 		}
 		//設定された左端まできたら動く向きを逆にする。
-		if (m_pos.x < moveRange_front.x) {
-			m_pos.x = moveRange_front.x;
+		if (m_pos.x < m_moveRange_front.x) {
+			m_pos.x = m_moveRange_front.x;
 
 		m_timer++;								//
 		if (m_timer == 60) {					//<変更>動く磁石が1秒間停止するようにif文追加
-			moveSpeed *= -1.0f;
+			m_moveSpeed *= -1.0f;
 			m_timer = 0;						//
 			}
 		}
@@ -130,7 +130,7 @@ void Magnet::SetMagnetPower() {
 	float magnetPower = 100000.0f;
 
 	//プレイヤーと自身の磁磁極が同じなら自身に向かって伸びるベクトルにする。
-	if (mState != m_player->GetPlayerState()) {
+	if (m_MagState != m_player->GetPlayerState()) {
 		m_length *= -1.0f;
 	}
 
@@ -138,7 +138,7 @@ void Magnet::SetMagnetPower() {
 	float power = (1 / m_length.Length()) * magnetPower;
 
 	//強い磁石なら磁力を1.5倍に。
-	if (plusFlg) {
+	if (m_plusFlg) {
 		power *= 1.5f;
 	}
 	//ベクトルを正規化する。

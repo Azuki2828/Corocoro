@@ -19,7 +19,7 @@ enum {
 };
 struct LigData {
 	DirectionLigData m_directionLigData[MAX_DIRECTION_LIGHT];
-	Vector3 eyePos;
+	Vector3 eyePos = Vector3::Zero;
 	float pad;
 	Vector3 ambient;
 	float pad1;
@@ -52,12 +52,9 @@ public:
 	void RemoveLight(LightBase* light);
 
 	LigData* GetLigData() { return &m_ligData; }
-
-	//bool Start()override final;
-	//void Update()override final;
 private:
-	static LightManager* m_lightManager;
 	LigData m_ligData;
+	static LightManager* m_lightManager;
 	std::list<DirectionLigData*> m_directionLights;
 };
 

@@ -42,7 +42,7 @@ void MainCamera::Update() {
 	//m_rotX.Apply(toPos);
 
 
-	if (RotFlg == true) {
+	if (m_rotFlg == true) {
 
 		m_dir = FindGO<DirectionLight>("mainLight");
 		//m_dir->SetLigDirection({ 0.0f,1.0f,1.0f });
@@ -54,13 +54,13 @@ void MainCamera::Update() {
 		//PhysicsWorld::GetInstance()->SetGravity({ 0, 0, 0 });
 
 		//ぬける。
-		RotFlg = false;
+		m_rotFlg = false;
 		m_cameraRotFlg = true;
 
 		g_engine->SetGameState(GameState::State_Free);
 	}
-	CameraScrollFlag = false;
-	if (CameraScrollFlag == true) {
+	m_cameraScrollFlag = false;
+	if (m_cameraScrollFlag == true) {
 		//ここはステージ選択時に何ステージ目かでスウィッチさせてステージごとのカメラスクロール関数を呼ぶ。
 
 		//ステージ1をカメラスクロールで眺める関数
@@ -73,7 +73,7 @@ void MainCamera::Update() {
 	}
 
 	//新しい視点を、「新しい注視点　＋　toCameraPos」で求める。
-	m_pos = m_tar + toPos;
+	m_pos = m_tar + m_toPos;
 
 	//新しい視点と注視点をカメラに設定する。
 	g_camera3D->SetPosition(m_pos);
@@ -85,17 +85,17 @@ void MainCamera::FreeUpdate() {
 
 	if (m_cameraRotFlg) {
 
-		waitRot += GameTime::GameTimeFunc().GetFrameDeltaTime();
-		if (waitRot > 1.5f) {
+		m_waitRot += GameTime::GameTimeFunc().GetFrameDeltaTime();
+		if (m_waitRot > 1.5f) {
 			Quaternion m_rotZ;
 			m_rotZ.SetRotationDeg(Vector3::AxisZ, -2.0f);
-			m_rotZ.Apply(toPos);
+			m_rotZ.Apply(m_toPos);
 			m_rotZ.Apply(m_rotAxis);
 			
 			g_camera3D->SetUp(m_rotAxis);
 
-			count++;
-			if (count == 90) {
+			m_count++;
+			if (m_count == 90) {
 				m_cameraRotFlg = false;
 				g_engine->SetGameState(GameState::State_Game);
 				PhysicsWorld::GetInstance()->SetGravity({ 0, 300, 0 });
@@ -107,7 +107,7 @@ void MainCamera::FreeUpdate() {
 	}
 
 	//新しい視点を、「新しい注視点　＋　toCameraPos」で求める。
-	m_pos = m_tar + toPos;
+	m_pos = m_tar + m_toPos;
 
 	//新しい視点と注視点をカメラに設定する。
 	g_camera3D->SetPosition(m_pos);
@@ -118,56 +118,56 @@ void MainCamera::FreeUpdate() {
 
 //ステージ1をカメラスクロールで眺める関数
 void MainCamera::Stage1ScrollCamera() {
-	switch (CamePosiFlag) {
+	switch (m_cameraPosFlag) {
 	case 0:
 		//スタートの場所で少し画面のスクロールを固定。スタート地点をプレイヤーに伝わりやすくする。
-		ScrollStaticTimer++;
+		m_scrollStaticTimer++;
 		//2秒静止。
-		if (ScrollStaticTimer == 120) {
-			CamePosiFlag = 1;
+		if (m_scrollStaticTimer == 120) {
+			m_cameraPosFlag = 1;
 		}
 		break;
 	case 1:
 		//スタート位置から右端に...
 		m_tar.x += 30.0f;
 		if (m_tar.x > 3000.0f) {
-			CamePosiFlag = 2;
+			m_cameraPosFlag = 2;
 		}
 		break;
 	case 2:
 		//2階層まで上にあがる。
 		m_tar.y += 30.0f;
 		if (m_tar.y > 1500.0f) {
-			CamePosiFlag = 3;
+			m_cameraPosFlag = 3;
 		}
 		break;
 	case 3:
 		//2階層の右端から左端に進む。
 		m_tar.x -= 30.0f;
 		if (m_tar.x < 700.0f) {
-			CamePosiFlag = 4;
+			m_cameraPosFlag = 4;
 		}
 		break;
 	case 4:
 		//3階層まで上にあがる。
 		m_tar.y += 30.0f;
 		if (m_tar.y > 2800.0f) {
-			CamePosiFlag = 5;
+			m_cameraPosFlag = 5;
 		}
 		break;
 	case 5:
 		//鍵の場所まで右に進む。
 		m_tar.x += 30.0f;
 		if (m_tar.x > 3000.0f) {
-			CamePosiFlag = 6;
+			m_cameraPosFlag = 6;
 		}
 		break;
 	case 6:
 		//鍵の場所で少し画面のスクロールを固定。目的地をプレイヤーに伝わりやすくする。
-		ScrollStaticTimer++;
+		m_scrollStaticTimer++;
 		//2秒静止。
-		if (ScrollStaticTimer == 240) {
-			CamePosiFlag = 7;
+		if (m_scrollStaticTimer == 240) {
+			m_cameraPosFlag = 7;
 		}
 		break;
 	case 7:
@@ -177,7 +177,7 @@ void MainCamera::Stage1ScrollCamera() {
 		//プレイヤーの初期座標まで戻ったら、
 		if (m_tar.x < 400.0f && m_tar.y < 370.0f) {
 			//カメラをボール視点に戻したからカメラスクロールのフラグを抜ける。
-			CameraScrollFlag = false;
+			m_cameraScrollFlag = false;
 		}
 		break;
 	}

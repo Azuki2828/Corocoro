@@ -13,7 +13,7 @@ class LightCamera : Camera
 	}
 private:
 	static LightCamera* m_lightCamera;
-	Vector3 m_pos;
-	Vector3 m_tar;
+	Vector3 m_pos = Vector3::Zero;
+	Vector3 m_tar = Vector3::One;
 };
 

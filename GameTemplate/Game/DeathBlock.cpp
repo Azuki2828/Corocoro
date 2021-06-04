@@ -10,11 +10,11 @@ bool DeathBlock::Start() {
 
 	m_player = FindGO<Player>("player");
 	m_key = FindGO<Key>("key");
-	m_backGround = FindGO<Background>("background");
+	m_backGround = FindGO<BackGround>("background");
 	m_game = FindGO<Game>("game");
 	m_skinModelRender->SetPosition(m_pos);
 
-	m_skinModelRender->SetScale(m_scale);
+	m_skinModelRender->SetScale(m_sca);
 
 	m_death = NewGO<Effect>(0);
 	m_death->Init(u"Assets/effect/death.efk");
@@ -80,7 +80,7 @@ void DeathBlock::Update() {
 		float t;
 		m_ligData.uvNoiseOffset = modf(m_ligData.uvNoiseOffset, &t);
 		if (m_ghostBox.IsSelf(contactObject) == true) {
-		
+
 			//m_ghostObjectとぶつかった
 			//m_pointLig->SetActiveFlag(true);	//ポイントライトをつける。
 			//m_ghostBox.SetPosition({ 700.0f,405.0f,0.0f });
@@ -97,69 +97,69 @@ void DeathBlock::Update() {
 
 	if (m_hitPlayer && !m_player->GetTreasureFlg())
 	{
-			//死ぬエフェクト再生と効果音
+		//死ぬエフェクト再生と効果音
 		if (m_player->Getrespawn() == false) {
-
+			Effect* m_death = NewGO<Effect>(0);
+			m_death->Init(u"Assets/effect/death.efk");
+			m_death->SetScale({ 100.0f,100.0f,100.0f });
 			m_player->Setrespawn(true);
-			m_death->SetPosition(effPos);
-			deathActiveState = m_player->DeactivatePlayerModel();
+			m_death->SetPosition(m_player->GetPosition());
+			m_deathActiveState = m_player->DeactivatePlayerModel();
 			m_death->Play();
-			deathFlg = true;
+			m_deathFlg = true;
 
-			DeathSound = NewGO<CSoundSource>(0);
-
-			DeathSound->Init(L"Assets/sound/death.wav");
-			DeathSound->SetVolume(0.5f);
-			DeathSound->Play(false);	//ワンショット再生
+			SoundManager::GetInstance()->Play(SE_Death);
 
 			/*m_timer++;
 			if (m_timer == 60) {
 				g_engine->SetGameState(GameState::State_Game);
 				m_timer = 0;*/
-			}
-			m_timer++;
-			if (m_timer >= 90)
-			{
-				SoundManager::GetInstance()->Play(SE_ReStart);
-				m_player->Setrespawn(false);
-				m_timer = 0;
-				m_backGround->SetStart(true);
-				m_hitPlayer = false;
-				m_respawnEfk = false;
+		}
+		m_timer++;
+		if (m_timer >= 90)
+		{
+			SoundManager::GetInstance()->Play(SE_ReStart);
+			m_player->Setrespawn(false);
+			m_timer = 0;
+			m_backGround->SetStart(true);
+			m_hitPlayer = false;
+			m_respawnEfk = false;
 
-			}
-			else if (m_timer >= 80) {
+		}
+		else if (m_timer >= 80) {
 
-				if (m_player->GetKeyFlg()) {
-					m_player->SetPosition(m_key->GetKeyPos());
-					m_player->ActivatePlayerModel(deathActiveState);
-					deathFlg = false;
-				}
-				else {
-					m_player->SetPosition(m_startPos);
-					m_player->ActivatePlayerModel(deathActiveState);
-					deathFlg = false;
-				}
-				//m_hitPlayer = false;
-				if (!m_respawnEfk) {
-					m_efkRespawn = NewGO<Effect>(0);
-					m_efkRespawn->Init(u"Assets/effect/respawn.efk");
-					m_efkRespawn->SetScale({ 100.0f,100.0f,100.0f });
-					Vector3 effPos = m_player->GetPosition();
-					m_efkRespawn->SetPosition(effPos);
-					//treasure->Update();
-					m_efkRespawn->Play();
-					m_respawnEfk = true;
-				}
+			if (m_player->GetKeyFlg()) {
+				m_key = FindGO<Key>("key");
+				m_player->SetPosition(m_key->GetKeyPos());
+				m_player->ActivatePlayerModel(m_deathActiveState);
+				m_deathFlg = false;
 			}
-
-
-			m_player->ClearPower();
-			if (m_efkRespawn != nullptr) {
-				m_efkRespawn->SetPosition(m_player->GetPosition());
-				m_efkRespawn->Update();
+			else {
+				m_player->SetPosition(m_player->GetStartPos());
+				m_player->ActivatePlayerModel(m_deathActiveState);
+				m_deathFlg = false;
 			}
-			//g_engine->SetGameState(GameState::State_Dead);
+			//m_hitPlayer = false;
+			if (!m_respawnEfk) {
+				m_efkRespawn = NewGO<Effect>(0);
+				m_efkRespawn->Init(u"Assets/effect/respawn.efk");
+				m_efkRespawn->SetScale({ 100.0f,100.0f,100.0f });
+				Vector3 effPos = m_player->GetPosition();
+				m_efkRespawn->SetPosition(effPos);
+				//treasure->Update();
+				m_efkRespawn->Play();
+				m_respawnEfk = true;
+			}
+		}
+		else {
+			m_player->SetPosition(m_player->GetPosition());
+		}
+		m_player->ClearPower();
+
+		if (m_efkRespawn != nullptr) {
+			m_efkRespawn->SetPosition(m_player->GetPosition());
+		}
+		//g_engine->SetGameState(GameState::State_Dead);
 	}
 }
 

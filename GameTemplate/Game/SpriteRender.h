@@ -1,9 +1,11 @@
 #pragma once
 class SpriteRender : public IGameObject
 {
-public:
+private:
 	bool Start()override final;
-	//スプライト初期化関数。
+	void Update()override final;
+
+public:
 	void Init(const char* filepath, float width, float height , AlphaBlendMode mode = AlphaBlendMode::AlphaBlendMode_Trans);
 	void Render(RenderContext& rc) override;
 	void RenderSprite(RenderContext& rc)override;
@@ -13,13 +15,12 @@ public:
 	void SetMulColor(const Vector4& mulCol) {
 		m_mulColor = mulCol;
 	}
-	void Update()override final;
 private:
 	Sprite m_sprite;
 	SpriteInitData m_initData;
-	Vector3 m_pos;
+	Vector3 m_pos = Vector3::Zero;
 	Quaternion m_rot = Quaternion::Identity;
-	Vector3 m_sca = { 1.0f,1.0f,1.0f };
-	Vector4 m_mulColor = { 1.0f,1.0f,1.0f,1.0f };	//乗算カラー。
+	Vector3 m_sca = Vector3::One;
+	Vector4 m_mulColor = Vector4::White;	//乗算カラー。
 };
 

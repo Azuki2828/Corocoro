@@ -1,26 +1,21 @@
 #pragma once
-
 #include "Key.h"
 #include "TreasureBox.h"
-class Key;
 
-class Background;
+class Key;
+class BackGround;
 class Game;
 class TreasureBox;
 
 class Player : public IGameObject
 {
 private:
-	bool getKeyFlg = false;		//鍵取得フラグ。
-	bool m_keySoundFlg = false;
-	bool m_startFlg = false;
-	bool m_resetPosFlg = false;
-
-public:
 	bool Start() override;
 	~Player();
 	void Update() override;
 	void FreeUpdate()override;
+
+public:
 
 	//現在のステートを取得する関数。
 	const int GetPlayerState()const { return pState; }
@@ -32,7 +27,7 @@ public:
 
 	//外部から力を受け取る関数。
 	//pow：力の大きさ
-	void ReceivePower(Vector3 pow)const { m_movePower += pow; }
+	void ReceivePower(Vector3 pow) { m_movePower += pow; }
 
 	void ClearPower() { m_rigidBody.ClearPower(); }
 
@@ -59,8 +54,8 @@ public:
 	Vector3 GetStartPos() {
 		return m_startPos;
 	}
-	void SetKeyFlg(bool flg) { getKeyFlg = flg; }
-	bool GetKeyFlg() { return getKeyFlg; }
+	void SetKeyFlg(bool flg) { m_getKeyFlg = flg; }
+	bool GetKeyFlg() { return m_getKeyFlg; }
 
 	bool GetTreasureFlg() {
 		if (m_treasureBox == nullptr) {
@@ -72,15 +67,13 @@ public:
 	};
 
 	
-	Effect * m_NCahgeState;
-	Effect* m_SCahgeState;
 	/**
 	 * @brief スポーンフラグを取得。
 	 * @return すポーンフラグ
 	*/
 	const bool Getrespawn()const
 	{
-		return m_respawn;
+		return m_respawnFlg;
 	}
 
 	/**
@@ -89,72 +82,8 @@ public:
 	*/
 	void Setrespawn(const bool b) 
 	{
-		m_respawn = b;
+		m_respawnFlg = b;
 	}
-	/**
-	 * @brief ダメージを与える。
-	*/
-	void ApplyDamage()
-	{
-	}
-private:
-	/// <summary>
-	/// アニメーションクリップ。
-	/// </summary>
-	enum EnAnimationClip {
-		enAnimClip_Idle,
-		enAnimClip_Run,
-		enAnimClip_Num,
-	};
-	int m_hp;
-
-	/// <summary>
-	/// 磁極。
-	/// </summary>
-	typedef enum {
-		State_N,
-		State_S,
-	}Player_State;
-
-	/// <summary>
-	/// プレイヤーの登録番号。
-	/// </summary>
-	enum EnPlayer {
-		enPlayer_0,
-		enPlayer_1,
-		enPlayer_Num
-	};
-	//プレイヤーのステート。
-	Player_State pState = State_N;
-	LigData m_ligData[enPlayer_Num];
-	Model m_model;										//モデル表示処理。
-	ModelInitData initData;								//モデルのデータ。
-	Animation m_animation;								//アニメション再生処理。
-	AnimationClip m_animationClips[enAnimClip_Num];		//アニメーションクリップ。
-	Skeleton m_skeleton;								//スケルトン。
-
-	DirectionLight* m_dirLight = nullptr;				//ディレクションライト。
-	//Vector3 m_pos = { 300.0f,1200.0f,-300.0f };		//初期座標。ステージ１
-	//Vector3 m_pos = { 300.0f,300.0f,-300.0f };			//初期座標。ステージ２
-	Vector3 m_pos = { 300.0f,1300.0f,-300.0f };		//初期座標。ステージ３
-	Vector3 m_startPos;
-	Quaternion m_rot = Quaternion::Identity;
-	//Vector3 m_pos = { 1500.0f,2800.0f,0.0f };
-	//Vector3 m_pos = { 1500.0f,2800.0f,20.0f };
-	mutable Vector3 m_movePower;						//動く力。
-
-	SkinModelRender* m_skinModelRender[enPlayer_Num] = { nullptr };
-	Font m_font;
-	
-
-//////////////////////////////
-// DeathBlockの処理で使用
-//////////////////////////////
-private:
-	bool m_deathFlag = false; //プレイヤーが死亡しているかのフラグ
-
-
-public:
 	/// <summary>
 	/// プレイヤーモデルの表示
 	/// </summary>
@@ -186,23 +115,64 @@ public:
 			return enPlayer_1;
 		}
 	}
-
-	
-
-
 private:
-			
+	/// <summary>
+	/// 磁極。
+	/// </summary>
+	typedef enum {
+		State_N,
+		State_S,
+	}Player_State;
 
+	/// <summary>
+	/// アニメーションクリップ。
+	/// </summary>
+	enum EnAnimationClip {
+		enAnimClip_Idle,
+		enAnimClip_Run,
+		enAnimClip_Num,
+	};
+	/// <summary>
+	/// プレイヤーの登録番号。
+	/// </summary>
+	enum EnPlayer {
+		enPlayer_0,
+		enPlayer_1,
+		enPlayer_Num
+	};
+	bool m_getKeyFlg = false;		//鍵取得フラグ。
+	bool m_keySoundFlg = false;
+	bool m_startFlg = false;
+	bool m_resetPosFlg = false;
+	bool m_deathFlag = false; //プレイヤーが死亡しているかのフラグ
+	bool m_respawnFlg = false;
+
+	Vector3 m_pos = { 300.0f,1300.0f,-300.0f };		//初期座標。ステージ３
+	Vector3 m_startPos;
+	Vector3 m_movePower;						//動く力。
+	Quaternion m_rot = Quaternion::Identity;
+	Font m_font;
+	Model m_model;										//モデル表示処理。
+	ModelInitData initData;								//モデルのデータ。
+	Skeleton m_skeleton;								//スケルトン。
 	SphereCollider m_sphereCollider;
 	RigidBody m_rigidBody;
+	Animation m_animation;								//アニメション再生処理。
+	AnimationClip m_animationClips[enAnimClip_Num];		//アニメーションクリップ。
+
+	Player_State pState = State_N;
+	LigData m_ligData[enPlayer_Num];
+
+	/**
+	 * @brief それぞれのクラスのポインタ
+	*/
+
+	SkinModelRender* m_skinModelRender[enPlayer_Num] = { nullptr };
 	Key* m_key = nullptr;
 	TreasureBox* m_treasureBox = nullptr;
-	Background* m_backGround = nullptr;
+	BackGround* m_backGround = nullptr;
 	Game* m_game = nullptr;
-	CSoundSource* NSChangeSound = nullptr;		//NS反転サウンドソース
-	
-
-	bool m_respawn = false;
-
-
+	DirectionLight* m_dirLight = nullptr;				//ディレクションライト。
+	Effect* m_NCahgeState;
+	Effect* m_SCahgeState;
 };

@@ -8,79 +8,78 @@
 bool ResultScene::Start()
 {
 	//リザルト画面表示
-	sprite = NewGO<ResultLevel2D>(0, "ResultLevel2D");
 	m_game = FindGO<Game>("game");
-	m_resultLevel2D = FindGO<ResultLevel2D>("ResultLevel2D");
-	nowTime = m_game->GetTime();
-	bestTime = m_game->GetBestTime();
-	m_nowTime = NewGO<FontRender>(2);
+	m_resultLevel2D = NewGO<ResultLevel2D>(0,"ResultLevel2D");
+	m_nowTime = m_game->GetTime();
+	m_bestTime = m_game->GetBestTime();
+	m_fontNowTime = NewGO<FontRender>(2);
 	wchar_t text[4][64];
-	swprintf_s(text[0], L"%2.1f", nowTime);
-	m_nowTime->Init(text[0], { 20.0f,70.0f }, { 1.0f,1.0f,1.0f,1.0f });
-	m_nowTime->SetScale(1.5f);
-	m_nowTime->SetPivot({ 0.0f,0.0f });
-	m_nowTime->SetShadowParam(true, 1.0f, Vector4::Black);
+	swprintf_s(text[0], L"%2.1f", m_nowTime);
+	m_fontNowTime->Init(text[0], { 20.0f,70.0f }, { 1.0f,1.0f,1.0f,1.0f });
+	m_fontNowTime->SetScale(1.5f);
+	m_fontNowTime->SetPivot({ 0.0f,0.0f });
+	m_fontNowTime->SetShadowParam(true, 1.0f, Vector4::Black);
 	//記録が1桁の時
-	if (nowTime < 10) {
+	if (m_nowTime < 10) {
 		//x座標を調整。
-		m_nowTime->SetPosition({ 20.0f,70.0f });	//場所
+		m_fontNowTime->SetPosition({ 20.0f,70.0f });	//場所
 	}
 	//記録が10桁の時
-	else if (nowTime > 10 && nowTime < 100) {
+	else if (m_nowTime > 10 && m_nowTime < 100) {
 		//x座標を調整。
-		m_nowTime->SetPosition({ -12.0f,70.0f });	//場所
+		m_fontNowTime->SetPosition({ -12.0f,70.0f });	//場所
 	}
 	//記録が100桁の時
-	else if (nowTime > 100 && nowTime < 1000) {
+	else if (m_nowTime > 100 && m_nowTime < 1000) {
 		//x座標を調整。
-		m_nowTime->SetPosition({ -44.0f,70.0f });	//場所
+		m_fontNowTime->SetPosition({ -44.0f,70.0f });	//場所
 	}
-	else if (nowTime > 1000 && nowTime < 10000) {
+	else if (m_nowTime > 1000 && m_nowTime < 10000) {
 		//x座標を調整。
-		m_nowTime->SetPosition({ -76.0f,70.0f });	//場所
+		m_fontNowTime->SetPosition({ -76.0f,70.0f });	//場所
 	}
 
-	m_BestTime = NewGO<FontRender>(2);
-	swprintf_s(text[1], L"%2.1f", bestTime);
-	m_BestTime->Init(text[1], { 20.0f,-30.0f }, { 1.0f,1.0f,1.0f,1.0f });
-	m_BestTime->SetPivot({ 0.0f,0.0f });
-	m_BestTime->SetScale(1.5f);
-	m_BestTime->SetShadowParam(true, 1.0f, Vector4::Black);
+	m_fontBestTime = NewGO<FontRender>(2);
+	swprintf_s(text[1], L"%2.1f", m_bestTime);
+	m_fontBestTime->Init(text[1], { 20.0f,-30.0f }, { 1.0f,1.0f,1.0f,1.0f });
+	m_fontBestTime->SetPivot({ 0.0f,0.0f });
+	m_fontBestTime->SetScale(1.5f);
+	m_fontBestTime->SetShadowParam(true, 1.0f, Vector4::Black);
 		//記録が1桁の時
-	if (bestTime < 10) {
+	if (m_bestTime < 10) {
 		//x座標を調整。
-		m_BestTime->SetPosition({ 20.0f,-30.0f });	//場所
+		m_fontBestTime->SetPosition({ 20.0f,-30.0f });	//場所
 	}
 	//記録が10桁の時
-	if (bestTime > 10 && bestTime < 100) {
+	if (m_bestTime > 10 && m_bestTime < 100) {
 		//x座標を調整。
-		m_BestTime->SetPosition({ -12.0f,-30.0f });	//場所
+		m_fontBestTime->SetPosition({ -12.0f,-30.0f });	//場所
 	}
 	//記録が100桁の時
-	if (bestTime > 100 && bestTime < 1000) {
+	if (m_bestTime > 100 && m_bestTime < 1000) {
 		//x座標を調整。
-		m_BestTime->SetPosition({ -44.0f,-30.0f });	//場所
+		m_fontBestTime->SetPosition({ -44.0f,-30.0f });	//場所
 	}
 
-	if (nowTime < bestTime)
+	if (m_nowTime < m_bestTime)
 	{
-		NewRecordFlg = true;
+		m_newRecordFlg = true;
 		//このチームのコードは詳しくないから消さないけど、この１文っているの？
-		bestTime = nowTime;
+		m_bestTime = m_nowTime;
 	}
 
 	m_game = FindGO<Game>("game");
 	m_time = m_game->GetTime();		//Gameで取得したタイム
 	SaveData* savedata = FindGO<SaveData>("savedata");
-	savedata->FileSave();	//タイムをセーブする
+	savedata->Save();	//タイムをセーブする
 	return true;
 }
 
 ResultScene::~ResultScene()
 {
-	DeleteGO(sprite);
-	DeleteGO(m_nowTime);
-	DeleteGO(m_BestTime);
+	DeleteGO(m_fontNowTime);
+	DeleteGO(m_fontBestTime);
+	DeleteGO(m_resultLevel2D);
 }
 
 void ResultScene::Update()
@@ -88,14 +87,14 @@ void ResultScene::Update()
 	//右入力or左入力されたら、
 	if (g_pad[0]->IsTrigger(enButtonRight) || g_pad[0]->IsTrigger(enButtonLeft)) {
 		//現在セレクトされているボタンが「たいとる」(0番)だったら、
-		if (NowSelect % 2 == 0) {
+		if (m_nowSelect % 2 == 0) {
 			//選択を右に1つずらす。
-			NowSelect = 1;
+			m_nowSelect = 1;
 		}
 		//現在セレクトされているボタンが「しゅうりょう」(1番)だったら、
 		else {
 			//選択を左に1つずらす。
-			NowSelect = 0;
+			m_nowSelect = 0;
 		}
 		//移動効果音鳴らす。
 		SoundManager::GetInstance()->Play(SE_CursolMove);
@@ -107,7 +106,7 @@ void ResultScene::Update()
 	}
 
 	//現在選択しているボタンの強調表示
-	switch (NowSelect) {
+	switch (m_nowSelect) {
 
 	//「たいとる」ボタンが選ばれているとき、
 	case TitleBackButton:
@@ -117,28 +116,28 @@ void ResultScene::Update()
 		//単振動の公式を使ってボタンを拡大縮小する。
 
 		 //大きさが最小になったとき、
-		if (Fscale < 0.25f) {
-			ScaleUpFlag = true;
+		if (m_fontScale < 0.25f) {
+			m_scaleUpFlag = true;
 		}
 		//大きさが最大になったとき、
-		if (Fscale > 0.275f) {
-			ScaleUpFlag = false;
+		if (m_fontScale > 0.275f) {
+			m_scaleUpFlag = false;
 		}
 
-		if (ScaleUpFlag == true) {
+		if (m_scaleUpFlag == true) {
 			//拡大
-			Fscale += 0.0005f;
+			m_fontScale += 0.0005f;
 		}
-		if (ScaleUpFlag == false) {
+		if (m_scaleUpFlag == false) {
 			//縮小
-			Fscale -= 0.0005f;
+			m_fontScale -= 0.0005f;
 		}
 		//スプライトに反映。
-		Vscale = { Fscale,Fscale,Fscale };
-		m_resultLevel2D->GetSprite(8)->SetScale(Vscale);
+		m_scale = { m_fontScale,m_fontScale,m_fontScale };
+		m_resultLevel2D->GetSprite(8)->SetScale(m_scale);
 
 		//選択されていないボタンの拡大率を元に戻す。
-		m_resultLevel2D->GetSprite(9)->SetScale(vscale1);
+		m_resultLevel2D->GetSprite(9)->SetScale(m_scale3);
 
 		break;
 
@@ -150,28 +149,28 @@ void ResultScene::Update()
 		//単振動の公式を使ってボタンを拡大縮小する。
 
 		 //大きさが最小になったとき、
-		if (Fscale1 < 0.2f) {
-			ScaleUpFlag = true;
+		if (m_fontScale2 < 0.2f) {
+			m_scaleUpFlag = true;
 		}
 		//大きさが最大になったとき、
-		if (Fscale1 > 0.225f) {
-			ScaleUpFlag = false;
+		if (m_fontScale2 > 0.225f) {
+			m_scaleUpFlag = false;
 		}
 
-		if (ScaleUpFlag == true) {
+		if (m_scaleUpFlag == true) {
 			//拡大
-			Fscale1 += 0.0005f;
+			m_fontScale2 += 0.0005f;
 		}
-		if (ScaleUpFlag == false) {
+		if (m_scaleUpFlag == false) {
 			//縮小
-			Fscale1 -= 0.0005f;
+			m_fontScale2 -= 0.0005f;
 		}
 		//スプライトに反映。
-		Vscale = { Fscale1,Fscale1,Fscale1 };
-		m_resultLevel2D->GetSprite(9)->SetScale(Vscale);
+		m_scale = { m_fontScale2,m_fontScale2,m_fontScale2 };
+		m_resultLevel2D->GetSprite(9)->SetScale(m_scale);
 
 		//選択されていないボタンの拡大率を元に戻す。
-		m_resultLevel2D->GetSprite(8)->SetScale(vscale);
+		m_resultLevel2D->GetSprite(8)->SetScale(m_scale2);
 
 		break;
 	};
@@ -183,7 +182,7 @@ void ResultScene::Update()
 		//決定ボタン音再生。
 		SoundManager::GetInstance()->Play(SE_DecisionButton);
 
-		switch (NowSelect) {
+		switch (m_nowSelect) {
 
 			//「たいとる」ボタンが選ばれているとき、
 		case TitleBackButton:
@@ -210,9 +209,9 @@ void ResultScene::Update()
 
 	//しんきろく！の文字が流れていく処理
 
-	//if (NewRecordFlg)
+	//if (m_newRecordFlg)
 	//{
-	//	if (NewRecordFlgSub) {
+	//	if (m_newRecordFlgSub) {
 	//		//しんきろく！画像を初期化。
 	//		m_spriteRender = NewGO<SpriteRender>(2);
 	//		m_spriteRender->SetPosition({ RecordPos,0.0f,0.0f });
@@ -220,13 +219,13 @@ void ResultScene::Update()
 	//		NewRecordFlgSub = false;
 	//	}
 	//	//右から左に移動する処理
-	//		m_spriteRender->SetPosition({ RecordPos,0.0f,0.0f });
-	//		RecordPos-=5;
+	//		m_spriteRender->SetPosition({ m_recordPos,0.0f,0.0f });
+	//		m_recordPos-=5;
 	//		//画面外に移動すると無駄に残さずにスプライトを消す
-	//		if (RecordPos < -1000.0f)
+	//		if (m_recordPos < -1000.0f)
 	//		{
 	//			//初期位置に戻す
-	//			RecordPos = 1100.0f;
+	//			m_recordPos = 1100.0f;
 	//		}
 	//}
 }

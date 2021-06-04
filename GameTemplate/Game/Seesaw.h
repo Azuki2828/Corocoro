@@ -2,10 +2,12 @@
 
 class Seesaw : public IGameObject
 {
-public:
+private:
 	~Seesaw();
 	bool Start() override;
 	void Update() override;
+
+public:
 	void Init(const char* name) {
 		char filePathtkm[256];
 		sprintf(filePathtkm, "Assets/modelData/tkm/%s.tkm", name);
@@ -24,17 +26,10 @@ public:
 		m_ligData.powValue = 0.7f;
 
 		m_skinModelRender->SetUserLigData(&m_ligData);
-		//m_skinModelRender->SetExpandShaderResourceView_2(&RenderTarget::GetZPrepassRenderTarget()->GetRenderTargetTexture());
 		m_skinModelRender->SetColorBufferFormat(DXGI_FORMAT_R32G32B32A32_FLOAT);
 		m_skinModelRender->Init();
 
 		m_skinModelRender->UpdateWorldMatrix();
-
-		//m_physicsStaticObject.CreateFromModel(
-		//	*m_skinModelRender->GetModel(),
-		//	m_skinModelRender->GetModel()->GetWorldMatrix()
-		//);
-		//m_physicsStaticObject.SetFriction(10.0f);
 	}
 
 	void SetPosition(const Vector3& pos) {
@@ -56,15 +51,19 @@ public:
 		m_skinModelRender->UpdateWorldMatrix(m_pos, m_startRot, g_vec3One);
 	}
 private:
-	Quaternion m_startRot;
-	Vector3 m_pos;
-	Quaternion m_rot;
-	Vector3 m_sca;
+	Vector3 m_pos = Vector3::Zero;
+	Vector3 m_sca = Vector3::One;
+	Quaternion m_rot = Quaternion::Identity;
+	Quaternion m_startRot = Quaternion::Identity;
 	BoxCollider m_boxCollider;
 	RigidBody m_rigidBody;
-	SkinModelRender* m_skinModelRender = nullptr;
-	//PhysicsStaticObject m_physicsStaticObject;
 	LigData m_ligData;
+
+	/**
+	 * @brief それぞれのクラスのポインタ
+	*/
+
+	SkinModelRender* m_skinModelRender = nullptr;
 };
 
 

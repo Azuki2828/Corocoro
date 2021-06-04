@@ -20,9 +20,9 @@ bool Game::Start() {
 	g_camera3D->SetUp({ 0.0f,1.0f,0.0f });
 
 	//セーブを追加
-	m_savedata = NewGO<SaveData>(0, "savedata");
+	m_saveData = NewGO<SaveData>(0, "savedata");
 	//m_savedata->FileSave();
-	m_savedata->Load();
+	m_saveData->Load();
 
 	//float a = m_resulttime;
 	//m_ghostBox.CreateBox(
@@ -39,7 +39,7 @@ bool Game::Start() {
 	//プレイヤーを生成。
 	m_player = NewGO<Player>(0, "player");
 	//地形を生成。
-	m_backGround = NewGO<Background>(0, "background");
+	m_backGround = NewGO<BackGround>(0, "background");
 	//フォントレンダーを生成
 	m_fontRender = NewGO<FontRender>(2);
 	//時間経過を表示
@@ -51,8 +51,8 @@ bool Game::Start() {
 	//m_fontRender->SetPivot({ 1.0f, 0.0f });				//中心を右側に
 
 	//m_recordfontRender = NewGO<FontRender>(2);
-	wchar_t text[64];
-	swprintf_s(text, L"%2.1f", m_savedata->Data.record);
+	//wchar_t text[64];
+	//swprintf_s(text, L"%2.1f", m_saveData->Data.record);
 	//m_recordfontRender->Init(text);
 	//m_recordfontRender->SetText(text);
 	//m_recordfontRender->SetPosition({ 500.0f, 300.0f });
@@ -62,7 +62,7 @@ bool Game::Start() {
 
 Game::~Game()
 {
-	DeleteGO(m_savedata);
+	DeleteGO(m_saveData);
 	//DeleteGO(m_dirLight);
 	DeleteGO(m_player);
 	DeleteGO(m_backGround);
@@ -76,18 +76,18 @@ Game::~Game()
 void Game::Update() {
 
 	//カメラのスクロールが終わってプレイヤーの視点になる。且つ、ワンショット再生させるためのフラグ。
-	if (m_camera->CameraScrollFlag == false&& m_startsoundflg == true) {
+	if (m_camera->GetCameraScrollFlg() == false && m_startSoundflg == true) {
 
 		SoundManager::GetInstance()->Play(SE_CountDown);
 
-		KauntoDownSprite = true;
-		m_startsoundflg = false;
+		m_countDownSprite = true;
+		m_startSoundflg = false;
 	}
 
 	//カウントダウンが鳴りだしたら、
-	if (KauntoDownSprite == true) {
+	if (m_countDownSprite == true) {
 		//カウントダウンスプライトを表示。
-		switch (KauntoDownTimer) {
+		switch (m_countDownTimer) {
 		 case 0:
 			//「3」表示
 			 HUD::GetHUD()->Init("Assets/image/3.dds", 1000.0f, 1000.0f);
@@ -145,21 +145,21 @@ void Game::Update() {
 			//DeleteGO(m_sprite[3]);
 			 HUD::GetHUD()->Deactivate(3);
 
-			KauntoDownSprite = false;
+			 m_countDownSprite = false;
 
 			break;
 		}
 
-		KauntoDownTimer++;
+		m_countDownTimer++;
 
 	}
 
 	wchar_t text1[64];
 
-	//スタートの効果音が鳴り終わったら
-	if (m_startsoundflg == false) {
-		m_timer += GameTime::GameTimeFunc().GetFrameDeltaTime();		//タイム計測開始のためのタイム
-	}
+	////スタートの効果音が鳴り終わったら
+	//if (m_startSoundflg == false) {
+	//	m_timer += GameTime::GameTimeFunc().GetFrameDeltaTime();		//タイム計測開始のためのタイム
+	//}
 	if (m_gameStartFlg && !m_player->GetTreasureFlg()) {
 		m_time += GameTime::GameTimeFunc().GetFrameDeltaTime();
 	}
@@ -213,7 +213,7 @@ void Game::Update() {
 			m_death->SetScale({ 100.0f,100.0f,100.0f });
 			m_player->Setrespawn(true);
 			m_death->SetPosition(m_playerPos);
-			deathActiveState = m_player->DeactivatePlayerModel();
+			m_deathActiveState = m_player->DeactivatePlayerModel();
 			m_death->Play();
 			deathFlg = true;
 
@@ -240,12 +240,12 @@ void Game::Update() {
 			if (m_player->GetKeyFlg()) {
 				m_key = FindGO<Key>("key");
 				m_player->SetPosition(m_key->GetKeyPos());
-				m_player->ActivatePlayerModel(deathActiveState);
+				m_player->ActivatePlayerModel(m_deathActiveState);
 				deathFlg = false;
 			}
 			else {
 				m_player->SetPosition(m_player->GetStartPos());
-				m_player->ActivatePlayerModel(deathActiveState);
+				m_player->ActivatePlayerModel(m_deathActiveState);
 				deathFlg = false;
 			}
 			//m_hitPlayer = false;

@@ -5,10 +5,10 @@
 struct SpriteData {
 	Sprite m_sprite;
 	SpriteInitData m_initData;
-	Vector3 m_pos;
+	Vector3 m_pos = Vector3::Zero;
 	Quaternion m_rot = Quaternion::Identity;
-	Vector3 m_sca = { 1.0f,1.0f,1.0f };
-	Vector4 m_mulColor = { 1.0f,1.0f,1.0f,1.0f };	//乗算カラー。
+	Vector3 m_sca = Vector3::One;
+	Vector4 m_mulColor = Vector4::White;	//乗算カラー。
 	bool activate = true;
 };
 class HUD

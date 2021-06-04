@@ -66,7 +66,7 @@ void GameLevel2D::Update()
 {
 
 	//NoGetKeyがfalse、つまり鍵が取得されているとき、
-	if (NoGetKeyFlag == false) {
+	if (m_getKeyFlag == false) {
 
 		//レベルを読み込む。
 		m_level2D.Init("Assets/level2D/GameScreen_YesGetKey.casl", [&](Level2DObjectData& objdata) {
@@ -129,7 +129,7 @@ void GameLevel2D::Update()
 		});
 
 		//trueにして抜ける
-		NoGetKeyFlag = true;
+		m_getKeyFlag = true;
 	}
 
 

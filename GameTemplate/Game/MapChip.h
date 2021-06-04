@@ -16,14 +16,6 @@ public:
 		const Matrix& mWorld,
 		const Matrix& mView,
 		const Matrix& mProj);
-	//{
-	//	m_skinModelRender->Draw(
-	//		rc,
-	//		m_skinModelRender->GetModel()->GetWorldMatrix(),
-	//		g_camera3D->GetViewMatrix(),
-	//		g_camera3D->GetProjectionMatrix()
-	//	);
-	//}
 
 private:
 
@@ -32,13 +24,13 @@ private:
 		Matrix mView;		//ビュー行列。
 		Matrix mProj;		//プロジェクション行列。
 	};
-	PhysicsStaticObject m_physicsStaticObject;
-
 	ConstantBuffer m_constantBuffer;					//定数バッファ。
+	PhysicsStaticObject m_physicsStaticObject;
+	LigData m_ligData;	//マップチップ専用のライト
+
 	std::vector< SMesh* > m_meshs;							//メッシュ。
 	std::vector< DescriptorHeap > m_descriptorHeap;		//ディスクリプタヒープ。
 
 	SkinModelRender* m_skinModelRender = nullptr;
-	LigData m_ligData;	//マップチップ専用のライト
 };
 

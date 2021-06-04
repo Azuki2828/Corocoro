@@ -2,7 +2,6 @@
 
 class SkinModelRender : public IGameObject
 {
-
 	struct LightCameraData{
 		Matrix m_viewProj;
 		Vector3 eyePos;
@@ -95,13 +94,16 @@ public:
 		m_userLigData = lig;
 	}
 private:
-	int m_animNum;
 	bool m_animFlg = false;
-	const char* m_fileNametkm = nullptr;
-	const char* m_fileNametks = nullptr;
 	bool m_shadowCasterFlag = false;	//シャドウキャスターフラグ。
 	bool m_shadowReceiverFlag = false;	//シャドウレシーバーフラグ。
 	bool m_zPrepassFlg = false;
+	int m_animNum = 0;
+	const char* m_fileNametkm = nullptr;
+	const char* m_fileNametks = nullptr;
+	Vector3 m_pos = Vector3::Zero;
+	Vector3 m_sca = Vector3::One;
+	Quaternion m_rot = Quaternion::Identity;
 
 	Model m_model;			//モデル表示処理。
 	Model m_shadowModel;	//シャドウ作成用のモデル。
@@ -111,18 +113,13 @@ private:
 	AnimationClip* m_animClip;
 	Skeleton m_skeleton;	//スケルトン。
 
-	DirectionLight* m_directionLight = nullptr;
-
 	LightCameraData m_lightCameraData;
 	LigData* m_userLigData = nullptr;	//ユーザーが設定するライトデータ
-	Vector3 m_pos = Vector3::Zero;
-	Vector3 m_sca = Vector3::One;
-	Quaternion m_rot = Quaternion::Identity;
 
-	//struct DirectionLightData {
-	//	Vector3 Direction;
-	//	Vector3 Color;
-	//};
-	//DirectionLightData m_directionLightData;
+	/**
+	 * @brief それぞれのクラスのポインタ
+	*/
+
+	DirectionLight* m_directionLight = nullptr;
 };
 

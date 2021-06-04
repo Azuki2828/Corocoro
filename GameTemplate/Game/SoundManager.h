@@ -10,20 +10,14 @@ enum class SoundType {
 
 class SoundManager
 {
-
 	struct SoundData {
-		int soundNum = 0;							//サウンドの登録番号
+		int soundNum = 0;							//登録番号
 		bool roopFlg = false;						//ループフラグ
-		const wchar_t* soundName = nullptr;			//サウンドのファイルパス
-		float soundVolume = 1.0f;					//サウンドの音量
+		const wchar_t* soundName = nullptr;			//ファイルパス
+		float soundVolume = 1.0f;					//音量
 		CSoundSource* sound = nullptr;				//サウンドソース(音源)
 		SoundType soundType = SoundType::Type_BGM;	//サウンドの種類
 	};
-private:
-	static SoundManager* m_soundManager;
-	float m_bgmVolume = 1.0f;
-	float m_seVolume = 1.0f;
-	float m_effectVolume = 1.0f;
 public:
 
 	void Init(const wchar_t* filePath, int num, bool flg = false, SoundType sType = SoundType::Type_BGM, float vol = 1.0f);
@@ -38,6 +32,8 @@ public:
 	}
 	void Update();
 
+	void Release(int num);
+
 	void Play(int num);
 
 	bool IsPlaying(int num);
@@ -49,9 +45,7 @@ public:
 	/// <param name="vol : サウンドボリューム"> (0.0f～1.0fを設定)</param>
 	void SetSoundSourceVolume(int num, float vol);
 
-	void SetRoopFlg(int num, bool flg);
-	
-	void Release(int num);
+	void SetRoopFlg(int num, bool flg);	
 
 	void SetVolume(float vol,SoundType type = SoundType::Type_BGM) {
 		switch (type) {
@@ -66,6 +60,12 @@ public:
 			break;
 		}
 	}
+
+private:
+	static SoundManager* m_soundManager;
+	float m_bgmVolume = 1.0f;
+	float m_seVolume = 1.0f;
+	float m_effectVolume = 1.0f;
 	std::vector<SoundData> m_soundData;
 };
 

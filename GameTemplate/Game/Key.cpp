@@ -28,7 +28,7 @@ bool Key::Start() {
 	//ドアがあったら座標を登録+当たり判定を付ける。
 	if (m_skinModelRender_Door != nullptr) {
 		m_skinModelRender_Door->SetPosition(m_doorPos);
-		m_skinModelRender_Door->SetScale(m_Doorscale);
+		m_skinModelRender_Door->SetScale(m_doorScale);
 		m_skinModelRender_Door->UpdateWorldMatrix();
 		m_physicsStaticObject.CreateFromModel(
 			*m_skinModelRender_Door->GetModel(),
@@ -137,13 +137,13 @@ void Key::Update() {
 				//クラスにアクセスし、情報をもらう。
 				maincamera = FindGO<MainCamera>("maincamera");
 				//MainCameraクラスのRotFlg変数をtrueに。
-				maincamera->RotFlg = true;
+				maincamera->SetRotFlg(true);
 
 
-				if (KeyGetSoundFlag == true) {
+				if (m_keyGetSoundFlag == true) {
 
 					//通常BGMを削除。
-					Background* background = FindGO<Background>("background");
+					BackGround* background = FindGO<BackGround>("background");
 					SoundManager::GetInstance()->Release(BGM_Game);
 
 					//エフェクト再生
@@ -162,7 +162,7 @@ void Key::Update() {
 					//GameLevel2DクラスのNoGetKeyFlagをfalseに変更。
 					//※余裕があったら、NoGetKeyFlagをprivateにして関数で変更してください。
 					GameLevel2D* gamescreenlevel2d = FindGO<GameLevel2D>("gamescreenlevel2d");
-					gamescreenlevel2d->NoGetKeyFlag = false;
+					gamescreenlevel2d->SetKeyFlg(false);
 					////�O�̌���Q�b�g���Ă��Ȃ��Ƃ���UI��폜�B
 					//DeleteGO(gamescreenlevel2d->m_sprite);
 
@@ -171,7 +171,7 @@ void Key::Update() {
 					SoundManager::GetInstance()->Play(SE_KeyGet);
 
 					//falseにして抜ける。
-					KeyGetSoundFlag = false;
+					m_keyGetSoundFlag = false;
 				}
 
 				//鍵取得フラグをtrueに。
@@ -231,11 +231,11 @@ void Key::Update() {
 	//}
 
 	//KeyGetSoundFlagがfalseになったら、
-	if(KeyGetSoundFlag ==false) {
-		GetDelay++;
+	if(m_keyGetSoundFlag ==false) {
+		m_delayCount++;
 	}
 
-	if (GetDelay == 120) {
+	if (m_delayCount == 120) {
 		//通常BGMのアップテンポ版を再生し変化をつけ、焦らす演出。
 		SoundManager::GetInstance()->Play(BGM_GameUpTempo);
 	}
@@ -244,12 +244,12 @@ void Key::Update() {
 
 		if (m_player->GetTreasureFlg()) {
 
-			if (GameClearSoundFlag == true) {
+			if (m_gameClearSoundFlag == true) {
 
 				
 
 				//falseにして抜ける。
-				GameClearSoundFlag = false;
+				m_gameClearSoundFlag = false;
 			}
 
 			//Clear文字表示

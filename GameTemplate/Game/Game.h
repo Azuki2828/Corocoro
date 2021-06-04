@@ -1,7 +1,7 @@
 #pragma once
 
 class Player;
-class Background;
+class BackGround;
 class MainCamera;
 class GameTime;
 class Key;
@@ -28,28 +28,22 @@ enum SoundList {
 
 class Game : public IGameObject
 {
-public:
-	CPhysicsGhostObject m_ghostBox;
-	float m_resulttime[4];
-	float m_resultSceneTime = 0.0f;
-	float m_timer = 0.0f;
-	float m_playerTimer = 0.0f;
-	bool m_gameStartFlg = false;
+private:
 	bool Start()override final;
 	~Game();
 	void Update()override final;
 
-public: //GetŠÖ”
+public:
 	float GetTime()
 	{
 		return m_time;
 	}
 	float GetBestTime() {
-		return m_resulttime[m_stageNum - 1];
+		return m_resultTime[m_stageNum - 1];
 	}
 
 	bool GetStartFlg() {
-		return m_startsoundflg;
+		return m_startSoundflg;
 	}
 
 	int GetGameStartTime() {
@@ -70,13 +64,9 @@ public: //GetŠÖ”
 		return m_gameStartFlg;
 	}
 
-	//void SetGameFlg(bool flg) {
-	//	m_gameFlg = flg;
-	//}
-
-	//bool GetGameFlg() {
-	//	return m_gameFlg;
-	//}
+	void SetResultTime(int num, float time) {
+		m_resultTime[num] = time;
+	}
 
 private:
 	bool m_treasureFlg = false;
@@ -84,31 +74,36 @@ private:
 	bool m_gameFlg = false;
 	bool deathFlg = false;
 	bool m_hitPlayer = false;
-	int deathActiveState = 0; //デスブロックに触れたときのキャラクターのステートを保持
-	int m_stageNum = 3;
 	bool m_resetFlg = false;
-	FontRender* m_fontRender = nullptr;
-	FontRender* m_recordfontRender = nullptr;
-	GameTime* m_gametime = nullptr;
-	float m_time = 0;
-	CSoundSource* m_sound = nullptr;
-	bool m_startsoundflg = true;
+	bool m_startSoundflg = true;
+	bool m_gameStartFlg = false;
+	bool m_countDownSprite = false;
+	int m_countDownTimer = 0;
+	int m_deathActiveState = 0; //デスブロックに触れたときのキャラクターのステートを保持
+	int m_stageNum = 3;
+	float m_time = 0.0f;
 	float m_gameStartTime = 0.0f;
-	Vector3 m_playerPos;
+	float m_resultTime[4] = { 0.0f };
+	float m_resultSceneTime = 0.0f;
+	float m_timer = 0.0f;
+	float m_playerTimer = 0.0f;
+	Vector3 m_playerPos = Vector3::Zero;
+	CPhysicsGhostObject m_ghostBox;
+
+	/**
+	 * @brief それぞれのクラスのポインタ
+	*/
+
+	FontRender* m_fontRender = nullptr;
+	GameTime* m_gametime = nullptr;
 	Effect* m_effect = nullptr;
 	Effect* m_efkRespawn = nullptr;
-
-
 	Player* m_player = nullptr;
-	Background* m_backGround = nullptr;
+	BackGround* m_backGround = nullptr;
 	MainCamera* m_camera = nullptr;
 	DirectionLight* m_dirLight = nullptr;
-	SaveData* m_savedata = nullptr;
-	SaveData* m_besttime = nullptr;
+	SaveData* m_saveData = nullptr;
 	ResultScene* m_resultScene = nullptr;
-
-	bool KauntoDownSprite = false;
-	int KauntoDownTimer = 0;
 	SpriteRender* m_sprite[4];
 	Key* m_key = nullptr;
 	TreasureBox* m_treasureBox = nullptr;

@@ -3,25 +3,11 @@ class RuleLevel2D;
 
 class RuleScene : public IGameObject
 {
-public:
+private:
 	bool Start();
 	~RuleScene();
 	void Update();
-
-	RuleLevel2D* sprite = nullptr;
-
 private:
-	//BGMのサウンドソース
-	CSoundSource* BGMSound = nullptr;
-	//移動効果音のサウンドソース
-	CSoundSource* CursorMooveSound = nullptr;
-	//決定効果音のサウンドソース
-	CSoundSource* DecisionSound = nullptr;
-
-	RuleLevel2D* m_RuleLevel2D = nullptr;
-
-	int NowSelect = 1;	//列挙の値を格納する変数。はじめは「つぎ」ボタンの1。
-
 	enum ButtonSelect {
 		back,
 		next
@@ -35,35 +21,32 @@ private:
 		FourPage,
 		FivePage
 	};
-	//画像の大きさを決める変数
-	Vector3 Vscale = { 0.2f,0.2f,0.2f };
-	float Fscale = 0.2f;
-	bool ScaleUpFlag = true;
 
-	//ボタンの初期の大きさ。
-	Vector3 vscale = { 0.2f,0.2f,0.2f };
+	bool m_scaleUpFlg = true;
+	bool m_nextPageFlg = true;
+	int m_pageNum = 1;
+	int m_nowSelect = 1;	//列挙の値を格納する変数。はじめは「つぎ」ボタンの1。
+	int m_onePageTimer = 0;
+	int m_twoPageTimer = 0;
+	int m_threePageTimer = 0;
+	int m_fourPageTimer = 0;
+	float m_scale = 0.2f;
+	float m_onePageBallPos = -300.0f;
+	float m_twoPageBallPos = -300.0f;
+	float m_threePageBallPos = 125.0f;
+	float m_fourPageBallPos = -250.0f;
+	Vector3 m_scale2 = { 0.2f,0.2f,0.2f };
+	Vector3 m_scale3 = { 0.2f,0.2f,0.2f };
+	Vector3 m_keyPos = { 300.0f,-30.0f,0.0f };
 
-	//今何ページ目のあそびかたを読んでいるのか。
-	int PageNum = 1;
+	/**
+	 * @brief それぞれのクラスのポインタ
+	*/
 
-	bool NextPageFlg = true;
-	
-	SpriteRender* m_KeySpriteRender[5] = { nullptr };		//鍵スプライトレンダー
-	SpriteRender* m_InryokuSpriteRender[5] = { nullptr };		//引力スプライトレンダー
-	SpriteRender* m_SekiryokuSpriteRender[6] = { nullptr };		//斥力スプライトレンダー
-	SpriteRender* m_DeathSpriteRender[6] = { nullptr };		//デススプライトレンダー
-	SpriteRender* m_QuarterSpriteRender[4] = { nullptr };		//クオータースプライトレンダー
-
-	int OnePageTimer = 0;
-	float OnePageBallPos = -300.0f;
-	Vector3 KeyPos = { 300.0f,-30.0f,0.0f };
-
-	int TwoPageTimer = 0;
-	float TwoPageBallPos = -300.0f;
-
-	int ThreePageTimer = 0;
-	float ThreePageBallPos = 125.0f;
-
-	int FourPageTimer = 0;
-	float FourPageBallPos = -250.0f;
+	SpriteRender* m_keySpriteRender[5] = { nullptr };		//鍵スプライトレンダー
+	SpriteRender* m_inryokuSpriteRender[6] = { nullptr };		//引力スプライトレンダー
+	SpriteRender* m_sekiryokuSpriteRender[6] = { nullptr };		//斥力スプライトレンダー
+	SpriteRender* m_deathSpriteRender[6] = { nullptr };		//デススプライトレンダー
+	SpriteRender* m_quarterSpriteRender[4] = { nullptr };		//クオータースプライトレンダー
+	RuleLevel2D* m_sprite = nullptr;
 };

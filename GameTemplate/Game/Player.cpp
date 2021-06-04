@@ -157,7 +157,7 @@ void Player::Update()
 
 		m_rigidBody.SetLinearFactor(1.0f, 1.0f, 0.0f);
 		if (m_backGround == nullptr) {
-			m_backGround = FindGO<Background>("background");
+			m_backGround = FindGO<BackGround>("background");
 		}
 
 		//z方向には動かない。
@@ -245,7 +245,7 @@ void Player::Update()
 
 			Vector3 m_lightCameraPos = m_lightCameraTar;
 			//m_lightCameraPos.z += 5.0f;
-			if (getKeyFlg) {
+			if (m_getKeyFlg) {
 				m_lightCameraPos.y -= 500.0f;
 			}
 			else {
@@ -269,7 +269,7 @@ void Player::Update()
 			Key* key = FindGO<Key>("key");
 
 			//ゲームクリアしてから5秒たったら、
-			if (key->GameOverCount > 300) {
+			if (key->GetGameOverCount() > 300) {
 				//クラスを削除。
 				DeleteGO(this);
 			}

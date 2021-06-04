@@ -6,32 +6,25 @@ class Player;
 class SaveData : public IGameObject
 {
 public:
+	void Save();
+	void Load();
+	bool GetNewrecordFlg() { return m_newRecordFlg; };
+
+private:
 	typedef struct {
 		float record[4];
 	}filesave_t;
 
-	float  savetime;
-	filesave_t Data;
-
-
-
-	void FileSave();
-	//void Save();
-	void Load();
-	//void Update();
-
-	bool m_NewrecordFlg = false;
-	bool GetNewrecordFlg() { return m_NewrecordFlg; };
-
+	bool m_newRecordFlg = false;
+	int m_stageNum = 0;
 	float m_time = 0.0f;
-	int m_stageNum;
+	filesave_t m_data;
 
-	Game* m_resulttime = 0;
+	/**
+	 * @brief それぞれのクラスのポインタ
+	*/
 
 	Game* m_game = nullptr;
-
 	ResultScene* m_result = nullptr;
-
-	FontRender* m_fontRender;
-
+	FontRender* m_fontRender = nullptr;
 };

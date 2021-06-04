@@ -7,7 +7,7 @@
 bool StageSelect::Start()
 {
 	//ステージ選択画面表示
-	sprite = NewGO<StageSelectLevel2D>(0, "StageSelectLevel2D");
+	m_sprite = NewGO<StageSelectLevel2D>(0, "StageSelectLevel2D");
 
 	//BGM再生。
 	SoundManager::GetInstance()->Play(BGM_Title);
@@ -17,66 +17,66 @@ bool StageSelect::Start()
 	//BGMSound->Play(true);		//ループ再生。
 
 	//Stage1
-	m_StageSpriteRender[0][0] = NewGO<SpriteRender>(1);
-	m_StageSpriteRender[0][0]->SetPosition({ 0.0f,-270.0f,0.0f });
-	m_StageSpriteRender[0][0]->Init("Assets/image/Stage1.dds", 350.0f, 350.0f);
-	m_StageSpriteRender[0][0]->SetScale({ 1.3f,1.3f,1.3f });
-	m_StageSpriteRender[0][0]->Deactivate();		//非表示
+	m_stageSpriteRender[0][0] = NewGO<SpriteRender>(1);
+	m_stageSpriteRender[0][0]->SetPosition({ 0.0f,-270.0f,0.0f });
+	m_stageSpriteRender[0][0]->Init("Assets/image/Stage1.dds", 350.0f, 350.0f);
+	m_stageSpriteRender[0][0]->SetScale({ 1.3f,1.3f,1.3f });
+	m_stageSpriteRender[0][0]->Deactivate();		//非表示
 
-	m_StageSpriteRender[0][1] = NewGO<SpriteRender>(1);
-	m_StageSpriteRender[0][1]->SetPosition({ 0.0f,0.0f,0.0f });
-	m_StageSpriteRender[0][1]->Init("Assets/image/Stage01.dds", 1024.0f, 768.0f);
-	m_StageSpriteRender[0][1]->SetScale({ 0.5f,0.5f,0.5f });
-	m_StageSpriteRender[0][1]->Deactivate();		//非表示
+	m_stageSpriteRender[0][1] = NewGO<SpriteRender>(1);
+	m_stageSpriteRender[0][1]->SetPosition({ 0.0f,0.0f,0.0f });
+	m_stageSpriteRender[0][1]->Init("Assets/image/Stage01.dds", 1024.0f, 768.0f);
+	m_stageSpriteRender[0][1]->SetScale({ 0.5f,0.5f,0.5f });
+	m_stageSpriteRender[0][1]->Deactivate();		//非表示
 	//Stage2
-	m_StageSpriteRender[1][0] = NewGO<SpriteRender>(1);
-	m_StageSpriteRender[1][0]->SetPosition({ 0.0f,-270.0f,0.0f });
-	m_StageSpriteRender[1][0]->Init("Assets/image/Stage2.dds", 350.0f, 350.0f);
-	m_StageSpriteRender[1][0]->SetScale({ 1.3f,1.3f,1.3f });
-	m_StageSpriteRender[1][0]->Deactivate();		//非表示
+	m_stageSpriteRender[1][0] = NewGO<SpriteRender>(1);
+	m_stageSpriteRender[1][0]->SetPosition({ 0.0f,-270.0f,0.0f });
+	m_stageSpriteRender[1][0]->Init("Assets/image/Stage2.dds", 350.0f, 350.0f);
+	m_stageSpriteRender[1][0]->SetScale({ 1.3f,1.3f,1.3f });
+	m_stageSpriteRender[1][0]->Deactivate();		//非表示
 
-	m_StageSpriteRender[1][1] = NewGO<SpriteRender>(1);
-	m_StageSpriteRender[1][1]->SetPosition({ 0.0f,0.0f,0.0f });
-	m_StageSpriteRender[1][1]->Init("Assets/image/Stage02.dds", 1024.0f, 768.0f);
-	m_StageSpriteRender[1][1]->SetScale({ 0.5f,0.5f,0.5f });
-	m_StageSpriteRender[1][1]->Deactivate();		//非表示
+	m_stageSpriteRender[1][1] = NewGO<SpriteRender>(1);
+	m_stageSpriteRender[1][1]->SetPosition({ 0.0f,0.0f,0.0f });
+	m_stageSpriteRender[1][1]->Init("Assets/image/Stage02.dds", 1024.0f, 768.0f);
+	m_stageSpriteRender[1][1]->SetScale({ 0.5f,0.5f,0.5f });
+	m_stageSpriteRender[1][1]->Deactivate();		//非表示
 	//Stage3
-	m_StageSpriteRender[2][0] = NewGO<SpriteRender>(1);
-	m_StageSpriteRender[2][0]->SetPosition({ 0.0f,-270.0f,0.0f });
-	m_StageSpriteRender[2][0]->Init("Assets/image/Stage3.dds", 350.0f, 350.0f);
-	m_StageSpriteRender[2][0]->SetScale({ 1.3f,1.3f,1.3f });
-	m_StageSpriteRender[2][0]->Deactivate();		//非表示
+	m_stageSpriteRender[2][0] = NewGO<SpriteRender>(1);
+	m_stageSpriteRender[2][0]->SetPosition({ 0.0f,-270.0f,0.0f });
+	m_stageSpriteRender[2][0]->Init("Assets/image/Stage3.dds", 350.0f, 350.0f);
+	m_stageSpriteRender[2][0]->SetScale({ 1.3f,1.3f,1.3f });
+	m_stageSpriteRender[2][0]->Deactivate();		//非表示
 
-	m_StageSpriteRender[2][1] = NewGO<SpriteRender>(1);
-	m_StageSpriteRender[2][1]->SetPosition({ 0.0f, 0.0f,0.0f });
-	m_StageSpriteRender[2][1]->Init("Assets/image/Stage03.dds", 1024.0f, 768.0f);
-	m_StageSpriteRender[2][1]->SetScale({ 0.5f,0.5f,0.5f });
-	m_StageSpriteRender[2][1]->Deactivate();		//非表示
+	m_stageSpriteRender[2][1] = NewGO<SpriteRender>(1);
+	m_stageSpriteRender[2][1]->SetPosition({ 0.0f, 0.0f,0.0f });
+	m_stageSpriteRender[2][1]->Init("Assets/image/Stage03.dds", 1024.0f, 768.0f);
+	m_stageSpriteRender[2][1]->SetScale({ 0.5f,0.5f,0.5f });
+	m_stageSpriteRender[2][1]->Deactivate();		//非表示
 
 	//Stage4
-	m_StageSpriteRender[3][0] = NewGO<SpriteRender>(1);
-	m_StageSpriteRender[3][0]->SetPosition({ 0.0f,-270.0f,0.0f });
-	m_StageSpriteRender[3][0]->Init("Assets/image/Stage4.dds", 350.0f, 350.0f);
-	m_StageSpriteRender[3][0]->SetScale({ 1.3f,1.3f,1.3f });
-	m_StageSpriteRender[3][0]->Deactivate();		//非表示
+	m_stageSpriteRender[3][0] = NewGO<SpriteRender>(1);
+	m_stageSpriteRender[3][0]->SetPosition({ 0.0f,-270.0f,0.0f });
+	m_stageSpriteRender[3][0]->Init("Assets/image/Stage4.dds", 350.0f, 350.0f);
+	m_stageSpriteRender[3][0]->SetScale({ 1.3f,1.3f,1.3f });
+	m_stageSpriteRender[3][0]->Deactivate();		//非表示
 
-	m_StageSpriteRender[3][1] = NewGO<SpriteRender>(1);
-	m_StageSpriteRender[3][1]->SetPosition({ 0.0f, 0.0f,0.0f });
-	m_StageSpriteRender[3][1]->Init("Assets/image/Stage04.dds", 1024.0f, 768.0f);
-	m_StageSpriteRender[3][1]->SetScale({ 0.5f,0.5f,0.5f });
-	m_StageSpriteRender[3][1]->Deactivate();		//非表示
+	m_stageSpriteRender[3][1] = NewGO<SpriteRender>(1);
+	m_stageSpriteRender[3][1]->SetPosition({ 0.0f, 0.0f,0.0f });
+	m_stageSpriteRender[3][1]->Init("Assets/image/Stage04.dds", 1024.0f, 768.0f);
+	m_stageSpriteRender[3][1]->SetScale({ 0.5f,0.5f,0.5f });
+	m_stageSpriteRender[3][1]->Deactivate();		//非表示
 
 	return true;
 }
 
 StageSelect::~StageSelect()
 {
-	DeleteGO(sprite);	//レベル削除
+	DeleteGO(m_sprite);	//レベル削除
 	SoundManager::GetInstance()->Release(BGM_Title);	//BGM削除
 	for (int i = 0; i < (FinalStage-1); i++)
 	{
-		DeleteGO(m_StageSpriteRender[i][0]);
-		DeleteGO(m_StageSpriteRender[i][1]);
+		DeleteGO(m_stageSpriteRender[i][0]);
+		DeleteGO(m_stageSpriteRender[i][1]);
 	}
 }
 
@@ -100,7 +100,7 @@ void StageSelect::Update()
 
 	//ボタンを全て半透明にする。
 	for (int i = 4; i < 6; i++) {
-		sprite->GetSprite(i)->SetMulColor({ 1.0f,1.0f,1.0f,0.3f });
+		m_sprite->GetSprite(i)->SetMulColor({ 1.0f,1.0f,1.0f,0.3f });
 	}
 
 	//現在選択しているボタンの強調表示
@@ -109,7 +109,7 @@ void StageSelect::Update()
 		//「もどる」ボタンが選ばれているとき、
 	 case BackButton:
 		//ボタンを不透明度100％にする。
-		sprite->GetSprite(4)->SetMulColor({ 1.0f,1.0f,1.0f,1.0f });
+		 m_sprite->GetSprite(4)->SetMulColor({ 1.0f,1.0f,1.0f,1.0f });
 
 		//単振動の公式を使ってボタンを拡大縮小する。
 
@@ -132,17 +132,17 @@ void StageSelect::Update()
 		}
 		//スプライトに反映。
 		Vscale = { Fscale,Fscale,Fscale };
-		sprite->GetSprite(4)->SetScale(Vscale);
+		m_sprite->GetSprite(4)->SetScale(Vscale);
 
 		//選択されていないボタンの拡大率を元に戻す。
-		sprite->GetSprite(5)->SetScale(vscale1);
+		m_sprite->GetSprite(5)->SetScale(vscale1);
 
 		break;
 
 		//「けってい」ボタンが選ばれているとき、
 	 case KetteiButton:
 		//ボタンを不透明度100％にする。
-		sprite->GetSprite(5)->SetMulColor({ 1.0f,1.0f,1.0f,1.0f });
+		 m_sprite->GetSprite(5)->SetMulColor({ 1.0f,1.0f,1.0f,1.0f });
 
 		//単振動の公式を使ってボタンを拡大縮小する。
 
@@ -165,10 +165,10 @@ void StageSelect::Update()
 		}
 		//スプライトに反映。
 		Vscale = { Fscale1,Fscale1,Fscale1 };
-		sprite->GetSprite(5)->SetScale(Vscale);
+		m_sprite->GetSprite(5)->SetScale(Vscale);
 
 		//選択されていないボタンの拡大率を元に戻す。
-		sprite->GetSprite(4)->SetScale(vscale);
+		m_sprite->GetSprite(4)->SetScale(vscale);
 
 		break;
 	};
@@ -179,33 +179,33 @@ void StageSelect::Update()
 	if (NowSelectStage == StageOne)
 	{
 		//左矢印を非表示する
-		sprite->GetSprite(2)->Deactivate();
+		m_sprite->GetSprite(2)->Deactivate();
 		//LBを非表示する
-		sprite->GetSprite(6)->Deactivate();
+		m_sprite->GetSprite(6)->Deactivate();
 	}
 	//ステージ１以外の時、
 	else
 	{
 		//左矢印を表示する
-		sprite->GetSprite(2)->Activate();
+		m_sprite->GetSprite(2)->Activate();
 		//LBを表示する
-		sprite->GetSprite(6)->Activate();
+		m_sprite->GetSprite(6)->Activate();
 	}
 	//現在選択されているステージが最後のステージのとき、
 	if (NowSelectStage == FinalStage-1)
 	{
 		//右矢印を非表示する
-		sprite->GetSprite(3)->Deactivate();
+		m_sprite->GetSprite(3)->Deactivate();
 		//RBを非表示する
-		sprite->GetSprite(7)->Deactivate();
+		m_sprite->GetSprite(7)->Deactivate();
 	}
 	//最後のステージ以外の時、
 	else
 	{
 		//右矢印を表示する
-		sprite->GetSprite(3)->Activate();
+		m_sprite->GetSprite(3)->Activate();
 		//RBを表示する
-		sprite->GetSprite(7)->Activate();
+		m_sprite->GetSprite(7)->Activate();
 	}
 
 	//LBボタンが押されたら、(キーボードB)
@@ -234,32 +234,32 @@ void StageSelect::Update()
 	switch (NowSelectStage)
 	{
 	case StageOne:
-		m_StageSpriteRender[0][0]->Activate();			//表示
-		m_StageSpriteRender[0][1]->Activate();			//表示
-		m_StageSpriteRender[1][0]->Deactivate();		//非表示
-		m_StageSpriteRender[1][1]->Deactivate();		//非表示
+		m_stageSpriteRender[0][0]->Activate();			//表示
+		m_stageSpriteRender[0][1]->Activate();			//表示
+		m_stageSpriteRender[1][0]->Deactivate();		//非表示
+		m_stageSpriteRender[1][1]->Deactivate();		//非表示
 		break;
 	case StageTwo:
-		m_StageSpriteRender[0][0]->Deactivate();		//非表示
-		m_StageSpriteRender[0][1]->Deactivate();		//非表示
-		m_StageSpriteRender[1][0]->Activate();			//表示
-		m_StageSpriteRender[1][1]->Activate();			//表示
-		m_StageSpriteRender[2][0]->Deactivate();		//非表示
-		m_StageSpriteRender[2][1]->Deactivate();		//非表示
+		m_stageSpriteRender[0][0]->Deactivate();		//非表示
+		m_stageSpriteRender[0][1]->Deactivate();		//非表示
+		m_stageSpriteRender[1][0]->Activate();			//表示
+		m_stageSpriteRender[1][1]->Activate();			//表示
+		m_stageSpriteRender[2][0]->Deactivate();		//非表示
+		m_stageSpriteRender[2][1]->Deactivate();		//非表示
 		break;
 	case StageThree:
-		m_StageSpriteRender[1][0]->Deactivate();		//非表示
-		m_StageSpriteRender[1][1]->Deactivate();		//非表示
-		m_StageSpriteRender[2][0]->Activate();			//表示
-		m_StageSpriteRender[2][1]->Activate();			//表示
-		m_StageSpriteRender[3][0]->Deactivate();		//非表示
-		m_StageSpriteRender[3][1]->Deactivate();		//非表示
+		m_stageSpriteRender[1][0]->Deactivate();		//非表示
+		m_stageSpriteRender[1][1]->Deactivate();		//非表示
+		m_stageSpriteRender[2][0]->Activate();			//表示
+		m_stageSpriteRender[2][1]->Activate();			//表示
+		m_stageSpriteRender[3][0]->Deactivate();		//非表示
+		m_stageSpriteRender[3][1]->Deactivate();		//非表示
 		break;
 	case StageFour:
-		m_StageSpriteRender[2][0]->Deactivate();		//非表示
-		m_StageSpriteRender[2][1]->Deactivate();		//非表示
-		m_StageSpriteRender[3][0]->Activate();			//表示
-		m_StageSpriteRender[3][1]->Activate();			//表示
+		m_stageSpriteRender[2][0]->Deactivate();		//非表示
+		m_stageSpriteRender[2][1]->Deactivate();		//非表示
+		m_stageSpriteRender[3][0]->Activate();			//表示
+		m_stageSpriteRender[3][1]->Activate();			//表示
 		break;
 	}
 
