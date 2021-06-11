@@ -58,5 +58,5 @@ private:
 	SpriteRender* m_spriteRender = nullptr;		//スプライトレンダー
 	FontRender* m_fontNowTime = nullptr;
 	FontRender* m_fontBestTime = nullptr;
-	FontRender* m_fontRender;		//今回のタイムを表示するためのフォントレンダー
+	FontRender* m_fontRender = nullptr;		//今回のタイムを表示するためのフォントレンダー
 };

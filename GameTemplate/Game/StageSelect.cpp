@@ -192,7 +192,7 @@ void StageSelect::Update()
 		m_sprite->GetSprite(6)->Activate();
 	}
 	//現在選択されているステージが最後のステージのとき、
-	if (NowSelectStage == FinalStage-1)
+	if (NowSelectStage == FinalStage)
 	{
 		//右矢印を非表示する
 		m_sprite->GetSprite(3)->Deactivate();
@@ -223,7 +223,7 @@ void StageSelect::Update()
 	//RBボタンが押されたら、(キーボードの7)
 	if (g_pad[0]->IsTrigger(enButtonRB1))
 	{
-		if (NowSelectStage != (FinalStage-1)) {
+		if (NowSelectStage != (FinalStage)) {
 			//移動効果音鳴らす。
 			SoundManager::GetInstance()->Play(SE_CursolMove);
 			//ステージ番号を１つ上にずらす

@@ -2,6 +2,10 @@
 #include "SpriteRender.h"
 #include <vector>
 
+namespace {
+
+	const int RESET_SPRITE_NUM = 0;
+}
 struct SpriteData {
 	Sprite m_sprite;
 	SpriteInitData m_initData;
@@ -11,6 +15,7 @@ struct SpriteData {
 	Vector4 m_mulColor = Vector4::White;	//æZƒJƒ‰[B
 	bool activate = true;
 };
+
 class HUD
 {
 public:

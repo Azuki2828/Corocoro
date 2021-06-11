@@ -1,6 +1,15 @@
 #pragma once
 #include "level2D/Level2D.h"
 
+
+namespace {
+	const char* GAME_SCREEN_NO_KEY_FILE_PATH = "Assets/level2D/GameScreen_NoGetKey.casl";
+	const char* GAME_SCREEN_YES_KEY_FILE_PATH = "Assets/level2D/GameScreen_YesGetKey.casl";
+	const char* SPRITE_NO_GET_KEY_FILE_PATH = "GetKeyNO";
+	const char* SPRITE_YES_GET_KEY_FILE_PATH = "KeyGet";
+	const char* SPRITE_TIME_BACK = "TimeBack";
+}
+
 class GameLevel2D : public IGameObject
 {
 private:

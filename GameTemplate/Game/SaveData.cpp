@@ -5,7 +5,7 @@
 
 void SaveData::Save()
 {
-	m_result = FindGO<ResultScene>("resultscene");
+	m_result = FindGO<ResultScene>(NAME_RESULT_SCENE);
 
 	float Record = m_result->GetTime();
 	m_stageNum = m_result->GetStageNum() - 1;

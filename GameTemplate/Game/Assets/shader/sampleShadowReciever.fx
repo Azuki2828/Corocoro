@@ -255,13 +255,13 @@ float4 PSMain( SPSIn psIn ) : SV_Target0
 		float3 spec = CookTorranceSpecular(-directionalLight[ligNo].direction,
 			toEye, normal, metaric, 1.0f - smooth) * directionalLight[ligNo].color;
 
-
 		spec *= lerp(float3(1.0f, 1.0f, 1.0f), specColor, smooth);
 
 		// step-6 鏡面反射率を使って、拡散反射光と鏡面反射光を合成する
 
 		lig += diffuse * (1.0f - smooth) + spec * smooth;
 	}
+
 
 	// step-7 環境光による底上げ
 	lig += ambinet * albedoColor;

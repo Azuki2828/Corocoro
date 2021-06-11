@@ -18,6 +18,7 @@ void SoundManager::Init(const wchar_t* filePath, int num, bool flg, SoundType sT
 	soundData.soundVolume = vol;
 	soundData.soundNum = num;
 	soundData.roopFlg = flg;
+	soundData.soundType = sType;
 
 	m_soundData.push_back(soundData);
 }
@@ -27,7 +28,7 @@ void SoundManager::Play(int num) {
 	for (int i = 0; i < m_soundData.size(); i++) {
 		//“o˜^”Ô†‚ª“¯‚¶‚¾‚Á‚½‚çÄ¶B
 		if (m_soundData[i].soundNum == num) {
-			m_soundData[i].sound = NewGO<CSoundSource>(0);
+			m_soundData[i].sound = NewGO<CSoundSource>(enPriority_Zeroth);
 			m_soundData[i].sound->Init(m_soundData[i].soundName);
 			switch (m_soundData[i].soundType) {
 			case SoundType::Type_BGM:

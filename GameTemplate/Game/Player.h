@@ -34,8 +34,6 @@ public:
 	//プレイヤーの磁極を変換する関数。
 	void ChangeState();
 
-	void Render(RenderContext& rc)override;
-
 	void SetPosition(const Vector3& pos) {
 		m_pos = pos;
 		m_rigidBody.SetPositionAndRotation(m_pos, m_rot);
@@ -91,10 +89,10 @@ public:
 	{
 		m_deathFlag = false;
 
-		if (i == 0) {
+		if (i == enPlayer_0) {
 			m_skinModelRender[enPlayer_0]->Activate();
 		}
-		else if (i == 1) {
+		else if (i == enPlayer_1) {
 			m_skinModelRender[enPlayer_1]->Activate();
 		}
 	}
@@ -106,11 +104,11 @@ public:
 	{
 		m_deathFlag = true;
 
-		if (m_skinModelRender[enPlayer_0]->IsActive() == true) {
+		if (m_skinModelRender[enPlayer_0]->IsActive()) {
 			m_skinModelRender[enPlayer_0]->Deactivate();
 			return enPlayer_0;
 		}
-		else if (m_skinModelRender[enPlayer_1]->IsActive() == true) {
+		else if (m_skinModelRender[enPlayer_1]->IsActive()) {
 			m_skinModelRender[enPlayer_1]->Deactivate();
 			return enPlayer_1;
 		}
@@ -146,6 +144,7 @@ private:
 	bool m_resetPosFlg = false;
 	bool m_deathFlag = false; //プレイヤーが死亡しているかのフラグ
 	bool m_respawnFlg = false;
+	float m_deathPosY = 0.0f;
 
 	Vector3 m_pos = { 300.0f,1300.0f,-300.0f };		//初期座標。ステージ３
 	Vector3 m_startPos;
@@ -163,9 +162,8 @@ private:
 	Player_State pState = State_N;
 	LigData m_ligData[enPlayer_Num];
 
-	/**
-	 * @brief それぞれのクラスのポインタ
-	*/
+
+	//それぞれのクラスのポインタ
 
 	SkinModelRender* m_skinModelRender[enPlayer_Num] = { nullptr };
 	Key* m_key = nullptr;

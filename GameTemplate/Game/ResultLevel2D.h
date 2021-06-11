@@ -1,6 +1,8 @@
 #pragma once
 #include "level2D/Level2D.h"
 
+
+
 class ResultLevel2D : public IGameObject
 {
 private:

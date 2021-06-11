@@ -17,7 +17,6 @@ private:
 
 	enum StageNumber
 	{
-		Stagenull,		//StageOneが1になるように合わせるため用意されたStagenull(使わない)
 		StageOne,
 		StageTwo,
 		StageThree,
@@ -25,7 +24,7 @@ private:
 		FinalStage		//FinalStageにマイナス1することでステージの総数を求める。
 	};
 	bool ScaleUpFlag = true;
-	int NowSelectStage = 1;
+	int NowSelectStage = 0;
 	int NowSelect = 1;	//列挙の値を格納する変数。はじめは「けってい」ボタンの1。
 	float Fscale = 0.23f;
 	float Fscale1 = 0.18f;

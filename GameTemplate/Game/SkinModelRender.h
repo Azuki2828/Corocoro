@@ -11,7 +11,7 @@ public:
 	//初期化。
 	//directionFlg:ディレクションライトの影響を受けるか。
 	//pointLightFlg:ポイントライトの影響を受けるか。
-	void Init(bool directionFlg = false, bool pointLightFlg = false);
+	void Init();
 
 	//tkmファイルのロード。
 	void SetFileNametkm(const char* name) { m_fileNametkm = name; }
@@ -45,9 +45,9 @@ public:
 	//スケルトンを取得。
 	Skeleton* GetSkeleton() { return &m_skeleton; }
 	
-	void SetPosition(Vector3 pos) { m_pos = pos; }
-	void SetRotation(Quaternion rot) { m_rot = rot; }
-	void SetScale(Vector3 sca) { m_sca = sca; }
+	void SetPosition(const Vector3& pos) { m_pos = pos; }
+	void SetRotation(const Quaternion& rot) { m_rot = rot; }
+	void SetScale(const Vector3& sca) { m_sca = sca; }
 	void Render(RenderContext& rc) override;
 
 	void Update()override final;

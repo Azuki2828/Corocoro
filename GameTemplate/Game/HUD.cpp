@@ -7,10 +7,10 @@ HUD* HUD::m_hud = nullptr;
 void HUD::Init(const char* filepath, float width, float height, AlphaBlendMode mode) {
 
 	m_spriteData.push_back(new SpriteData);
-	m_spriteData[m_spriteNum]->m_initData.m_ddsFilePath[0] = filepath;
+	m_spriteData[m_spriteNum]->m_initData.m_ddsFilePath[enData_Zeroth] = filepath;
 	m_spriteData[m_spriteNum]->m_initData.m_width = width;
 	m_spriteData[m_spriteNum]->m_initData.m_height = height;
-	m_spriteData[m_spriteNum]->m_initData.m_fxFilePath = "Assets/shader/sprite.fx";
+	m_spriteData[m_spriteNum]->m_initData.m_fxFilePath = SPRITE_SHADER_FILE_PATH;
 	m_spriteData[m_spriteNum]->m_initData.m_alphaBlendMode = mode;
 
 	m_spriteData[m_spriteNum]->m_sprite.Init(m_spriteData[m_spriteNum]->m_initData);
@@ -19,13 +19,8 @@ void HUD::Init(const char* filepath, float width, float height, AlphaBlendMode m
 
 void HUD::Release() {
 
-	//for (auto it = m_spriteData.begin(); it != m_spriteData.end();it++) {
-	//
-	//	it = m_spriteData.erase(it);
-	//}
-
 	m_spriteData.clear();
-	m_spriteNum = 0;
+	m_spriteNum = RESET_SPRITE_NUM;
 }
 
 void HUD::Update() {

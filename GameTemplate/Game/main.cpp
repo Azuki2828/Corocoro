@@ -33,27 +33,27 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	Stopwatch stopWatch;
 
 	//タイトル画面からスタート
-	NewGO<TitleScene>(0);
+	NewGO<TitleScene>(enPriority_Zeroth);
 
-	DirectionLight* m_dirLight = NewGO<DirectionLight>(0, "mainLight");
+	DirectionLight* m_dirLight = NewGO<DirectionLight>(enPriority_Zeroth, NAME_DIRECTION_LIGHT);
 	m_dirLight->SetLigDirection();
 	m_dirLight->SetLigColor();
 
 	//BGMの設定。
-	SoundManager::GetInstance()->Init(L"Assets/sound/TitleBGM.wav", BGM_Title, true, SoundType::Type_BGM);
-	SoundManager::GetInstance()->Init(L"Assets/sound/GameBGM.wav", BGM_Game, true, SoundType::Type_BGM);
-	SoundManager::GetInstance()->Init(L"Assets/sound/GameBGM_UpTempo.wav", BGM_GameUpTempo, true, SoundType::Type_BGM);
+	SoundManager::GetInstance()->Init(SOUND_FILEPATH_TITLE_BGM, BGM_Title, true, SoundType::Type_BGM);
+	SoundManager::GetInstance()->Init(SOUND_FILEPATH_GAME_BGM, BGM_Game, true, SoundType::Type_BGM);
+	SoundManager::GetInstance()->Init(SOUND_FILEPATH_UP_TEMPO, BGM_GameUpTempo, true, SoundType::Type_BGM);
 
 	//SEの設定。
-	SoundManager::GetInstance()->Init(L"Assets/sound/GameClear.wav", SE_GameClear, false, SoundType::Type_SE);
-	SoundManager::GetInstance()->Init(L"Assets/sound/CursorMove.wav", SE_CursolMove, false, SoundType::Type_SE);
-	SoundManager::GetInstance()->Init(L"Assets/sound/DecisionButton.wav", SE_DecisionButton, false, SoundType::Type_SE);
-	SoundManager::GetInstance()->Init(L"Assets/sound/CountDown.wav", SE_CountDown, false, SoundType::Type_SE);
-	SoundManager::GetInstance()->Init(L"Assets/sound/NSChange.wav", SE_NSChange, false, SoundType::Type_SE);
-	SoundManager::GetInstance()->Init(L"Assets/sound/KeyGet.wav", SE_KeyGet, false, SoundType::Type_SE);
-	SoundManager::GetInstance()->Init(L"Assets/sound/BoxOpen.wav", SE_BoxOpen, false, SoundType::Type_SE);
-	SoundManager::GetInstance()->Init(L"Assets/sound/death.wav", SE_Death, false, SoundType::Type_SE);
-	SoundManager::GetInstance()->Init(L"Assets/sound/restart.wav", SE_ReStart, false, SoundType::Type_SE);
+	SoundManager::GetInstance()->Init(SOUND_FILEPATH_GAME_CLEAR, SE_GameClear, false, SoundType::Type_SE);
+	SoundManager::GetInstance()->Init(SOUND_FILEPATH_CURSOR_MOVE, SE_CursolMove, false, SoundType::Type_SE);
+	SoundManager::GetInstance()->Init(SOUND_FILEPATH_DECISION_BUTTON, SE_DecisionButton, false, SoundType::Type_SE);
+	SoundManager::GetInstance()->Init(SOUND_FILEPATH_COUNT_DOWN, SE_CountDown, false, SoundType::Type_SE);
+	SoundManager::GetInstance()->Init(SOUND_FILEPATH_MAGNET_POWER_CHANGE, SE_NSChange, false, SoundType::Type_SE);
+	SoundManager::GetInstance()->Init(SOUND_FILEPATH_GET_KEY, SE_KeyGet, false, SoundType::Type_SE);
+	SoundManager::GetInstance()->Init(SOUND_FILEPATH_BOX_OPEN, SE_BoxOpen, false, SoundType::Type_SE);
+	SoundManager::GetInstance()->Init(SOUND_FILEPATH_DEATH, SE_Death, false, SoundType::Type_SE);
+	SoundManager::GetInstance()->Init(SOUND_FILEPATH_RESTART, SE_ReStart, false, SoundType::Type_SE);
 
 	//////////////////////////////////////
 	// 初期化を行うコードを書くのはここまで！！！
@@ -61,44 +61,31 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 
 	RenderTarget::CreateMainRenderTarget();
 	RenderTarget::GetMainRenderTarget()->Create(
-		1280,
-		720,
-		1,
-		1,
+		RENDER_TARGET_W1280H720.x,
+		RENDER_TARGET_W1280H720.y,
+		MIP_LEVEL1,
+		RENDER_ARRAY_SIZE1,
 		// 【注目】カラーバッファーのフォーマットを32bit浮動小数点にしている
 		DXGI_FORMAT_R32G32B32A32_FLOAT,
 		DXGI_FORMAT_D32_FLOAT
 	);
-
-
-	//// 32ビットの浮動小数点のカラーバッファーを保持したメインレンダリングターゲットを作成する
-	//RenderTarget mainRenderTarget;
-	//mainRenderTarget.Create(
-	//	1280,
-	//	720,
-	//	1,
-	//	1,
-	//	// 【注目】カラーバッファーのフォーマットを32bit浮動小数点にしている
-	//	DXGI_FORMAT_R32G32B32A32_FLOAT,
-	//	DXGI_FORMAT_D32_FLOAT
-	//);
 
 	// 輝度抽出用のレンダリングターゲットを作成
 	RenderTarget luminnceRenderTarget;
 
 	// 解像度、ミップマップレベル
 	luminnceRenderTarget.Create(
-		1280,       // 解像度はメインレンダリングターゲットと同じ
-		720,        // 解像度はメインレンダリングターゲットと同じ
-		1,
-		1,
+		RENDER_TARGET_W1280H720.x,       // 解像度はメインレンダリングターゲットと同じ
+		RENDER_TARGET_W1280H720.y,        // 解像度はメインレンダリングターゲットと同じ
+		MIP_LEVEL1,
+		RENDER_ARRAY_SIZE1,
 		// 【注目】カラーバッファーのフォーマットを32bit浮動小数点にしている
 		DXGI_FORMAT_R32G32B32A32_FLOAT,
 		DXGI_FORMAT_D32_FLOAT
 	);
 
 
-	PostEffect* m_postEffect = NewGO<PostEffect>(0);
+	PostEffect* m_postEffect = NewGO<PostEffect>(enPriority_Zeroth);
 	m_postEffect->InitLuminance(*RenderTarget::GetMainRenderTarget());
 	m_postEffect->InitGaussianBlur(luminnceRenderTarget);
 
@@ -107,12 +94,12 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	SpriteInitData spriteInitData;
 
 	// テクスチャはmainRenderTargetのカラーバッファー
-	spriteInitData.m_textures[0] = &RenderTarget::GetMainRenderTarget()->GetRenderTargetTexture();
-	spriteInitData.m_width = 1280;
-	spriteInitData.m_height = 720;
+	spriteInitData.m_textures[enData_Zeroth] = &RenderTarget::GetMainRenderTarget()->GetRenderTargetTexture();
+	spriteInitData.m_width = RENDER_TARGET_W1280H720.x;
+	spriteInitData.m_height = RENDER_TARGET_W1280H720.y;
 
 	// モノクロ用のシェーダーを指定する
-	spriteInitData.m_fxFilePath = "Assets/shader/sample2D.fx";
+	spriteInitData.m_fxFilePath = SPRITE_SHADER_MONOCHROME_FILE_PATH;
 
 	// 初期化オブジェクトを使って、スプライトを初期化する
 	Sprite copyToFrameBufferSprite;
@@ -127,26 +114,10 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 
 	
 	g_blur.Init(&RenderTarget::GetZPrepassRenderTarget()->GetRenderTargetTexture());
-	////影描画用のライトカメラを作成する。
-	//Camera lightCamera;
-	////カメラの位置を設定。これはライトの位置。
-	//lightCamera.SetPosition(0, 500, 0);
-	////カメラの注視点を設定。これがライトが照らしている場所。
-	//lightCamera.SetTarget(0, 0, 0);
-	////上方向を設定。今回はライトが真下を向いているので、X方向を上にしている。
-	//lightCamera.SetUp(1, 0, 0);
-	////ライトビュープロジェクション行列を計算している。
-	//lightCamera.Update();
-/*	Effect* laserEffect = nullptr;
-	laserEffect = NewGO<Effect>(0);
-	laserEffect->Init(u"Assets/effect/laser.efk");
-	laserEffect->SetScale({ 15.0f,15.0f,15.0f });*/
+
 	// ここからゲームループ。
 	while (DispatchWindowMessage())
 	{
-		//if (g_pad[0]->IsTrigger(enButtonA)) {
-		//	//再生開始。
-		//	laserEffect->Play();
 
 		//ストップウォッチの計測開始
 		stopWatch.Start();
@@ -165,6 +136,8 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 
 
 		GameObjectManager::GetInstance()->ExecuteRender(renderContext);
+
+
 		EffectEngine::GetInstance()->Draw();
 		HUD::GetHUD()->Draw(renderContext);
 		GameObjectManager::GetInstance()->ExecuteFontRender(renderContext);
@@ -196,15 +169,10 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 
 		// step-3 ガウシアンブラーを4回実行する
 
-		for (int i = 0; i < 4; i++) {
+		for (int i = 0; i < GAUSSIAN_BLUR_NUM; i++) {
 
-			m_postEffect->GetGaussianBlurSprite(i).ExecuteOnGPU(renderContext, 10);
+			m_postEffect->GetGaussianBlurSprite(i).ExecuteOnGPU(renderContext, BLUR_POWER);
 		}
-
-		//gaussianBlur[0].ExecuteOnGPU(renderContext, 10);
-		//gaussianBlur[1].ExecuteOnGPU(renderContext, 10);
-		//gaussianBlur[2].ExecuteOnGPU(renderContext, 10);
-		//gaussianBlur[3].ExecuteOnGPU(renderContext, 10);
 
 		// step-4 4枚のボケ画像を合成してメインレンダリングターゲットに加算合成
 
@@ -224,10 +192,6 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 		);
 		copyToFrameBufferSprite.Draw(renderContext);
 
-		//// ライトの強さを変更する
-		//light.directionalLight[0].color.x += g_pad[0]->GetLStickXF() * 0.5f;
-		//light.directionalLight[0].color.y += g_pad[0]->GetLStickXF() * 0.5f;
-		//light.directionalLight[0].color.z += g_pad[0]->GetLStickXF() * 0.5f;
 		//////////////////////////////////////
 		//絵を描くコードを書くのはここまで！！！
 		//////////////////////////////////////
@@ -238,11 +202,11 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 		g_engine->EndFrame();
 
 		//スピンロックを行う。
-		int restTime = 0;
+		int restTime = REST_INITIAL_TIME;
 		do {
 			stopWatch.Stop();
-			restTime = 16 - (int)stopWatch.GetElapsedMillisecond();
-		} while (restTime > 0);
+			restTime = SPIN_LOCK_CRITERIA - (int)stopWatch.GetElapsedMillisecond();
+		} while (restTime > REST_INITIAL_TIME);
 
 
 		//ストップウォッチの計測終了

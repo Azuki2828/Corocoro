@@ -8,8 +8,8 @@
 bool ResultScene::Start()
 {
 	//リザルト画面表示
-	m_game = FindGO<Game>("game");
-	m_resultLevel2D = NewGO<ResultLevel2D>(0,"ResultLevel2D");
+	m_game = FindGO<Game>(NAME_GAME);
+	m_resultLevel2D = NewGO<ResultLevel2D>(0, NAME_RESULT_LEVEL2D);
 	m_nowTime = m_game->GetTime();
 	m_bestTime = m_game->GetBestTime();
 	m_fontNowTime = NewGO<FontRender>(2);
@@ -68,9 +68,9 @@ bool ResultScene::Start()
 		m_bestTime = m_nowTime;
 	}
 
-	m_game = FindGO<Game>("game");
+	m_game = FindGO<Game>(NAME_GAME);
 	m_time = m_game->GetTime();		//Gameで取得したタイム
-	SaveData* savedata = FindGO<SaveData>("savedata");
+	SaveData* savedata = FindGO<SaveData>(NAME_SAVE_DATA);
 	savedata->Save();	//タイムをセーブする
 	return true;
 }

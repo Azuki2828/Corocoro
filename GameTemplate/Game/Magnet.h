@@ -4,6 +4,22 @@ class Player;
 class Key;
 class Game;
 
+namespace {
+	const float MAGNET_POWER = 100000.0f;
+	const float MAGNET_FRICTION = 10.0f;
+
+	const Vector3 MAGNET_TRIGGER_BOX_ADD_POS_BASE = { 0.0f,0.0f,-200.0f };
+
+	const float MAGNET_Z_POWER = 0.0f;
+	const Vector4 MAGNET_N_LIG_COLOR = { 10.0f,10.0f,10.0f,1.0f };
+	const Vector4 MAGNET_S_LIG_COLOR = { 10.0f,10.0f,30.0f,1.0f };
+	const Vector3 MAGNET_LIG_DIR = { -1.0f,-1.0f,-1.0f };
+	const Vector3 MAGNET_LIG_AMBIENT = { 0.8f,0.8f,0.8f };
+	const float MAGNET_METARIC = 1.0f;
+	const float MAGNET_SMOOTH = 0.35f;
+	const float MAGNET_POW_VALUE = 10.0f;
+}
+
 class Magnet : public IGameObject
 {
 private:
@@ -16,7 +32,7 @@ public:
 	//磁力をNにする関数。
 	void SetState_N(bool plusflg = false) {
 		m_MagState = State_N;
-		m_ligData.m_directionLigData[0].Col.Set(10.0f, 10.0f, 10.0f, 1.0f);
+		m_ligData.m_directionLigData[enData_Zeroth].Col.Set(MAGNET_N_LIG_COLOR);
 		if (plusflg) {
 			m_plusFlg = true;
 		}
@@ -24,10 +40,15 @@ public:
 	//磁力Sにする関数。
 	void SetState_S(bool plusflg = false) {
 		m_MagState = State_S;
-		m_ligData.m_directionLigData[0].Col.Set(10.0f, 10.0f, 30.0f, 1.0f);
+		m_ligData.m_directionLigData[enData_Zeroth].Col.Set(MAGNET_S_LIG_COLOR);
 		if (plusflg) {
 			m_plusFlg = true;
 		}
+	}
+
+	float ReturnReciprocal(float n) {
+
+		return 1.0f / n;
 	}
 
 	//移動範囲を設定する関数。
@@ -62,28 +83,27 @@ public:
 	//初期化関数。
 	void Init(const char* magnetName)
 	{
-		char filePathtkm[256];
+		char filePathtkm[NAME_SIZE];
 
 		sprintf(filePathtkm, "Assets/modelData/tkm/%s.tkm", magnetName);
-		m_skinModelRender = NewGO<SkinModelRender>(0);
+		m_skinModelRender = NewGO<SkinModelRender>(enPriority_Zeroth);
 		m_skinModelRender->SetFileNametkm(filePathtkm);
 		m_skinModelRender->SetShadowReceiverFlag(true);
 
 		m_skinModelRender->SetZprepassFlag(true);
 		//座標を登録。
-		m_ligData.m_directionLigData[0].Dir.Set(-1, -1, -1);
-		m_ligData.m_directionLigData[0].Dir.Normalize();
+		m_ligData.m_directionLigData[enData_Zeroth].Dir.Set(MAGNET_LIG_DIR);
+		m_ligData.m_directionLigData[enData_Zeroth].Dir.Normalize();
 		
-		m_ligData.ambient.Set(0.8f, 0.8f, 0.8f);
-		m_ligData.metaric = 1.0f;
-		m_ligData.smooth = 0.35f;
+		m_ligData.ambient.Set(MAGNET_LIG_AMBIENT);
+		m_ligData.metaric = MAGNET_METARIC;
+		m_ligData.smooth = MAGNET_SMOOTH;
 		m_ligData.edge = Edge_1;
-		m_ligData.powValue = 10.0f;
+		m_ligData.powValue = MAGNET_POW_VALUE;
 		m_skinModelRender->SetUserLigData(&m_ligData);
-		//m_skinModelRender->SetExpandShaderResourceView_2(&RenderTarget::GetZPrepassRenderTarget()->GetRenderTargetTexture());
 		m_skinModelRender->SetColorBufferFormat(DXGI_FORMAT_R32G32B32A32_FLOAT);
 
-		m_skinModelRender->Init(true, false);
+		m_skinModelRender->Init();
 	}
 private:
 	/// <summary>
@@ -117,7 +137,7 @@ private:
 	int m_timer = 0;			//<変更>動く磁石の一時停止のためm_timerを追加
 	Vector3 m_length = Vector3::Zero;			//プレイヤーとの距離。
 	Vector3 m_pos = Vector3::Zero;				//座標。
-	Vector3 m_sca = { 1.0f,1.0f,1.0f };
+	Vector3 m_sca = Vector3::One;
 	Vector3 m_magnetPos = Vector3::Zero;		//磁力の発生場所。基点は左下なため、中心にする。
 	Vector3 m_moveRange_front = Vector3::Zero;	//移動範囲の左端。
 	Vector3 m_moveRange_back = Vector3::Zero;	//移動範囲の右端。

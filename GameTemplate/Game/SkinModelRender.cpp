@@ -5,7 +5,7 @@
 extern GaussianBlur g_blur;
 
 
-void SkinModelRender::Init(bool DirectionFlg, bool PointLightFlg) {
+void SkinModelRender::Init() {
 
 	//char textureDir[256];
 	//strncpy_s(textureDir, ModelFileName, 256);
@@ -148,6 +148,8 @@ void SkinModelRender::Update() {
 	}
 
 	m_model.UpdateWorldMatrix(m_pos, m_rot, m_sca);
+
+
 	m_shadowModel.UpdateWorldMatrix(
 		m_pos,
 		m_rot,

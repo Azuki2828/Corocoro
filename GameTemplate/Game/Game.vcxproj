@@ -331,7 +331,6 @@
     <ClCompile Include="MainCamera.cpp" />
     <ClCompile Include="MapChip.cpp" />
     <ClCompile Include="MoveObject.cpp" />
-    <ClCompile Include="PhysicsBall.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="ResultLevel2D.cpp" />
     <ClCompile Include="RuleLevel2D.cpp" />
@@ -435,6 +434,8 @@
     <ClInclude Include="..\..\MiniEngine\VertexBuffer.h" />
     <ClInclude Include="Background.h" />
     <ClInclude Include="Background2.h" />
+    <ClInclude Include="ConstTriggerBoxValue.h" />
+    <ClInclude Include="ConstValue.h" />
     <ClInclude Include="DeathBlock.h" />
     <ClInclude Include="DirectionLight.h" />
     <ClInclude Include="FontRender.h" />
@@ -451,7 +452,6 @@
     <ClInclude Include="MainCamera.h" />
     <ClInclude Include="MapChip.h" />
     <ClInclude Include="MoveObject.h" />
-    <ClInclude Include="PhysicsBall.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="ResultLevel2D.h" />
     <ClInclude Include="RuleLevel2D.h" />

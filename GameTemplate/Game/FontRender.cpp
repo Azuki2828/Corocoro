@@ -10,7 +10,6 @@ void FontRender::Init(
 	Vector2 pivot
 ) {
 	swprintf_s(m_fontValue.text, text);
-	//m_fontValue.text = text;
 	m_fontValue.position = position;
 	m_fontValue.color = color;
 	m_fontValue.rotation = rotation;
@@ -20,6 +19,8 @@ void FontRender::Init(
 
 void FontRender::Render(RenderContext& rc) {
 
+
+	//レンダーモードがFontの時だけ描画する
 	if (rc.GetRenderMode() == RenderContext::Render_Mode::RenderMode_Font) {
 		m_font.Begin(rc);
 

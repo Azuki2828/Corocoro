@@ -14,80 +14,74 @@ public:
 
 	/**
 	 * @brief 初期化関数
-	 * @param name ファイルパス
+	 * @param name 名前
 	*/
-	void Init(const char* name)
-	{
-		char filePathtkm[256];
-		sprintf(filePathtkm, "Assets/modelData/tkm/%s.tkm", name);
-		m_skinModelRender = NewGO<SkinModelRender>(0);
-		m_skinModelRender->SetFileNametkm(filePathtkm);
-		m_skinModelRender->SetShadowReceiverFlag(true);
-		m_skinModelRender->SetZprepassFlag(true);
+	void Init(const char* name);
 
-		//座標を登録。
-		m_ligData.m_directionLigData[0].Dir.Set(-1, -1, -1);
-		m_ligData.m_directionLigData[0].Dir.Normalize();
-		//m_ligData.m_directionLigData[0].Col.Set(10.0f, 10.0f, 0.0f, 1.0f);
-
-		m_ligData.ambient.Set(0.8f, 0.8f, 0.8f);
-		m_ligData.metaric = 1.0f;
-		m_ligData.smooth = 0.1f;
-		m_ligData.edge = Edge_1;
-		m_ligData.powValue = 10.0f;
-		m_ligData.uvNoiseMul = 1.0f;
-		m_skinModelRender->SetUserLigData(&m_ligData);
-		//m_skinModelRender->SetExpandShaderResourceView_2(&RenderTarget::GetZPrepassRenderTarget()->GetRenderTargetTexture());
-		m_skinModelRender->SetColorBufferFormat(DXGI_FORMAT_R32G32B32A32_FLOAT);
-
-		m_skinModelRender->Init(true, false);
-	}
-
+	/**
+	 * @brief プレイヤーの初期座標（リスポーン地点）を決める関数
+	 * @param pos 座標
+	*/
 	void SetStartPos(const Vector3& pos) {
 		m_startPos = pos;
 	}
 
+	/**
+	 * @brief 座標を設定する関数
+	 * @param pos 座標
+	*/
 	void SetPosition(const Vector3& pos) {
 		m_pos = pos;
 	}
 
+	/**
+	 * @brief 拡大率を設定する関数
+	 * @param sca 拡大率
+	*/
 	void SetScale(const Vector3& sca) {
 		m_sca = sca;
 	}
 
+	/**
+	 * @brief 自身の可動範囲を設定する関数
+	 * @param pos_1 座標１
+	 * @param pos_2 座標２
+	*/
 	void SetMove(const Vector3& pos_1, const Vector3& pos_2) {
 
 		m_moveFlg = true;
-		m_movePos[0] = pos_1;
-		m_movePos[1] = pos_2;
+		m_movePos[enData_Zeroth] = pos_1;
+		m_movePos[enData_First] = pos_2;
 	}
 
+	/**
+	 * @brief ゲーム終了フラグを受け取る関数
+	 * @param flg フラグ
+	*/
 	void SetGameEndFlg(bool flg) {
 		m_gameflg = flg;
 	}
 
 
 private:
-	bool m_gameflg = false;
-	bool m_hitPlayer = false;
-	bool m_moveFlg = false;
-	bool m_respawnEfk = false;
-	bool m_deathFlg = false;
-	int m_timer = 0;
-	int m_returnTimer = 0;
-	int m_deathActiveState = 0; //デスブロックに触れたときのキャラクターのステートを保持
-	Vector3 m_movePos[2] = { Vector3::Zero };
-	Vector3 m_pos = Vector3::Zero;
-	Vector3 m_sca = Vector3::One;
-	Vector3 m_startPos = Vector3::Zero;
-	Vector3 m_ghostPos = Vector3::Zero;
-	CPhysicsGhostObject m_ghostBox;
+	bool m_gameflg = false;							//ゲームが始まったかどうか
+	bool m_hitPlayer = false;						//プレイヤーに当たったか
+	bool m_moveFlg = false;							//自身が動くブロックかどうか
+	bool m_respawnEfk = false;						//エフェクトを一度だけ発生させるためのフラグ
+	bool m_deathFlg = false;						//プレイヤーが死んでいるかどうか
+	int m_deathActiveState = 0;						//デスブロックに触れたときのキャラクターのステートを保持
+	float m_hitTimer = 0.0f;						//プレイヤーが死亡しているときのコードで使用するタイマー
+	Vector3 m_movePos[2] = { Vector3::Zero };		//自身の可動域
+	Vector3 m_pos = Vector3::Zero;					//自身の座標
+	Vector3 m_sca = Vector3::One;					//自身の拡大率
+	Vector3 m_startPos = Vector3::Zero;				//プレイヤーの初期座標
+	Vector3 m_ghostPos = Vector3::Zero;				//トリガーボックスの座標
+	CPhysicsGhostObject m_ghostBox;					//トリガーボックス
 
-	LigData m_ligData;
+	LigData m_ligData;								//ライトのデータ
 
-	/**
-	 * @brief それぞれのクラスのポインタ
-	*/
+
+	//それぞれのクラスのポインタ
 
 	Effect* m_death = nullptr;
 	Effect* m_efkRespawn = nullptr;

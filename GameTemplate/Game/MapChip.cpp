@@ -32,14 +32,14 @@ MapChip::MapChip(const LevelObjectData& objData) {
 	m_ligData.ambient.Set(0.8f, 0.8f, 0.8f);
 	m_ligData.metaric = 0.0f;
 	m_ligData.smooth = 0.0f;
-	auto mainCamera = FindGO<MainCamera>("maincamera");
+	auto mainCamera = FindGO<MainCamera>("mainCamera");
 	mainCamera->changeRotCameraEvent.push_back([&]() {
 		Quaternion m_rotZ;
 		m_rotZ.SetRotationDeg(Vector3::AxisZ, 2.0f);
 		m_rotZ.Apply(m_ligData.m_directionLigData[0].Dir);
 	});
 	m_skinModelRender->SetUserLigData(&m_ligData);
-	m_skinModelRender->Init(true, false);
+	m_skinModelRender->Init();
 	
 
 	m_skinModelRender->SetPosition(objData.position);

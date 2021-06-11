@@ -72,7 +72,6 @@
     <ClCompile Include="MainCamera.cpp" />
     <ClCompile Include="MapChip.cpp" />
     <ClCompile Include="MoveObject.cpp" />
-    <ClCompile Include="PhysicsBall.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="ResultLevel2D.cpp" />
     <ClCompile Include="RuleScene.cpp" />
@@ -193,7 +192,6 @@
     <ClInclude Include="MainCamera.h" />
     <ClInclude Include="MapChip.h" />
     <ClInclude Include="MoveObject.h" />
-    <ClInclude Include="PhysicsBall.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="ResultLevel2D.h" />
     <ClInclude Include="RuleScene.h" />
@@ -507,6 +505,8 @@
     <ClInclude Include="SoundManager.h" />
     <ClInclude Include="TreasureBox.h" />
     <ClInclude Include="HUD.h" />
+    <ClInclude Include="ConstValue.h" />
+    <ClInclude Include="ConstTriggerBoxValue.h" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\MiniEngine\Animation.h">

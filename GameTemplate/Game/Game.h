@@ -9,23 +9,6 @@ class SaveData;
 class ResultScene;
 class TreasureBox;
 
-enum SoundList {
-	BGM_Title,
-	BGM_Game,
-	BGM_GameUpTempo,
-	SE_GameClear,
-	SE_CursolMove,
-	SE_DecisionButton,
-	SE_CountDown,
-	SE_NSChange,
-	SE_KeyGet,
-	SE_BoxOpen,
-	SE_Death,
-	SE_ReStart,
-
-	Sound_Num
-};
-
 class Game : public IGameObject
 {
 private:
@@ -39,7 +22,7 @@ public:
 		return m_time;
 	}
 	float GetBestTime() {
-		return m_resultTime[m_stageNum - 1];
+		return m_resultTime[m_stageNum];
 	}
 
 	bool GetStartFlg() {
@@ -72,21 +55,22 @@ private:
 	bool m_treasureFlg = false;
 	bool m_respawnEfk = false;
 	bool m_gameFlg = false;
-	bool deathFlg = false;
+	bool m_deathFlg = false;
 	bool m_hitPlayer = false;
 	bool m_resetFlg = false;
 	bool m_startSoundflg = true;
 	bool m_gameStartFlg = false;
 	bool m_countDownSprite = false;
-	int m_countDownTimer = 0;
+	bool m_spriteActivateFlg = true;
 	int m_deathActiveState = 0; //デスブロックに触れたときのキャラクターのステートを保持
 	int m_stageNum = 3;
 	float m_time = 0.0f;
+	float m_countDownTimer = 0.0f;
 	float m_gameStartTime = 0.0f;
 	float m_resultTime[4] = { 0.0f };
 	float m_resultSceneTime = 0.0f;
 	float m_timer = 0.0f;
-	float m_playerTimer = 0.0f;
+	float m_hitTimer = 0.0f;						//プレイヤーが死亡しているときのコードで使用するタイマー
 	Vector3 m_playerPos = Vector3::Zero;
 	CPhysicsGhostObject m_ghostBox;
 
