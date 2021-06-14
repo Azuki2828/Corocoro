@@ -74,7 +74,20 @@ enum HUDList {
 	enSprite_3,
 	enSprite_2,
 	enSprite_1,
-	enSprite_GO
+	enSprite_GO,
+	enSprite_Result,
+	enSprite_GrayBack,
+	enSprite_Time,
+	enSprite_Ten1,
+	enSprite_Second1,
+	enSprite_Top,
+	enSprite_Ten2,
+	enSprite_Second2,
+	enSprite_TitleButton,
+	enSprite_EndButton,
+
+	enSprite_HUDNum
+
 };
 
 enum MagnetNum {

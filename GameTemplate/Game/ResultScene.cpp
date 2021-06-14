@@ -101,18 +101,19 @@ void ResultScene::Update()
 	}
 
 	//ボタンを全て半透明にする。
-	for (int i = 8; i <10 ; i++) {
-		m_resultLevel2D->GetSprite(i)->SetMulColor({ 1.0f,1.0f,1.0f,0.3f });
-	}
+	HUD::GetHUD()->SetMulColor(enSprite_TitleButton, { 1.0f, 1.0f, 1.0f, 0.5f });
+	HUD::GetHUD()->SetMulColor(enSprite_EndButton, { 1.0f, 1.0f, 1.0f, 0.5f });
+	m_standardScale[enSprite_TitleButton] = HUD::GetHUD()->GetScale(enSprite_TitleButton);
+	m_standardScale[enSprite_EndButton] = HUD::GetHUD()->GetScale(enSprite_EndButton);
 
 	//現在選択しているボタンの強調表示
 	switch (m_nowSelect) {
 
 	//「たいとる」ボタンが選ばれているとき、
-	case TitleBackButton:
+	case enSelect_TitleBackButton:
 		//ボタンを不透明度100％にする。
-		m_resultLevel2D->GetSprite(8)->SetMulColor({ 1.0f,1.0f,1.0f,1.0f });
-
+		//m_resultLevel2D->GetSprite(8)->SetMulColor({ 1.0f,1.0f,1.0f,1.0f });
+		HUD::GetHUD()->SetMulColor(enSprite_TitleButton, { 1.0f, 1.0f, 1.0f, 1.0f });
 		//単振動の公式を使ってボタンを拡大縮小する。
 
 		 //大きさが最小になったとき、
@@ -134,17 +135,18 @@ void ResultScene::Update()
 		}
 		//スプライトに反映。
 		m_scale = { m_fontScale,m_fontScale,m_fontScale };
-		m_resultLevel2D->GetSprite(8)->SetScale(m_scale);
+		//m_resultLevel2D->GetSprite(8)->SetScale(m_scale);
+		HUD::GetHUD()->SetScale(enSprite_TitleButton, m_scale);
 
 		//選択されていないボタンの拡大率を元に戻す。
-		m_resultLevel2D->GetSprite(9)->SetScale(m_scale3);
+		HUD::GetHUD()->SetScale(enSprite_EndButton, m_standardScale[enSprite_EndButton]);
 
 		break;
 
 	//「しゅうりょう」ボタンが選ばれているとき、
-	case EndButton:
+	case enSelect_EndButton:
 		//ボタンを不透明度100％にする。
-		m_resultLevel2D->GetSprite(9)->SetMulColor({ 1.0f,1.0f,1.0f,1.0f });
+		HUD::GetHUD()->SetMulColor(enSprite_EndButton, { 1.0f, 1.0f, 1.0f, 1.0f });
 
 		//単振動の公式を使ってボタンを拡大縮小する。
 
@@ -167,10 +169,10 @@ void ResultScene::Update()
 		}
 		//スプライトに反映。
 		m_scale = { m_fontScale2,m_fontScale2,m_fontScale2 };
-		m_resultLevel2D->GetSprite(9)->SetScale(m_scale);
+		HUD::GetHUD()->SetScale(enSprite_EndButton, m_scale);
 
 		//選択されていないボタンの拡大率を元に戻す。
-		m_resultLevel2D->GetSprite(8)->SetScale(m_scale2);
+		HUD::GetHUD()->SetScale(enSprite_TitleButton, m_standardScale[enSprite_TitleButton]);
 
 		break;
 	};
@@ -185,7 +187,7 @@ void ResultScene::Update()
 		switch (m_nowSelect) {
 
 			//「たいとる」ボタンが選ばれているとき、
-		case TitleBackButton:
+		case enSelect_TitleBackButton:
 			//ゲーム画面に遷移。
 			NewGO<TitleScene>(0);
 			DeleteGO(m_game);
@@ -197,7 +199,7 @@ void ResultScene::Update()
 			break;
 
 			//「おわる」ボタンが選ばれているとき、
-		case EndButton:
+		case enSelect_EndButton:
 			//ゲームを終了。
 			exit(EXIT_SUCCESS);
 

@@ -67,14 +67,14 @@ bool Game::Start() {
 	m_fontRender->SetColor(Vector4::White);		//白色
 	m_fontRender->SetShadowParam(true, FONT_FLAME, Vector4::Black);
 
-	HUD::GetHUD()->Init(SPRITE_THREE_FILE_PATH, SPRITE_WH.x, SPRITE_WH.y);
-	HUD::GetHUD()->Init(SPRITE_TWO_FILE_PATH, SPRITE_WH.x, SPRITE_WH.y);
-	HUD::GetHUD()->Init(SPRITE_ONE_FILE_PATH, SPRITE_WH.x, SPRITE_WH.y);
-	HUD::GetHUD()->Init(SPRITE_GO_FILE_PATH, SPRITE_WH.x, SPRITE_WH.y);
-	for (int i = 0; i < SPRITE_NUM; i++) {
-		HUD::GetHUD()->Deactivate(i);
-		HUD::GetHUD()->SetPosition(i, Vector3::Zero);
-	}
+	HUD::GetHUD()->Init(enSprite_3,SPRITE_THREE_FILE_PATH, SPRITE_WH.x, SPRITE_WH.y);
+	HUD::GetHUD()->Deactivate(enSprite_3);
+	HUD::GetHUD()->Init(enSprite_2,SPRITE_TWO_FILE_PATH, SPRITE_WH.x, SPRITE_WH.y);
+	HUD::GetHUD()->Deactivate(enSprite_2);
+	HUD::GetHUD()->Init(enSprite_1,SPRITE_ONE_FILE_PATH, SPRITE_WH.x, SPRITE_WH.y);
+	HUD::GetHUD()->Deactivate(enSprite_1);
+	HUD::GetHUD()->Init(enSprite_GO,SPRITE_GO_FILE_PATH, SPRITE_WH.x, SPRITE_WH.y);
+	HUD::GetHUD()->Deactivate(enSprite_GO);
 
 	return true;
 }

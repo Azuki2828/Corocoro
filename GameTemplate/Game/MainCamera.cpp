@@ -13,7 +13,7 @@ bool MainCamera::Start() {
 	g_camera3D->SetPosition(m_pos);
 	m_tar = m_player->GetPosition();
 	g_camera3D->SetTarget(m_tar);
-	g_camera3D->Update();
+	//g_camera3D->Update();
 
 	return true;
 }

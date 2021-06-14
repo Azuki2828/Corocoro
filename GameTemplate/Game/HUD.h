@@ -7,12 +7,13 @@ namespace {
 	const int RESET_SPRITE_NUM = 0;
 }
 struct SpriteData {
-	Sprite m_sprite;
-	SpriteInitData m_initData;
-	Vector3 m_pos = Vector3::Zero;
-	Quaternion m_rot = Quaternion::Identity;
-	Vector3 m_sca = Vector3::One;
-	Vector4 m_mulColor = Vector4::White;	//乗算カラー。
+	int spriteNum = 0;
+	Sprite sprite;
+	SpriteInitData initData;
+	Vector3 pos = Vector3::Zero;
+	Quaternion rot = Quaternion::Identity;
+	Vector3 sca = Vector3::One;
+	Vector4 mulColor = Vector4::White;	//乗算カラー。
 	bool activate = true;
 };
 
@@ -25,22 +26,66 @@ public:
 	static HUD* GetHUD() {
 		return m_hud;
 	}
-	void Init(const char* filepath, float width, float height, AlphaBlendMode mode = AlphaBlendMode::AlphaBlendMode_Trans);
+	void Init(int num, const char* filepath, float width, float height, AlphaBlendMode mode = AlphaBlendMode::AlphaBlendMode_Trans);
 	void Release();
 	void Draw(RenderContext& rc);
-	void SetPosition(int num,const Vector3& pos) { m_spriteData[num]->m_pos = pos; }
-	void SetRotation(int num, const Quaternion& rot) { m_spriteData[num]->m_rot = rot; }
-	void SetScale(int num, const Vector3& sca) { m_spriteData[num]->m_sca = sca; }
-	void SetMulColor(int num, const Vector4& mulCol) {
+	void SetPosition(int num,const Vector3& pos) { 
+		for (int i = 0; i < m_spriteData.size(); i++) {
+			if (m_spriteData[i]->spriteNum == num) {
+				m_spriteData[i]->pos = pos;
+				break;
+			}
+		}
+	}
+	void SetRotation(int num, const Quaternion& rot) { 
+		for (int i = 0; i < m_spriteData.size(); i++) {
+			if (m_spriteData[i]->spriteNum == num) {
+				m_spriteData[i]->rot = rot;
+				break;
+			}
+		}
+	}
 
-		m_spriteData[num]->m_mulColor = mulCol;
+	Vector3 GetScale(int num) {
+		for (int i = 0; i < m_spriteData.size(); i++) {
+			if (m_spriteData[i]->spriteNum == num) {
+				return m_spriteData[i]->sca;
+				break;
+			}
+		}
+	}
+	void SetScale(int num, const Vector3& sca) { 
+		for (int i = 0; i < m_spriteData.size(); i++) {
+			if (m_spriteData[i]->spriteNum == num) {
+				m_spriteData[i]->sca = sca;
+				break;
+			}
+		}
+	}
+	void SetMulColor(int num, const Vector4& mulCol) {
+		for (int i = 0; i < m_spriteData.size(); i++) {
+			if (m_spriteData[i]->spriteNum == num) {
+				m_spriteData[i]->mulColor = mulCol;
+				break;
+			}
+		}
 	}
 	void Deactivate(int num) {
-		m_spriteData[num]->activate = false;
+		for (int i = 0; i < m_spriteData.size(); i++) {
+			if (m_spriteData[i]->spriteNum == num) {
+				m_spriteData[i]->activate = false;
+				break;
+			}
+		}
 	}
 
 	void Activate(int num) {
-		m_spriteData[num]->activate = true;
+		for (int i = 0; i < m_spriteData.size(); i++) {
+			if (m_spriteData[i]->spriteNum == num) {
+				m_spriteData[i]->activate = true;
+				break;
+			}
+		}
 	}
 
 	void Update();

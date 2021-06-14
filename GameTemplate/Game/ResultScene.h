@@ -32,8 +32,10 @@ public:
 private:
 	//ƒ{ƒ^ƒ“‚ð‘I‘ð‚·‚é‚½‚ß‚Ì—ñ‹“Œ^
 	enum Select {
-		TitleBackButton,
-		EndButton,
+		enSelect_TitleBackButton,
+		enSelect_EndButton,
+
+		enSelect_Num
 	};
 	bool m_scaleUpFlag = true;
 	bool m_newRecordFlg = false;
@@ -46,6 +48,7 @@ private:
 	float m_fontScale2 = 0.2f;
 	float m_recordPos = 1100.0f;
 	Vector3 m_scale = { 0.0f,0.0f,0.0f };
+	Vector3 m_standardScale[enSelect_Num] = { Vector3::One };
 	Vector3 m_scale2 = { 0.25f,0.25f,0.25f };
 	Vector3 m_scale3 = { 0.2f,0.2f,0.2f };
 

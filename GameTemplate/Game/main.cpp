@@ -133,6 +133,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 		PhysicsWorld::GetInstance()->Update(g_gameTime->GetFrameDeltaTime());
 		EffectEngine::GetInstance()->Update(g_gameTime->GetFrameDeltaTime());
 		SoundManager::GetInstance()->Update();
+		HUD::GetHUD()->Update();
 
 
 		GameObjectManager::GetInstance()->ExecuteRender(renderContext);

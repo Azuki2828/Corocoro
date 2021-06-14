@@ -7,116 +7,99 @@ bool ResultLevel2D::Start() {
 	m_level2D.Init("Assets/level2D/ResultScene.casl", [&](Level2DObjectData& objdata) {
 
 		//名前がResultだったら、
-		if (objdata.EqualObjectName("Result")) {
+		if (objdata.EqualObjectName(SPRITE_NAME_RESULT)) {
 
-			m_sprite[0] = NewGO<SpriteRender>(1);
-			//Sprite初期化オブジェクトを使用して、Spriteを初期化する
-			m_sprite[0]->Init(objdata.ddsFilePath, objdata.width, objdata.height, AlphaBlendMode_Trans);
-			m_sprite[0]->SetPosition(objdata.position);
-			m_sprite[0]->SetScale(objdata.scale);
+			HUD::GetHUD()->Init(enSprite_Result,objdata.ddsFilePath, objdata.width, objdata.height);
+			HUD::GetHUD()->SetPosition(enSprite_Result, objdata.position);
+			HUD::GetHUD()->SetScale(enSprite_Result,objdata.scale);
+			//m_sprite[0] = NewGO<SpriteRender>(1);
+			////Sprite初期化オブジェクトを使用して、Spriteを初期化する
+			//m_sprite[0]->Init(objdata.ddsFilePath, objdata.width, objdata.height, AlphaBlendMode_Trans);
+			//m_sprite[0]->SetPosition(objdata.position);
+			//m_sprite[0]->SetScale(objdata.scale);
 
 			return true;
 		}
 		//名前がGrayBackだったら、
-		else if (objdata.EqualObjectName("GrayBack")) {
+		else if (objdata.EqualObjectName(SPRITE_NAME_GRAY_BACK)) {
 
-			m_sprite[1] = NewGO<SpriteRender>(0);
-			//Sprite初期化オブジェクトを使用して、Spriteを初期化する
-			m_sprite[1]->Init(objdata.ddsFilePath, objdata.width, objdata.height, AlphaBlendMode_Trans);
-			m_sprite[1]->SetPosition(objdata.position);
-			m_sprite[1]->SetScale(objdata.scale);
+			HUD::GetHUD()->Init(enSprite_GrayBack,objdata.ddsFilePath, objdata.width, objdata.height);
+			HUD::GetHUD()->SetPosition(enSprite_GrayBack, objdata.position);
+			HUD::GetHUD()->SetScale(enSprite_GrayBack, objdata.scale);
 
 			return true;
 		}
 		//名前がtimeだったら、
-		else if (objdata.EqualObjectName("time")) {
+		else if (objdata.EqualObjectName(SPRITE_NAME_TIME)) {
 
-			m_sprite[2] = NewGO<SpriteRender>(1);
-			//Sprite初期化オブジェクトを使用して、Spriteを初期化する
-			m_sprite[2]->Init(objdata.ddsFilePath, objdata.width, objdata.height, AlphaBlendMode_Trans);
-			m_sprite[2]->SetPosition(objdata.position);
-			m_sprite[2]->SetScale(objdata.scale);
+			HUD::GetHUD()->Init(enSprite_Time,objdata.ddsFilePath, objdata.width, objdata.height);
+			HUD::GetHUD()->SetPosition(enSprite_Time, objdata.position);
+			HUD::GetHUD()->SetScale(enSprite_Time, objdata.scale);
 
 			return true;
 		}
 		//名前がten1だったら、
-		else if (objdata.EqualObjectName("ten1")) {
+		else if (objdata.EqualObjectName(SPRITE_NAME_TEN1)) {
 
-			m_sprite[3] = NewGO<SpriteRender>(1);
-			//Sprite初期化オブジェクトを使用して、Spriteを初期化する
-			m_sprite[3]->Init(objdata.ddsFilePath, objdata.width, objdata.height, AlphaBlendMode_Trans);
-			m_sprite[3]->SetPosition(objdata.position);
-			m_sprite[3]->SetScale(objdata.scale);
+			HUD::GetHUD()->Init(enSprite_Ten1,objdata.ddsFilePath, objdata.width, objdata.height);
+			HUD::GetHUD()->SetPosition(enSprite_Ten1, objdata.position);
+			HUD::GetHUD()->SetScale(enSprite_Ten1, objdata.scale);
 
 			return true;
 		}
 		//名前がsecond1だったら、
-		else if (objdata.EqualObjectName("second1")) {
+		else if (objdata.EqualObjectName(SPRITE_NAME_SECOND1)) {
 
-			m_sprite[4] = NewGO<SpriteRender>(1);
-			//Sprite初期化オブジェクトを使用して、Spriteを初期化する
-			m_sprite[4]->Init(objdata.ddsFilePath, objdata.width, objdata.height, AlphaBlendMode_Trans);
-			m_sprite[4]->SetPosition(objdata.position);
-			m_sprite[4]->SetScale(objdata.scale);
+			HUD::GetHUD()->Init(enSprite_Second1,objdata.ddsFilePath, objdata.width, objdata.height);
+			HUD::GetHUD()->SetPosition(enSprite_Second1, objdata.position);
+			HUD::GetHUD()->SetScale(enSprite_Second1, objdata.scale);
 
 			return true;
 		}
 		//名前がtopだったら、
-		else if (objdata.EqualObjectName("top")) {
+		else if (objdata.EqualObjectName(SPRITE_NAME_TOP)) {
 
-			m_sprite[5] = NewGO<SpriteRender>(1);
-			//Sprite初期化オブジェクトを使用して、Spriteを初期化する
-			m_sprite[5]->Init(objdata.ddsFilePath, objdata.width, objdata.height, AlphaBlendMode_Trans);
-			m_sprite[5]->SetPosition(objdata.position);
-			m_sprite[5]->SetScale(objdata.scale);
+			HUD::GetHUD()->Init(enSprite_Top,objdata.ddsFilePath, objdata.width, objdata.height);
+			HUD::GetHUD()->SetPosition(enSprite_Top, objdata.position);
+			HUD::GetHUD()->SetScale(enSprite_Top, objdata.scale);
 
 			return true;
 		}
 		//名前がten2だったら、
-		else if (objdata.EqualObjectName("ten2")) {
+		else if (objdata.EqualObjectName(SPRITE_NAME_TEN2)) {
 
-			m_sprite[6] = NewGO<SpriteRender>(1);
-			//Sprite初期化オブジェクトを使用して、Spriteを初期化する
-			m_sprite[6]->Init(objdata.ddsFilePath, objdata.width, objdata.height, AlphaBlendMode_Trans);
-			m_sprite[6]->SetPosition(objdata.position);
-			m_sprite[6]->SetScale(objdata.scale);
+			HUD::GetHUD()->Init(enSprite_Ten2,objdata.ddsFilePath, objdata.width, objdata.height);
+			HUD::GetHUD()->SetPosition(enSprite_Ten2, objdata.position);
+			HUD::GetHUD()->SetScale(enSprite_Ten2, objdata.scale);
 
 			return true;
 		}
 		//名前がsecond2だったら、
-		else if (objdata.EqualObjectName("second2")) {
+		else if (objdata.EqualObjectName(SPRITE_NAME_SECOND2)) {
 
-			m_sprite[7] = NewGO<SpriteRender>(1);
-			//Sprite初期化オブジェクトを使用して、Spriteを初期化する
-			m_sprite[7]->Init(objdata.ddsFilePath, objdata.width, objdata.height, AlphaBlendMode_Trans);
-			m_sprite[7]->SetPosition(objdata.position);
-			m_sprite[7]->SetScale(objdata.scale);
+			HUD::GetHUD()->Init(enSprite_Second2,objdata.ddsFilePath, objdata.width, objdata.height);
+			HUD::GetHUD()->SetPosition(enSprite_Second2, objdata.position);
+			HUD::GetHUD()->SetScale(enSprite_Second2, objdata.scale);
 
 			return true;
 		}
 		//名前がtitlebuttonだったら、
-		else if (objdata.EqualObjectName("titlebutton")) {
+		else if (objdata.EqualObjectName(SPRITE_NAME_TITLE_BUTTON)) {
 
-			m_sprite[8] = NewGO<SpriteRender>(1);
-			//Sprite初期化オブジェクトを使用して、Spriteを初期化する
-			m_sprite[8]->Init(objdata.ddsFilePath, objdata.width, objdata.height, AlphaBlendMode_Trans);
-			m_sprite[8]->SetPosition(objdata.position);
-			m_sprite[8]->SetScale(objdata.scale);
-			//ボタンだから半透明にしておく。
-			m_sprite[8]->SetMulColor({ 1.0f, 1.0f, 1.0f, 0.5f });
+			HUD::GetHUD()->Init(enSprite_TitleButton,objdata.ddsFilePath, objdata.width, objdata.height);
+			HUD::GetHUD()->SetPosition(enSprite_TitleButton, objdata.position);
+			HUD::GetHUD()->SetScale(enSprite_TitleButton, objdata.scale);
+			HUD::GetHUD()->SetMulColor(enSprite_TitleButton, { 1.0f, 1.0f, 1.0f, 0.5f });
 
 			return true;
 		}
-		//名前がStartだったら、
-		else if (objdata.EqualObjectName("End")) {
+		//名前がEndだったら、
+		else if (objdata.EqualObjectName(SPRITE_NAME_END_BUTTON)) {
 
-			m_sprite[9] = NewGO<SpriteRender>(1);
-			//Sprite初期化オブジェクトを使用して、Spriteを初期化する
-			m_sprite[9]->Init(objdata.ddsFilePath, objdata.width, objdata.height, AlphaBlendMode_Trans);
-			m_sprite[9]->SetPosition(objdata.position);
-			m_sprite[9]->SetScale(objdata.scale);
-			//ボタンだから半透明にしておく。
-			m_sprite[9]->SetMulColor({ 1.0f, 1.0f, 1.0f, 0.5f });
+			HUD::GetHUD()->Init(enSprite_EndButton,objdata.ddsFilePath, objdata.width, objdata.height);
+			HUD::GetHUD()->SetPosition(enSprite_EndButton, objdata.position);
+			HUD::GetHUD()->SetScale(enSprite_EndButton, objdata.scale);
+			HUD::GetHUD()->SetMulColor(enSprite_EndButton, { 1.0f, 1.0f, 1.0f, 0.5f });
 
 			return true;
 		}
