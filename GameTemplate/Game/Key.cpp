@@ -126,7 +126,7 @@ void Key::Update() {
 
 					//通常BGMを削除。
 					BackGround* background = FindGO<BackGround>(NAME_BACK_GROUND);
-					SoundManager::GetInstance()->Release(BGM_Game);
+					SoundManager::GetInstance()->Release(enBGM_Game);
 
 					//エフェクト再生
 					Effect* ChangeState = nullptr;
@@ -142,7 +142,7 @@ void Key::Update() {
 					m_gameLevel2D->SetKeyFlg(false);
 					
 
-					SoundManager::GetInstance()->Play(SE_KeyGet);
+					SoundManager::GetInstance()->Play(enSE_KeyGet);
 
 					//falseにして抜ける。
 					m_keyGetSoundFlag = false;
@@ -164,7 +164,7 @@ void Key::Update() {
 
 		if (m_delayCount >= SOUND_DERAY_COUNT) {
 			//通常BGMのアップテンポ版を再生し変化をつけ、焦らす演出。
-			SoundManager::GetInstance()->Play(BGM_GameUpTempo);
+			SoundManager::GetInstance()->Play(enBGM_GameUpTempo);
 			m_startUpTempoSoundFlg = true;
 		}
 	}

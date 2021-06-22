@@ -41,7 +41,7 @@ bool BackGround::Start()
 
 
 	//ゲーム中のBGMを再生
-	SoundManager::GetInstance()->Play(BGM_Game);
+	SoundManager::GetInstance()->Play(enBGM_Game);
 
 	return true;
 }

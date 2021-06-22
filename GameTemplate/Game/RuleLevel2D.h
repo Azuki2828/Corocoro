@@ -3,6 +3,14 @@
 
 class RuleLevel2D:public IGameObject
 {
+	enum {
+		enSprite_Rule,
+		enSprite_Back,
+		enSprite_Next,
+		enSprite_BackGround,
+
+		enSprite_Num
+	};
 public:
 	bool Start();
 	~RuleLevel2D();
@@ -14,5 +22,5 @@ public:
 
 private:
 	Level2D m_level2D;		//レベル2D。
-	SpriteRender* m_sprite[4];		//スプライトレンダー
+	SpriteRender* m_sprite[enSprite_Num];		//スプライトレンダー
 };

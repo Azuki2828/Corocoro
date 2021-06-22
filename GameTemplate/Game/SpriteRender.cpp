@@ -8,7 +8,7 @@ bool SpriteRender::Start() {
 }
 void SpriteRender::Init(const char* filepath, float width, float height, AlphaBlendMode mode) {
 
-	m_initData.m_ddsFilePath[0] = filepath;
+	m_initData.m_ddsFilePath[enData_Zeroth] = filepath;
 	m_initData.m_width = width;
 	m_initData.m_height = height;
 	m_initData.m_fxFilePath = "Assets/shader/sprite.fx";

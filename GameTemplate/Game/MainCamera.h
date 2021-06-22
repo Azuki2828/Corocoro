@@ -40,7 +40,7 @@ private:
 	Vector3 m_tar = Vector3::Zero;		//注視点。
 	Vector3 m_rotAxis = { 0.0f,1.0f,0.0f };
 	Vector3 m_toPos = { 0.0f,200.0f,-1400.0f };
-	//Vector3 toPos = { 0.0f,200.0f,-2500.0f };	//全体確認用のポジション。
+	//Vector3 m_toPos = { 0.0f,200.0f,-2500.0f };	//全体確認用のポジション。
 	Quaternion m_rotX = Quaternion::Identity;
 	Quaternion m_rotY = Quaternion::Identity;
 	Quaternion m_rotZ = Quaternion::Identity;

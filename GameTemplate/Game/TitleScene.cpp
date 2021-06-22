@@ -14,7 +14,7 @@ bool TitleScene::Start()
 	m_titleLevel2D = NewGO<TitleLevel2D>(0,"titleLevel2D");
 
 	//タイトルBGM再生。
-	SoundManager::GetInstance()->Play(BGM_Title);
+	SoundManager::GetInstance()->Play(enBGM_Title);
 	//TitleBGMSound = NewGO<CSoundSource>(0);
 	//TitleBGMSound->Init(L"Assets/sound/TitleBGM.wav");
 	//TitleBGMSound->SetVolume(1.0f);
@@ -29,15 +29,15 @@ TitleScene::~TitleScene()
 	//タイトル画面のレベルを削除。
 	DeleteGO(m_titleLevel2D);
 	//タイトルBGMを削除。
-	SoundManager::GetInstance()->Release(BGM_Title);
+	SoundManager::GetInstance()->Release(enBGM_Title);
 }
 
 void TitleScene::Update()
 {
 	//ボタンを全て半透明にする。
-	for (int i = 2; i < 5; i++) {
-		m_titleLevel2D->GetSprite(i)->SetMulColor({ 1.0f,1.0f,1.0f,0.3f });
-	}
+	HUD::GetHUD()->SetMulColor(enSprite_StartButton, TRANSLUCENT_VALUE_HALF);
+	HUD::GetHUD()->SetMulColor(enSprite_RuleButton, TRANSLUCENT_VALUE_HALF);
+	HUD::GetHUD()->SetMulColor(enSprite_EndButton, TRANSLUCENT_VALUE_HALF);
 
 	//右入力or左入力されたら、
 	if (g_pad[0]->IsTrigger(enButtonRight) || g_pad[0]->IsTrigger(enButtonLeft)) {
@@ -59,7 +59,7 @@ void TitleScene::Update()
 		//}
 		//移動効果音鳴らす。
 
-		SoundManager::GetInstance()->Play(SE_CursolMove);
+		SoundManager::GetInstance()->Play(enSE_CursolMove);
 	}
 	//上入力or下入力されたら、
 	if (g_pad[0]->IsTrigger(enButtonUp) || g_pad[0]->IsTrigger(enButtonDown)) {
@@ -75,7 +75,7 @@ void TitleScene::Update()
 		}
 		//移動効果音鳴らす。
 
-		SoundManager::GetInstance()->Play(SE_CursolMove);
+		SoundManager::GetInstance()->Play(enSE_CursolMove);
 		//CursorMooveSound = NewGO<CSoundSource>(0);
 		//CursorMooveSound->Init(L"Assets/sound/CursorMove.wav");
 		//CursorMooveSound->SetVolume(1.0f);
@@ -90,7 +90,7 @@ void TitleScene::Update()
 	 //「はじめる」ボタンが選ばれているとき、
 	 case StartButton:
 		 //ボタンを不透明度100％にする。
-		 m_titleLevel2D->GetSprite(2)->SetMulColor({ 1.0f,1.0f,1.0f,1.0f });
+		 HUD::GetHUD()->SetMulColor(enSprite_StartButton, TRANSLUCENT_VALUE_MAX);
 
 		 //単振動の公式を使ってボタンを拡大縮小する。
 
@@ -113,18 +113,18 @@ void TitleScene::Update()
 		 }
 		 //スプライトに反映。
 		 Vscale = { Fscale,Fscale,Fscale };
-		 m_titleLevel2D->GetSprite(2)->SetScale(Vscale);
+		 HUD::GetHUD()->SetScale(enSprite_StartButton, Vscale);
 
 		 //選択されていないボタンの拡大率を元に戻す。
-		 m_titleLevel2D->GetSprite(3)->SetScale(vscale);
-		 m_titleLevel2D->GetSprite(4)->SetScale(vscale);
+		 HUD::GetHUD()->SetScale(enSprite_RuleButton, vscale);
+		 HUD::GetHUD()->SetScale(enSprite_EndButton, vscale);
 
 		break;
 
 	 //「あそびかた」ボタンが選ばれているとき、
 	 case RuleButton:
 		 //ボタンを不透明度100％にする。
-		 m_titleLevel2D->GetSprite(3)->SetMulColor({ 1.0f,1.0f,1.0f,1.0f });
+		 HUD::GetHUD()->SetMulColor(enSprite_RuleButton, TRANSLUCENT_VALUE_MAX);
 
 		 //単振動の公式を使ってボタンを拡大縮小する。
 
@@ -147,11 +147,11 @@ void TitleScene::Update()
 		 }
 		 //スプライトに反映。
 		 Vscale = { Fscale,Fscale,Fscale };
-		 m_titleLevel2D->GetSprite(3)->SetScale(Vscale);
+		 HUD::GetHUD()->SetScale(enSprite_RuleButton, Vscale);
 
 		 //選択されていないボタンの拡大率を元に戻す。
-		 m_titleLevel2D->GetSprite(2)->SetScale(vscale);
-		 m_titleLevel2D->GetSprite(4)->SetScale(vscale);
+		 HUD::GetHUD()->SetScale(enSprite_StartButton, vscale);
+		 HUD::GetHUD()->SetScale(enSprite_EndButton, vscale);
 
 		break;
 
@@ -193,7 +193,7 @@ void TitleScene::Update()
 	 //「しゅうりょう」ボタンが選ばれているとき、
 	 case EndButton:
 		 //ボタンを不透明度100％にする。
-		 m_titleLevel2D->GetSprite(4)->SetMulColor({ 1.0f,1.0f,1.0f,1.0f });
+		 HUD::GetHUD()->SetMulColor(enSprite_EndButton, TRANSLUCENT_VALUE_MAX);
 
 		//単振動の公式を使ってボタンを拡大縮小する。
 
@@ -216,11 +216,11 @@ void TitleScene::Update()
 		 }
 		 //スプライトに反映。
 		 Vscale = { Fscale,Fscale,Fscale };
-		 m_titleLevel2D->GetSprite(4)->SetScale(Vscale);
+		 HUD::GetHUD()->SetScale(enSprite_EndButton, Vscale);
 
 		 //選択されていないボタンの拡大率を元に戻す。
-		 m_titleLevel2D->GetSprite(2)->SetScale(vscale);
-		 m_titleLevel2D->GetSprite(3)->SetScale(vscale);
+		 HUD::GetHUD()->SetScale(enSprite_RuleButton, vscale);
+		 HUD::GetHUD()->SetScale(enSprite_StartButton, vscale);
 
 
 		break;
@@ -232,7 +232,7 @@ void TitleScene::Update()
 
 		//決定ボタン音再生。
 
-		SoundManager::GetInstance()->Play(SE_DecisionButton);
+		SoundManager::GetInstance()->Play(enSE_DecisionButton);
 
 		switch (NowSelect) {
 

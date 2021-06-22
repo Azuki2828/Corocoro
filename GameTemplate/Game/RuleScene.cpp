@@ -15,7 +15,7 @@ bool RuleScene::Start()
 	m_sprite = NewGO<RuleLevel2D>(0,"RuleLevel2D");
 
 	//BGM再生
-	SoundManager::GetInstance()->Play(BGM_Title);
+	SoundManager::GetInstance()->Play(enBGM_Title);
 
 	//はじめだけStart関数でNewGOする
 	//鍵
@@ -72,7 +72,7 @@ RuleScene::~RuleScene()
 	m_quarterSpriteRender[0] = nullptr;
 
 	//タイトルBGMを削除。
-	SoundManager::GetInstance()->Release(BGM_Title);
+	SoundManager::GetInstance()->Release(enBGM_Title);
 }
 
 void RuleScene::Update()
@@ -95,7 +95,7 @@ void RuleScene::Update()
 			m_nowSelect -= 1;
 		}
 		//移動効果音鳴らす。
-		SoundManager::GetInstance()->Play(SE_CursolMove);
+		SoundManager::GetInstance()->Play(enSE_CursolMove);
 	}
 
 	//現在選択しているボタンの強調表示
@@ -172,7 +172,7 @@ void RuleScene::Update()
 	if (g_pad[0]->IsTrigger(enButtonA)) {
 
 		//決定ボタン音再生。
-		SoundManager::GetInstance()->Play(SE_DecisionButton);
+		SoundManager::GetInstance()->Play(enSE_DecisionButton);
 
 		switch (m_nowSelect) {
 

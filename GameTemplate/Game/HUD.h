@@ -15,6 +15,7 @@ struct SpriteData {
 	Vector3 sca = Vector3::One;
 	Vector4 mulColor = Vector4::White;	//èÊéZÉJÉâÅ[ÅB
 	bool activate = true;
+	int prio = 0;
 };
 
 class HUD
@@ -26,7 +27,7 @@ public:
 	static HUD* GetHUD() {
 		return m_hud;
 	}
-	void Init(int num, const char* filepath, float width, float height, AlphaBlendMode mode = AlphaBlendMode::AlphaBlendMode_Trans);
+	void Init(int num, const char* filepath, float width, float height, AlphaBlendMode mode = AlphaBlendMode::AlphaBlendMode_Trans, int prio = 0);
 	void Release();
 	void Draw(RenderContext& rc);
 	void SetPosition(int num,const Vector3& pos) { 
@@ -90,7 +91,6 @@ public:
 
 	void Update();
 private:
-	int m_spriteNum = 0;
 	static HUD* m_hud;
 	std::vector<SpriteData*> m_spriteData;
 };

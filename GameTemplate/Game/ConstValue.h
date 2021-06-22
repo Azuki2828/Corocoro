@@ -30,14 +30,21 @@ enum DataNum{
 	enData_Fifth
 };
 
-//ステージ番号
+/**
+ * @brief ステージ番号
+*/
 enum StageNum {
 	Stage_One,
 	Stage_Two,
 	Stage_Three,
-	Stage_Four
+	Stage_Four,
+
+	Stage_Num
 };
 
+/**
+ * @brief スプライト番号
+*/
 enum SpriteNum{
 	enSprite_Zeroth,
 	enSprite_First,
@@ -53,23 +60,29 @@ enum SpriteNum{
 	enSprite_Num
 };
 
+/**
+ * @brief サウンドリスト
+*/
 enum SoundList {
-	BGM_Title,
-	BGM_Game,
-	BGM_GameUpTempo,
-	SE_GameClear,
-	SE_CursolMove,
-	SE_DecisionButton,
-	SE_CountDown,
-	SE_NSChange,
-	SE_KeyGet,
-	SE_BoxOpen,
-	SE_Death,
-	SE_ReStart,
+	enBGM_Title,
+	enBGM_Game,
+	enBGM_GameUpTempo,
+	enSE_GameClear,
+	enSE_CursolMove,
+	enSE_DecisionButton,
+	enSE_CountDown,
+	enSE_NSChange,
+	enSE_KeyGet,
+	enSE_BoxOpen,
+	enSE_Death,
+	enSE_ReStart,
 
-	Sound_Num
+	enSound_Num
 };
 
+/**
+ * @brief HUDに登録されているスプライト
+*/
 enum HUDList {
 	enSprite_3,
 	enSprite_2,
@@ -85,11 +98,29 @@ enum HUDList {
 	enSprite_Second2,
 	enSprite_TitleButton,
 	enSprite_EndButton,
+	enSprite_EheheNS03,
+	enSprite_StageSelect,
+	enSprite_LeftSelect,
+	enSprite_RightSelect,
+	enSprite_Back,
+	enSprite_Decision,
+	enSprite_LB,
+	enSprite_RB,
+	enSprite_EheheNS,
+	enSprite_TitleLogo,
+	enSprite_StartButton,
+	enSprite_RuleButton,
+
+
+
 
 	enSprite_HUDNum
 
 };
 
+/**
+ * @brief 磁石番号
+*/
 enum MagnetNum {
 	enMagnet_Zero,
 	enMagnet_First,
@@ -144,7 +175,9 @@ enum MagnetNum {
 };
 
 namespace {
+
 	const int NAME_SIZE = 256;										//名前の最大のサイズ
+	const int TEXT_SIZE = 64;
 	const float CAMERA_ROT_VALUE = -2.0f;
 
 	const float REVERSE_VECTOR = -1.0f;
@@ -165,6 +198,7 @@ namespace {
 	const char* NAME_RESULT_SCENE = "resultScene";
 	const char* NAME_DIRECTION_LIGHT = "mainLight";
 	const char* NAME_RESULT_LEVEL2D = "resultLevel2D";
+	const char* NAME_STAGE_SELECT_LEVEL2D = "StageSelectLevel2D";
 
 	const wchar_t* SOUND_FILEPATH_TITLE_BGM = L"Assets/sound/TitleBGM.wav";
 	const wchar_t* SOUND_FILEPATH_GAME_BGM = L"Assets/sound/GameBGM.wav";
@@ -192,4 +226,26 @@ namespace {
 
 	const int REST_INITIAL_TIME = 0;
 	const int SPIN_LOCK_CRITERIA = 16;
+
+	const float BUTTON_SIZE_MIN = 0.25f;
+	const float BUTTON_SIZE_MAX = 0.275f;
+	const float BUTTON_SCALE_ADD = 0.0005f;
+
+	const Vector4 TRANSLUCENT_VALUE_HALF = { 1.0f,1.0f,1.0f,0.5f };
+	const Vector4 TRANSLUCENT_VALUE_ONE_THIRD = { 1.0f,1.0f,1.0f,0.3f };
+	const Vector4 TRANSLUCENT_VALUE_MAX = { 1.0f,1.0f,1.0f,1.0f };
+
+	const float TEXT_SHADOW_THICKNESS = 1.0f;
+}
+
+template<typename Num>
+int GetDigit(Num num) {
+
+	int digit = 0;
+	while (num >= 1) {
+		num /= 10;
+		digit++;
+	}
+
+	return digit;
 }

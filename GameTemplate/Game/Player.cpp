@@ -210,7 +210,7 @@ void Player::Update()
 				//NとSを切り替えるときの効果音再生。
 
 
-				SoundManager::GetInstance()->Play(SE_NSChange);
+				SoundManager::GetInstance()->Play(enSE_NSChange);
 
 				//アクティブフラグを更新。
 				for (int i = 0; i < enPlayer_Num; i++) {

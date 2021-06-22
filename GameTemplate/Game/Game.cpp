@@ -103,7 +103,7 @@ void Game::Update() {
 	//カメラのスクロールが終わってプレイヤーの視点になる。且つ、ワンショット再生させるためのフラグ。
 	if (m_startSoundflg) {
 
-		SoundManager::GetInstance()->Play(SE_CountDown);
+		SoundManager::GetInstance()->Play(enSE_CountDown);
 
 		m_countDownSprite = true;
 		m_startSoundflg = false;
@@ -192,10 +192,10 @@ void Game::Update() {
 
 		if (m_resultScene == nullptr && m_resultSceneTime >= RESULT_SCENE_TIME) {
 			//BGMを削除。
-			SoundManager::GetInstance()->Release(BGM_GameUpTempo);
+			SoundManager::GetInstance()->Release(enBGM_GameUpTempo);
 
 			//ゲームクリアのサウンドを再生。
-			SoundManager::GetInstance()->Play(SE_GameClear);
+			SoundManager::GetInstance()->Play(enSE_GameClear);
 			m_resultScene = NewGO<ResultScene>(enPriority_Zeroth, NAME_RESULT_SCENE);
 			m_resultScene->SetStageNum(m_stageNum);
 		}
@@ -215,12 +215,12 @@ void Game::Update() {
 			m_death->Play();
 			m_deathFlg = true;
 
-			SoundManager::GetInstance()->Play(SE_Death);
+			SoundManager::GetInstance()->Play(enSE_Death);
 		}
 		m_hitTimer += GameTime().GameTimeFunc().GetFrameDeltaTime();
 		if (m_hitTimer >= HIT_TIMER_VALUE[enData_First])
 		{
-			SoundManager::GetInstance()->Play(SE_ReStart);
+			SoundManager::GetInstance()->Play(enSE_ReStart);
 			m_player->Setrespawn(false);
 			m_hitTimer = 0;
 			m_backGround->SetStart(true);

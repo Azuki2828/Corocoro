@@ -12,11 +12,6 @@ bool ResultLevel2D::Start() {
 			HUD::GetHUD()->Init(enSprite_Result,objdata.ddsFilePath, objdata.width, objdata.height);
 			HUD::GetHUD()->SetPosition(enSprite_Result, objdata.position);
 			HUD::GetHUD()->SetScale(enSprite_Result,objdata.scale);
-			//m_sprite[0] = NewGO<SpriteRender>(1);
-			////Sprite初期化オブジェクトを使用して、Spriteを初期化する
-			//m_sprite[0]->Init(objdata.ddsFilePath, objdata.width, objdata.height, AlphaBlendMode_Trans);
-			//m_sprite[0]->SetPosition(objdata.position);
-			//m_sprite[0]->SetScale(objdata.scale);
 
 			return true;
 		}
@@ -89,7 +84,7 @@ bool ResultLevel2D::Start() {
 			HUD::GetHUD()->Init(enSprite_TitleButton,objdata.ddsFilePath, objdata.width, objdata.height);
 			HUD::GetHUD()->SetPosition(enSprite_TitleButton, objdata.position);
 			HUD::GetHUD()->SetScale(enSprite_TitleButton, objdata.scale);
-			HUD::GetHUD()->SetMulColor(enSprite_TitleButton, { 1.0f, 1.0f, 1.0f, 0.5f });
+			HUD::GetHUD()->SetMulColor(enSprite_TitleButton, TRANSLUCENT_VALUE_HALF);
 
 			return true;
 		}
@@ -99,7 +94,7 @@ bool ResultLevel2D::Start() {
 			HUD::GetHUD()->Init(enSprite_EndButton,objdata.ddsFilePath, objdata.width, objdata.height);
 			HUD::GetHUD()->SetPosition(enSprite_EndButton, objdata.position);
 			HUD::GetHUD()->SetScale(enSprite_EndButton, objdata.scale);
-			HUD::GetHUD()->SetMulColor(enSprite_EndButton, { 1.0f, 1.0f, 1.0f, 0.5f });
+			HUD::GetHUD()->SetMulColor(enSprite_EndButton, TRANSLUCENT_VALUE_HALF);
 
 			return true;
 		}
@@ -111,10 +106,7 @@ bool ResultLevel2D::Start() {
 }
 
 ResultLevel2D::~ResultLevel2D() {
-	//タイトル画面に戻るときに画像を全て破棄。
-	for (int i = 0; i < 10; i++) {
-		DeleteGO(m_sprite[i]);
-	}
+	
 }
 
 void ResultLevel2D::Update() {

@@ -9,88 +9,72 @@ bool StageSelectLevel2D::Start()
 		//名前がeheheNS03だったら、
 		if (objdata.EqualObjectName("eheheNS03")) {
 
-			m_sprite[0] = NewGO<SpriteRender>(0);
-			//Sprite初期化オブジェクトを使用して、Spriteを初期化する
-			m_sprite[0]->Init(objdata.ddsFilePath, objdata.width, objdata.height, AlphaBlendMode_Trans);
-			m_sprite[0]->SetPosition(objdata.position);
-			m_sprite[0]->SetScale(objdata.scale);
+			HUD::GetHUD()->Init(enSprite_EheheNS03, objdata.ddsFilePath, objdata.width, objdata.height, AlphaBlendMode_Trans);
+			HUD::GetHUD()->SetPosition(enSprite_EheheNS03, objdata.position);
+			HUD::GetHUD()->SetScale(enSprite_EheheNS03, objdata.scale);
 
 			return true;
 		}
 		//名前がStageSelectだったら、
 		else if (objdata.EqualObjectName("StageSelect")) {
 
-			m_sprite[1] = NewGO<SpriteRender>(1);
-			//Sprite初期化オブジェクトを使用して、Spriteを初期化する
-			m_sprite[1]->Init(objdata.ddsFilePath, objdata.width, objdata.height, AlphaBlendMode_Trans);
-			m_sprite[1]->SetPosition(objdata.position);
-			m_sprite[1]->SetScale(objdata.scale);
+			HUD::GetHUD()->Init(enSprite_StageSelect, objdata.ddsFilePath, objdata.width, objdata.height, AlphaBlendMode_Trans, enPriority_First);
+			HUD::GetHUD()->SetPosition(enSprite_StageSelect, objdata.position);
+			HUD::GetHUD()->SetScale(enSprite_StageSelect, objdata.scale);
 
 			return true;
 		}
 		//名前がLeftSelectだったら、
 		else if (objdata.EqualObjectName("LeftSelect")) {
 
-			m_sprite[2] = NewGO<SpriteRender>(1);
-			//Sprite初期化オブジェクトを使用して、Spriteを初期化する
-			m_sprite[2]->Init(objdata.ddsFilePath, objdata.width, objdata.height, AlphaBlendMode_Trans);
-			m_sprite[2]->SetPosition(objdata.position);
-			m_sprite[2]->SetScale(objdata.scale);
+			HUD::GetHUD()->Init(enSprite_LeftSelect, objdata.ddsFilePath, objdata.width, objdata.height, AlphaBlendMode_Trans, enPriority_First);
+			HUD::GetHUD()->SetPosition(enSprite_LeftSelect, objdata.position);
+			HUD::GetHUD()->SetScale(enSprite_LeftSelect, objdata.scale);
 
 			return true;
 		}
 		//名前がRightSelectだったら、
 		else if (objdata.EqualObjectName("RightSelect")) {
 
-			m_sprite[3] = NewGO<SpriteRender>(1);
-			//Sprite初期化オブジェクトを使用して、Spriteを初期化する
-			m_sprite[3]->Init(objdata.ddsFilePath, objdata.width, objdata.height, AlphaBlendMode_Trans);
-			m_sprite[3]->SetPosition(objdata.position);
-			m_sprite[3]->SetScale(objdata.scale);
+			HUD::GetHUD()->Init(enSprite_RightSelect, objdata.ddsFilePath, objdata.width, objdata.height, AlphaBlendMode_Trans, enPriority_First);
+			HUD::GetHUD()->SetPosition(enSprite_RightSelect, objdata.position);
+			HUD::GetHUD()->SetScale(enSprite_RightSelect, objdata.scale);
 
 			return true;
 		}
 		//名前がBackだったら、
 		else if (objdata.EqualObjectName("Back")) {
 
-			m_sprite[4] = NewGO<SpriteRender>(1);
-			//Sprite初期化オブジェクトを使用して、Spriteを初期化する
-			m_sprite[4]->Init(objdata.ddsFilePath, objdata.width, objdata.height, AlphaBlendMode_Trans);
-			m_sprite[4]->SetPosition(objdata.position);
-			m_sprite[4]->SetScale(objdata.scale);
+			HUD::GetHUD()->Init(enSprite_Back, objdata.ddsFilePath, objdata.width, objdata.height, AlphaBlendMode_Trans, enPriority_First);
+			HUD::GetHUD()->SetPosition(enSprite_Back, objdata.position);
+			HUD::GetHUD()->SetScale(enSprite_Back, objdata.scale);
 
 			return true;
 		}
 		//名前がKetteiだったら、
 		else if (objdata.EqualObjectName("Kettei")) {
 
-			m_sprite[5] = NewGO<SpriteRender>(1);
-			//Sprite初期化オブジェクトを使用して、Spriteを初期化する
-			m_sprite[5]->Init(objdata.ddsFilePath, objdata.width, objdata.height, AlphaBlendMode_Trans);
-			m_sprite[5]->SetPosition(objdata.position);
-			m_sprite[5]->SetScale(objdata.scale);
+			HUD::GetHUD()->Init(enSprite_Decision, objdata.ddsFilePath, objdata.width, objdata.height, AlphaBlendMode_Trans, enPriority_First);
+			HUD::GetHUD()->SetPosition(enSprite_Decision, objdata.position);
+			HUD::GetHUD()->SetScale(enSprite_Decision, objdata.scale);
 
 			return true;
 		}
 		//名前がLBだったら、
 		else if (objdata.EqualObjectName("LB")) {
 
-			m_sprite[6] = NewGO<SpriteRender>(1);
-			//Sprite初期化オブジェクトを使用して、Spriteを初期化する
-			m_sprite[6]->Init(objdata.ddsFilePath, objdata.width, objdata.height, AlphaBlendMode_Trans);
-			m_sprite[6]->SetPosition(objdata.position);
-			m_sprite[6]->SetScale(objdata.scale);
+			HUD::GetHUD()->Init(enSprite_LB, objdata.ddsFilePath, objdata.width, objdata.height, AlphaBlendMode_Trans, enPriority_First);
+			HUD::GetHUD()->SetPosition(enSprite_LB, objdata.position);
+			HUD::GetHUD()->SetScale(enSprite_LB, objdata.scale);
 
 			return true;
 		}
 		//名前がRBだったら、
 		else if (objdata.EqualObjectName("RB")) {
 
-			m_sprite[7] = NewGO<SpriteRender>(1);
-			//Sprite初期化オブジェクトを使用して、Spriteを初期化する
-			m_sprite[7]->Init(objdata.ddsFilePath, objdata.width, objdata.height, AlphaBlendMode_Trans);
-			m_sprite[7]->SetPosition(objdata.position);
-			m_sprite[7]->SetScale(objdata.scale);
+			HUD::GetHUD()->Init(enSprite_RB, objdata.ddsFilePath, objdata.width, objdata.height, AlphaBlendMode_Trans, enPriority_First);
+			HUD::GetHUD()->SetPosition(enSprite_RB, objdata.position);
+			HUD::GetHUD()->SetScale(enSprite_RB, objdata.scale);
 
 			return true;
 		}
@@ -101,10 +85,7 @@ bool StageSelectLevel2D::Start()
 }
 
 StageSelectLevel2D::~StageSelectLevel2D() {
-	//シーン遷移時に画像を全て破棄。
-	for (int i = 0; i < 8; i++) {
-		DeleteGO(m_sprite[i]);
-	}
+	
 }
 
 void StageSelectLevel2D::Update() {

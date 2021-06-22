@@ -10,71 +10,49 @@ bool TitleLevel2D::Start()
 		//名前がeheheNSだったら、(背景画)
 		if (objdata.EqualObjectName("eheheNS")) {
 
-			m_sprite[0] = NewGO<SpriteRender>(0);
-			//Sprite初期化オブジェクトを使用して、Spriteを初期化する
-			m_sprite[0]->Init(objdata.ddsFilePath, objdata.width, objdata.height, AlphaBlendMode_Trans);
-			m_sprite[0]->SetPosition(objdata.position);
-			m_sprite[0]->SetScale(objdata.scale);
-			//m_sprite[0]->SetMulColor({ 1.0f, 1.0f, 1.0f, 0.5f });
+			HUD::GetHUD()->Init(enSprite_EheheNS, objdata.ddsFilePath, objdata.width, objdata.height, AlphaBlendMode_Trans);
+			HUD::GetHUD()->SetPosition(enSprite_EheheNS, objdata.position);
+			HUD::GetHUD()->SetScale(enSprite_EheheNS, objdata.scale);
 
 			return true;
 		}
 		//名前がTitleだったら、
 		else if (objdata.EqualObjectName("Title")) {
 
-			m_sprite[1] = NewGO<SpriteRender>(1);
-			//Sprite初期化オブジェクトを使用して、Spriteを初期化する
-			m_sprite[1]->Init(objdata.ddsFilePath, objdata.width, objdata.height, AlphaBlendMode_Trans);
-			m_sprite[1]->SetPosition(objdata.position);
-			m_sprite[1]->SetScale(objdata.scale);
-			//m_sprite[1]->SetMulColor({ 1.0f, 1.0f, 1.0f, 0.5f });
+			HUD::GetHUD()->Init(enSprite_TitleLogo, objdata.ddsFilePath, objdata.width, objdata.height, AlphaBlendMode_Trans, enPriority_First);
+			HUD::GetHUD()->SetPosition(enSprite_TitleLogo, objdata.position);
+			HUD::GetHUD()->SetScale(enSprite_TitleLogo, objdata.scale);
 
 			return true;
 		}
 		//名前がStartだったら、
 		else if (objdata.EqualObjectName("Start")) {
 
-			m_sprite[2] = NewGO<SpriteRender>(1);
-			//Sprite初期化オブジェクトを使用して、Spriteを初期化する
-			m_sprite[2]->Init(objdata.ddsFilePath, objdata.width, objdata.height, AlphaBlendMode_Trans);
-			m_sprite[2]->SetPosition(objdata.position);
-			m_sprite[2]->SetScale(objdata.scale);
-			m_sprite[2]->SetMulColor({ 1.0f, 1.0f, 1.0f, 0.5f });
+			HUD::GetHUD()->Init(enSprite_StartButton, objdata.ddsFilePath, objdata.width, objdata.height, AlphaBlendMode_Trans, enPriority_First);
+			HUD::GetHUD()->SetPosition(enSprite_StartButton, objdata.position);
+			HUD::GetHUD()->SetScale(enSprite_StartButton, objdata.scale);
 
 			return true;
 		}
 		//名前がRuleだったら、
 		else if (objdata.EqualObjectName("RuleButton")) {
 
-			m_sprite[3] = NewGO<SpriteRender>(1);
-			//Sprite初期化オブジェクトを使用して、Spriteを初期化する
-			m_sprite[3]->Init(objdata.ddsFilePath, objdata.width, objdata.height, AlphaBlendMode_Trans);
-			m_sprite[3]->SetPosition(objdata.position);
-			m_sprite[3]->SetScale(objdata.scale);
-			m_sprite[3]->SetMulColor({ 1.0f, 1.0f, 1.0f, 0.5f });
+			HUD::GetHUD()->Init(enSprite_RuleButton, objdata.ddsFilePath, objdata.width, objdata.height, AlphaBlendMode_Trans,enPriority_First);
+			HUD::GetHUD()->SetPosition(enSprite_RuleButton, objdata.position);
+			HUD::GetHUD()->SetScale(enSprite_RuleButton, objdata.scale);
 
 			return true;
 		}
 		//もし名前Settingだったら、
 		else if (objdata.EqualObjectName("Setting")) {
 		
-			//m_sprite[4] = NewGO<SpriteRender>(1);
-			////Sprite初期化オブジェクトを使用して、Spriteを初期化する
-			//m_sprite[4]->Init(objdata.ddsFilePath, objdata.width, objdata.height, AlphaBlendMode_Trans);
-			//m_sprite[4]->SetPosition(objdata.position);
-			//m_sprite[4]->SetScale(objdata.scale);
-			//m_sprite[4]->SetMulColor({ 1.0f, 1.0f, 1.0f, 0.5f });
-		
 			return true;
 		}
 		else if (objdata.EqualObjectName("End")) {
 
-			m_sprite[4] = NewGO<SpriteRender>(1);
-			//Sprite初期化オブジェクトを使用して、Spriteを初期化する
-			m_sprite[4]->Init(objdata.ddsFilePath, objdata.width, objdata.height, AlphaBlendMode_Trans);
-			m_sprite[4]->SetPosition(objdata.position);
-			m_sprite[4]->SetScale(objdata.scale);
-			m_sprite[4]->SetMulColor({ 1.0f, 1.0f, 1.0f, 0.5f });
+			HUD::GetHUD()->Init(enSprite_EndButton, objdata.ddsFilePath, objdata.width, objdata.height, AlphaBlendMode_Trans,enPriority_First);
+			HUD::GetHUD()->SetPosition(enSprite_EndButton, objdata.position);
+			HUD::GetHUD()->SetScale(enSprite_EndButton, objdata.scale);
 
 			return true;
 		}
@@ -89,10 +67,11 @@ bool TitleLevel2D::Start()
 
 TitleLevel2D::~TitleLevel2D()
 {
-	//ゲーム画面に遷移するときに画像を全て破棄。
-	for (int i = 0; i < 5; i++) {
-		DeleteGO(m_sprite[i]);
-	}
+	HUD::GetHUD()->Deactivate(enSprite_EheheNS);
+	HUD::GetHUD()->Deactivate(enSprite_TitleLogo);
+	HUD::GetHUD()->Deactivate(enSprite_StartButton);
+	HUD::GetHUD()->Deactivate(enSprite_RuleButton);
+	HUD::GetHUD()->Deactivate(enSprite_EndButton);
 }
 
 void TitleLevel2D::Update()

@@ -71,7 +71,7 @@ void TreasureBox::Update() {
 		if (m_ghostBox.IsSelf(contactObject) == true && m_player->GetKeyFlg()) {
 
 			if (!m_soundFlg) {
-				SoundManager::GetInstance()->Play(SE_BoxOpen);
+				SoundManager::GetInstance()->Play(enSE_BoxOpen);
 				m_soundFlg = true;
 				m_effect = nullptr;
 				m_effect = NewGO<Effect>(0);

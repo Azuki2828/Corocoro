@@ -116,12 +116,12 @@ void DeathBlock::Update() {
 			m_death->Play();
 			m_deathFlg = true;
 
-			SoundManager::GetInstance()->Play(SE_Death);
+			SoundManager::GetInstance()->Play(enSE_Death);
 		}
 		m_hitTimer += GameTime().GameTimeFunc().GetFrameDeltaTime();
 		if (m_hitTimer >= HIT_TIMER_VALUE[enData_First])
 		{
-			SoundManager::GetInstance()->Play(SE_ReStart);
+			SoundManager::GetInstance()->Play(enSE_ReStart);
 			m_player->Setrespawn(false);
 			m_hitTimer = TIMER_CLEAR;
 			m_backGround->SetStart(true);

@@ -11,11 +11,6 @@ private:
 	void Update();
 
 public:
-	SaveData* NewrecordFlg = nullptr;
-
-
-	float m_result;
-	bool finishFlg = false;
 	float GetTime()		//Gameからとってくる
 	{
 		return m_time;
@@ -57,6 +52,7 @@ private:
 	*/
 
 	Game* m_game;
+	SaveData* m_saveData = nullptr;
 	ResultLevel2D* m_resultLevel2D = nullptr;
 	SpriteRender* m_spriteRender = nullptr;		//スプライトレンダー
 	FontRender* m_fontNowTime = nullptr;

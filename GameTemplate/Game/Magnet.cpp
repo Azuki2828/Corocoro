@@ -18,7 +18,7 @@ bool Magnet::Start() {
 	auto mainCamera = FindGO<MainCamera>(NAME_MAIN_CAMERA);
 	mainCamera->changeRotCameraEvent.push_back([&]() {
 		Quaternion m_rotZ;
-		m_rotZ.SetRotationDeg(Vector3::AxisZ, -CAMERA_ROT_VALUE);
+		m_rotZ.SetRotationDeg(Vector3::AxisZ, CAMERA_ROT_VALUE);
 		m_rotZ.Apply(m_ligData.m_directionLigData[enData_Zeroth].Dir);
 	});
 

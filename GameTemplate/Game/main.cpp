@@ -40,20 +40,20 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	m_dirLight->SetLigColor();
 
 	//BGMの設定。
-	SoundManager::GetInstance()->Init(SOUND_FILEPATH_TITLE_BGM, BGM_Title, true, SoundType::Type_BGM);
-	SoundManager::GetInstance()->Init(SOUND_FILEPATH_GAME_BGM, BGM_Game, true, SoundType::Type_BGM);
-	SoundManager::GetInstance()->Init(SOUND_FILEPATH_UP_TEMPO, BGM_GameUpTempo, true, SoundType::Type_BGM);
+	SoundManager::GetInstance()->Init(SOUND_FILEPATH_TITLE_BGM, enBGM_Title, true, SoundType::Type_BGM);
+	SoundManager::GetInstance()->Init(SOUND_FILEPATH_GAME_BGM, enBGM_Game, true, SoundType::Type_BGM);
+	SoundManager::GetInstance()->Init(SOUND_FILEPATH_UP_TEMPO, enBGM_GameUpTempo, true, SoundType::Type_BGM);
 
 	//SEの設定。
-	SoundManager::GetInstance()->Init(SOUND_FILEPATH_GAME_CLEAR, SE_GameClear, false, SoundType::Type_SE);
-	SoundManager::GetInstance()->Init(SOUND_FILEPATH_CURSOR_MOVE, SE_CursolMove, false, SoundType::Type_SE);
-	SoundManager::GetInstance()->Init(SOUND_FILEPATH_DECISION_BUTTON, SE_DecisionButton, false, SoundType::Type_SE);
-	SoundManager::GetInstance()->Init(SOUND_FILEPATH_COUNT_DOWN, SE_CountDown, false, SoundType::Type_SE);
-	SoundManager::GetInstance()->Init(SOUND_FILEPATH_MAGNET_POWER_CHANGE, SE_NSChange, false, SoundType::Type_SE);
-	SoundManager::GetInstance()->Init(SOUND_FILEPATH_GET_KEY, SE_KeyGet, false, SoundType::Type_SE);
-	SoundManager::GetInstance()->Init(SOUND_FILEPATH_BOX_OPEN, SE_BoxOpen, false, SoundType::Type_SE);
-	SoundManager::GetInstance()->Init(SOUND_FILEPATH_DEATH, SE_Death, false, SoundType::Type_SE);
-	SoundManager::GetInstance()->Init(SOUND_FILEPATH_RESTART, SE_ReStart, false, SoundType::Type_SE);
+	SoundManager::GetInstance()->Init(SOUND_FILEPATH_GAME_CLEAR, enSE_GameClear, false, SoundType::Type_SE);
+	SoundManager::GetInstance()->Init(SOUND_FILEPATH_CURSOR_MOVE, enSE_CursolMove, false, SoundType::Type_SE);
+	SoundManager::GetInstance()->Init(SOUND_FILEPATH_DECISION_BUTTON, enSE_DecisionButton, false, SoundType::Type_SE);
+	SoundManager::GetInstance()->Init(SOUND_FILEPATH_COUNT_DOWN, enSE_CountDown, false, SoundType::Type_SE);
+	SoundManager::GetInstance()->Init(SOUND_FILEPATH_MAGNET_POWER_CHANGE, enSE_NSChange, false, SoundType::Type_SE);
+	SoundManager::GetInstance()->Init(SOUND_FILEPATH_GET_KEY, enSE_KeyGet, false, SoundType::Type_SE);
+	SoundManager::GetInstance()->Init(SOUND_FILEPATH_BOX_OPEN, enSE_BoxOpen, false, SoundType::Type_SE);
+	SoundManager::GetInstance()->Init(SOUND_FILEPATH_DEATH, enSE_Death, false, SoundType::Type_SE);
+	SoundManager::GetInstance()->Init(SOUND_FILEPATH_RESTART, enSE_ReStart, false, SoundType::Type_SE);
 
 	//////////////////////////////////////
 	// 初期化を行うコードを書くのはここまで！！！
