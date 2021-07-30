@@ -7,14 +7,19 @@
 #include "ConstTriggerBoxValue.h"
 
 bool Magnet::Start() {
-
 	
+	//座標を登録
 	m_skinModelRender->SetPosition(m_pos);
+	//回転率を登録
 	m_skinModelRender->SetRotation(m_rot);
+	//拡大率を登録
 	m_skinModelRender->SetScale(m_sca);
+	//各クラスのインスタンスを探す
 	m_key = FindGO<Key>(NAME_KEY);
 	m_game = FindGO<Game>(NAME_GAME);
+	m_player = FindGO<Player>(NAME_PLAYER);
 
+	//カメラが半回転したときの処理
 	auto mainCamera = FindGO<MainCamera>(NAME_MAIN_CAMERA);
 	mainCamera->changeRotCameraEvent.push_back([&]() {
 		Quaternion m_rotZ;
@@ -33,21 +38,22 @@ bool Magnet::Start() {
 		m_physicsStaticObject.SetFriction(MAGNET_FRICTION);
 	}
 
-	//プレイヤーのオブジェクトを探す。
-	m_player = FindGO<Player>(NAME_PLAYER);
-
+	//磁力を影響範囲を設定する。
 	SetMagnetTriggerBox(m_game->GetStageNum());
 
+	//トリガーボックスとプレイヤーが接触しないように設定する。
 	m_player->GetRigidBody()->GetBody()->setIgnoreCollisionCheck(m_ghostBox.GetGhostObject(), true);
 	return true;
 }
 
 Magnet::~Magnet() {
+	//モデルを削除する。
 	DeleteGO(m_skinModelRender);
 }
 
 void Magnet::Update() {
 	
+	//ライトの視点情報を更新する。
 	m_ligData.eyePos = g_camera3D->GetPosition();
 
 	//座標を登録。
@@ -56,8 +62,10 @@ void Magnet::Update() {
 	m_length = m_player->GetPosition() - m_magnetPos;
 		PhysicsWorld::GetInstance()->ContactTest(*m_player->GetRigidBody(), [&](const btCollisionObject& contactObject) {
 
+			//トリガーボックスと接触
 			if (m_ghostBox.IsSelf(contactObject)) {
 
+				//磁力を与える。
 				SetMagnetPower();
 			}
 		});
@@ -67,7 +75,7 @@ void Magnet::Update() {
 void Magnet::SetMagnetPower() {
 
 	//プレイヤーと自身の磁磁極が同じなら自身に向かって伸びるベクトルにする。
-	if (m_MagState != m_player->GetPlayerState()) {
+	if (m_magState != m_player->GetPlayerState()) {
 		m_length *= REVERSE_VECTOR;
 	}
 
@@ -89,6 +97,7 @@ void Magnet::SetMagnetPower() {
 
 void Magnet::SetMagnetTriggerBox(int stageNum) {
 
+	//磁力の影響範囲を決める
 	Vector3 ghostPos = m_pos;
 	ghostPos += MAGNET_TRIGGER_BOX_ADD_POS_BASE;
 	switch (stageNum) {		//ステージ番号
@@ -455,6 +464,7 @@ void Magnet::SetMagnetTriggerBox(int stageNum) {
 
 void Magnet::CreateTriggerBox(int type) {
 
+	//磁力の影響範囲のサンプル
 	Vector3 ghostPos = m_pos;
 	ghostPos += MAGNET_TRIGGER_BOX_ADD_POS_BASE;
 	switch (type) {

@@ -6,52 +6,63 @@
 #include "SaveData.h"
 
 namespace {
-	const float NEW_RECORD_X_POS = 1100.0f;
-	const int RESULT_TEXT_NUM = 2;
-	const float TEXT_SCALE = 1.5f;
-	const Vector2 TEXT_NOW_TIME_POS = { 20.0f,70.0f };
-	const Vector2 TEXT_BEST_TIME_POS = { 20.0f,-30.0f };
-	const float TEXT_BIT_SIZE = 32.0f;
+	const float NEW_RECORD_X_POS = 1100.0f;					//新記録！のX座標
+	const int RESULT_TEXT_NUM = 2;							//テキストの総数
+	const float TEXT_SCALE = 1.5f;							//テキストの拡大率
+	const Vector2 TEXT_NOW_TIME_POS = { 20.0f,70.0f };		//今回の記録の座標
+	const Vector2 TEXT_BEST_TIME_POS = { 20.0f,-30.0f };	//最高記録の座標
 }
 bool ResultScene::Start()
 {
-	//リザルト画面表示
+	//クラスを探し出す
 	m_game = FindGO<Game>(NAME_GAME);
+
+	//リザルト画面のレベルを生成。
 	m_resultLevel2D = NewGO<ResultLevel2D>(enPriority_Zeroth, NAME_RESULT_LEVEL2D);
+	//今回の記録を取得。
 	m_nowTime = m_game->GetTime();
+	//最高記録を取得。
 	m_bestTime = m_game->GetBestTime();
+
+	//今回の記録のテキストを生成。
 	m_fontNowTime = NewGO<FontRender>(enPriority_Second);
+
+	//今回の記録のテキストを初期化。
 	wchar_t text[RESULT_TEXT_NUM][TEXT_SIZE];
 	swprintf_s(text[enPriority_Zeroth], L"%2.1f", m_nowTime);
 	m_fontNowTime->Init(text[enData_Zeroth], TEXT_NOW_TIME_POS, TRANSLUCENT_VALUE_MAX);
 	m_fontNowTime->SetScale(TEXT_SCALE);
 	m_fontNowTime->SetShadowParam(true, TEXT_SHADOW_THICKNESS, Vector4::Black);
-
 	m_fontNowTime->SetPosition({ TEXT_NOW_TIME_POS.x - TEXT_BIT_SIZE * GetDigit(m_nowTime),TEXT_NOW_TIME_POS.y });
 
+	//最高記録のテキストを生成。
 	m_fontBestTime = NewGO<FontRender>(enPriority_Second);
+
+	//最高記録のテキストを初期化。
 	swprintf_s(text[1], L"%2.1f", m_bestTime);
 	m_fontBestTime->Init(text[enData_First], TEXT_BEST_TIME_POS, Vector4::White);
 	m_fontBestTime->SetScale(TEXT_SCALE);
 	m_fontBestTime->SetShadowParam(true, TEXT_SHADOW_THICKNESS, Vector4::Black);
-
 	m_fontBestTime->SetPosition({ TEXT_BEST_TIME_POS.x - TEXT_BIT_SIZE * GetDigit(m_bestTime), TEXT_BEST_TIME_POS.y });
 
+	//最高記録を更新。
 	if (m_nowTime < m_bestTime)
 	{
+		//最高記録だったら新記録！を表示するフラグをたてる
 		m_newRecordFlg = true;
 		m_bestTime = m_nowTime;
 	}
 
-	m_game = FindGO<Game>(NAME_GAME);
-	m_time = m_game->GetTime();	
+	//セーブデータのクラスを探し出す。
 	m_saveData = FindGO<SaveData>(NAME_SAVE_DATA);
+	//セーブする
 	m_saveData->Save();
 	return true;
 }
 
 ResultScene::~ResultScene()
 {
+	//クラスの削除
 	DeleteGO(m_fontNowTime);
 	DeleteGO(m_fontBestTime);
 	DeleteGO(m_resultLevel2D);
@@ -90,11 +101,11 @@ void ResultScene::Update()
 		HUD::GetHUD()->SetMulColor(enSprite_TitleButton, TRANSLUCENT_VALUE_MAX);
 
 		 //大きさが最小になったとき、
-		if (m_fontScale < BUTTON_SIZE_MIN) {
+		if (m_fontScale < BACK_BUTTON_SIZE_MIN) {
 			m_scaleUpFlag = true;
 		}
 		//大きさが最大になったとき、
-		if (m_fontScale > BUTTON_SIZE_MAX) {
+		if (m_fontScale > BACK_BUTTON_SIZE_MAX) {
 			m_scaleUpFlag = false;
 		}
 
@@ -121,11 +132,11 @@ void ResultScene::Update()
 		HUD::GetHUD()->SetMulColor(enSprite_EndButton, TRANSLUCENT_VALUE_MAX);
 
 		 //大きさが最小になったとき、
-		if (m_fontScale2 < BUTTON_SIZE_MIN) {
+		if (m_fontScale2 < DECISION_BUTTON_SIZE_MIN) {
 			m_scaleUpFlag = true;
 		}
 		//大きさが最大になったとき、
-		if (m_fontScale2 > BUTTON_SIZE_MAX) {
+		if (m_fontScale2 > DECISION_BUTTON_SIZE_MAX) {
 			m_scaleUpFlag = false;
 		}
 

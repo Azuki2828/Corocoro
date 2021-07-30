@@ -1,58 +1,71 @@
 #include "stdafx.h"
 #include "TitleLevel2D.h"
 
-
+namespace {
+	const char* TITLE_LEVEL_2D_NAME = "Assets/level2D/TitleScene.casl";
+	const char* SPRITE_NAME_BACK_GROUND = "eheheNS";
+	const char* SPRITE_NAME_TITLE = "Title";
+	const char* SPRITE_NAME_START = "Start";
+	const char* SPRITE_NAME_RULE_BUTTON = "RuleButton";
+	const char* SPRITE_NAME_SETTING_BUTTON = "Setting";
+	const char* SPRITE_NAME_END = "End";
+}
 bool TitleLevel2D::Start()
 {
 	//TitleSceneレベルを読み込む。
-	m_level2D.Init("Assets/level2D/TitleScene.casl", [&](Level2DObjectData& objdata) {
+	m_level2D.Init(TITLE_LEVEL_2D_NAME, [&](Level2DObjectData& objdata) {
 
 		//名前がeheheNSだったら、(背景画)
-		if (objdata.EqualObjectName("eheheNS")) {
+		if (objdata.EqualObjectName(SPRITE_NAME_BACK_GROUND)) {
 
-			HUD::GetHUD()->Init(enSprite_EheheNS, objdata.ddsFilePath, objdata.width, objdata.height, AlphaBlendMode_Trans);
-			HUD::GetHUD()->SetPosition(enSprite_EheheNS, objdata.position);
-			HUD::GetHUD()->SetScale(enSprite_EheheNS, objdata.scale);
+			m_spriteRender[enTitleSprite_BackScreen] = NewGO<SpriteRender>(enPriority_Zeroth);
+			m_spriteRender[enTitleSprite_BackScreen]->Init(objdata.ddsFilePath, objdata.width, objdata.height);
+			m_spriteRender[enTitleSprite_BackScreen]->SetPosition(objdata.position);
+			m_spriteRender[enTitleSprite_BackScreen]->SetScale(objdata.scale);
 
 			return true;
 		}
 		//名前がTitleだったら、
-		else if (objdata.EqualObjectName("Title")) {
+		else if (objdata.EqualObjectName(SPRITE_NAME_TITLE)) {
 
-			HUD::GetHUD()->Init(enSprite_TitleLogo, objdata.ddsFilePath, objdata.width, objdata.height, AlphaBlendMode_Trans, enPriority_First);
-			HUD::GetHUD()->SetPosition(enSprite_TitleLogo, objdata.position);
-			HUD::GetHUD()->SetScale(enSprite_TitleLogo, objdata.scale);
+			m_spriteRender[enTitleSprite_TitleLogo] = NewGO<SpriteRender>(enPriority_First);
+			m_spriteRender[enTitleSprite_TitleLogo]->Init(objdata.ddsFilePath, objdata.width, objdata.height);
+			m_spriteRender[enTitleSprite_TitleLogo]->SetPosition(objdata.position);
+			m_spriteRender[enTitleSprite_TitleLogo]->SetScale(objdata.scale);
 
 			return true;
 		}
 		//名前がStartだったら、
-		else if (objdata.EqualObjectName("Start")) {
+		else if (objdata.EqualObjectName(SPRITE_NAME_START)) {
 
-			HUD::GetHUD()->Init(enSprite_StartButton, objdata.ddsFilePath, objdata.width, objdata.height, AlphaBlendMode_Trans, enPriority_First);
-			HUD::GetHUD()->SetPosition(enSprite_StartButton, objdata.position);
-			HUD::GetHUD()->SetScale(enSprite_StartButton, objdata.scale);
+			m_spriteRender[enTitleSprite_StartButton] = NewGO<SpriteRender>(enPriority_First);
+			m_spriteRender[enTitleSprite_StartButton]->Init(objdata.ddsFilePath, objdata.width, objdata.height);
+			m_spriteRender[enTitleSprite_StartButton]->SetPosition(objdata.position);
+			m_spriteRender[enTitleSprite_StartButton]->SetScale(objdata.scale);
 
 			return true;
 		}
 		//名前がRuleだったら、
-		else if (objdata.EqualObjectName("RuleButton")) {
+		else if (objdata.EqualObjectName(SPRITE_NAME_RULE_BUTTON)) {
 
-			HUD::GetHUD()->Init(enSprite_RuleButton, objdata.ddsFilePath, objdata.width, objdata.height, AlphaBlendMode_Trans,enPriority_First);
-			HUD::GetHUD()->SetPosition(enSprite_RuleButton, objdata.position);
-			HUD::GetHUD()->SetScale(enSprite_RuleButton, objdata.scale);
+			m_spriteRender[enTitleSprite_RuleButton] = NewGO<SpriteRender>(enPriority_First);
+			m_spriteRender[enTitleSprite_RuleButton]->Init(objdata.ddsFilePath, objdata.width, objdata.height);
+			m_spriteRender[enTitleSprite_RuleButton]->SetPosition(objdata.position);
+			m_spriteRender[enTitleSprite_RuleButton]->SetScale(objdata.scale);
 
 			return true;
 		}
 		//もし名前Settingだったら、
-		else if (objdata.EqualObjectName("Setting")) {
+		else if (objdata.EqualObjectName(SPRITE_NAME_SETTING_BUTTON)) {
 		
 			return true;
 		}
-		else if (objdata.EqualObjectName("End")) {
+		else if (objdata.EqualObjectName(SPRITE_NAME_END)) {
 
-			HUD::GetHUD()->Init(enSprite_EndButton, objdata.ddsFilePath, objdata.width, objdata.height, AlphaBlendMode_Trans,enPriority_First);
-			HUD::GetHUD()->SetPosition(enSprite_EndButton, objdata.position);
-			HUD::GetHUD()->SetScale(enSprite_EndButton, objdata.scale);
+			m_spriteRender[enTitleSprite_EndButton] = NewGO<SpriteRender>(enPriority_First);
+			m_spriteRender[enTitleSprite_EndButton]->Init(objdata.ddsFilePath, objdata.width, objdata.height);
+			m_spriteRender[enTitleSprite_EndButton]->SetPosition(objdata.position);
+			m_spriteRender[enTitleSprite_EndButton]->SetScale(objdata.scale);
 
 			return true;
 		}
@@ -67,11 +80,11 @@ bool TitleLevel2D::Start()
 
 TitleLevel2D::~TitleLevel2D()
 {
-	HUD::GetHUD()->Deactivate(enSprite_EheheNS);
-	HUD::GetHUD()->Deactivate(enSprite_TitleLogo);
-	HUD::GetHUD()->Deactivate(enSprite_StartButton);
-	HUD::GetHUD()->Deactivate(enSprite_RuleButton);
-	HUD::GetHUD()->Deactivate(enSprite_EndButton);
+	for (auto& i : m_spriteRender) {
+		if (i != nullptr) {
+			DeleteGO(i);
+		}
+	}
 }
 
 void TitleLevel2D::Update()

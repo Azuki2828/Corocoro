@@ -1,80 +1,99 @@
 #include "stdafx.h"
 #include "StageSelectLevel2D.h"
 
+namespace {
+	const char* STAGE_LEVEL_2D_NAME = "Assets/level2D/StageSelect.casl";
+	const char* SPRITE_NAME_BACK_GROUND = "eheheNS03";
+	const char* SPRITE_NAME_STAGE_SELECT = "StageSelect";
+	const char* SPRITE_NAME_LEFT_SELECT = "LeftSelect";
+	const char* SPRITE_NAME_RIGHT_SELECT = "RightSelect";
+	const char* SPRITE_NAME_BACK = "Back";
+	const char* SPRITE_NAME_DECISION = "Kettei";
+	const char* SPRITE_NAME_LB = "LB";
+	const char* SPRITE_NAME_RB = "RB";
+}
 bool StageSelectLevel2D::Start()
 {
 //StageSelectレベルを読み込む。
-	m_level2D.Init("Assets/level2D/StageSelect.casl", [&](Level2DObjectData& objdata) {
+	m_level2D.Init(STAGE_LEVEL_2D_NAME, [&](Level2DObjectData& objdata) {
 
 		//名前がeheheNS03だったら、
-		if (objdata.EqualObjectName("eheheNS03")) {
+		if (objdata.EqualObjectName(SPRITE_NAME_BACK_GROUND)) {
 
-			HUD::GetHUD()->Init(enSprite_EheheNS03, objdata.ddsFilePath, objdata.width, objdata.height, AlphaBlendMode_Trans);
-			HUD::GetHUD()->SetPosition(enSprite_EheheNS03, objdata.position);
-			HUD::GetHUD()->SetScale(enSprite_EheheNS03, objdata.scale);
+			m_spriteRender[enStageSelectSprite_BackScreen] = NewGO<SpriteRender>(enPriority_Zeroth);
+			m_spriteRender[enStageSelectSprite_BackScreen]->Init(objdata.ddsFilePath, objdata.width, objdata.height);
+			m_spriteRender[enStageSelectSprite_BackScreen]->SetPosition(objdata.position);
+			m_spriteRender[enStageSelectSprite_BackScreen]->SetScale(objdata.scale);
 
 			return true;
 		}
 		//名前がStageSelectだったら、
-		else if (objdata.EqualObjectName("StageSelect")) {
+		else if (objdata.EqualObjectName(SPRITE_NAME_STAGE_SELECT)) {
 
-			HUD::GetHUD()->Init(enSprite_StageSelect, objdata.ddsFilePath, objdata.width, objdata.height, AlphaBlendMode_Trans, enPriority_First);
-			HUD::GetHUD()->SetPosition(enSprite_StageSelect, objdata.position);
-			HUD::GetHUD()->SetScale(enSprite_StageSelect, objdata.scale);
+			m_spriteRender[enStageSelectSprite_StageSelectLogo] = NewGO<SpriteRender>(enPriority_First);
+			m_spriteRender[enStageSelectSprite_StageSelectLogo]->Init(objdata.ddsFilePath, objdata.width, objdata.height);
+			m_spriteRender[enStageSelectSprite_StageSelectLogo]->SetPosition(objdata.position);
+			m_spriteRender[enStageSelectSprite_StageSelectLogo]->SetScale(objdata.scale);
 
 			return true;
 		}
 		//名前がLeftSelectだったら、
-		else if (objdata.EqualObjectName("LeftSelect")) {
+		else if (objdata.EqualObjectName(SPRITE_NAME_LEFT_SELECT)) {
 
-			HUD::GetHUD()->Init(enSprite_LeftSelect, objdata.ddsFilePath, objdata.width, objdata.height, AlphaBlendMode_Trans, enPriority_First);
-			HUD::GetHUD()->SetPosition(enSprite_LeftSelect, objdata.position);
-			HUD::GetHUD()->SetScale(enSprite_LeftSelect, objdata.scale);
+			m_spriteRender[enStageSelectSprite_Select_Left] = NewGO<SpriteRender>(enPriority_First);
+			m_spriteRender[enStageSelectSprite_Select_Left]->Init(objdata.ddsFilePath, objdata.width, objdata.height);
+			m_spriteRender[enStageSelectSprite_Select_Left]->SetPosition(objdata.position);
+			m_spriteRender[enStageSelectSprite_Select_Left]->SetScale(objdata.scale);
 
 			return true;
 		}
 		//名前がRightSelectだったら、
-		else if (objdata.EqualObjectName("RightSelect")) {
+		else if (objdata.EqualObjectName(SPRITE_NAME_RIGHT_SELECT)) {
 
-			HUD::GetHUD()->Init(enSprite_RightSelect, objdata.ddsFilePath, objdata.width, objdata.height, AlphaBlendMode_Trans, enPriority_First);
-			HUD::GetHUD()->SetPosition(enSprite_RightSelect, objdata.position);
-			HUD::GetHUD()->SetScale(enSprite_RightSelect, objdata.scale);
+			m_spriteRender[enStageSelectSprite_Select_Right] = NewGO<SpriteRender>(enPriority_First);
+			m_spriteRender[enStageSelectSprite_Select_Right]->Init(objdata.ddsFilePath, objdata.width, objdata.height);
+			m_spriteRender[enStageSelectSprite_Select_Right]->SetPosition(objdata.position);
+			m_spriteRender[enStageSelectSprite_Select_Right]->SetScale(objdata.scale);
 
 			return true;
 		}
 		//名前がBackだったら、
-		else if (objdata.EqualObjectName("Back")) {
+		else if (objdata.EqualObjectName(SPRITE_NAME_BACK)) {
 
-			HUD::GetHUD()->Init(enSprite_Back, objdata.ddsFilePath, objdata.width, objdata.height, AlphaBlendMode_Trans, enPriority_First);
-			HUD::GetHUD()->SetPosition(enSprite_Back, objdata.position);
-			HUD::GetHUD()->SetScale(enSprite_Back, objdata.scale);
+			m_spriteRender[enStageSelectSprite_BackButton] = NewGO<SpriteRender>(enPriority_First);
+			m_spriteRender[enStageSelectSprite_BackButton]->Init(objdata.ddsFilePath, objdata.width, objdata.height);
+			m_spriteRender[enStageSelectSprite_BackButton]->SetPosition(objdata.position);
+			m_spriteRender[enStageSelectSprite_BackButton]->SetScale(objdata.scale);
 
 			return true;
 		}
 		//名前がKetteiだったら、
-		else if (objdata.EqualObjectName("Kettei")) {
+		else if (objdata.EqualObjectName(SPRITE_NAME_DECISION)) {
 
-			HUD::GetHUD()->Init(enSprite_Decision, objdata.ddsFilePath, objdata.width, objdata.height, AlphaBlendMode_Trans, enPriority_First);
-			HUD::GetHUD()->SetPosition(enSprite_Decision, objdata.position);
-			HUD::GetHUD()->SetScale(enSprite_Decision, objdata.scale);
+			m_spriteRender[enStageSelectSprite_DecisionButton] = NewGO<SpriteRender>(enPriority_First);
+			m_spriteRender[enStageSelectSprite_DecisionButton]->Init(objdata.ddsFilePath, objdata.width, objdata.height);
+			m_spriteRender[enStageSelectSprite_DecisionButton]->SetPosition(objdata.position);
+			m_spriteRender[enStageSelectSprite_DecisionButton]->SetScale(objdata.scale);
 
 			return true;
 		}
 		//名前がLBだったら、
-		else if (objdata.EqualObjectName("LB")) {
+		else if (objdata.EqualObjectName(SPRITE_NAME_LB)) {
 
-			HUD::GetHUD()->Init(enSprite_LB, objdata.ddsFilePath, objdata.width, objdata.height, AlphaBlendMode_Trans, enPriority_First);
-			HUD::GetHUD()->SetPosition(enSprite_LB, objdata.position);
-			HUD::GetHUD()->SetScale(enSprite_LB, objdata.scale);
+			m_spriteRender[enStageSelectSprite_LB] = NewGO<SpriteRender>(enPriority_First);
+			m_spriteRender[enStageSelectSprite_LB]->Init(objdata.ddsFilePath, objdata.width, objdata.height);
+			m_spriteRender[enStageSelectSprite_LB]->SetPosition(objdata.position);
+			m_spriteRender[enStageSelectSprite_LB]->SetScale(objdata.scale);
 
 			return true;
 		}
 		//名前がRBだったら、
-		else if (objdata.EqualObjectName("RB")) {
+		else if (objdata.EqualObjectName(SPRITE_NAME_RB)) {
 
-			HUD::GetHUD()->Init(enSprite_RB, objdata.ddsFilePath, objdata.width, objdata.height, AlphaBlendMode_Trans, enPriority_First);
-			HUD::GetHUD()->SetPosition(enSprite_RB, objdata.position);
-			HUD::GetHUD()->SetScale(enSprite_RB, objdata.scale);
+			m_spriteRender[enStageSelectSprite_RB] = NewGO<SpriteRender>(enPriority_First);
+			m_spriteRender[enStageSelectSprite_RB]->Init(objdata.ddsFilePath, objdata.width, objdata.height);
+			m_spriteRender[enStageSelectSprite_RB]->SetPosition(objdata.position);
+			m_spriteRender[enStageSelectSprite_RB]->SetScale(objdata.scale);
 
 			return true;
 		}

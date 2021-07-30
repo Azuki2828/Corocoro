@@ -56,7 +56,6 @@
     <ClCompile Include="..\..\MiniEngine\tkFile\TksFile.cpp" />
     <ClCompile Include="..\..\MiniEngine\VertexBuffer.cpp" />
     <ClCompile Include="Background.cpp" />
-    <ClCompile Include="Background2.cpp" />
     <ClCompile Include="DirectionLight.cpp" />
     <ClCompile Include="FontRender.cpp" />
     <ClCompile Include="Game.cpp" />
@@ -71,7 +70,6 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MainCamera.cpp" />
     <ClCompile Include="MapChip.cpp" />
-    <ClCompile Include="MoveObject.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="ResultLevel2D.cpp" />
     <ClCompile Include="RuleScene.cpp" />
@@ -177,7 +175,6 @@
     <ClInclude Include="..\..\MiniEngine\tkFile\TksFile.h" />
     <ClInclude Include="..\..\MiniEngine\VertexBuffer.h" />
     <ClInclude Include="Background.h" />
-    <ClInclude Include="Background2.h" />
     <ClInclude Include="DirectionLight.h" />
     <ClInclude Include="FontRender.h" />
     <ClInclude Include="Game.h" />
@@ -191,7 +188,6 @@
     <ClInclude Include="Magnet.h" />
     <ClInclude Include="MainCamera.h" />
     <ClInclude Include="MapChip.h" />
-    <ClInclude Include="MoveObject.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="ResultLevel2D.h" />
     <ClInclude Include="RuleScene.h" />
@@ -222,9 +218,6 @@
       <Filter>cpp</Filter>
     </ClCompile>
     <ClCompile Include="Background.cpp">
-      <Filter>cpp</Filter>
-    </ClCompile>
-    <ClCompile Include="Background2.cpp">
       <Filter>cpp</Filter>
     </ClCompile>
     <ClCompile Include="..\..\MiniEngine\raytracing\BLASBuffer.cpp">
@@ -341,16 +334,10 @@
     <ClCompile Include="..\..\MiniEngine\Model.cpp">
       <Filter>cpp</Filter>
     </ClCompile>
-    <ClCompile Include="MoveObject.cpp">
-      <Filter>cpp</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\MiniEngine\NullTextureMaps.cpp">
       <Filter>cpp</Filter>
     </ClCompile>
     <ClCompile Include="..\..\ExEngine\physics\Physics.cpp">
-      <Filter>cpp</Filter>
-    </ClCompile>
-    <ClCompile Include="PhysicsBall.cpp">
       <Filter>cpp</Filter>
     </ClCompile>
     <ClCompile Include="..\..\ExEngine\physics\PhysicsStaticObject.cpp">
@@ -507,6 +494,7 @@
     <ClInclude Include="HUD.h" />
     <ClInclude Include="ConstValue.h" />
     <ClInclude Include="ConstTriggerBoxValue.h" />
+    <ClInclude Include="RuleSceneConstData.h" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\MiniEngine\Animation.h">
@@ -519,9 +507,6 @@
       <Filter>h</Filter>
     </ClInclude>
     <ClInclude Include="Background.h">
-      <Filter>h</Filter>
-    </ClInclude>
-    <ClInclude Include="Background2.h">
       <Filter>h</Filter>
     </ClInclude>
     <ClInclude Include="..\..\MiniEngine\raytracing\BLASBuffer.h">
@@ -650,9 +635,6 @@
     <ClInclude Include="..\..\MiniEngine\Model.h">
       <Filter>h</Filter>
     </ClInclude>
-    <ClInclude Include="MoveObject.h">
-      <Filter>h</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\MiniEngine\debug\MyAssert.h">
       <Filter>h</Filter>
     </ClInclude>
@@ -660,9 +642,6 @@
       <Filter>h</Filter>
     </ClInclude>
     <ClInclude Include="..\..\ExEngine\physics\Physics.h">
-      <Filter>h</Filter>
-    </ClInclude>
-    <ClInclude Include="PhysicsBall.h">
       <Filter>h</Filter>
     </ClInclude>
     <ClInclude Include="..\..\ExEngine\physics\PhysicsStaticObject.h">

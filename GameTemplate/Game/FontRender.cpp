@@ -9,6 +9,7 @@ void FontRender::Init(
 	float scale,
 	Vector2 pivot
 ) {
+	//各々のパラメーターを設定。
 	swprintf_s(m_fontValue.text, text);
 	m_fontValue.position = position;
 	m_fontValue.color = color;

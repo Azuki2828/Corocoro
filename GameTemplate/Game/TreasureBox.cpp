@@ -3,39 +3,59 @@
 #include "Player.h"
 #include "Game.h"
 
+namespace {
+	const Vector3 TREASURE_BOX_GHOST_POS = { 130.0f,-100.0f,150.0f };
+	const Vector3 TREASURE_BOX_SIZE = { 300.0f,200.0f,400.0f };
+	const char* FILE_NAME_TKM_TREASURE_BOX = "Assets/modelData/tkm/TreasureBox.tkm";
+	const char* FILE_NAME_TKS_TREASURE_BOX = "Assets/modelData/tks/TreasureBox.tks";
+	const char* FILE_PATH_TKA_TREASURE_BOX_OPEN = "Assets/modelData/tka/TreasureBox.tka";
+
+	const Vector3 LIG_DIRECTION_TREASURE_BOX = { 0.0f,1.0f,1.0f };
+	const Vector4 LIG_COLOR_TREASURE_BOX = { 20.0f, 20.0f, 20.0f, 1.0f };
+	const Vector3 TREASURE_BOX_AMBIENT = { 0.8f, 0.8f, 0.8f };
+	const float TREASURE_BOX_METARIC = 1.0f;
+	const float TREASURE_BOX_SMOOTH = 0.35f;
+	const float TREASURE_BOX_POW_VALUE = 0.70f;
+
+	const char16_t* FILE_PATH_EFFECT_SHINE = u"Assets/effect/treasure_4.efk";
+	const Vector3 EFFECT_SHINE_SCALE = { 80.0f,80.0f,80.0f };
+	const Vector3 ADD_EFFECT_POS = { 100.0f, -150.0f, 60.0f };
+
+	const float TREASURE_BOX_FRICTION = 10.0f;
+}
+
+
 bool TreasureBox::Start() {
 
-	m_player = FindGO<Player>("player");
-	m_game = FindGO<Game>("game");
+	m_player = FindGO<Player>(NAME_PLAYER);
+	m_game = FindGO<Game>(NAME_GAME);
 	m_player->GetRigidBody()->GetBody()->setIgnoreCollisionCheck(m_ghostBox.GetGhostObject(), true);
 	Vector3 ghostPos = m_pos;
-	ghostPos.x += 130.0f;
-	ghostPos.y -= 100.0f;
-	ghostPos.z += 150.0f;
+	ghostPos += TREASURE_BOX_GHOST_POS;
 	m_ghostBox.CreateBox(
 		ghostPos,	//第一引数は座標。
 		Quaternion::Identity,		//第二引数は回転クォータニオン。
-		{ 300.0f, 200.0f, 400.0f }	//第三引数はボックスのサイズ。
+		TREASURE_BOX_SIZE	//第三引数はボックスのサイズ。
 	);
 
-	m_skinModelRender = NewGO<SkinModelRender>(0);
-	m_skinModelRender->SetFileNametkm("Assets/modelData/tkm/TreasureBox.tkm");
-	m_skinModelRender->SetFileNametks("Assets/modelData/tks/TreasureBox.tks");
+	m_skinModelRender = NewGO<SkinModelRender>(enPriority_Zeroth);
+	m_skinModelRender->SetFileNametkm(FILE_NAME_TKM_TREASURE_BOX);
+	m_skinModelRender->SetFileNametks(FILE_NAME_TKS_TREASURE_BOX);
 
-	m_animClip.Load("Assets/modelData/tka/TreasureBox.tka");
+	m_animClip.Load(FILE_PATH_TKA_TREASURE_BOX_OPEN);
 	m_animClip.SetLoopFlag(false);
 
-	m_skinModelRender->InitAnimation(&m_animClip, 1);
+	m_skinModelRender->InitAnimation(&m_animClip, enAnimation_Open);
 
 	//座標を登録。
-	m_ligData.m_directionLigData[0].Dir.Set(0, 1, 1);
-	m_ligData.m_directionLigData[0].Dir.Normalize();
-	m_ligData.m_directionLigData[0].Col.Set(20.0f, 20.0f, 20.0f, 1.0f);
-	m_ligData.ambient.Set(0.8f, 0.8f, 0.8f);
-	m_ligData.metaric = 1.0f;
-	m_ligData.smooth = 0.35f; 
+	m_ligData.m_directionLigData[enData_Zeroth].Dir.Set(LIG_DIRECTION_TREASURE_BOX);
+	m_ligData.m_directionLigData[enData_Zeroth].Dir.Normalize();
+	m_ligData.m_directionLigData[enData_Zeroth].Col.Set(LIG_COLOR_TREASURE_BOX);
+	m_ligData.ambient.Set(TREASURE_BOX_AMBIENT);
+	m_ligData.metaric = TREASURE_BOX_METARIC;
+	m_ligData.smooth = TREASURE_BOX_SMOOTH;
 	m_ligData.edge = Edge_1;
-	m_ligData.powValue = 0.7f;
+	m_ligData.powValue = TREASURE_BOX_POW_VALUE;
 
 	m_skinModelRender->SetUserLigData(&m_ligData);
 	//m_skinModelRender->SetExpandShaderResourceView_2(&RenderTarget::GetZPrepassRenderTarget()->GetRenderTargetTexture());
@@ -51,7 +71,7 @@ bool TreasureBox::Start() {
 		*m_skinModelRender->GetModel(),
 		m_skinModelRender->GetModel()->GetWorldMatrix()
 	);
-	m_physicsStaticObject.SetFriction(10.0f);
+	m_physicsStaticObject.SetFriction(TREASURE_BOX_FRICTION);
 	return true;
 }
 
@@ -64,8 +84,6 @@ TreasureBox::~TreasureBox() {
 
 void TreasureBox::Update() {
 
-	static float effectTime = 0.0f;
-
 	PhysicsWorld::GetInstance()->ContactTest(*m_player->GetRigidBody(), [&](const btCollisionObject& contactObject) {
 
 		if (m_ghostBox.IsSelf(contactObject) == true && m_player->GetKeyFlg()) {
@@ -74,38 +92,16 @@ void TreasureBox::Update() {
 				SoundManager::GetInstance()->Play(enSE_BoxOpen);
 				m_soundFlg = true;
 				m_effect = nullptr;
-				m_effect = NewGO<Effect>(0);
-				m_effect->Init(u"Assets/effect/treasure_4.efk");
-				m_effect->SetScale({ 80.0f,80.0f,80.0f });
+				m_effect = NewGO<Effect>(enPriority_Zeroth);
+				m_effect->Init(FILE_PATH_EFFECT_SHINE);
+				m_effect->SetScale(EFFECT_SHINE_SCALE);
 				Vector3 effPos = m_pos;
-				effPos += { 100.0f, -150.0f, 60.0f };
+				effPos += ADD_EFFECT_POS;
 				m_effect->SetPosition(effPos);
-				//treasure->Update();
 				m_effect->Play();
 			}
 			m_skinModelRender->SetAnimFlg(true);
 			m_treasureFlg = true;
-			//m_game->SetGameFlg(true);
-			
 		}
 	});
-
-
-	static bool effectFlg = false;
-	//if (m_player->GetTreasureFlg()) {
-	//	effectTime += GameTime().GameTimeFunc().GetFrameDeltaTime();
-	//	if (effectTime >= 0.5f && !effectFlg) {
-	//		Effect* treasure = nullptr;
-	//		treasure = NewGO<Effect>(0);
-	//		treasure->Init(u"Assets/effect/treasure_4.efk");
-	//		treasure->SetScale({ 80.0f,80.0f,80.0f });
-	//		Vector3 effPos = m_pos;
-	//		effPos += { 200.0f, -150.0f, -500.0f };
-	//		treasure->SetPosition(effPos);
-	//		//treasure->Update();
-	//		treasure->Play();
-	//	
-	//		effectFlg = true;
-	//	}
-	//}
 }

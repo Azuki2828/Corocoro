@@ -9,7 +9,3 @@ bool DirectionLight::StartSub() {
 DirectionLight::~DirectionLight() {
 
 }
-
-void DirectionLight::Init() {
-
-}

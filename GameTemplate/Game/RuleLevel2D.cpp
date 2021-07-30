@@ -2,6 +2,7 @@
 #include "RuleLevel2D.h"
 
 namespace {
+	//スプライトの名前
 	const char* LEVEL2D_NAME_RULE_SCENE = "Assets/level2D/Rule.casl";
 	const char* SPRITE_NAME_RULE = "Rule";
 	const char* SPRITE_NAME_BACK = "Back";
@@ -10,13 +11,13 @@ namespace {
 }
 
 bool RuleLevel2D::Start() {
-	//TitleSceneレベルを読み込む。
+	//レベルを読み込む。
 	m_level2D.Init(LEVEL2D_NAME_RULE_SCENE, [&](Level2DObjectData& objdata) {
 
 		//名前がRuleだったら、
 		if (objdata.EqualObjectName(SPRITE_NAME_RULE)) {
 
-			m_sprite[enSprite_Rule] = NewGO<SpriteRender>(enPriority_Zeroth);
+			m_sprite[enSprite_Rule] = NewGO<SpriteRender>(enPriority_Third);
 			//Sprite初期化オブジェクトを使用して、Spriteを初期化する
 			m_sprite[enSprite_Rule]->Init(objdata.ddsFilePath, objdata.width, objdata.height, AlphaBlendMode_Trans);
 			m_sprite[enSprite_Rule]->SetPosition(objdata.position);

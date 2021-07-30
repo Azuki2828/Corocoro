@@ -18,7 +18,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	// ここから初期化を行うコードを記述する。
 	//////////////////////////////////////
 
-	//ゲームオブジェクトマネージャーのインスタンスを作成する。
+	//クラスのインスタンスを作成する。
 	GameObjectManager::CreateInstance();
 	PhysicsWorld::CreateInstance();
 	CSoundEngine::CreateInstance();
@@ -27,9 +27,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	SoundManager::CreateInstance();
 	EffectEngine::CreateInstance();
 	HUD::CreateHUD();
-
 	Camera::CreateLightCamera();
-
 	Stopwatch stopWatch;
 
 	//タイトル画面からスタート
@@ -128,31 +126,31 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 		//ここから絵を描くコードを記述する。
 		//////////////////////////////////////
 
+		//インスタンスの更新。
 		GameObjectManager::GetInstance()->ExecuteUpdate();
-		//物理ワールドの更新。
 		PhysicsWorld::GetInstance()->Update(g_gameTime->GetFrameDeltaTime());
 		EffectEngine::GetInstance()->Update(g_gameTime->GetFrameDeltaTime());
 		SoundManager::GetInstance()->Update();
 		HUD::GetHUD()->Update();
 
-
+		//描画を行う。
 		GameObjectManager::GetInstance()->ExecuteRender(renderContext);
 
-
+		//エフェクトの描画
 		EffectEngine::GetInstance()->Draw();
+		//HUDの描画
 		HUD::GetHUD()->Draw(renderContext);
+		//フォントの描画
 		GameObjectManager::GetInstance()->ExecuteFontRender(renderContext);
 
 
 
 		//LightManagerの更新。
 		LightManager::GetInstance()->Update();
-		//laserEffect.Update();
 
 		// レンダリングターゲットへの書き込み終了待ち
 		renderContext.WaitUntilFinishDrawingToRenderTarget(*RenderTarget::GetMainRenderTarget());
 
-		// 輝度抽出
 		// 輝度抽出用のレンダリングターゲットに変更
 		renderContext.WaitUntilToPossibleSetRenderTarget(luminnceRenderTarget);
 
@@ -168,14 +166,14 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 		// レンダリングターゲットへの書き込み終了待ち
 		renderContext.WaitUntilFinishDrawingToRenderTarget(luminnceRenderTarget);
 
-		// step-3 ガウシアンブラーを4回実行する
+		//ガウシアンブラーを4回実行する
 
 		for (int i = 0; i < GAUSSIAN_BLUR_NUM; i++) {
 
 			m_postEffect->GetGaussianBlurSprite(i).ExecuteOnGPU(renderContext, BLUR_POWER);
 		}
 
-		// step-4 4枚のボケ画像を合成してメインレンダリングターゲットに加算合成
+		//4枚のボケ画像を合成してメインレンダリングターゲットに加算合成
 
 		renderContext.WaitUntilToPossibleSetRenderTarget(*RenderTarget::GetMainRenderTarget());
 
@@ -217,5 +215,6 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	}
 	//ゲームオブジェクトマネージャーを削除。
 	GameObjectManager::DeleteInstance();
+
 	return 0;
 }

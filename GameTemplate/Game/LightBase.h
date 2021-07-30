@@ -8,6 +8,7 @@ class LightBase : public IGameObject
 public:
 	~LightBase();
 	virtual bool StartSub() = 0;
+	//ライトのデータを取得する関数。
 	virtual void* GetLigData() = 0;
 };
 

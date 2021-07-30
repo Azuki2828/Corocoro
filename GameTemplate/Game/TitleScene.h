@@ -14,15 +14,11 @@ private:
 		RuleButton,
 		EndButton,
 	};
-	bool ScaleUpFlag = true;
-	float Fscale = 0.2f;
-	int NowSelect = 0;
-	Vector3 Vscale = { 0.2f,0.2f,0.2f };
-	Vector3 vscale = { 0.2f,0.2f,0.2f };
+	bool m_scaleUpFlag = true;		//拡大縮小するフラグ
+	float m_ButtonScale = 0.0f;		//ボタンの拡大率
+	int m_nowSelect = 0;			//選択項目
 
-	/**
-	 * @brief それぞれのクラスのポインタ
-	*/
+	//それぞれのクラスのポインタ
 
 	TitleLevel2D* m_titleLevel2D = nullptr;
 };

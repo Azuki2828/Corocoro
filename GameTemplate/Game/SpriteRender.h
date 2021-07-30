@@ -12,6 +12,7 @@ public:
 	void SetPosition(const Vector3& pos) { m_pos = pos; }
 	void SetRotation(const Quaternion& rot) { m_rot = rot; }
 	void SetScale(const Vector3& sca) { m_sca = sca; }
+	Vector3 GetScale() { return m_sca; }
 	void SetMulColor(const Vector4& mulCol) {
 		m_mulColor = mulCol;
 	}

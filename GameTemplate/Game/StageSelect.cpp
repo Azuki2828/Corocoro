@@ -7,7 +7,7 @@
 bool StageSelect::Start()
 {
 	//ステージ選択画面表示
-	m_sprite = NewGO<StageSelectLevel2D>(enPriority_Zeroth, NAME_STAGE_SELECT_LEVEL2D);
+	m_stageSelectLevel2D = NewGO<StageSelectLevel2D>(enPriority_Zeroth, NAME_STAGE_SELECT_LEVEL2D);
 
 	//BGM再生。
 	SoundManager::GetInstance()->Play(enBGM_Title);
@@ -62,12 +62,15 @@ bool StageSelect::Start()
 	m_stageSpriteRender[Stage_Four][enStageSelectSprite_StageModel]->SetScale(SPRITE_STAGE_MODEL_SCALE);
 	m_stageSpriteRender[Stage_Four][enStageSelectSprite_StageModel]->Deactivate();		//非表示
 
+	//m_standardScale[BackButton] = m_stageSelectLevel2D->GetScale(enStageSelectSprite_BackButton);
+	//m_standardScale[KetteiButton] = m_stageSelectLevel2D->GetScale(enStageSelectSprite_DecisionButton);
+
 	return true;
 }
 
 StageSelect::~StageSelect()
 {
-	DeleteGO(m_sprite);	//レベル削除
+	DeleteGO(m_stageSelectLevel2D);	//レベル削除
 	SoundManager::GetInstance()->Release(enBGM_Title);	//BGM削除
 	for (int i = 0; i < Stage_Num; i++)
 	{
@@ -81,92 +84,87 @@ void StageSelect::Update()
 	//右入力or左入力されたら、
 	if (g_pad[enData_Zeroth]->IsTrigger(enButtonRight) || g_pad[enData_Zeroth]->IsTrigger(enButtonLeft)) {
 		//現在セレクトされているボタンが「もどる」(0番)だったら、
-		if (NowSelect == BackButton) {
+		if (m_nowSelect == BackButton) {
 			//選択を右に1つずらす。
-			NowSelect = KetteiButton;
+			m_nowSelect = KetteiButton;
 		}
 		//現在セレクトされているボタンが「けってい」(1番)だったら、
 		else {
 			//選択を左に1つずらす。
-			NowSelect = BackButton;
+			m_nowSelect = BackButton;
 		}
 		//移動効果音鳴らす。
 		SoundManager::GetInstance()->Play(enSE_CursolMove);
 	}
 
 	//ボタンを全て半透明にする。
-	HUD::GetHUD()->SetMulColor(enSprite_Back, TRANSLUCENT_VALUE_HALF);
-	HUD::GetHUD()->SetMulColor(enSprite_Decision, TRANSLUCENT_VALUE_HALF);
-
-	m_standardScale[BackButton] = HUD::GetHUD()->GetScale(enSprite_Back);
-	m_standardScale[KetteiButton] = HUD::GetHUD()->GetScale(enSprite_Decision);
+	m_stageSelectLevel2D->GetSprite(enStageSelectSprite_BackButton)->SetMulColor(TRANSLUCENT_VALUE_HALF);
+	m_stageSelectLevel2D->GetSprite(enStageSelectSprite_DecisionButton)->SetMulColor(TRANSLUCENT_VALUE_HALF);
 
 	//現在選択しているボタンの強調表示
-	switch (NowSelect) {
+	switch (m_nowSelect) {
 
 		//「もどる」ボタンが選ばれているとき、
 	 case BackButton:
 		//ボタンを不透明度100％にする。
-		 HUD::GetHUD()->SetMulColor(enSprite_Back, TRANSLUCENT_VALUE_MAX);
+		 m_stageSelectLevel2D->GetSprite(enStageSelectSprite_BackButton)->SetMulColor(TRANSLUCENT_VALUE_MAX);
 
 		//単振動の公式を使ってボタンを拡大縮小する。
 
 		 //大きさが最小になったとき、
-		if (Fscale < BUTTON_SIZE_MIN) {
-			ScaleUpFlag = true;
+		if (m_spriteBackScale < BACK_BUTTON_SIZE_MIN) {
+			m_spriteScaleUpFlag = true;
 		}
 		//大きさが最大になったとき、
-		if (Fscale > BUTTON_SIZE_MAX) {
-			ScaleUpFlag = false;
+		if (m_spriteBackScale > BACK_BUTTON_SIZE_MAX) {
+			m_spriteScaleUpFlag = false;
 		}
 
-		if (ScaleUpFlag == true) {
+		if (m_spriteScaleUpFlag == true) {
 			//拡大
-			Fscale += BUTTON_SCALE_ADD;
+			m_spriteBackScale += BUTTON_SCALE_ADD;
 		}
-		if (ScaleUpFlag == false) {
+		if (m_spriteScaleUpFlag == false) {
 			//縮小
-			Fscale -= BUTTON_SCALE_ADD;
+			m_spriteBackScale -= BUTTON_SCALE_ADD;
 		}
 		//スプライトに反映。
-		Vscale = { Fscale,Fscale,Fscale };
-		HUD::GetHUD()->SetScale(enSprite_Back, Vscale);
+		m_stageSelectLevel2D->GetSprite(enStageSelectSprite_BackButton)->SetScale({ m_spriteBackScale, m_spriteBackScale, m_spriteBackScale });
 
 		//選択されていないボタンの拡大率を元に戻す。
-		HUD::GetHUD()->SetScale(enSprite_Decision, m_standardScale[KetteiButton]);
+		m_stageSelectLevel2D->GetSprite(enStageSelectSprite_DecisionButton)->SetScale({ DECISION_BUTTON_SIZE_MIN ,DECISION_BUTTON_SIZE_MIN ,DECISION_BUTTON_SIZE_MIN });
 
 		break;
 
 		//「けってい」ボタンが選ばれているとき、
 	 case KetteiButton:
 		//ボタンを不透明度100％にする。
-		 HUD::GetHUD()->SetMulColor(enSprite_Decision, TRANSLUCENT_VALUE_MAX);
+		 m_stageSelectLevel2D->GetSprite(enStageSelectSprite_DecisionButton)->SetMulColor(TRANSLUCENT_VALUE_MAX);
 
 		//単振動の公式を使ってボタンを拡大縮小する。
 
 		 //大きさが最小になったとき、
-		if (Fscale1 < BUTTON_SIZE_MIN) {
-			ScaleUpFlag = true;
+		if (m_spriteDecisionScale < DECISION_BUTTON_SIZE_MIN) {
+			m_spriteScaleUpFlag = true;
 		}
 		//大きさが最大になったとき、
-		if (Fscale1 > BUTTON_SIZE_MAX) {
-			ScaleUpFlag = false;
+		if (m_spriteDecisionScale > DECISION_BUTTON_SIZE_MAX) {
+			m_spriteScaleUpFlag = false;
 		}
 
-		if (ScaleUpFlag == true) {
+		if (m_spriteScaleUpFlag == true) {
 			//拡大
-			Fscale1 += BUTTON_SCALE_ADD;
+			m_spriteDecisionScale += BUTTON_SCALE_ADD;
 		}
-		if (ScaleUpFlag == false) {
+		if (m_spriteScaleUpFlag == false) {
 			//縮小
-			Fscale1 -= BUTTON_SCALE_ADD;
+			m_spriteDecisionScale -= BUTTON_SCALE_ADD;
 		}
 		//スプライトに反映。
-		Vscale = { Fscale1,Fscale1,Fscale1 };
-		HUD::GetHUD()->SetScale(enSprite_Decision, Vscale);
+		m_stageSelectLevel2D->GetSprite(enStageSelectSprite_DecisionButton)->SetScale({ m_spriteDecisionScale,m_spriteDecisionScale,m_spriteDecisionScale });
 
 		//選択されていないボタンの拡大率を元に戻す。
-		HUD::GetHUD()->SetScale(enSprite_Back, m_standardScale[BackButton]);
+		m_stageSelectLevel2D->GetSprite(enStageSelectSprite_BackButton)->SetScale({ BACK_BUTTON_SIZE_MIN ,BACK_BUTTON_SIZE_MIN ,BACK_BUTTON_SIZE_MIN });
 
 		break;
 	};
@@ -174,62 +172,62 @@ void StageSelect::Update()
 	//ステージ選択
 
 	//現在選択されているステージが1のとき、
-	if (NowSelectStage == Stage_One)
+	if (m_nowSelectStage == Stage_One)
 	{
 		//左矢印を非表示する
-		HUD::GetHUD()->Deactivate(enSprite_LeftSelect);
+		m_stageSelectLevel2D->GetSprite(enStageSelectSprite_Select_Left)->Deactivate();
 		//LBを非表示する
-		HUD::GetHUD()->Deactivate(enSprite_LB);
+		m_stageSelectLevel2D->GetSprite(enStageSelectSprite_LB)->Deactivate();
 	}
 	//ステージ１以外の時、
 	else
 	{
 		//左矢印を表示する
-		HUD::GetHUD()->Activate(enSprite_LeftSelect);
+		m_stageSelectLevel2D->GetSprite(enStageSelectSprite_Select_Left)->Activate();
 		//LBを表示する
-		HUD::GetHUD()->Activate(enSprite_LB);
+		m_stageSelectLevel2D->GetSprite(enStageSelectSprite_LB)->Activate();
 	}
 	//現在選択されているステージが最後のステージのとき、
-	if (NowSelectStage == Stage_Four)
+	if (m_nowSelectStage == Stage_Four)
 	{
 		//右矢印を非表示する
-		HUD::GetHUD()->Deactivate(enSprite_RightSelect);
+		m_stageSelectLevel2D->GetSprite(enStageSelectSprite_Select_Right)->Deactivate();
 		//RBを非表示する
-		HUD::GetHUD()->Deactivate(enSprite_RB);
+		m_stageSelectLevel2D->GetSprite(enStageSelectSprite_RB)->Deactivate();
 	}
 	//最後のステージ以外の時、
 	else
 	{
 		//右矢印を表示する
-		HUD::GetHUD()->Activate(enSprite_RightSelect);
+		m_stageSelectLevel2D->GetSprite(enStageSelectSprite_Select_Right)->Activate();
 		//RBを表示する
-		HUD::GetHUD()->Activate(enSprite_RB);
+		m_stageSelectLevel2D->GetSprite(enStageSelectSprite_RB)->Activate();
 	}
 
 	//LBボタンが押されたら、(キーボードB)
 	if (g_pad[enData_Zeroth]->IsTrigger(enButtonLB1))
 	{
 		//ステージ1が選ばれていないときだけ1つ下にずらす
-		if (NowSelectStage != Stage_One)
+		if (m_nowSelectStage != Stage_One)
 		{
 			//移動効果音鳴らす。
 			SoundManager::GetInstance()->Play(enSE_CursolMove);
 			//ステージ番号を１つ下にずらす
-			NowSelectStage--;
+			m_nowSelectStage--;
 		}
 	}
 	//RBボタンが押されたら、(キーボードの7)
 	if (g_pad[enData_Zeroth]->IsTrigger(enButtonRB1))
 	{
-		if (NowSelectStage != Stage_Four) {
+		if (m_nowSelectStage != Stage_Four) {
 			//移動効果音鳴らす。
 			SoundManager::GetInstance()->Play(enSE_CursolMove);
 			//ステージ番号を１つ上にずらす
-			NowSelectStage++;
+			m_nowSelectStage++;
 		}
 	}
 	//ステージ1,ステージ2などの文字画像表示
-	switch (NowSelectStage)
+	switch (m_nowSelectStage)
 	{
 	case Stage_One:
 		m_stageSpriteRender[Stage_One][enStageSelectSprite_StageNum]->Activate();			//表示
@@ -266,7 +264,7 @@ void StageSelect::Update()
 		//決定ボタン音再生。
 		SoundManager::GetInstance()->Play(enSE_DecisionButton);
 
-		switch (NowSelect) {
+		switch (m_nowSelect) {
 
 			//「もどる」ボタンが選ばれているとき、
 		 case BackButton:
@@ -279,7 +277,7 @@ void StageSelect::Update()
 		 case KetteiButton:
 			 m_game = NewGO<Game>(enPriority_Zeroth, "game");
 			 //ゲーム画面に遷移
-			 m_game->SetStageNum(NowSelectStage);
+			 m_game->SetStageNum(m_nowSelectStage);
 			break;
 		};
 		//クラスを削除。

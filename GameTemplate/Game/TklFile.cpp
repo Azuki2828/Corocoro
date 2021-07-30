@@ -5,7 +5,6 @@ void TklFile::Load(const char* filePath)
 {
 	int ThrowNum = 0;
 	float* ThrowNumF = 0;
-	char* bite[256];
 	int version;
 	//std::vector<int>ThrowNumVec;
 	auto fp = fopen(filePath, "rb");

@@ -8,37 +8,38 @@
 
 namespace {
 
-	const char* PLAYER_TKM_FILEPATH_N = "Assets/modelData/tkm/Player_N50.tkm";
-	const char* PLAYER_TKM_FILEPATH_S = "Assets/modelData/tkm/Player_S50.tkm";
-	const char* PLAYER_TKS_FILEPATH_N = "Assets/modelData/tkm/Player_N50.tks";
-	const char* PLAYER_TKS_FILEPATH_S = "Assets/modelData/tkm/Player_S50.tks";
-	//プレイヤーのコリジョンの半径
-	const float PLAYER_COLLI_RADIUS = 50.0f;
-	const float PLAYER_MASS = 1.0f;
-	const float DEAD_LINE = 500.0f;
-	const float PLAYER_MOVE_SPEED = 100.0f;
-	const Vector3 PLAYER_LOCAL_INTERIA = { 0.5f,0.5f,0.5f };
-	const float PLAYER_FRICTION = 10.0f;
-	const Vector3 PLAYER_LINIOR_FACTOR = { 1.0f,1.0f,0.0f };
+	const char* PLAYER_TKM_FILEPATH_N = "Assets/modelData/tkm/Player_N50.tkm";	//プレイヤーNのモデル
+	const char* PLAYER_TKM_FILEPATH_S = "Assets/modelData/tkm/Player_S50.tkm";	//プレイヤーSのモデル
+	const char* PLAYER_TKS_FILEPATH_N = "Assets/modelData/tkm/Player_N50.tks";	//プレイヤーNのスケルトン
+	const char* PLAYER_TKS_FILEPATH_S = "Assets/modelData/tkm/Player_S50.tks";	//プレイヤーSのスケルトン
+	
+	const float PLAYER_COLLI_RADIUS = 50.0f;					//プレイヤーのコリジョンの半径
+	const float PLAYER_MASS = 1.0f;								//プレイヤーの質量
+	const float DEAD_LINE = 500.0f;								//死亡座標ライン
+	const Vector3 PLAYER_LOCAL_INTERIA = { 0.5f,0.5f,0.5f };	//回転のしやすさ
+	const float PLAYER_FRICTION = 10.0f;						//摩擦力
+	const Vector3 PLAYER_LINIOR_FACTOR = { 1.0f,1.0f,0.0f };	//移動軸
 
-	const float PLAYER_Z_MOVE_POWER = 0.0f;
+	const float PLAYER_Z_MOVE_POWER = 0.0f;		//Z軸へかかる力
 
-	const Vector3 PLAYER_LIG_DIRECTION = { 0.0f, -1.0f, 1.0f };
-	const Vector4 PLAYER_LIG_COLOR_N = { 25.0f, 25.0f, 25.0f, 1.0f };
-	const Vector4 PLAYER_LIG_COLOR_S = { 25.0f, 25.0f, 55.0f, 1.0f };
-	const Vector3 PLAYER_LIG_AMBIENT = { 0.8f, 0.8f, 0.8f };
-	const float PLAYER_METARIC = 1.0f;
-	const float PLAYER_SMOOTH = 0.35f;
-	const float PLAYER_POW_VALUE = 2.0f;
-	const Vector3 EFFECT_SCALE_CHANGE_STATE = { 95.0f,95.0f,95.0f };
-	const char16_t* EFFECT_FILE_PATH_CHANGE_STATE_N = u"Assets/effect/State_N2.efk";
-	const char16_t* EFFECT_FILE_PATH_CHANGE_STATE_S = u"Assets/effect/State_S2.efk";
+	const Vector3 PLAYER_LIG_DIRECTION = { 0.0f, -1.0f, 1.0f };			//ライトの方向
+	const Vector4 PLAYER_LIG_COLOR_N = { 25.0f, 25.0f, 25.0f, 1.0f };	//プレイヤーNの色
+	const Vector4 PLAYER_LIG_COLOR_S = { 25.0f, 25.0f, 55.0f, 1.0f };	//プレイヤーSの色
+	const Vector3 PLAYER_LIG_AMBIENT = { 0.8f, 0.8f, 0.8f };			//環境光
+	const float PLAYER_SMOOTH = 0.35f;									//金属度
+	const float PLAYER_METARIC = 1.0f;									//なめらかさ
+	const float PLAYER_POW_VALUE = 2.0f;								//絞り率
 
-	const float ADD_LIGHT_CAMERA_POS = 500.0f;
+	const Vector3 EFFECT_SCALE_CHANGE_STATE = { 95.0f,95.0f,95.0f };					//磁極変換時エフェクトの拡大率
+	const char16_t* EFFECT_FILE_PATH_CHANGE_STATE_N = u"Assets/effect/State_N2.efk";	//磁極変換時のエフェクトのファイルパス
+	const char16_t* EFFECT_FILE_PATH_CHANGE_STATE_S = u"Assets/effect/State_S2.efk";	//磁極変換時のエフェクトのファイルパス
+
+	const float ADD_LIGHT_CAMERA_POS = 500.0f;	//ライトカメラの座標に加算する値
 }
 
 bool Player::Start()
 {
+	//プレイヤー独自のライトデータを設定
 	m_ligData[enPlayer_0].m_directionLigData[enData_Zeroth].Dir.Set(PLAYER_LIG_DIRECTION);
 	m_ligData[enPlayer_0].m_directionLigData[enData_Zeroth].Dir.Normalize();
 	m_ligData[enPlayer_0].m_directionLigData[enData_Zeroth].Col.Set(PLAYER_LIG_COLOR_N);
@@ -55,10 +56,11 @@ bool Player::Start()
 	m_ligData[enPlayer_1].smooth = PLAYER_SMOOTH;
 	m_ligData[enPlayer_1].powValue = PLAYER_POW_VALUE;
 
+	//クラスのオブジェクトを探し出す
 	m_game = FindGO<Game>(NAME_GAME);
-
 	auto mainCamera = FindGO<MainCamera>(NAME_MAIN_CAMERA);
 
+	//カメラ回転時の処理
 	mainCamera->changeRotCameraEvent.push_back([&]() {
 		Quaternion m_rotZ;
 		m_rotZ.SetRotationDeg(Vector3::AxisZ, CAMERA_ROT_VALUE);
@@ -66,7 +68,7 @@ bool Player::Start()
 		m_rotZ.Apply(m_ligData[enPlayer_1].m_directionLigData[enData_Zeroth].Dir);
 	});
 
-	//プレイヤーのtkmとtksをロードする種。
+	//プレイヤーのtkmとtksのファイルパス。
 	const char* tkmFilePaths[] = {
 		PLAYER_TKM_FILEPATH_N,
 		PLAYER_TKM_FILEPATH_S
@@ -142,6 +144,7 @@ bool Player::Start()
 
 Player::~Player()
 {
+	//データの削除
 	for (int i = 0; i < enPlayer_Num; i++) {
 		DeleteGO(m_skinModelRender[i]);
 	}
@@ -150,14 +153,20 @@ Player::~Player()
 
 void Player::Update()
 {
-
+	//カメラの視点を更新
 	for (auto& ligData : m_ligData) {
 		ligData.eyePos = g_camera3D->GetPosition();
 	}
-
-	//m_rigidBody.SetLinearFactor(1.0f, 1.0f, 0.0f);
+	//各クラスを探し出す
 	if (m_backGround == nullptr) {
 		m_backGround = FindGO<BackGround>(NAME_BACK_GROUND);
+	}
+	if (m_key == nullptr) {
+		m_key = FindGO<Key>(NAME_KEY);
+
+	}
+	if (m_treasureBox == nullptr) {
+		m_treasureBox = FindGO<TreasureBox>(NAME_TREASURE_BOX);
 	}
 
 	//z方向には動かない。
@@ -170,14 +179,8 @@ void Player::Update()
 	Vector3 pos;
 	Quaternion rot;
 	m_rigidBody.GetPositionAndRotation(pos, rot);
-	//剛体の座標と回転をモデルに反映。
-	if (m_key == nullptr) {
-		m_key = FindGO<Key>(NAME_KEY);
 
-	}
-	if (m_treasureBox == nullptr) {
-		m_treasureBox = FindGO<TreasureBox>(NAME_TREASURE_BOX);
-	}
+
 
 	for (int i = 0; i < enPlayer_Num; i++) {
 		m_pos = pos;
@@ -194,51 +197,51 @@ void Player::Update()
 		m_movePower,		//力
 		Vector3::Zero	//力を加える剛体の相対位置
 	);
+	//保持している磁力をリセットする
 	m_movePower = Vector3::Zero;
 
 	//プレイヤーの位置に合わせる。
 	m_SCahgeState->SetPosition(m_pos);
 	m_NCahgeState->SetPosition(m_pos);
 
+	//ゲームの準備ができていたら
+	if (!m_game->GetGameFlg()) {
+		return;
+	}
 
-	if (m_game->GetGameFlg()) {
-			//Aボタンでプレイヤーの磁力を反転させる
-		if (!m_deathFlag) { //死んでいる場合、処理を動かさない。
-			if (g_pad[enData_Zeroth]->IsTrigger(enButtonA) && !m_treasureBox->GetTreasureFlg()) {
-				ChangeState();
+	//Aボタンでプレイヤーの磁力を反転させる
+	if (!m_deathFlag && g_pad[enData_Zeroth]->IsTrigger(enButtonA) && !m_treasureBox->GetTreasureFlg()) {
 
-				//NとSを切り替えるときの効果音再生。
+		//磁力反転処理
+		ChangeState();
+		//NとSを切り替えるときの効果音再生。
+		SoundManager::GetInstance()->Play(enSE_NSChange);
 
-
-				SoundManager::GetInstance()->Play(enSE_NSChange);
-
-				//アクティブフラグを更新。
-				for (int i = 0; i < enPlayer_Num; i++) {
-					if (m_skinModelRender[i]->IsActive()) {
-						m_skinModelRender[i]->Deactivate();
-					}
-					else {
-						m_skinModelRender[i]->Activate();
-					}
-				}
-
+		//アクティブフラグを更新。
+		for (int i = 0; i < enPlayer_Num; i++) {
+			if (m_skinModelRender[i]->IsActive()) {
+				m_skinModelRender[i]->Deactivate();
+			}
+			else {
+				m_skinModelRender[i]->Activate();
 			}
 		}
-		
 
-		Vector3 m_lightCameraTar = m_pos;
-
-		Vector3 m_lightCameraPos = m_lightCameraTar;
-		if (m_getKeyFlg) {
-			m_lightCameraPos.y -= ADD_LIGHT_CAMERA_POS;
-		}
-		else {
-			m_lightCameraPos.y += ADD_LIGHT_CAMERA_POS;
-		}
-
-		Camera::GetLightCamera()->SetPosition(m_lightCameraPos);
-		Camera::GetLightCamera()->SetTarget(m_lightCameraTar);
 	}
+	
+	//ライトカメラの情報を更新
+	Vector3 m_lightCameraTar = m_pos;
+	Vector3 m_lightCameraPos = m_lightCameraTar;
+	//ライトカメラの座標を設定
+	if (m_getKeyFlg) {
+		m_lightCameraPos.y -= ADD_LIGHT_CAMERA_POS;
+	}
+	else {
+		m_lightCameraPos.y += ADD_LIGHT_CAMERA_POS;
+	}
+	//ライトカメラの情報を設定
+	Camera::GetLightCamera()->SetPosition(m_lightCameraPos);
+	Camera::GetLightCamera()->SetTarget(m_lightCameraTar);
 
 	//pStateの極とモデルの極が違う場合、モデルの極をpStateの極に合わせる。
 	//if (!m_deathFlag) { //死んでいる場合、処理を動かさない。
@@ -266,6 +269,7 @@ void Player::FreeUpdate() {
 }
 
 void Player::ChangeState() {
+	//磁極のステートを変更する
 	if (pState == State_N) {
 		pState = State_S;
 		m_SCahgeState->SetPosition(m_pos);

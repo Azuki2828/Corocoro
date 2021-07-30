@@ -1,26 +1,41 @@
 #pragma once
 #include "level2D/Level2D.h"
 
+//スプライトの番号
+enum {
+	enSprite_Rule,
+	enSprite_Back,
+	enSprite_Next,
+	enSprite_BackGround,
+
+	enRuleSprite_Num
+
+};
 class RuleLevel2D:public IGameObject
 {
-	enum {
-		enSprite_Rule,
-		enSprite_Back,
-		enSprite_Next,
-		enSprite_BackGround,
-
-		enSprite_Num
-	};
-public:
+private:
 	bool Start();
 	~RuleLevel2D();
 	void Update();
+public:
+	/**
+	 * @brief スプライトを取得する関数。
+	 * @param num スプライト番号
+	 * @return スプライト
+	*/
 	SpriteRender* GetSprite(int num) {
 		return m_sprite[num];
 	}
+	/**
+	 * @brief 表示関数。
+	 * @param rc レンダーコンテキスト
+	*/
 	void Render(RenderContext& rc) override;
 
 private:
 	Level2D m_level2D;		//レベル2D。
-	SpriteRender* m_sprite[enSprite_Num];		//スプライトレンダー
+
+	//それぞれのクラスのポインタ
+
+	SpriteRender* m_sprite[enRuleSprite_Num] = { nullptr };
 };

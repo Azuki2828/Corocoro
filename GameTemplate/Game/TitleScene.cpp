@@ -6,12 +6,16 @@
 #include "RuleScene.h"
 #include "SettingScene.h"
 
-
+namespace {
+	const Vector3 DEFAULT_SPRITE_SCALE = { 0.2f,0.2f,0.2f };	//デフォルトのボタンの拡大率。
+}
 bool TitleScene::Start()
 {
 
+	m_ButtonScale = DEFAULT_SPRITE_SCALE.x;
+
 	//タイトル画面表示
-	m_titleLevel2D = NewGO<TitleLevel2D>(0,"titleLevel2D");
+	m_titleLevel2D = NewGO<TitleLevel2D>(enPriority_Zeroth, NAME_TITLE_LEVEL2D);
 
 	//タイトルBGM再生。
 	SoundManager::GetInstance()->Play(enBGM_Title);
@@ -35,21 +39,21 @@ TitleScene::~TitleScene()
 void TitleScene::Update()
 {
 	//ボタンを全て半透明にする。
-	HUD::GetHUD()->SetMulColor(enSprite_StartButton, TRANSLUCENT_VALUE_HALF);
-	HUD::GetHUD()->SetMulColor(enSprite_RuleButton, TRANSLUCENT_VALUE_HALF);
-	HUD::GetHUD()->SetMulColor(enSprite_EndButton, TRANSLUCENT_VALUE_HALF);
+	m_titleLevel2D->GetTitleSprite(enTitleSprite_StartButton)->SetMulColor(TRANSLUCENT_VALUE_HALF);
+	m_titleLevel2D->GetTitleSprite(enTitleSprite_RuleButton)->SetMulColor(TRANSLUCENT_VALUE_HALF);
+	m_titleLevel2D->GetTitleSprite(enTitleSprite_EndButton)->SetMulColor(TRANSLUCENT_VALUE_HALF);
 
 	//右入力or左入力されたら、
-	if (g_pad[0]->IsTrigger(enButtonRight) || g_pad[0]->IsTrigger(enButtonLeft)) {
+	if (g_pad[enData_Zeroth]->IsTrigger(enButtonRight) || g_pad[enData_Zeroth]->IsTrigger(enButtonLeft)) {
 		//現在セレクトされているボタンが「はじめる」(0番)or「せってい」(2番)だったら、
-		switch (NowSelect) {
-		case 0:
-			NowSelect = 1;
+		switch (m_nowSelect) {
+		case StartButton:
+			m_nowSelect = RuleButton;
 			break;
-		case 1:
-			NowSelect = 0;
+		case RuleButton:
+			m_nowSelect = StartButton;
 			break;
-		case 2:
+		case EndButton:
 			break;
 		}
 		//現在セレクトされているボタンが「あそびかた」(1番)or「しゅうりょう」(3番)だったら、
@@ -57,170 +61,125 @@ void TitleScene::Update()
 		//	//選択を左に1つずらす。
 		//	NowSelect -= 1;
 		//}
+		
 		//移動効果音鳴らす。
-
 		SoundManager::GetInstance()->Play(enSE_CursolMove);
 	}
 	//上入力or下入力されたら、
-	if (g_pad[0]->IsTrigger(enButtonUp) || g_pad[0]->IsTrigger(enButtonDown)) {
+	if (g_pad[enData_Zeroth]->IsTrigger(enButtonUp) || g_pad[enData_Zeroth]->IsTrigger(enButtonDown)) {
 		//現在セレクトされているボタンが「はじめる」(0番)or「あそびかた」(1番)だったら、
-		if (NowSelect < 2) {
+		if (m_nowSelect < EndButton) {
 			//選択を真下に1つずらす。
-			NowSelect = 2;
+			m_nowSelect = EndButton;
 		}
 		//現在セレクトされているボタンが「せってい」(2番)or「おわる」(3番)だったら、
 		else {
 			//選択を真上にずらす。
-			NowSelect = 1;
+			m_nowSelect = RuleButton;
 		}
-		//移動効果音鳴らす。
 
+		//移動効果音鳴らす。
 		SoundManager::GetInstance()->Play(enSE_CursolMove);
-		//CursorMooveSound = NewGO<CSoundSource>(0);
-		//CursorMooveSound->Init(L"Assets/sound/CursorMove.wav");
-		//CursorMooveSound->SetVolume(1.0f);
-		//CursorMooveSound->Play(false);		//ワンショット再生。
 	}
 
 
 
   //現在選択しているボタンの強調表示
-	switch (NowSelect) {
+	switch (m_nowSelect) {
 
 	 //「はじめる」ボタンが選ばれているとき、
 	 case StartButton:
 		 //ボタンを不透明度100％にする。
-		 HUD::GetHUD()->SetMulColor(enSprite_StartButton, TRANSLUCENT_VALUE_MAX);
+		 m_titleLevel2D->GetTitleSprite(enTitleSprite_StartButton)->SetMulColor(TRANSLUCENT_VALUE_MAX);
 
-		 //単振動の公式を使ってボタンを拡大縮小する。
 
 		  //大きさが最小になったとき、
-		 if (Fscale < 0.20f) {
-			 ScaleUpFlag = true;
+		 if (m_ButtonScale < TITLE_SELECT_BUTTON_SCALE_MIN) {
+			 m_scaleUpFlag = true;
 		 }
 		 //大きさが最大になったとき、
-		 if (Fscale > 0.225f) {
-			 ScaleUpFlag = false;
+		 if (m_ButtonScale > TITLE_SELECT_BUTTON_SCALE_MAX) {
+			 m_scaleUpFlag = false;
 		 }
 
-		 if (ScaleUpFlag == true) {
+		 if (m_scaleUpFlag == true) {
 			 //拡大
-			 Fscale += 0.0005f;
+			 m_ButtonScale += BUTTON_SCALE_ADD;
 		 }
-		 if (ScaleUpFlag == false) {
+		 if (m_scaleUpFlag == false) {
 			 //縮小
-			 Fscale -= 0.0005f;
+			 m_ButtonScale -= BUTTON_SCALE_ADD;
 		 }
 		 //スプライトに反映。
-		 Vscale = { Fscale,Fscale,Fscale };
-		 HUD::GetHUD()->SetScale(enSprite_StartButton, Vscale);
+		 m_titleLevel2D->GetTitleSprite(enTitleSprite_StartButton)->SetScale({ m_ButtonScale,m_ButtonScale,m_ButtonScale });
 
 		 //選択されていないボタンの拡大率を元に戻す。
-		 HUD::GetHUD()->SetScale(enSprite_RuleButton, vscale);
-		 HUD::GetHUD()->SetScale(enSprite_EndButton, vscale);
+		 m_titleLevel2D->GetTitleSprite(enTitleSprite_RuleButton)->SetScale(DEFAULT_SPRITE_SCALE);
+		 m_titleLevel2D->GetTitleSprite(enTitleSprite_EndButton)->SetScale(DEFAULT_SPRITE_SCALE);
 
 		break;
 
 	 //「あそびかた」ボタンが選ばれているとき、
 	 case RuleButton:
 		 //ボタンを不透明度100％にする。
-		 HUD::GetHUD()->SetMulColor(enSprite_RuleButton, TRANSLUCENT_VALUE_MAX);
+		 m_titleLevel2D->GetTitleSprite(enTitleSprite_RuleButton)->SetMulColor(TRANSLUCENT_VALUE_MAX);
 
 		 //単振動の公式を使ってボタンを拡大縮小する。
 
 		 //大きさが最小になったとき、
-		 if (Fscale < 0.20f) {
-			 ScaleUpFlag = true;
+		 if (m_ButtonScale < TITLE_SELECT_BUTTON_SCALE_MIN) {
+			 m_scaleUpFlag = true;
 		 }
 		 //大きさが最大になったとき、
-		 if (Fscale > 0.225f) {
-			 ScaleUpFlag = false;
+		 if (m_ButtonScale > TITLE_SELECT_BUTTON_SCALE_MAX) {
+			 m_scaleUpFlag = false;
 		 }
 
-		 if (ScaleUpFlag == true) {
+		 if (m_scaleUpFlag == true) {
 			 //拡大
-			 Fscale += 0.0005f;
+			 m_ButtonScale += BUTTON_SCALE_ADD;
 		 }
-		 if (ScaleUpFlag == false) {
+		 if (m_scaleUpFlag == false) {
 			 //縮小
-			 Fscale -= 0.0005f;
+			 m_ButtonScale -= BUTTON_SCALE_ADD;
 		 }
 		 //スプライトに反映。
-		 Vscale = { Fscale,Fscale,Fscale };
-		 HUD::GetHUD()->SetScale(enSprite_RuleButton, Vscale);
+		 m_titleLevel2D->GetTitleSprite(enTitleSprite_RuleButton)->SetScale({ m_ButtonScale,m_ButtonScale,m_ButtonScale });
 
 		 //選択されていないボタンの拡大率を元に戻す。
-		 HUD::GetHUD()->SetScale(enSprite_StartButton, vscale);
-		 HUD::GetHUD()->SetScale(enSprite_EndButton, vscale);
+		 m_titleLevel2D->GetTitleSprite(enTitleSprite_StartButton)->SetScale(DEFAULT_SPRITE_SCALE);
+		 m_titleLevel2D->GetTitleSprite(enTitleSprite_EndButton)->SetScale(DEFAULT_SPRITE_SCALE);
 
 		break;
-
-	 //「せってい」ボタンが選ばれているとき、
-	// case SettingButton:
-	//	 //ボタンを不透明度100％にする。
-	//	 m_titleLevel2D->GetSprite(4)->SetMulColor({ 1.0f,1.0f,1.0f,1.0f });
-	//
-	//	//単振動の公式を使ってボタンを拡大縮小する。
-	//
-	//	 //大きさが最小になったとき、
-	//	 if (Fscale < 0.20f) {
-	//		 ScaleUpFlag = true;
-	//	 }
-	//	 //大きさが最大になったとき、
-	//	 if (Fscale > 0.225f) {
-	//		 ScaleUpFlag = false;
-	//	 }
-	//
-	//	 if (ScaleUpFlag == true) {
-	//		 //拡大
-	//		 Fscale += 0.0005f;
-	//	 }
-	//	 if (ScaleUpFlag == false) {
-	//		 //縮小
-	//		 Fscale -= 0.0005f;
-	//	 }
-	//	 //スプライトに反映。
-	//	 Vscale = { Fscale,Fscale,Fscale };
-	//	 m_titleLevel2D->GetSprite(4)->SetScale(Vscale);
-	//
-	//	 //選択されていないボタンの拡大率を元に戻す。
-	//	 m_titleLevel2D->GetSprite(2)->SetScale(vscale);
-	//	 m_titleLevel2D->GetSprite(3)->SetScale(vscale);
-	//	 m_titleLevel2D->GetSprite(5)->SetScale(vscale);
-	//
-	//	break;
 
 	 //「しゅうりょう」ボタンが選ばれているとき、
 	 case EndButton:
 		 //ボタンを不透明度100％にする。
-		 HUD::GetHUD()->SetMulColor(enSprite_EndButton, TRANSLUCENT_VALUE_MAX);
-
-		//単振動の公式を使ってボタンを拡大縮小する。
+		 m_titleLevel2D->GetTitleSprite(enTitleSprite_EndButton)->SetMulColor(TRANSLUCENT_VALUE_MAX);
 
 		 //大きさが最小になったとき、
-		 if (Fscale < 0.20f) {
-			 ScaleUpFlag = true;
+		 if (m_ButtonScale < TITLE_SELECT_BUTTON_SCALE_MIN) {
+			 m_scaleUpFlag = true;
 		 }
 		 //大きさが最大になったとき、
-		 if (Fscale > 0.225f) {
-			 ScaleUpFlag = false;
+		 if (m_ButtonScale > TITLE_SELECT_BUTTON_SCALE_MAX) {
+			 m_scaleUpFlag = false;
 		 }
 
-		 if (ScaleUpFlag == true) {
+		 if (m_scaleUpFlag == true) {
 			 //拡大
-			 Fscale += 0.0005f;
+			 m_ButtonScale += BUTTON_SCALE_ADD;
 		 }
-		 if (ScaleUpFlag == false) {
+		 if (m_scaleUpFlag == false) {
 			 //縮小
-			 Fscale -= 0.0005f;
+			 m_ButtonScale -= BUTTON_SCALE_ADD;
 		 }
 		 //スプライトに反映。
-		 Vscale = { Fscale,Fscale,Fscale };
-		 HUD::GetHUD()->SetScale(enSprite_EndButton, Vscale);
+		 m_titleLevel2D->GetTitleSprite(enTitleSprite_EndButton)->SetScale({ m_ButtonScale,m_ButtonScale,m_ButtonScale });
 
 		 //選択されていないボタンの拡大率を元に戻す。
-		 HUD::GetHUD()->SetScale(enSprite_RuleButton, vscale);
-		 HUD::GetHUD()->SetScale(enSprite_StartButton, vscale);
+		 m_titleLevel2D->GetTitleSprite(enTitleSprite_StartButton)->SetScale(DEFAULT_SPRITE_SCALE);
+		 m_titleLevel2D->GetTitleSprite(enTitleSprite_RuleButton)->SetScale(DEFAULT_SPRITE_SCALE);
 
 
 		break;
@@ -234,28 +193,21 @@ void TitleScene::Update()
 
 		SoundManager::GetInstance()->Play(enSE_DecisionButton);
 
-		switch (NowSelect) {
+		switch (m_nowSelect) {
 
 			//「はじめる」ボタンが選ばれているとき、
 		case StartButton:
 			//ステージセレクト画面に遷移。
-			NewGO<StageSelect>(0, "stageselect");
+			NewGO<StageSelect>(enPriority_Zeroth, NAME_STAGE_SELECT);
 
 			break;
 
 			//「あそびかた」ボタンが選ばれているとき、
 		case RuleButton:
 			//ルール(操作)説明画面に遷移。
-			NewGO<RuleScene>(0, "rule");
+			NewGO<RuleScene>(enPriority_Zeroth, NAME_RULE_SCENE);
 
 			break;
-
-			//「せってい」ボタンが選ばれているとき、
-		   //case SettingButton:
-		   //	//設定画面に遷移。
-		   //	NewGO<SettingScene>(0);
-		   //
-		   //	break;
 
 			//「おわる」ボタンが選ばれているとき、
 		case EndButton:

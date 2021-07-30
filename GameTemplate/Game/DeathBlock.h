@@ -71,7 +71,7 @@ private:
 	bool m_deathFlg = false;						//プレイヤーが死んでいるかどうか
 	int m_deathActiveState = 0;						//デスブロックに触れたときのキャラクターのステートを保持
 	float m_hitTimer = 0.0f;						//プレイヤーが死亡しているときのコードで使用するタイマー
-	Vector3 m_movePos[2] = { Vector3::Zero };		//自身の可動域
+	Vector3 m_movePos[2];							//自身の可動域
 	Vector3 m_pos = Vector3::Zero;					//自身の座標
 	Vector3 m_sca = Vector3::One;					//自身の拡大率
 	Vector3 m_startPos = Vector3::Zero;				//プレイヤーの初期座標

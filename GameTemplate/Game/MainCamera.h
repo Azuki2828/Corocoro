@@ -6,8 +6,8 @@ class MapChip;
 
 namespace {
 
-	const float CAMERA_ROT_WAIT_TIME = 1.5f;
-	const int ROT_NUM = 90;
+	const float CAMERA_ROT_WAIT_TIME = 1.5f;	//鍵を取得してから回転するまでの時間
+	const int ROT_NUM = 90;						//回転数。90回で半回転。
 }
 
 class MainCamera : public IGameObject
@@ -18,10 +18,11 @@ private:
 	void FreeUpdate() override final;
 
 public:
-	bool GetCameraScrollFlg() {
-		return m_cameraScrollFlag;
-	}
 
+	/**
+	 * @brief カメラが回転しているか確かめるフラグ
+	 * @param flg 
+	*/
 	void SetRotFlg(bool flg) {
 		m_rotFlg = flg;
 	}
@@ -29,19 +30,17 @@ public:
 	//1回だけカメラを180度回転させるためのフラグ
 	std::list<std::function< void() >> changeRotCameraEvent;
 private:
-	bool m_cameraScrollFlag = true;
-	bool m_cameraRotFlg = false;
-	bool m_rotFlg = false;
-	int m_count = 0;
-	int m_cameraPosFlag = 0;
-	int m_scrollStaticTimer = 0;
-	float m_waitRot = 0.0f;
-	Vector3 m_pos = Vector3::Zero;		//視点。
-	Vector3 m_tar = Vector3::Zero;		//注視点。
-	Vector3 m_rotAxis = { 0.0f,1.0f,0.0f };
-	Vector3 m_toPos = { 0.0f,200.0f,-1400.0f };
-	//Vector3 m_toPos = { 0.0f,200.0f,-2500.0f };	//全体確認用のポジション。
-	Quaternion m_rotX = Quaternion::Identity;
+	bool m_cameraRotFlg = false;					//カメラが回転しているかどうかのフラグ
+	bool m_rotFlg = false;							//カメラを回転させるフラグ（1回だけ実行）
+	int m_count = 0;								//回転数（0～90）
+	float m_waitRot = 0.0f;							//カメラが回転するまでの時間		
+	Vector3 m_pos = Vector3::Zero;					//視点。
+	Vector3 m_tar = Vector3::Zero;					//注視点。
+	Vector3 m_rotAxis = { 0.0f,1.0f,0.0f };			//回転軸
+	Vector3 m_toPos = { 0.0f,200.0f,-1400.0f };		//注視点から視点までの距離
+
+	//それぞれの軸
+	Quaternion m_rotX = Quaternion::Identity;		
 	Quaternion m_rotY = Quaternion::Identity;
 	Quaternion m_rotZ = Quaternion::Identity;
 

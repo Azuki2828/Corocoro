@@ -39,22 +39,19 @@ private:
 
 		enStageSelectSprite_Num
 	};
-	bool ScaleUpFlag = true;
-	int NowSelectStage = 0;
-	int NowSelect = 1;	//列挙の値を格納する変数。はじめは「けってい」ボタンの1。
-	float Fscale = 0.23f;
-	float Fscale1 = 0.18f;
-	Vector3 Vscale = { 0.0f,0.0f,0.0f };
-	Vector3 m_standardScale[enSelect_Num] = { Vector3::One };
-	Vector3 vscale = { 0.23f,0.23f,0.23f };
-	Vector3 vscale1 = { 0.18f,0.18f,0.18f };
+	bool m_spriteScaleUpFlag = true;
+	int m_nowSelectStage = 0;
+	int m_nowSelect = 1;	//列挙の値を格納する変数。はじめは「けってい」ボタンの1。
+	float m_spriteBackScale = 0.23f;
+	float m_spriteDecisionScale = 0.18f;
+	Vector3 m_standardScale;
 
 
 	/**
 	 * @brief それぞれのクラスのポインタ
 	*/
 
-	StageSelectLevel2D* m_sprite = nullptr;
+	StageSelectLevel2D* m_stageSelectLevel2D = nullptr;
 	SpriteRender* m_stageSpriteRender[Stage_Num][enStageSelectSprite_Num] = { nullptr };		//ステージ文字スプライトレンダー
 	Game* m_game = nullptr;
 };

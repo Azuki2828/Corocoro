@@ -7,7 +7,7 @@ bool GameLevel2D::Start()
 		m_level2D.Init(GAME_SCREEN_NO_KEY_FILE_PATH, [&](Level2DObjectData& objdata) {
 
 			//名前がGetKeyNOだったら。
-			if (objdata.EqualObjectName(SPRITE_NO_GET_KEY_FILE_PATH)) {
+			if (objdata.EqualObjectName(SPRITE_NAME_NO_GET_KEY)) {
 
 				m_sprite = NewGO<SpriteRender>(enPriority_Zeroth);
 				//Sprite初期化オブジェクトを使用して、Spriteを初期化する
@@ -20,7 +20,7 @@ bool GameLevel2D::Start()
 				return true;
 			}
 			//名前がTimeBackだったら。
-			else if (objdata.EqualObjectName(SPRITE_TIME_BACK)) {
+			else if (objdata.EqualObjectName(SPRITE_NAME_TIME_BACK)) {
 
 				m_sprite1 = NewGO<SpriteRender>(enPriority_Zeroth);
 				//Sprite初期化オブジェクトを使用して、Spriteを初期化する
@@ -44,6 +44,8 @@ bool GameLevel2D::Start()
 
 GameLevel2D::~GameLevel2D()
 {
+
+	//スプライトを消去
 	if (m_flagSprite) {
 		DeleteGO(m_sprite);
 		m_flagSprite = false;
@@ -72,7 +74,7 @@ void GameLevel2D::Update()
 		m_level2D.Init(GAME_SCREEN_YES_KEY_FILE_PATH, [&](Level2DObjectData& objdata) {
 
 			//名前がGetKeyNOだったら。
-			if (objdata.EqualObjectName(SPRITE_YES_GET_KEY_FILE_PATH)) {
+			if (objdata.EqualObjectName(SPRITE_NAME_YES_GET_KEY)) {
 
 				m_sprite2 = NewGO<SpriteRender>(enPriority_Zeroth);
 				//Sprite初期化オブジェクトを使用して、Spriteを初期化する
@@ -91,7 +93,7 @@ void GameLevel2D::Update()
 				return true;
 			}
 			//名前がTimeBackだったら。
-			else if (objdata.EqualObjectName(SPRITE_TIME_BACK)) {
+			else if (objdata.EqualObjectName(SPRITE_NAME_TIME_BACK)) {
 
 				m_sprite3 = NewGO<SpriteRender>(enPriority_Zeroth);
 				//Sprite初期化オブジェクトを使用して、Spriteを初期化する
@@ -113,7 +115,6 @@ void GameLevel2D::Update()
 	}
 
 
-	//m_sprite.Update(m_position, Quaternion::Identity, m_scale);
 	//レベル2DクラスのSpriteの更新処理。
 	m_level2D.Update();
 }

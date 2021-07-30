@@ -2,6 +2,8 @@
 #include "level2D/Level2D.h"
 
 namespace {
+
+	//スプライトの名前
 	const char* SPRITE_NAME_RESULT = "Result";
 	const char* SPRITE_NAME_GRAY_BACK = "GrayBack";
 	const char* SPRITE_NAME_TIME = "time";

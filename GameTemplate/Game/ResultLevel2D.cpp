@@ -3,7 +3,7 @@
 
 bool ResultLevel2D::Start() {
 
-	//TitleSceneレベルを読み込む。
+	//レベルを初期化。
 	m_level2D.Init("Assets/level2D/ResultScene.casl", [&](Level2DObjectData& objdata) {
 
 		//名前がResultだったら、
@@ -116,7 +116,6 @@ void ResultLevel2D::Update() {
 
 void ResultLevel2D::Render(RenderContext& rc)
 {
-	//m_sprite.Draw(rc);
 	//レベル2DクラスのSpriteの描画処理。
 	m_level2D.Draw(rc);
 }

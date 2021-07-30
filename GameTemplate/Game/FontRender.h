@@ -4,6 +4,9 @@
 class FontRender : public IGameObject
 {
 public:
+	/**
+	 * @brief フォントの情報
+	*/
 	struct FontValue {
 		wchar_t text[256];	//テキスト
 		Vector2 position;	//座標

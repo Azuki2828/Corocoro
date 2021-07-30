@@ -17,7 +17,9 @@ class GameLevel2D;
 namespace {
 	const int STAGE_NUM = 4;										//ステージの総数
 
-	//オブジェクトの名前
+	/**
+	 * @brief ステージオブジェクトの名前
+	*/
 	enum ObjectName{
 		enObject_Key,
 		enObject_KeyGround,
@@ -36,15 +38,19 @@ namespace {
 		enObject_Magnet_SUnder100_Under200_Triangle
 	};
 
-	//ステージごとのスタート地点
+	/**
+	 * @brief ステージごとのスタート地点
+	*/
 	const Vector3 STAGE_START_POS[STAGE_NUM] = {
 		{ 300.0f,1200.0f,-300.0f },
 		{ 300.0f,300.0f,-300.0f },
 		{ 300.0f,1300.0f,-300.0f },
 		{ 300.0f,1900.0f,-300.0f }
 	};
-
-	//ステージごとのファイルパス
+	
+	/**
+	 * @brief ステージごとのファイルパス
+	*/
 	const char* STAGE_FILE_PATH[STAGE_NUM] = {
 		"Assets/level/stage01_treasure.tkl",
 		"Assets/level/stage02_treasure.tkl",
@@ -165,8 +171,6 @@ private:
 	int m_magnetNum = 0;						//磁石番号
 	int m_deathBlockNum = 0;					//デスブロック番号
 
-	Model m_model;								//モデル
-	PhysicsStaticObject m_physicsStaticObject;	//静的物理オブジェクト
 	Level m_level;								//ステージ
 
 
