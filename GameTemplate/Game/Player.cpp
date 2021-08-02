@@ -87,6 +87,7 @@ bool Player::Start()
 		m_skinModelRender[i]->SetFileNametkm(tkmFilePaths[i]);
 		//tksファイルをロード。
 		m_skinModelRender[i]->SetFileNametks(tksFilePaths[i]);
+		m_skinModelRender[i]->SetShadowCasterFlag(true);
 		m_skinModelRender[i]->SetShadowReceiverFlag(true);
 		m_skinModelRender[i]->SetColorBufferFormat(DXGI_FORMAT_R32G32B32A32_FLOAT);
 		m_skinModelRender[i]->SetUserLigData(&m_ligData[i]);
@@ -233,34 +234,12 @@ void Player::Update()
 	Vector3 m_lightCameraTar = m_pos;
 	Vector3 m_lightCameraPos = m_lightCameraTar;
 	//ライトカメラの座標を設定
-	if (m_getKeyFlg) {
-		m_lightCameraPos.y -= ADD_LIGHT_CAMERA_POS;
-	}
-	else {
-		m_lightCameraPos.y += ADD_LIGHT_CAMERA_POS;
-	}
+	
+	m_lightCameraPos.y += ADD_LIGHT_CAMERA_POS;
+	
 	//ライトカメラの情報を設定
 	Camera::GetLightCamera()->SetPosition(m_lightCameraPos);
 	Camera::GetLightCamera()->SetTarget(m_lightCameraTar);
-
-	//pStateの極とモデルの極が違う場合、モデルの極をpStateの極に合わせる。
-	//if (!m_deathFlag) { //死んでいる場合、処理を動かさない。
-	//	if (pState == State_N && m_skinModelRender[enPlayer_0]->IsActive())
-	//	{
-
-	//	}
-	//	else if (pState == State_S && m_skinModelRender[enPlayer_1]->IsActive())
-	//	{
-
-	//	}
-	//	else {
-	//		for (int i = 0; i < enPlayer_Num; i++) {
-	//			m_skinModelRender[i]->Deactivate();
-	//		}
-
-	//		m_skinModelRender[pState]->Activate();
-	//	}
-	//}
 }
 
 void Player::FreeUpdate() {

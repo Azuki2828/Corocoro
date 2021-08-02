@@ -262,39 +262,11 @@ float4 PSMain( SPSIn psIn ) : SV_Target0
 		lig += diffuse * (1.0f - smooth) + spec * smooth;
 	}
 
-
 	// step-7 環境光による底上げ
 	lig += ambinet * albedoColor;
 
 	float4 finalColor = 1.0f;
-	finalColor.xyz = lig;
-	//return finalColor;
-
-	//ライトビュースクリーン空間からUV空間に座標変換。
-	float2 shadowMapUV = psIn.posInLVP.xy / psIn.posInLVP.w;
-
-	/*
-	ライトビューの座標系を.wで割ることで正規化スクリーン座標系に変換できる。(重要)
-	*/
-	shadowMapUV *= float2( 0.5f, -0.5f);
-	shadowMapUV += 0.5f; 
-
-	//step-4 ライトビュースクリーン空間でのZ値を計算する。
-	float zInLVP = psIn.posInLVP.z / psIn.posInLVP.w;
-
-
-
-	if( shadowMapUV.x > 0.0f && shadowMapUV.x < 1.0f
-		&& shadowMapUV.y > 0.0f && shadowMapUV.y < 1.0f
-		&& zInLVP > 0.0f && zInLVP  < 1.0f
-	){
-		//step-5 シャドウマップに描き込まれているZ値と比較する。
-		
-		float zInShadowMap = g_shadowMap.Sample(g_sampler, shadowMapUV).r;
-		if (zInLVP > zInShadowMap) {
-			finalColor.xyz *= 0.5f;
-		}
-	} 
+	finalColor.xyz = lig; 
 
 	if (edge > 0) {
 		float2 uv = psIn.posInProj.xy * float2(0.5f, -0.5f) + 0.5f;
@@ -317,9 +289,9 @@ float4 PSMain( SPSIn psIn ) : SV_Target0
 			depth2 += g_depthTexture.Sample(g_sampler, uv + uvOffset[i]).x;
 		}
 		depth2 /= 8.0f;
-		/*if (abs(depth - depth2) > 0.0005f) {
+		if (abs(depth - depth2) > 0.0005f) {
 			return float4(0.0f, 0.0f, 0.0f, 1.0f);
-		}*/
+		}
 		
 		float3 normalDistance1 = g_depthTexture.Sample(g_sampler, uv).xyz;
 		float3 normalDistance2 = 0.0f;
@@ -350,36 +322,30 @@ float4 PSMain( SPSIn psIn ) : SV_Target0
 				}
 			}
 		}
-		
-		/*float normalDistance1a = g_depthTexture.Sample(g_sampler, uv).y;
-		float normalDistance2a = 0.0f;
-		for (int i = 0; i < 8; i++) {
-			normalDistance2a += g_depthTexture.Sample(g_sampler, uv + uvOffset[i]).y;
+
+		//ライトビュースクリーン空間からUV空間に座標変換。
+		float2 shadowMapUV = psIn.posInLVP.xy / psIn.posInLVP.w;
+
+		/*
+		ライトビューの座標系を.wで割ることで正規化スクリーン座標系に変換できる。(重要)
+		*/
+		shadowMapUV *= float2(0.5f, -0.5f);
+		shadowMapUV += 0.5f;
+
+		//step-4 ライトビュースクリーン空間でのZ値を計算する。
+		float zInLVP = psIn.posInLVP.z / psIn.posInLVP.w;
+
+		if (shadowMapUV.x > 0.0f && shadowMapUV.x < 1.0f
+			&& shadowMapUV.y > 0.0f && shadowMapUV.y < 1.0f
+			&& zInLVP > 0.0f && zInLVP < 1.0f
+			) {
+			//step-5 シャドウマップに描き込まれているZ値と比較する。
+
+			float zInShadowMap = g_shadowMap.Sample(g_sampler, shadowMapUV).r;
+			if (zInLVP > zInShadowMap) {
+				finalColor.xyz *= 0.5f;
+			}
 		}
-		normalDistance2a /= 8.0f;
-		if (abs(normalDistance1a - normalDistance2a) > 0.1f) {
-			return float4(0.0f, 0.0f, 0.0f, 1.0f);
-		}
-	
-		float normalDistance3a = g_depthTexture.Sample(g_sampler, uv).z;
-		float normalDistance4a = 0.0f;
-		for (int i = 0; i < 8; i++) {
-			normalDistance4a += g_depthTexture.Sample(g_sampler, uv + uvOffset[i]).z;
-		}
-		normalDistance4a /= 8.0f;
-		if (abs(normalDistance3a - normalDistance4a) > 0.1f) {
-			return float4(0.0f, 0.0f, 0.0f, 1.0f);
-		}
-	
-		float normalDistance5a = g_depthTexture.Sample(g_sampler, uv).w;
-		float normalDistance6a = 0.0f;
-		for (int i = 0; i < 8; i++) {
-			normalDistance6a += g_depthTexture.Sample(g_sampler, uv + uvOffset[i]).w;
-		}
-		normalDistance6a /= 8.0f;
-		if (abs(normalDistance5a - normalDistance6a) > 0.1f) {
-			return float4(0.0f, 0.0f, 0.0f, 1.0f);
-		}*/
 	}
 
 	return finalColor;

@@ -104,7 +104,9 @@ bool StageSelectLevel2D::Start()
 }
 
 StageSelectLevel2D::~StageSelectLevel2D() {
-	
+	for (int i = 0; i < enStageSelectSprite_Num; i++) {
+		DeleteGO(m_spriteRender[i]);
+	}
 }
 
 void StageSelectLevel2D::Update() {

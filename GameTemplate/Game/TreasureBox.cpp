@@ -41,6 +41,7 @@ bool TreasureBox::Start() {
 	m_skinModelRender = NewGO<SkinModelRender>(enPriority_Zeroth);
 	m_skinModelRender->SetFileNametkm(FILE_NAME_TKM_TREASURE_BOX);
 	m_skinModelRender->SetFileNametks(FILE_NAME_TKS_TREASURE_BOX);
+	m_skinModelRender->SetShadowReceiverFlag(true);
 
 	m_animClip.Load(FILE_PATH_TKA_TREASURE_BOX_OPEN);
 	m_animClip.SetLoopFlag(false);

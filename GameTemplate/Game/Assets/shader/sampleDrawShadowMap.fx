@@ -56,5 +56,4 @@ float4 PSMain(SPSIn psIn) : SV_Target0
 	//step-3 シャドウマップにZ値を描き込む。
 	return float4(psIn.pos.z,psIn.pos.z,psIn.pos.z,1.0f);
 	//return float4(0.0f,0.0f,0.0f,1.0f);
-
 }

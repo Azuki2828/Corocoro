@@ -165,7 +165,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 
 		// レンダリングターゲットへの書き込み終了待ち
 		renderContext.WaitUntilFinishDrawingToRenderTarget(luminnceRenderTarget);
-
+		
 		//ガウシアンブラーを4回実行する
 
 		for (int i = 0; i < GAUSSIAN_BLUR_NUM; i++) {
