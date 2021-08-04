@@ -9,9 +9,9 @@ enum {
 	enSprite_BackGround,
 
 	enRuleSprite_Num
-
 };
-class RuleLevel2D:public IGameObject
+
+class RuleLevel2D : public IGameObject
 {
 private:
 	bool Start();

@@ -55,6 +55,7 @@ void Magnet::Update() {
 	
 	//ライトの視点情報を更新する。
 	m_ligData.eyePos = g_camera3D->GetPosition();
+	m_ligData.m_viewProj = Camera::GetLightCamera()->GetViewProjectionMatrix();
 
 	//座標を登録。
 	m_skinModelRender->SetPosition(m_pos);

@@ -64,7 +64,6 @@
     <ClCompile Include="Key.cpp" />
     <ClCompile Include="Level.cpp" />
     <ClCompile Include="LightBase.cpp" />
-    <ClCompile Include="LightCamera.cpp" />
     <ClCompile Include="LightManager.cpp" />
     <ClCompile Include="Magnet.cpp" />
     <ClCompile Include="main.cpp" />

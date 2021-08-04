@@ -340,7 +340,6 @@ float4 PSMain( SPSIn psIn ) : SV_Target0
 			&& zInLVP > 0.0f && zInLVP < 1.0f
 			) {
 			//step-5 シャドウマップに描き込まれているZ値と比較する。
-
 			float zInShadowMap = g_shadowMap.Sample(g_sampler, shadowMapUV).r;
 			if (zInLVP > zInShadowMap) {
 				finalColor.xyz *= 0.5f;

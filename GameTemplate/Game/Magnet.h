@@ -153,6 +153,7 @@ public:
 		m_ligData.m_directionLigData[enData_Zeroth].Dir.Set(MAGNET_LIG_DIR);
 		m_ligData.m_directionLigData[enData_Zeroth].Dir.Normalize();
 		
+		m_ligData.m_viewProj = Camera::GetLightCamera()->GetViewProjectionMatrix();
 		//ŠÂ‹«Œõ‚ğİ’è
 		m_ligData.ambient.Set(MAGNET_LIG_AMBIENT);
 		//‹à‘®“x‚ğİ’è

@@ -246,13 +246,13 @@ void RuleScene::Update()
 			
 			//右矢印表示
 			m_inryokuSpriteRender[Page2Sprite_Arrow] = NewGO<SpriteRender>(enPriority_Second);
-			m_inryokuSpriteRender[Page2Sprite_Arrow]->SetPosition({ 100.0f,-30.0f,0.0f });
+			m_inryokuSpriteRender[Page2Sprite_Arrow]->SetPosition(SPRITE_POS_RIGHT_ARROW);
 			m_inryokuSpriteRender[Page2Sprite_Arrow]->Init(SPRITE_NAME_RIGHT_ARROW, SPRITE_WH_RIGHT_ARROW.x, SPRITE_WH_RIGHT_ARROW.y);
-			m_inryokuSpriteRender[Page2Sprite_Arrow]->SetMulColor({ 1.0f,1.0f,1.0f,0.5f });		//半透明にする
+			m_inryokuSpriteRender[Page2Sprite_Arrow]->SetMulColor(TRANSLUCENT_VALUE_HALF);		//半透明にする
 			//赤ボール表示
 			m_inryokuSpriteRender[Page2Sprite_Red_Ball] = NewGO<SpriteRender>(enPriority_Second);
-			m_inryokuSpriteRender[Page2Sprite_Red_Ball]->SetPosition({ -300.0f,50.0f,0.0f });
-			m_inryokuSpriteRender[Page2Sprite_Red_Ball]->Init("Assets/image/RedBall.dds", 350.0f, 350.0f);
+			m_inryokuSpriteRender[Page2Sprite_Red_Ball]->SetPosition(SPRITE_POS_RED_BALL_PAGE2);
+			m_inryokuSpriteRender[Page2Sprite_Red_Ball]->Init(SPRITE_NAME_RED_BALL_PAGE2, SPRITE_WH_RED_BALL_PAGE2.x, SPRITE_WH_RED_BALL_PAGE2.y);
 			//青ボール表示
 			m_inryokuSpriteRender[Page2Sprite_Blue_Ball] = NewGO<SpriteRender>(enPriority_Second);
 			m_inryokuSpriteRender[Page2Sprite_Blue_Ball]->SetPosition({ -300.0f,-100.0f,0.0f });

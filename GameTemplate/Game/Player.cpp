@@ -235,7 +235,12 @@ void Player::Update()
 	Vector3 m_lightCameraPos = m_lightCameraTar;
 	//ライトカメラの座標を設定
 	
-	m_lightCameraPos.y += ADD_LIGHT_CAMERA_POS;
+	if (m_getKeyFlg) {
+		m_lightCameraPos.y -= ADD_LIGHT_CAMERA_POS;
+	}
+	else {
+		m_lightCameraPos.y += ADD_LIGHT_CAMERA_POS;
+	}
 	
 	//ライトカメラの情報を設定
 	Camera::GetLightCamera()->SetPosition(m_lightCameraPos);
