@@ -159,7 +159,7 @@ void GameObjectManager::ExecuteFontRender(RenderContext& rc)
 	}
 
 	//‘‚«ž‚ÝŠ®—¹‘Ò‚¿B
-	//rc.WaitUntilFinishDrawingToRenderTarget(*RenderTarget::GetMainRenderTarget());
+	rc.WaitUntilFinishDrawingToRenderTarget(*RenderTarget::GetMainRenderTarget());
 
 	PhysicsWorld::GetInstance()->DebubDrawWorld(rc);
 }
