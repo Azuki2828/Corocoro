@@ -48,6 +48,8 @@ public:
 		const char* psEntryPointFunc,
 		void* expandData,
 		int expandDataSize,
+		void* expandData_2,
+		int expandDataSize_2,
 		IShaderResource* expandShaderResourceView,
 		IShaderResource* expandShaderResourceView_2
 	);
@@ -122,6 +124,7 @@ private:
 	
 	ConstantBuffer m_commonConstantBuffer;					//メッシュ共通の定数バッファ。
 	ConstantBuffer m_expandConstantBuffer;					//ユーザー拡張用の定数バッファ
+	ConstantBuffer m_expandConstantBuffer_2;					//ユーザー拡張用の定数バッファ
 	IShaderResource* m_expandShaderResourceView = nullptr;	//ユーザー拡張シェーダーリソースビュー。
 	IShaderResource* m_expandShaderResourceView_2 = nullptr;	//ユーザー拡張シェーダーリソースビュー。
 	StructuredBuffer m_boneMatricesStructureBuffer;	//ボーン行列の構造化バッファ。
@@ -129,4 +132,5 @@ private:
 	std::vector< DescriptorHeap > m_descriptorHeap;		//ディスクリプタヒープ。
 	Skeleton* m_skeleton = nullptr;								//スケルトン。
 	void* m_expandData = nullptr;						//ユーザー拡張データ。
+	void* m_expandData_2 = nullptr;
 };

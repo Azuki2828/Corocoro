@@ -61,24 +61,26 @@ void Key::InitKey(const char* name) {
 	m_skinModelRender_Key->SetZprepassFlag(true);
 	//カラーバッファのフォーマットを指定する。
 	m_skinModelRender_Key->SetColorBufferFormat(DXGI_FORMAT_R32G32B32A32_FLOAT);
+	m_skinModelRender_Key->SetLigID(enGameObject_Key);
 
 	//鍵の1本目のライトの情報を設定する。
-	m_ligKeyData.m_directionLigData[enData_Zeroth].Dir.Set(KEY_LIG_FIRST_DIRECTION);
-	m_ligKeyData.m_directionLigData[enData_Zeroth].Dir.Normalize();
-	m_ligKeyData.m_directionLigData[enData_Zeroth].Col.Set(KEY_LIG_FIRST_COLOR);
+	m_keyModelOption.directionLigData[enData_Zeroth].Dir.Set(KEY_LIG_FIRST_DIRECTION);
+	m_keyModelOption.directionLigData[enData_Zeroth].Dir.Normalize();
+	m_keyModelOption.directionLigData[enData_Zeroth].Col.Set(KEY_LIG_FIRST_COLOR);
 
 	//鍵の2本目のライトの情報を設定する。
-	m_ligKeyData.m_directionLigData[enData_First].Dir.Set(KEY_LIG_SECOND_DIRECTION);
-	m_ligKeyData.m_directionLigData[enData_First].Dir.Normalize();
-	m_ligKeyData.m_directionLigData[enData_First].Col.Set(KEY_LIG_SECOND_COLOR);
+	m_keyModelOption.directionLigData[enData_First].Dir.Set(KEY_LIG_SECOND_DIRECTION);
+	m_keyModelOption.directionLigData[enData_First].Dir.Normalize();
+	m_keyModelOption.directionLigData[enData_First].Col.Set(KEY_LIG_SECOND_COLOR);
 
 	//鍵自身の影響を設定する。
-	m_ligKeyData.metaric = KEY_METARIC;
-	m_ligKeyData.smooth = KEY_SMOOTH;
-	m_ligKeyData.ambient.Set(KEY_AMBIENT);
-	m_ligKeyData.edge = Edge_1;
-	m_ligKeyData.powValue = KEY_POW_VALUE;
-	m_skinModelRender_Key->SetUserLigData(&m_ligKeyData);
+	m_keyModelOption.metaric = KEY_METARIC;
+	m_keyModelOption.smooth = KEY_SMOOTH;
+	m_keyModelOption.ambient.Set(KEY_AMBIENT);
+	m_keyModelOption.edge = Edge_1;
+	m_keyModelOption.powValue = KEY_POW_VALUE;
+	m_keyModelOption.LigID = enGameObject_Key;
+	m_skinModelRender_Key->SetUserModelOption(&m_keyModelOption);
 	m_skinModelRender_Key->Init();
 }
 
@@ -95,18 +97,20 @@ void Key::InitDoor(const char* name) {
 	m_skinModelRender_Door->SetShadowReceiverFlag(true);
 
 	//宝箱の床のライトの情報を設定する。
-	m_ligDoorData.m_directionLigData[enData_Zeroth].Dir.Set(TREASURE_BOX_FLOOR_LIG_DIRECTION);
-	m_ligDoorData.m_directionLigData[enData_Zeroth].Dir.Normalize();
-	m_ligDoorData.m_directionLigData[enData_Zeroth].Col.Set(TREASURE_BOX_FLOOR_LIG_COLOR);
+	m_doorModelOption.directionLigData[enData_Zeroth].Dir.Set(TREASURE_BOX_FLOOR_LIG_DIRECTION);
+	m_doorModelOption.directionLigData[enData_Zeroth].Dir.Normalize();
+	m_doorModelOption.directionLigData[enData_Zeroth].Col.Set(TREASURE_BOX_FLOOR_LIG_COLOR);
 
 	//カラーバッファのフォーマットを指定する。
 	m_skinModelRender_Door->SetColorBufferFormat(DXGI_FORMAT_R32G32B32A32_FLOAT);
+	m_skinModelRender_Door->SetLigID(enGameObject_Door);
 
 	//宝箱の床自身の影響を設定する。
-	m_ligDoorData.metaric = TREASURE_BOX_FLOOR_METARIC;
-	m_ligDoorData.smooth = TREASURE_BOX_FLOOR_SMOOTH;
-	m_ligDoorData.ambient.Set(TREASURE_BOX_FLOOR_AMBIENT);
-	m_skinModelRender_Door->SetUserLigData(&m_ligDoorData);
+	m_doorModelOption.metaric = TREASURE_BOX_FLOOR_METARIC;
+	m_doorModelOption.smooth = TREASURE_BOX_FLOOR_SMOOTH;
+	m_doorModelOption.ambient.Set(TREASURE_BOX_FLOOR_AMBIENT);
+	m_doorModelOption.LigID = enGameObject_Door;
+	m_skinModelRender_Door->SetUserModelOption(&m_doorModelOption);
 
 	//カメラが回転したときの処理を設定する。
 	auto mainCamera = FindGO<MainCamera>(NAME_MAIN_CAMERA);
@@ -115,11 +119,11 @@ void Key::InitDoor(const char* name) {
 		//少しずつ回転（180度になるまで）。
 		Quaternion m_rotZ;
 		m_rotZ.SetRotationDeg(Vector3::AxisZ, CAMERA_ROT_VALUE);
-		m_rotZ.Apply(m_ligKeyData.m_directionLigData[enData_Zeroth].Dir);
-		m_rotZ.Apply(m_ligDoorData.m_directionLigData[enData_Zeroth].Dir);
+		m_rotZ.Apply(m_keyModelOption.directionLigData[enData_Zeroth].Dir);
+		m_rotZ.Apply(m_doorModelOption.directionLigData[enData_Zeroth].Dir);
 	});
 
-	m_skinModelRender_Door->SetUserLigData(&m_ligDoorData);
+	m_skinModelRender_Door->SetUserModelOption(&m_doorModelOption);
 	m_skinModelRender_Door->Init();
 }
 

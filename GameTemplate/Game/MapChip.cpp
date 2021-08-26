@@ -26,19 +26,19 @@ MapChip::MapChip(const LevelObjectData& objData) {
 	m_skinModelRender->SetFileNametks(static_cast<const char*>(filePathtks));
 
 	m_skinModelRender->SetShadowReceiverFlag(true);
-	m_ligData.m_directionLigData[0].Dir.Set(-1, -1, 1);
-	m_ligData.m_directionLigData[0].Dir.Normalize();
-	m_ligData.m_directionLigData[0].Col.Set(1.5f, 1.5f, 1.5f, 1.0f);
-	m_ligData.ambient.Set(0.8f, 0.8f, 0.8f);
-	m_ligData.metaric = 0.0f;
-	m_ligData.smooth = 0.0f;
+	m_modelOption.directionLigData[0].Dir.Set(-1, -1, 1);
+	m_modelOption.directionLigData[0].Dir.Normalize();
+	m_modelOption.directionLigData[0].Col.Set(1.5f, 1.5f, 1.5f, 1.0f);
+	m_modelOption.ambient.Set(0.8f, 0.8f, 0.8f);
+	m_modelOption.metaric = 0.0f;
+	m_modelOption.smooth = 0.0f;
 	auto mainCamera = FindGO<MainCamera>("mainCamera");
 	mainCamera->changeRotCameraEvent.push_back([&]() {
 		Quaternion m_rotZ;
 		m_rotZ.SetRotationDeg(Vector3::AxisZ, 2.0f);
-		m_rotZ.Apply(m_ligData.m_directionLigData[0].Dir);
+		m_rotZ.Apply(m_modelOption.directionLigData[0].Dir);
 	});
-	m_skinModelRender->SetUserLigData(&m_ligData);
+	m_skinModelRender->SetUserModelOption(&m_modelOption);
 	m_skinModelRender->Init();
 	
 
@@ -46,7 +46,7 @@ MapChip::MapChip(const LevelObjectData& objData) {
 	m_skinModelRender->SetRotation(objData.rotation);
 	m_skinModelRender->SetScale(objData.scale);
 	m_skinModelRender->UpdateWorldMatrix();
-
+	
 	m_physicsStaticObject.CreateFromModel(
 		*m_skinModelRender->GetModel(),
 		m_skinModelRender->GetModel()->GetWorldMatrix()
@@ -73,8 +73,6 @@ void MapChip::Draw(RenderContext& rc,
 	//メッシュごとにドロー
 	//プリミティブのトポロジーはトライアングルリストのみ。
 	rc.SetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-
-	m_ligData.eyePos = g_camera3D->GetPosition();
 	
 	//定数バッファを更新する。
 	MConstantBuffer cb;

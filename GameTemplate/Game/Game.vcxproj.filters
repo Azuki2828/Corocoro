@@ -297,9 +297,6 @@
     <ClCompile Include="LightBase.cpp">
       <Filter>cpp</Filter>
     </ClCompile>
-    <ClCompile Include="LightCamera.cpp">
-      <Filter>cpp</Filter>
-    </ClCompile>
     <ClCompile Include="LightManager.cpp">
       <Filter>cpp</Filter>
     </ClCompile>

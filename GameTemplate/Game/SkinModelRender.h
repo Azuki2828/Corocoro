@@ -6,6 +6,10 @@ class SkinModelRender : public IGameObject
 		Matrix m_viewProj;
 		Vector3 eyePos;
 	};
+
+	struct SModelData {
+		int ligID = 0;
+	};
 public:
 	//SkinModelRender();
 	//初期化。
@@ -90,8 +94,12 @@ public:
 	void SetExpandShaderResourceView_2(IShaderResource* expandShaderResoruceView_2) {
 		initData.m_expandShaderResoruceView_2 = expandShaderResoruceView_2;
 	}
-	void SetUserLigData(LigData* lig) {
-		m_userLigData = lig;
+	void SetUserModelOption(ModelOption* modelOption) {
+		m_userModelOption = modelOption;
+	}
+
+	void SetLigID(int ligID) {
+		m_modelData.ligID = ligID;
 	}
 private:
 	bool m_animFlg = false;
@@ -104,6 +112,7 @@ private:
 	Vector3 m_pos = Vector3::Zero;
 	Vector3 m_sca = Vector3::One;
 	Quaternion m_rot = Quaternion::Identity;
+	SModelData m_modelData;
 
 	Model m_model;			//モデル表示処理。
 	Model m_shadowModel;	//シャドウ作成用のモデル。
@@ -114,7 +123,7 @@ private:
 	Skeleton m_skeleton;	//スケルトン。
 
 	LightCameraData m_lightCameraData;
-	LigData* m_userLigData = nullptr;	//ユーザーが設定するライトデータ
+	ModelOption* m_userModelOption = nullptr;	//モデルオプション
 
 	/**
 	 * @brief それぞれのクラスのポインタ

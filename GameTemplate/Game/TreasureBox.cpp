@@ -41,7 +41,7 @@ bool TreasureBox::Start() {
 	m_skinModelRender = NewGO<SkinModelRender>(enPriority_Zeroth);
 	m_skinModelRender->SetFileNametkm(FILE_NAME_TKM_TREASURE_BOX);
 	m_skinModelRender->SetFileNametks(FILE_NAME_TKS_TREASURE_BOX);
-	//m_skinModelRender->SetShadowReceiverFlag(true);
+	m_skinModelRender->SetShadowReceiverFlag(true);
 
 	m_animClip.Load(FILE_PATH_TKA_TREASURE_BOX_OPEN);
 	m_animClip.SetLoopFlag(false);
@@ -49,18 +49,20 @@ bool TreasureBox::Start() {
 	m_skinModelRender->InitAnimation(&m_animClip, enAnimation_Open);
 
 	//À•W‚ð“o˜^B
-	m_ligData.m_directionLigData[enData_Zeroth].Dir.Set(LIG_DIRECTION_TREASURE_BOX);
-	m_ligData.m_directionLigData[enData_Zeroth].Dir.Normalize();
-	m_ligData.m_directionLigData[enData_Zeroth].Col.Set(LIG_COLOR_TREASURE_BOX);
-	m_ligData.ambient.Set(TREASURE_BOX_AMBIENT);
-	m_ligData.metaric = TREASURE_BOX_METARIC;
-	m_ligData.smooth = TREASURE_BOX_SMOOTH;
-	m_ligData.edge = Edge_1;
-	m_ligData.powValue = TREASURE_BOX_POW_VALUE;
+	m_modelOption.directionLigData[enData_Zeroth].Dir.Set(LIG_DIRECTION_TREASURE_BOX);
+	m_modelOption.directionLigData[enData_Zeroth].Dir.Normalize();
+	m_modelOption.directionLigData[enData_Zeroth].Col.Set(LIG_COLOR_TREASURE_BOX);
+	m_modelOption.ambient.Set(TREASURE_BOX_AMBIENT);
+	m_modelOption.metaric = TREASURE_BOX_METARIC;
+	m_modelOption.smooth = TREASURE_BOX_SMOOTH;
+	m_modelOption.edge = Edge_1;
+	m_modelOption.powValue = TREASURE_BOX_POW_VALUE;
+	m_modelOption.LigID = enGameObject_TreasureBox;
 
-	m_skinModelRender->SetUserLigData(&m_ligData);
+	m_skinModelRender->SetUserModelOption(&m_modelOption);
 	//m_skinModelRender->SetExpandShaderResourceView_2(&RenderTarget::GetZPrepassRenderTarget()->GetRenderTargetTexture());
 	m_skinModelRender->SetColorBufferFormat(DXGI_FORMAT_R32G32B32A32_FLOAT);
+	m_skinModelRender->SetLigID(enGameObject_TreasureBox);
 	m_skinModelRender->Init();
 
 	m_skinModelRender->SetPosition(m_pos);

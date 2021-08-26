@@ -61,6 +61,6 @@ SPSIn VSMain(SVSIn vsIn, uniform bool hasSkin)
 // モデル用のピクセルシェーダーのエントリーポイント
 float4 PSMain(SPSIn psIn) : SV_Target0
 {
-    return float4( psIn.normal.x, psIn.normal.y, psIn.normal.z,1.0f);
+    return float4( psIn.normal.x, psIn.normal.y, psIn.normal.z, 1.0f);
 }
 

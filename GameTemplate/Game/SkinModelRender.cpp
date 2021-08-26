@@ -37,16 +37,8 @@ void SkinModelRender::Init() {
 
 	if (!m_shadowReceiverFlag) {
 		initData.m_fxFilePath = FX_FILE_PATH_MODEL;
-		if(m_userLigData){
-			//ユーザー固有のライトを使う。
-			initData.m_expandConstantBuffer = m_userLigData;
-		}
-		else {
-			//グローバルライトを使う。
-			initData.m_expandConstantBuffer = LightManager::GetInstance()->GetLigData();
-		}
-		
-		initData.m_expandConstantBufferSize = sizeof(*LightManager::GetInstance()->GetLigData());
+		//initData.m_expandConstantBufferSize = sizeof(*LightManager::GetInstance()->GetLigData());
+		//initData.m_expandConstantBufferSize_2 = sizeof(*LightManager::GetInstance()->GetLigData());
 	}
 	else {
 		initData.m_fxFilePath = FX_FILE_PATH_SHADOW_RECIEVER_MODEL;
@@ -57,16 +49,33 @@ void SkinModelRender::Init() {
 		initData.m_expandShaderResoruceView = &RenderTarget::GetShadowMap()->GetRenderTargetTexture();
 		initData.m_expandShaderResoruceView_2 = &g_blur.GetBokeTexture();
 
-		if (m_userLigData) {
-			//ユーザー固有のライトを使う。
-			initData.m_expandConstantBuffer = m_userLigData;
-		}
-		else {
-			//グローバルライトを使う。
-			initData.m_expandConstantBuffer = LightManager::GetInstance()->GetLigData();
-		}
-		initData.m_expandConstantBufferSize = sizeof (*LightManager::GetInstance()->GetLigData());
+		//if (m_userModelOption) {
+		//	LightManager::GetInstance()->AddModelOption(*m_userModelOption);
+		//	//ユーザー固有のライトを使う。
+		//	initData.m_expandConstantBuffer = &m_modelData;
+		//}
+		//else {
+		//	//グローバルライトを使う。
+		//	//initData.m_expandConstantBuffer = LightManager::GetInstance()->GetLigData();
+		//	//initData.m_expandConstantBuffer_2 = LightManager::GetInstance()->GetLigData();
+		//}
+		//initData.m_expandConstantBuffer = &m_modelData;
+		//initData.m_expandConstantBufferSize = sizeof(m_modelData);
+		//initData.m_expandConstantBufferSize = sizeof (*LightManager::GetInstance()->GetLigData());
+		//initData.m_expandConstantBufferSize_2 = sizeof(*LightManager::GetInstance()->GetLigData());
 	}
+
+	if (m_userModelOption) {
+		LightManager::GetInstance()->AddModelOption(*m_userModelOption, m_modelData.ligID);
+		//ユーザー固有のライトを使う。
+		//initData.m_expandConstantBuffer = &m_modelData;
+	}
+	else {
+		//グローバルライトを使う。
+		//initData.m_expandConstantBuffer = &m_modelData;
+	}
+	initData.m_expandConstantBuffer = &m_modelData;
+	initData.m_expandConstantBufferSize = sizeof(m_modelData);
 
 	if (m_skeleton.IsInited()) {
 		initData.m_skeleton = &m_skeleton;

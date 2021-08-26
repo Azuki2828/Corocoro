@@ -8,6 +8,8 @@ void CreateInstance();
 void InitMainRenderTarget();
 void InitLuminanceRenderTarget(RenderTarget& luminanceRenderTarget);
 void InitPostEffect(PostEffect* postEffect,RenderTarget& renderTarget);
+void DefferdRenderingExecute(RenderContext& renderContext);
+void InitSpriteToMainRenderTarget(Sprite& sprite);
 
 void InitBGMAndSE();
 
@@ -45,39 +47,49 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	//BGMとSEを初期化。
 	InitBGMAndSE();
 
-	//////////////////////////////////////
-	// 初期化を行うコードを書くのはここまで！！！
-	//////////////////////////////////////
 
+	//レンダリングターゲットの生成。
 	InitMainRenderTarget();
+	RenderTarget::CreateAlbedoRenderTarget();
+	RenderTarget::CreateNormalAndDepthRenderTarget();
+	RenderTarget::CreateWorldPosAndLigIDRenderTarget();
+	RenderTarget::CreateShadowMap();
+	RenderTarget::CreateZPrepassRenderTarget();
+
 
 	// 輝度抽出用のレンダリングターゲットを作成
 	RenderTarget luminanceRenderTarget;
 	InitLuminanceRenderTarget(luminanceRenderTarget);
 
+	//ポストエフェクトクラスの初期化
 	PostEffect* postEffect = NewGO<PostEffect>(enPriority_Zeroth);
 	InitPostEffect(postEffect,luminanceRenderTarget);
 
 	// mainRenderTargetのテクスチャをフレームバッファーに貼り付けるためのスプライトを初期化する
-	// スプライトの初期化オブジェクトを作成する
+	Sprite copyToFrameBufferSprite;
+
 	SpriteInitData spriteInitData;
 
 	// テクスチャはmainRenderTargetのカラーバッファー
-	spriteInitData.m_textures[enData_Zeroth] = &RenderTarget::GetMainRenderTarget()->GetRenderTargetTexture();
+	spriteInitData.m_textures[enAlbedoMap] = &RenderTarget::GetRenderTarget(enAlbedoMap)->GetRenderTargetTexture();
+	spriteInitData.m_textures[enNormalAndDepthMap] = &RenderTarget::GetRenderTarget(enNormalAndDepthMap)->GetRenderTargetTexture();
+	spriteInitData.m_textures[enWorldPosAndLigIDMap] = &RenderTarget::GetRenderTarget(enWorldPosAndLigIDMap)->GetRenderTargetTexture();
+	//spriteInitData.m_textures[enShadowMap] = &RenderTarget::GetRenderTarget(enShadowMap)->GetRenderTargetTexture();
 	spriteInitData.m_width = RENDER_TARGET_W1280H720.x;
 	spriteInitData.m_height = RENDER_TARGET_W1280H720.y;
 
 	// モノクロ用のシェーダーを指定する
-	spriteInitData.m_fxFilePath = SPRITE_SHADER_MONOCHROME_FILE_PATH;
+	spriteInitData.m_fxFilePath = SPRITE_SHADER_FILE_PATH;
+	spriteInitData.m_expandConstantBuffer = LightManager::GetInstance()->GetLigData();
+	spriteInitData.m_expandConstantBufferSize = sizeof(*LightManager::GetInstance()->GetLigData());
 
 	// 初期化オブジェクトを使って、スプライトを初期化する
-	Sprite copyToFrameBufferSprite;
 	copyToFrameBufferSprite.Init(spriteInitData);
+	//InitSpriteToMainRenderTarget(copyToFrameBufferSprite);
+
 
 	auto& renderContext = g_graphicsEngine->GetRenderContext();
 
-	RenderTarget::CreateShadowMap();
-	RenderTarget::CreateZPrepassRenderTarget();
 
 	
 	g_blur.Init(&RenderTarget::GetZPrepassRenderTarget()->GetRenderTargetTexture());
@@ -105,18 +117,19 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 
 
 		//描画
-		GameObjectManager::GetInstance()->ExecuteRender(renderContext);			//モデル
-		EffectEngine::GetInstance()->Draw();									//エフェクト
-		HUD::GetHUD()->Draw(renderContext);										//HUD
-		GameObjectManager::GetInstance()->ExecuteFontRender(renderContext);		//フォント
+		DefferdRenderingExecute(renderContext);
+		//EffectEngine::GetInstance()->Draw();										//エフェクト
+		//HUD::GetHUD()->Draw(renderContext);										//HUD
+		//GameObjectManager::GetInstance()->ExecuteFontRender(renderContext);		//フォント
+		//PhysicsWorld::GetInstance()->DebubDrawWorld(renderContext);
 
 
 
 		//輝度抽出
-		ExecuteDrawLuminance(renderContext, luminanceRenderTarget, postEffect);
+		//ExecuteDrawLuminance(renderContext, luminanceRenderTarget, postEffect);
 
 		//ガウシアンブラーを４回かける。
-		ExecuteGaussianBlur(renderContext, postEffect);
+		//ExecuteGaussianBlur(renderContext, postEffect);
 
 
 		// メインレンダリングターゲットの絵をフレームバッファーにコピー
@@ -246,7 +259,6 @@ void ExecuteGaussianBlur(RenderContext& renderContext, PostEffect* postEffect) {
 	}
 
 	//4枚のボケ画像を合成してメインレンダリングターゲットに加算合成
-
 	renderContext.WaitUntilToPossibleSetRenderTarget(*RenderTarget::GetMainRenderTarget());
 
 	renderContext.SetRenderTargetAndViewport(*RenderTarget::GetMainRenderTarget());
@@ -254,4 +266,37 @@ void ExecuteGaussianBlur(RenderContext& renderContext, PostEffect* postEffect) {
 	postEffect->GetFinalSprite().Draw(renderContext);
 
 	renderContext.WaitUntilFinishDrawingToRenderTarget(*RenderTarget::GetMainRenderTarget());
+}
+
+void DefferdRenderingExecute(RenderContext& renderContext) {
+
+	RenderTarget* rts[] = {
+			RenderTarget::GetRenderTarget(enAlbedoMap),   // 0番目のレンダリングターゲット
+			RenderTarget::GetRenderTarget(enNormalAndDepthMap),  // 1番目のレンダリングターゲット
+			RenderTarget::GetRenderTarget(enWorldPosAndLigIDMap) // 2番目のレンダリングターゲット
+	};
+
+	// まず、レンダリングターゲットとして設定できるようになるまで待つ
+	renderContext.WaitUntilToPossibleSetRenderTargets(ARRAYSIZE(rts), rts);
+
+	// レンダリングターゲットを設定
+	renderContext.SetRenderTargets(ARRAYSIZE(rts), rts);
+
+	// レンダリングターゲットをクリア
+	renderContext.ClearRenderTargetViews(ARRAYSIZE(rts), rts);
+
+
+	//モデルの描画
+	GameObjectManager::GetInstance()->ExecuteRender(renderContext);
+
+	LightManager::GetInstance()->m_ligData;
+	int a = 0;
+	// レンダリングターゲットへの書き込み待ち
+	renderContext.WaitUntilFinishDrawingToRenderTargets(ARRAYSIZE(rts), rts);
+}
+
+void InitSpriteToMainRenderTarget(Sprite& sprite) {
+
+	// スプライトの初期化オブジェクトを作成する
+	
 }

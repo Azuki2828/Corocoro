@@ -107,8 +107,8 @@ private:
 	Vector3 m_doorPos = Vector3::Zero;				//宝箱の床の座標
 	Vector3 m_doorScale = Vector3::One;				//宝箱の床の拡大率
 
-	LigData m_ligKeyData;							//鍵のライトのデータ
-	LigData m_ligDoorData;							//宝箱の床のライトのデータ
+	ModelOption m_keyModelOption;					//鍵のライトのデータ
+	ModelOption m_doorModelOption;					//宝箱の床のライトのデータ
 	PhysicsStaticObject m_physicsStaticObject;		//宝箱の床の静的物理オブジェクト
 	CPhysicsGhostObject m_ghostBox;					//鍵の当たり判定
 

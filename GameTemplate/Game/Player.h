@@ -74,6 +74,11 @@ public:
 		}
 	}
 
+	void SetPosition(const int num)const {
+		Vector3 pos[2];
+		pos[num].y = 0.0f;
+	}
+
 	/**
 	 * @brief プレイヤーの開始地点を取得する関数。
 	 * @return 開始地点の座標
@@ -203,7 +208,7 @@ private:
 	AnimationClip m_animationClips[enAnimClip_Num];	//アニメーションクリップ
 
 	Player_State pState = State_N;					//プレイヤーの磁力の状態
-	LigData m_ligData[enPlayer_Num];				//プレイヤーのライトのデータ
+	ModelOption m_modelOption[enPlayer_Num];				//プレイヤーのライトのデータ
 
 
 	//それぞれのクラスのポインタ

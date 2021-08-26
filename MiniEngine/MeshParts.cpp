@@ -26,6 +26,8 @@ void MeshParts::InitFromTkmFile(
 	const char* psEntryPointFunc,
 	void* expandData,
 	int expandDataSize,
+	void* expandData_2,
+	int expandDataSize_2,
 	IShaderResource* expandShaderResourceView,
 	IShaderResource* expandShaderResourceView_2
 )
@@ -43,6 +45,9 @@ void MeshParts::InitFromTkmFile(
 	if (expandData) {
 		m_expandConstantBuffer.Init(expandDataSize, nullptr);
 		m_expandData = expandData;
+	}
+	if (expandData_2) {
+		m_expandData_2 = expandData_2;
 	}
 	m_expandShaderResourceView = expandShaderResourceView;
 	m_expandShaderResourceView_2 = expandShaderResourceView_2;
@@ -80,6 +85,9 @@ void MeshParts::CreateDescriptorHeaps()
 			descriptorHeap.RegistConstantBuffer(0, m_commonConstantBuffer);
 			if (m_expandConstantBuffer.IsValid()) {
 				descriptorHeap.RegistConstantBuffer(1, m_expandConstantBuffer);
+			}
+			if (m_expandConstantBuffer_2.IsValid()) {
+				descriptorHeap.RegistConstantBuffer(100, m_expandConstantBuffer_2);
 			}
 			//ディスクリプタヒープへの登録を確定させる。
 			descriptorHeap.Commit();

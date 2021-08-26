@@ -33,7 +33,7 @@ void LightManager::AddLight(LightBase* light) {
 			//}
 			for (auto itr = m_directionLights.begin(); itr != m_directionLights.end(); ++itr) {
 
-				m_ligData.m_directionLigData[a] = *(*itr);
+				m_ligData.directionLigData[a] = *(*itr);
 				a++;
 			}
 		}
@@ -68,26 +68,28 @@ void LightManager::RemoveLight(LightBase* light)
 
 		for (auto itr = m_directionLights.begin(); itr != m_directionLights.end(); ++itr) {
 
-			m_ligData.m_directionLigData[a] = *(*itr);
+			m_ligData.directionLigData[a] = *(*itr);
 			a++;
 		}
 	}
 }
 
 void LightManager::Update() {
-	//ライトの環境光は0.3fに設定
-	m_ligData.ambient.Set(0.3f, 0.3f, 0.3f);
+
 	//カメラの座標を更新
 	m_lightManager->m_ligData.eyePos = g_camera3D->GetPosition();
+	//ライトカメラからプロジェクション行列を取得。
+	m_lightManager->m_ligData.m_viewProj = Camera::GetLightCamera()->GetViewProjectionMatrix();
+
+	////ライトの環境光は0.3fに設定
+	//m_ligData.ambient.Set(0.3f, 0.3f, 0.3f);
 
 
 	for (auto itr = m_directionLights.begin(); itr != m_directionLights.end(); ++itr) {
 
 		int a = 0;
-		m_ligData.m_directionLigData[a] = *(*itr);
+		m_ligData.directionLigData[a] = *(*itr);
 		a++;
 	}
 
-	//ライトカメラからプロジェクション行列を取得。
-	m_lightManager->m_ligData.m_viewProj = Camera::GetLightCamera()->GetViewProjectionMatrix();
 }

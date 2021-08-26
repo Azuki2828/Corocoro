@@ -1,9 +1,17 @@
 #pragma once
-#pragma once
 
 #include "Texture.h"
+#include "../GameTemplate/Game/ConstValue.h"
 
 class GraphicsEngine;
+
+enum RenderTargetList {
+	enAlbedoMap,
+	enNormalAndDepthMap,
+	enWorldPosAndLigIDMap,
+
+	enRenderTargetNum
+};
 
 /// <summary>
 /// レンダリングターゲット。
@@ -39,6 +47,54 @@ public:
 
 		return m_mainRenderTarget;
 	}
+
+	static RenderTarget* GetRenderTarget(RenderTargetList renderTarget) {
+
+		return m_GBuffer[renderTarget];
+	}
+
+	static void CreateAlbedoRenderTarget() {
+
+		m_GBuffer[enAlbedoMap] = new RenderTarget;
+
+		m_GBuffer[enAlbedoMap]->Create(
+			RENDER_TARGET_W1280H720.x,
+			RENDER_TARGET_W1280H720.y,
+			1,
+			1,
+			DXGI_FORMAT_R8G8B8A8_UNORM,
+			DXGI_FORMAT_D32_FLOAT
+		);
+	}
+
+	static void CreateNormalAndDepthRenderTarget() {
+
+		m_GBuffer[enNormalAndDepthMap] = new RenderTarget;
+
+		m_GBuffer[enNormalAndDepthMap]->Create(
+			RENDER_TARGET_W1280H720.x,
+			RENDER_TARGET_W1280H720.y,
+			1,
+			1,
+			DXGI_FORMAT_R8G8B8A8_UNORM,
+			DXGI_FORMAT_UNKNOWN
+		);
+	}
+
+	static void CreateWorldPosAndLigIDRenderTarget() {
+
+		m_GBuffer[enWorldPosAndLigIDMap] = new RenderTarget;
+
+		m_GBuffer[enWorldPosAndLigIDMap]->Create(
+			RENDER_TARGET_W1280H720.x,
+			RENDER_TARGET_W1280H720.y,
+			1,
+			1,
+			DXGI_FORMAT_R32G32B32A32_FLOAT, // ワールド座標を記録するので、32ビット浮動小数点バッファを利用する
+			DXGI_FORMAT_UNKNOWN
+		);
+	}
+
 	static void CreateShadowMap() {
 		m_shadowMap = new RenderTarget;
 
@@ -193,6 +249,11 @@ private:
 	static RenderTarget* m_shadowMap;
 	static RenderTarget* m_mainRenderTarget;
 	static RenderTarget* m_zprepassRenderTarget;
+	static RenderTarget* m_albedoRenderTarget;
+	static RenderTarget* m_normalRenderTarget;
+	static RenderTarget* m_depthRenderTarget;
+	
+	static RenderTarget* m_GBuffer[enRenderTargetNum];
 	Texture m_renderTargetTexture;
 	ID3D12Resource* m_renderTargetTextureDx12;	//レンダリングターゲットとなるテクスチャ。
 	ID3D12Resource* m_depthStencilTexture;		//深度ステンシルバッファとなるテクスチャ。

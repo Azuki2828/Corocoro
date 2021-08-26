@@ -42,6 +42,19 @@ enum StageNum {
 	Stage_Num
 };
 
+enum GameObjectList {
+	enGameObject_Player_N = 1,
+	enGameObject_Player_S,
+	enGameObject_Key,
+	enGameObject_Door,
+	enGameObject_TreasureBox,
+	enGameObject_DeathBlock,
+	enGameObject_Seesaw,
+	enGameObject_Magnet,
+
+	enGameObject_Num
+};
+
 /**
  * @brief スプライト番号
 */
@@ -211,7 +224,7 @@ namespace {
 	const int RENDER_ARRAY_SIZE1 = 1;												//レンダリングターゲットで使用するテクスチャ配列のサイズ
 	const int GAUSSIAN_BLUR_NUM = 4;												//ガウシアンブラーをかける回数
 	const int BLUR_POWER = 10;														//ブラーの強さ
-	const char* SPRITE_SHADER_FILE_PATH = "Assets/shader/sprite.fx";				//スプライトシェーダーのファイルパス
+	const char* SPRITE_SHADER_FILE_PATH = "Assets/shader/defferdLighting.fx";		//スプライトシェーダーのファイルパス
 	const char* SPRITE_SHADER_MONOCHROME_FILE_PATH = "Assets/shader/sample2D.fx";	//モノクロ表示用のシェーダーのファイルパス
 
 	const int INITIALIZE_TIME = 0;

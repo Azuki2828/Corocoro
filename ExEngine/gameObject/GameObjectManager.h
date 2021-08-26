@@ -55,6 +55,11 @@ public:
 	/// 更新処理を実行
 	/// </summary>
 	void ExecuteUpdate();
+
+	void DrawShadowMap(RenderContext& rc);
+
+	void DrawZPrepassMap(RenderContext& rc);
+
 	/// <summary>
 	/// 描画処理を実行。
 	/// </summary>

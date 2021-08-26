@@ -56,7 +56,7 @@ private:
 	Vector3 m_sca = Vector3::One;
 	Quaternion m_rot = Quaternion::Identity;
 
-	LigData m_ligData;
+	ModelOption m_modelOption;
 	Animation m_animation;
 	AnimationClip m_animClip;
 	PhysicsStaticObject m_physicsStaticObject;	//“–‚½‚è”»’è

@@ -24,7 +24,7 @@ bool Magnet::Start() {
 	mainCamera->changeRotCameraEvent.push_back([&]() {
 		Quaternion m_rotZ;
 		m_rotZ.SetRotationDeg(Vector3::AxisZ, CAMERA_ROT_VALUE);
-		m_rotZ.Apply(m_ligData.m_directionLigData[enData_Zeroth].Dir);
+		m_rotZ.Apply(m_modelOption.directionLigData[enData_Zeroth].Dir);
 	});
 
 	
@@ -52,10 +52,6 @@ Magnet::~Magnet() {
 }
 
 void Magnet::Update() {
-	
-	//ライトの視点情報を更新する。
-	m_ligData.eyePos = g_camera3D->GetPosition();
-	m_ligData.m_viewProj = Camera::GetLightCamera()->GetViewProjectionMatrix();
 
 	//座標を登録。
 	m_skinModelRender->SetPosition(m_pos);

@@ -6,6 +6,8 @@ RenderTarget* RenderTarget::m_shadowMap = nullptr;
 RenderTarget* RenderTarget::m_mainRenderTarget = nullptr;
 RenderTarget* RenderTarget::m_zprepassRenderTarget = nullptr;
 
+RenderTarget* RenderTarget::m_GBuffer[enRenderTargetNum] = { nullptr };
+
 bool RenderTarget::Create(
 	int w,
 	int h,

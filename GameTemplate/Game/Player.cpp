@@ -40,21 +40,23 @@ namespace {
 bool Player::Start()
 {
 	//プレイヤー独自のライトデータを設定
-	m_ligData[enPlayer_0].m_directionLigData[enData_Zeroth].Dir.Set(PLAYER_LIG_DIRECTION);
-	m_ligData[enPlayer_0].m_directionLigData[enData_Zeroth].Dir.Normalize();
-	m_ligData[enPlayer_0].m_directionLigData[enData_Zeroth].Col.Set(PLAYER_LIG_COLOR_N);
-	m_ligData[enPlayer_0].ambient.Set(PLAYER_LIG_AMBIENT);
-	m_ligData[enPlayer_0].metaric = PLAYER_METARIC;
-	m_ligData[enPlayer_0].smooth = PLAYER_SMOOTH;
-	m_ligData[enPlayer_0].powValue = PLAYER_POW_VALUE;
+	m_modelOption[enPlayer_0].directionLigData[enData_Zeroth].Dir.Set(PLAYER_LIG_DIRECTION);
+	m_modelOption[enPlayer_0].directionLigData[enData_Zeroth].Dir.Normalize();
+	m_modelOption[enPlayer_0].directionLigData[enData_Zeroth].Col.Set(PLAYER_LIG_COLOR_N);
+	m_modelOption[enPlayer_0].ambient.Set(PLAYER_LIG_AMBIENT);
+	m_modelOption[enPlayer_0].metaric = PLAYER_METARIC;
+	m_modelOption[enPlayer_0].smooth = PLAYER_SMOOTH;
+	m_modelOption[enPlayer_0].powValue = PLAYER_POW_VALUE;
+	m_modelOption[enPlayer_0].LigID = enGameObject_Player_N;
 
-	m_ligData[enPlayer_1].m_directionLigData[enData_Zeroth].Dir.Set(PLAYER_LIG_DIRECTION);
-	m_ligData[enPlayer_1].m_directionLigData[enData_Zeroth].Dir.Normalize();
-	m_ligData[enPlayer_1].m_directionLigData[enData_Zeroth].Col.Set(PLAYER_LIG_COLOR_S);
-	m_ligData[enPlayer_1].ambient.Set(PLAYER_LIG_AMBIENT);
-	m_ligData[enPlayer_1].metaric = PLAYER_METARIC;
-	m_ligData[enPlayer_1].smooth = PLAYER_SMOOTH;
-	m_ligData[enPlayer_1].powValue = PLAYER_POW_VALUE;
+	m_modelOption[enPlayer_1].directionLigData[enData_Zeroth].Dir.Set(PLAYER_LIG_DIRECTION);
+	m_modelOption[enPlayer_1].directionLigData[enData_Zeroth].Dir.Normalize();
+	m_modelOption[enPlayer_1].directionLigData[enData_Zeroth].Col.Set(PLAYER_LIG_COLOR_S);
+	m_modelOption[enPlayer_1].ambient.Set(PLAYER_LIG_AMBIENT);
+	m_modelOption[enPlayer_1].metaric = PLAYER_METARIC;
+	m_modelOption[enPlayer_1].smooth = PLAYER_SMOOTH;
+	m_modelOption[enPlayer_1].powValue = PLAYER_POW_VALUE;
+	m_modelOption[enPlayer_1].LigID = enGameObject_Player_S;
 
 	//クラスのオブジェクトを探し出す
 	m_game = FindGO<Game>(NAME_GAME);
@@ -64,8 +66,8 @@ bool Player::Start()
 	mainCamera->changeRotCameraEvent.push_back([&]() {
 		Quaternion m_rotZ;
 		m_rotZ.SetRotationDeg(Vector3::AxisZ, CAMERA_ROT_VALUE);
-		m_rotZ.Apply(m_ligData[enPlayer_0].m_directionLigData[enData_Zeroth].Dir);
-		m_rotZ.Apply(m_ligData[enPlayer_1].m_directionLigData[enData_Zeroth].Dir);
+		m_rotZ.Apply(m_modelOption[enPlayer_0].directionLigData[enData_Zeroth].Dir);
+		m_rotZ.Apply(m_modelOption[enPlayer_1].directionLigData[enData_Zeroth].Dir);
 	});
 
 	//プレイヤーのtkmとtksのファイルパス。
@@ -76,6 +78,11 @@ bool Player::Start()
 	const char* tksFilePaths[] = {
 		PLAYER_TKS_FILEPATH_N,
 		PLAYER_TKS_FILEPATH_S
+	};
+
+	const int playerLigID[] = {
+		enGameObject_Player_N,
+		enGameObject_Player_S
 	};
 
 
@@ -90,8 +97,9 @@ bool Player::Start()
 		m_skinModelRender[i]->SetShadowCasterFlag(true);
 		m_skinModelRender[i]->SetShadowReceiverFlag(true);
 		m_skinModelRender[i]->SetColorBufferFormat(DXGI_FORMAT_R32G32B32A32_FLOAT);
-		m_skinModelRender[i]->SetUserLigData(&m_ligData[i]);
+		m_skinModelRender[i]->SetUserModelOption(&m_modelOption[i]);
 		m_skinModelRender[i]->SetZprepassFlag(true);
+		m_skinModelRender[i]->SetLigID(playerLigID[i]);
 		m_skinModelRender[i]->Init();
 		if (i == enPlayer_1) {
 			//プレイヤー1は最初は非アクティブ。
@@ -155,9 +163,10 @@ Player::~Player()
 void Player::Update()
 {
 	//カメラの視点を更新
-	for (auto& ligData : m_ligData) {
-		ligData.eyePos = g_camera3D->GetPosition();
-	}
+	//for (auto& modelOption : m_modelOption) {
+	//	modelOption.eyePos = g_camera3D->GetPosition();
+	//}
+
 	//各クラスを探し出す
 	if (m_backGround == nullptr) {
 		m_backGround = FindGO<BackGround>(NAME_BACK_GROUND);

@@ -35,7 +35,7 @@ public:
 	*/
 	void SetState_N(bool plusflg = false) {
 		m_magState = State_N;
-		m_ligData.m_directionLigData[enData_Zeroth].Col.Set(MAGNET_N_LIG_COLOR);
+		m_modelOption.directionLigData[enData_Zeroth].Col.Set(MAGNET_N_LIG_COLOR);
 		if (plusflg) {
 			m_plusFlg = true;
 		}
@@ -46,7 +46,7 @@ public:
 	*/
 	void SetState_S(bool plusflg = false) {
 		m_magState = State_S;
-		m_ligData.m_directionLigData[enData_Zeroth].Col.Set(MAGNET_S_LIG_COLOR);
+		m_modelOption.directionLigData[enData_Zeroth].Col.Set(MAGNET_S_LIG_COLOR);
 		if (plusflg) {
 			m_plusFlg = true;
 		}
@@ -150,22 +150,25 @@ public:
 		m_skinModelRender->SetZprepassFlag(true);
 
 		//ライトの方向を設定
-		m_ligData.m_directionLigData[enData_Zeroth].Dir.Set(MAGNET_LIG_DIR);
-		m_ligData.m_directionLigData[enData_Zeroth].Dir.Normalize();
+		m_modelOption.directionLigData[enData_Zeroth].Dir.Set(MAGNET_LIG_DIR);
+		m_modelOption.directionLigData[enData_Zeroth].Dir.Normalize();
 		
-		m_ligData.m_viewProj = Camera::GetLightCamera()->GetViewProjectionMatrix();
+		//m_modelOption.m_viewProj = Camera::GetLightCamera()->GetViewProjectionMatrix();
 		//環境光を設定
-		m_ligData.ambient.Set(MAGNET_LIG_AMBIENT);
+		m_modelOption.ambient.Set(MAGNET_LIG_AMBIENT);
 		//金属度を設定
-		m_ligData.metaric = MAGNET_METARIC;
+		m_modelOption.metaric = MAGNET_METARIC;
 		//なめらかさを設定
-		m_ligData.smooth = MAGNET_SMOOTH;
+		m_modelOption.smooth = MAGNET_SMOOTH;
 		//輪郭線を設定
-		m_ligData.edge = Edge_1;
+		m_modelOption.edge = Edge_1;
 		//絞り率を設定
-		m_ligData.powValue = MAGNET_POW_VALUE;
+		m_modelOption.powValue = MAGNET_POW_VALUE;
+		m_modelOption.LigID = enGameObject_Magnet;
+		//ligIDを設定。
+		m_skinModelRender->SetLigID(enGameObject_Magnet);
 		//ライトデータから独自のライトを設定
-		m_skinModelRender->SetUserLigData(&m_ligData);
+		m_skinModelRender->SetUserModelOption(&m_modelOption);
 		//カラーバッファのフォーマットを指定
 		m_skinModelRender->SetColorBufferFormat(DXGI_FORMAT_R32G32B32A32_FLOAT);
 		//初期化
@@ -214,7 +217,7 @@ private:
 	Magnet_State m_magState = State_N;				//磁極のステート。
 	PhysicsStaticObject m_physicsStaticObject;		//当たり判定
 	CPhysicsGhostObject m_ghostBox;					//トリガーボックス
-	LigData m_ligData;								//ライトのデータ
+	ModelOption m_modelOption;						//ライトのデータ
 
 	/**
 	 * @brief それぞれのクラスのポインタ

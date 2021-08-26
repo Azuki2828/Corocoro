@@ -9,7 +9,6 @@ struct DirectionalLight
 {
 	float3 direction;
 	float4 color;
-	//float4x4 mLVP;
 };
 
 ////////////////////////////////////////////////

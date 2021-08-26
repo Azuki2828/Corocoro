@@ -33,17 +33,19 @@ public:
 		m_skinModelRender->SetShadowReceiverFlag(true);
 		m_skinModelRender->SetZprepassFlag(true);
 
-		m_ligData.m_directionLigData[enData_Zeroth].Dir.Set(SEESAW_LIG_DIRECTION);
-		m_ligData.m_directionLigData[enData_Zeroth].Dir.Normalize();
-		m_ligData.m_directionLigData[enData_Zeroth].Col.Set(SEESAW_LIG_COLOR);
-		m_ligData.ambient.Set(SEESAW_AMBIENT);
-		m_ligData.metaric = SEESAW_METARIC;
-		m_ligData.smooth = SEESAW_SMOOTH;
-		m_ligData.edge = Edge_1;
-		m_ligData.powValue = SEESAW_POW_VALUE;
+		m_modelOption.directionLigData[enData_Zeroth].Dir.Set(SEESAW_LIG_DIRECTION);
+		m_modelOption.directionLigData[enData_Zeroth].Dir.Normalize();
+		m_modelOption.directionLigData[enData_Zeroth].Col.Set(SEESAW_LIG_COLOR);
+		m_modelOption.ambient.Set(SEESAW_AMBIENT);
+		m_modelOption.metaric = SEESAW_METARIC;
+		m_modelOption.smooth = SEESAW_SMOOTH;
+		m_modelOption.edge = Edge_1;
+		m_modelOption.powValue = SEESAW_POW_VALUE;
+		m_modelOption.LigID = enGameObject_Seesaw;
 
-		m_skinModelRender->SetUserLigData(&m_ligData);
+		m_skinModelRender->SetUserModelOption(&m_modelOption);
 		m_skinModelRender->SetColorBufferFormat(DXGI_FORMAT_R32G32B32A32_FLOAT);
+		m_skinModelRender->SetLigID(enGameObject_Seesaw);
 		m_skinModelRender->Init();
 
 		m_skinModelRender->UpdateWorldMatrix();
@@ -74,7 +76,7 @@ private:
 	Quaternion m_startRot = Quaternion::Identity;
 	BoxCollider m_boxCollider;
 	RigidBody m_rigidBody;
-	LigData m_ligData;
+	ModelOption m_modelOption;
 
 	/**
 	 * @brief それぞれのクラスのポインタ

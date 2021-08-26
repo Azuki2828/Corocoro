@@ -46,7 +46,7 @@ bool DeathBlock::Start() {
 	mainCamera->changeRotCameraEvent.push_back([&]() {
 		Quaternion m_rotZ;
 		m_rotZ.SetRotationDeg(Vector3::AxisZ, CAMERA_ROT_VALUE);
-		m_rotZ.Apply(m_ligData.m_directionLigData[enData_Zeroth].Dir);
+		m_rotZ.Apply(m_modelOption.directionLigData[enData_Zeroth].Dir);
 		});
 
 	//デスブロックの当たり判定を設定。
@@ -82,9 +82,9 @@ void DeathBlock::Update() {
 
 	PhysicsWorld::GetInstance()->ContactTest(*m_player->GetRigidBody(), [&](const btCollisionObject& contactObject) {
 		//ノイズをかけていく。
-		m_ligData.uvNoiseOffset += ADD_UV_NOISE_OFFSET;
+		m_modelOption.uvNoiseOffset += ADD_UV_NOISE_OFFSET;
 		float t;
-		m_ligData.uvNoiseOffset = modf(m_ligData.uvNoiseOffset, &t);
+		m_modelOption.uvNoiseOffset = modf(m_modelOption.uvNoiseOffset, &t);
 
 		//プレイヤーと当たったか。
 		if (m_ghostBox.IsSelf(contactObject)) {
@@ -192,26 +192,29 @@ void DeathBlock::Init(const char* name)
 	m_skinModelRender->SetZprepassFlag(true);
 
 	//ディレクションライトの向きを設定。
-	m_ligData.m_directionLigData[enData_Zeroth].Dir.Set(DEATH_BLOCK_LIG_DIR);
+	m_modelOption.directionLigData[enData_Zeroth].Dir.Set(DEATH_BLOCK_LIG_DIR);
 	//正規化。
-	m_ligData.m_directionLigData[enData_Zeroth].Dir.Normalize();
+	m_modelOption.directionLigData[enData_Zeroth].Dir.Normalize();
 
 	//環境光を設定。
-	m_ligData.ambient.Set(DEATH_BLOCK_LIG_AMBIENT);
+	m_modelOption.ambient.Set(DEATH_BLOCK_LIG_AMBIENT);
 	//金属度を設定。
-	m_ligData.metaric = DEATH_BLOCK_METARIC;
+	m_modelOption.metaric = DEATH_BLOCK_METARIC;
 	//なめらかさを設定。
-	m_ligData.smooth = DEATH_BLOCK_SMOOTH;
+	m_modelOption.smooth = DEATH_BLOCK_SMOOTH;
 	//輪郭線のタイプを設定。
-	m_ligData.edge = Edge_1;
+	m_modelOption.edge = Edge_1;
 	//絞り率を設定。
-	m_ligData.powValue = DEATH_BLOCK_POW_VALUE;
+	m_modelOption.powValue = DEATH_BLOCK_POW_VALUE;
 	//ノイズの強さを設定。
-	m_ligData.uvNoiseMul = UV_NOISE_MUL;
+	m_modelOption.uvNoiseMul = UV_NOISE_MUL;
+	
+	m_modelOption.LigID = enGameObject_TreasureBox;
 	//ユーザー定義のライト情報を設定。
-	m_skinModelRender->SetUserLigData(&m_ligData);
+	m_skinModelRender->SetUserModelOption(&m_modelOption);
 	//カラーバッファのフォーマットを指定。
 	m_skinModelRender->SetColorBufferFormat(DXGI_FORMAT_R32G32B32A32_FLOAT);
+	m_skinModelRender->SetLigID(enGameObject_DeathBlock);
 	//モデルを初期化。
 	m_skinModelRender->Init();
 }

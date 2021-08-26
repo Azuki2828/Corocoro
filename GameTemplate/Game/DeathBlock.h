@@ -78,7 +78,7 @@ private:
 	Vector3 m_ghostPos = Vector3::Zero;				//トリガーボックスの座標
 	CPhysicsGhostObject m_ghostBox;					//トリガーボックス
 
-	LigData m_ligData;								//ライトのデータ
+	ModelOption m_modelOption;						//ライトのデータ
 
 
 	//それぞれのクラスのポインタ
