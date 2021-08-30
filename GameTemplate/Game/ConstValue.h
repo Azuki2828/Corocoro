@@ -111,6 +111,9 @@ enum HUDList {
 	enSprite_Second2,
 	enSprite_TitleButton,
 	enSprite_EndButton,
+	enSprite_TimeBack,
+	enSprite_YesKey,
+	enSprite_NoKey,
 
 	enSprite_HUDNum
 };
@@ -226,6 +229,7 @@ namespace {
 	const int BLUR_POWER = 10;														//ブラーの強さ
 	const char* SPRITE_SHADER_FILE_PATH = "Assets/shader/defferdLighting.fx";		//スプライトシェーダーのファイルパス
 	const char* SPRITE_SHADER_MONOCHROME_FILE_PATH = "Assets/shader/sample2D.fx";	//モノクロ表示用のシェーダーのファイルパス
+	const char* HUD_FILE_PATH = "Assets/shader/sprite.fx";
 
 	const int INITIALIZE_TIME = 0;
 	const int REST_INITIAL_TIME = 0;		//スピンロック時の待ちタイムの初期時間

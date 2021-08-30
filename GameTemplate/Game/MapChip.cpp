@@ -26,10 +26,10 @@ MapChip::MapChip(const LevelObjectData& objData) {
 	m_skinModelRender->SetFileNametks(static_cast<const char*>(filePathtks));
 
 	m_skinModelRender->SetShadowReceiverFlag(true);
-	m_modelOption.directionLigData[0].Dir.Set(-1, -1, 1);
+	m_modelOption.directionLigData[0].Dir.Set(0, -1, 1);
 	m_modelOption.directionLigData[0].Dir.Normalize();
-	m_modelOption.directionLigData[0].Col.Set(1.5f, 1.5f, 1.5f, 1.0f);
-	m_modelOption.ambient.Set(0.8f, 0.8f, 0.8f);
+	m_modelOption.directionLigData[0].Col.Set(0.3f, 0.3f, 0.3f, 1.0f);
+	m_modelOption.ambient.Set(0.5f, 0.5f, 0.5f);
 	m_modelOption.metaric = 0.0f;
 	m_modelOption.smooth = 0.0f;
 	auto mainCamera = FindGO<MainCamera>("mainCamera");

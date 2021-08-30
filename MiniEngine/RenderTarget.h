@@ -41,6 +41,16 @@ public:
 	static void CreateMainRenderTarget() {
 
 		m_mainRenderTarget = new RenderTarget;
+
+		RenderTarget::GetMainRenderTarget()->Create(
+			RENDER_TARGET_W1280H720.x,
+			RENDER_TARGET_W1280H720.y,
+			MIP_LEVEL1,
+			RENDER_ARRAY_SIZE1,
+			// 【注目】カラーバッファーのフォーマットを32bit浮動小数点にしている
+			DXGI_FORMAT_R32G32B32A32_FLOAT,
+			DXGI_FORMAT_D32_FLOAT
+		);
 	}
 
 	static RenderTarget* GetMainRenderTarget() {
@@ -76,7 +86,7 @@ public:
 			RENDER_TARGET_W1280H720.y,
 			1,
 			1,
-			DXGI_FORMAT_R8G8B8A8_UNORM,
+			DXGI_FORMAT_R16G16B16A16_SNORM,
 			DXGI_FORMAT_UNKNOWN
 		);
 	}
@@ -130,6 +140,64 @@ public:
 	static RenderTarget* GetZPrepassRenderTarget() {
 
 		return m_zprepassRenderTarget;
+	}
+
+	static void CreateLuminanceRenderTarget() {
+		m_luminanceRenderTarget = new RenderTarget;
+
+		m_luminanceRenderTarget->Create(
+			RENDER_TARGET_W1280H720.x,       // 解像度はメインレンダリングターゲットと同じ
+			RENDER_TARGET_W1280H720.y,        // 解像度はメインレンダリングターゲットと同じ
+			MIP_LEVEL1,
+			RENDER_ARRAY_SIZE1,
+			// 【注目】カラーバッファーのフォーマットを32bit浮動小数点にしている
+			DXGI_FORMAT_R32G32B32A32_FLOAT,
+			DXGI_FORMAT_D32_FLOAT
+		);
+	}
+
+	static RenderTarget* GetLuminanceRenderTarget() {
+
+		return m_luminanceRenderTarget;
+	}
+
+	static void CreateSnapShotRenderTarget() {
+		
+		m_snapShotRenderTarget = new RenderTarget;
+		m_snapShotRenderTarget->Create(
+			RENDER_TARGET_W1280H720.x,
+			RENDER_TARGET_W1280H720.y,
+			MIP_LEVEL1,
+			RENDER_ARRAY_SIZE1,
+			// 【注目】カラーバッファーのフォーマットを32bit浮動小数点にしている
+			DXGI_FORMAT_R32G32B32A32_FLOAT,
+			DXGI_FORMAT_D32_FLOAT
+		);
+	}
+
+	static RenderTarget* GetSnapShotRenderTarget() {
+
+		return m_snapShotRenderTarget;
+	}
+
+	static void CreateFinalRenderTarget() {
+
+		m_finalRenderTarget = new RenderTarget;
+
+		m_finalRenderTarget->Create(
+			RENDER_TARGET_W1280H720.x,
+			RENDER_TARGET_W1280H720.y,
+			MIP_LEVEL1,
+			RENDER_ARRAY_SIZE1,
+			// 【注目】カラーバッファーのフォーマットを32bit浮動小数点にしている
+			DXGI_FORMAT_R32G32B32A32_FLOAT,
+			DXGI_FORMAT_D32_FLOAT
+		);
+	}
+
+	static RenderTarget* GetFinalRenderTarget() {
+
+		return m_finalRenderTarget;
 	}
 	/// <summary>
 	/// CPU側のレンダリングターゲットのディスクリプタハンドルを取得。
@@ -252,8 +320,11 @@ private:
 	static RenderTarget* m_albedoRenderTarget;
 	static RenderTarget* m_normalRenderTarget;
 	static RenderTarget* m_depthRenderTarget;
-	
+	static RenderTarget* m_snapShotRenderTarget;
+	static RenderTarget* m_luminanceRenderTarget;
+	static RenderTarget* m_finalRenderTarget;
 	static RenderTarget* m_GBuffer[enRenderTargetNum];
+
 	Texture m_renderTargetTexture;
 	ID3D12Resource* m_renderTargetTextureDx12;	//レンダリングターゲットとなるテクスチャ。
 	ID3D12Resource* m_depthStencilTexture;		//深度ステンシルバッファとなるテクスチャ。

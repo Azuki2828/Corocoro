@@ -24,6 +24,7 @@ bool StageSelectLevel2D::Start()
 			m_spriteRender[enStageSelectSprite_BackScreen]->Init(objdata.ddsFilePath, objdata.width, objdata.height);
 			m_spriteRender[enStageSelectSprite_BackScreen]->SetPosition(objdata.position);
 			m_spriteRender[enStageSelectSprite_BackScreen]->SetScale(objdata.scale);
+			//m_spriteRender[enStageSelectSprite_BackScreen]->SetBackSpriteFlg();
 
 			return true;
 		}

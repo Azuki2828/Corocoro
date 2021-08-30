@@ -23,13 +23,25 @@ void SpriteRender::Update() {
 	m_sprite.Update(m_pos, m_rot, m_sca);
 }
 
+//void SpriteRender::Render(RenderContext& rc) {
+//
+//	switch (rc.GetRenderMode()) {
+//	case RenderContext::Render_Mode::RenderMode_Shadow:
+//		break;
+//	case RenderContext::Render_Mode::RenderMode_Normal:
+//		m_sprite.Draw(rc);
+//		break;
+//	}
+//}
+
 void SpriteRender::Render(RenderContext& rc) {
 
 	switch (rc.GetRenderMode()) {
-	case RenderContext::Render_Mode::RenderMode_Shadow:
-		break;
-	case RenderContext::Render_Mode::RenderMode_Normal:
-		m_sprite.Draw(rc);
+	case RenderContext::Render_Mode::RenderMode_BackSprite:
+
+		if (m_backSpriteFlag) {
+			m_sprite.Draw(rc);
+		}
 		break;
 	}
 }
@@ -37,10 +49,12 @@ void SpriteRender::Render(RenderContext& rc) {
 void SpriteRender::RenderSprite(RenderContext& rc) {
 
 	switch (rc.GetRenderMode()) {
-	case RenderContext::Render_Mode::RenderMode_Shadow:
-		break;
 	case RenderContext::Render_Mode::RenderMode_Normal:
-		m_sprite.Draw(rc);
+
+		if (!m_backSpriteFlag) {
+			m_sprite.Draw(rc);
+		}
 		break;
 	}
 }
+

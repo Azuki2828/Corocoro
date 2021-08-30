@@ -163,9 +163,9 @@ Player::~Player()
 void Player::Update()
 {
 	//カメラの視点を更新
-	//for (auto& modelOption : m_modelOption) {
-	//	modelOption.eyePos = g_camera3D->GetPosition();
-	//}
+	/*for (auto& modelOption : m_modelOption) {
+		modelOption.eyePos = g_camera3D->GetPosition();
+	}*/
 
 	//各クラスを探し出す
 	if (m_backGround == nullptr) {
@@ -254,6 +254,7 @@ void Player::Update()
 	//ライトカメラの情報を設定
 	Camera::GetLightCamera()->SetPosition(m_lightCameraPos);
 	Camera::GetLightCamera()->SetTarget(m_lightCameraTar);
+	Camera::GetLightCamera()->SetFar(800.0f);
 }
 
 void Player::FreeUpdate() {

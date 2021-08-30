@@ -5,6 +5,9 @@
 RenderTarget* RenderTarget::m_shadowMap = nullptr;
 RenderTarget* RenderTarget::m_mainRenderTarget = nullptr;
 RenderTarget* RenderTarget::m_zprepassRenderTarget = nullptr;
+RenderTarget* RenderTarget::m_snapShotRenderTarget = nullptr;
+RenderTarget* RenderTarget::m_luminanceRenderTarget = nullptr;
+RenderTarget* RenderTarget::m_finalRenderTarget = nullptr;
 
 RenderTarget* RenderTarget::m_GBuffer[enRenderTargetNum] = { nullptr };
 

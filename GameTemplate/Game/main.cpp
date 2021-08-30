@@ -1,19 +1,11 @@
 #include "stdafx.h"
 #include "system/system.h"
 #include "TitleScene.h"
-#include "PostEffect.h"
 #include "Game.h"
 
 void CreateInstance();
-void InitMainRenderTarget();
-void InitLuminanceRenderTarget(RenderTarget& luminanceRenderTarget);
-void InitPostEffect(PostEffect* postEffect,RenderTarget& renderTarget);
-void DefferdRenderingExecute(RenderContext& renderContext);
-void InitSpriteToMainRenderTarget(Sprite& sprite);
 
 void InitBGMAndSE();
-
-void ExecuteDrawLuminance(RenderContext& renderContext, RenderTarget& luminanceRenderTarget, PostEffect* postEffect);
 
 void ExecuteGaussianBlur(RenderContext& renderContext, PostEffect* postEffect);
 
@@ -32,6 +24,8 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 
 	//クラスのインスタンスを作成。
 	CreateInstance();
+	//BGMとSEを初期化。
+	InitBGMAndSE();
 
 	//ストップウォッチを作成
 	Stopwatch stopWatch;
@@ -39,60 +33,8 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	//タイトル画面からスタート
 	NewGO<TitleScene>(enPriority_Zeroth);
 
-	//メインとなるライトの作成。
-	DirectionLight* m_dirLight = NewGO<DirectionLight>(enPriority_Zeroth, NAME_DIRECTION_LIGHT);
-	m_dirLight->SetLigDirection();
-	m_dirLight->SetLigColor();
-
-	//BGMとSEを初期化。
-	InitBGMAndSE();
-
-
-	//レンダリングターゲットの生成。
-	InitMainRenderTarget();
-	RenderTarget::CreateAlbedoRenderTarget();
-	RenderTarget::CreateNormalAndDepthRenderTarget();
-	RenderTarget::CreateWorldPosAndLigIDRenderTarget();
-	RenderTarget::CreateShadowMap();
-	RenderTarget::CreateZPrepassRenderTarget();
-
-
-	// 輝度抽出用のレンダリングターゲットを作成
-	RenderTarget luminanceRenderTarget;
-	InitLuminanceRenderTarget(luminanceRenderTarget);
-
-	//ポストエフェクトクラスの初期化
-	PostEffect* postEffect = NewGO<PostEffect>(enPriority_Zeroth);
-	InitPostEffect(postEffect,luminanceRenderTarget);
-
-	// mainRenderTargetのテクスチャをフレームバッファーに貼り付けるためのスプライトを初期化する
-	Sprite copyToFrameBufferSprite;
-
-	SpriteInitData spriteInitData;
-
-	// テクスチャはmainRenderTargetのカラーバッファー
-	spriteInitData.m_textures[enAlbedoMap] = &RenderTarget::GetRenderTarget(enAlbedoMap)->GetRenderTargetTexture();
-	spriteInitData.m_textures[enNormalAndDepthMap] = &RenderTarget::GetRenderTarget(enNormalAndDepthMap)->GetRenderTargetTexture();
-	spriteInitData.m_textures[enWorldPosAndLigIDMap] = &RenderTarget::GetRenderTarget(enWorldPosAndLigIDMap)->GetRenderTargetTexture();
-	//spriteInitData.m_textures[enShadowMap] = &RenderTarget::GetRenderTarget(enShadowMap)->GetRenderTargetTexture();
-	spriteInitData.m_width = RENDER_TARGET_W1280H720.x;
-	spriteInitData.m_height = RENDER_TARGET_W1280H720.y;
-
-	// モノクロ用のシェーダーを指定する
-	spriteInitData.m_fxFilePath = SPRITE_SHADER_FILE_PATH;
-	spriteInitData.m_expandConstantBuffer = LightManager::GetInstance()->GetLigData();
-	spriteInitData.m_expandConstantBufferSize = sizeof(*LightManager::GetInstance()->GetLigData());
-
-	// 初期化オブジェクトを使って、スプライトを初期化する
-	copyToFrameBufferSprite.Init(spriteInitData);
-	//InitSpriteToMainRenderTarget(copyToFrameBufferSprite);
-
-
-	auto& renderContext = g_graphicsEngine->GetRenderContext();
-
-
 	
-	g_blur.Init(&RenderTarget::GetZPrepassRenderTarget()->GetRenderTargetTexture());
+	RenderingEngine::GetRenderingEngine()->Init();
 
 	// ここからゲームループ。
 	while (DispatchWindowMessage())
@@ -108,37 +50,9 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 		//////////////////////////////////////
 
 		//インスタンスの更新。
-		GameObjectManager::GetInstance()->ExecuteUpdate();
-		PhysicsWorld::GetInstance()->Update(g_gameTime->GetFrameDeltaTime());
-		EffectEngine::GetInstance()->Update(g_gameTime->GetFrameDeltaTime());
-		SoundManager::GetInstance()->Update();
-		HUD::GetHUD()->Update();
-		LightManager::GetInstance()->Update();
+		RenderingEngine::GetRenderingEngine()->UpdateInstance();
 
-
-		//描画
-		DefferdRenderingExecute(renderContext);
-		//EffectEngine::GetInstance()->Draw();										//エフェクト
-		//HUD::GetHUD()->Draw(renderContext);										//HUD
-		//GameObjectManager::GetInstance()->ExecuteFontRender(renderContext);		//フォント
-		//PhysicsWorld::GetInstance()->DebubDrawWorld(renderContext);
-
-
-
-		//輝度抽出
-		//ExecuteDrawLuminance(renderContext, luminanceRenderTarget, postEffect);
-
-		//ガウシアンブラーを４回かける。
-		//ExecuteGaussianBlur(renderContext, postEffect);
-
-
-		// メインレンダリングターゲットの絵をフレームバッファーにコピー
-		renderContext.SetRenderTarget(
-			g_graphicsEngine->GetCurrentFrameBuffuerRTV(),
-			g_graphicsEngine->GetCurrentFrameBuffuerDSV()
-		);
-		copyToFrameBufferSprite.Draw(renderContext);
-
+		RenderingEngine::GetRenderingEngine()->Render();
 		//////////////////////////////////////
 		//絵を描くコードを書くのはここまで！！！
 		//////////////////////////////////////
@@ -167,6 +81,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 void CreateInstance() {
 
 	//クラスのインスタンスを作成する。
+	RenderingEngine::CreateRenderingEngine();
 	GameObjectManager::CreateInstance();
 	PhysicsWorld::CreateInstance();
 	CSoundEngine::CreateInstance();
@@ -176,41 +91,6 @@ void CreateInstance() {
 	EffectEngine::CreateInstance();
 	HUD::CreateHUD();
 	Camera::CreateLightCamera();
-}
-
-void InitMainRenderTarget() {
-
-	RenderTarget::CreateMainRenderTarget();
-
-	RenderTarget::GetMainRenderTarget()->Create(
-		RENDER_TARGET_W1280H720.x,
-		RENDER_TARGET_W1280H720.y,
-		MIP_LEVEL1,
-		RENDER_ARRAY_SIZE1,
-		// 【注目】カラーバッファーのフォーマットを32bit浮動小数点にしている
-		DXGI_FORMAT_R32G32B32A32_FLOAT,
-		DXGI_FORMAT_D32_FLOAT
-	);
-}
-
-void InitLuminanceRenderTarget(RenderTarget& luminanceRenderTarget) {
-
-	// 解像度、ミップマップレベル
-	luminanceRenderTarget.Create(
-		RENDER_TARGET_W1280H720.x,       // 解像度はメインレンダリングターゲットと同じ
-		RENDER_TARGET_W1280H720.y,        // 解像度はメインレンダリングターゲットと同じ
-		MIP_LEVEL1,
-		RENDER_ARRAY_SIZE1,
-		// 【注目】カラーバッファーのフォーマットを32bit浮動小数点にしている
-		DXGI_FORMAT_R32G32B32A32_FLOAT,
-		DXGI_FORMAT_D32_FLOAT
-	);
-}
-
-void InitPostEffect(PostEffect* postEffect, RenderTarget& renderTarget) {
-
-	postEffect->InitLuminance(*RenderTarget::GetMainRenderTarget());
-	postEffect->InitGaussianBlur(renderTarget);
 }
 
 void InitBGMAndSE() {
@@ -232,24 +112,6 @@ void InitBGMAndSE() {
 	SoundManager::GetInstance()->Init(SOUND_FILEPATH_RESTART, enSE_ReStart, false, SoundType::Type_SE);
 }
 
-void ExecuteDrawLuminance(RenderContext& renderContext, RenderTarget& luminanceRenderTarget, PostEffect* postEffect) {
-
-	// 輝度抽出用のレンダリングターゲットに変更
-	renderContext.WaitUntilToPossibleSetRenderTarget(luminanceRenderTarget);
-
-	// レンダリングターゲットを設定
-	renderContext.SetRenderTargetAndViewport(luminanceRenderTarget);
-
-	// レンダリングターゲットをクリア
-	renderContext.ClearRenderTargetView(luminanceRenderTarget);
-
-	// 輝度抽出を行う
-	postEffect->GetLuminanceSprite().Draw(renderContext);
-
-	// レンダリングターゲットへの書き込み終了待ち
-	renderContext.WaitUntilFinishDrawingToRenderTarget(luminanceRenderTarget);
-}
-
 void ExecuteGaussianBlur(RenderContext& renderContext, PostEffect* postEffect) {
 
 	//ガウシアンブラーを4回実行する
@@ -266,37 +128,4 @@ void ExecuteGaussianBlur(RenderContext& renderContext, PostEffect* postEffect) {
 	postEffect->GetFinalSprite().Draw(renderContext);
 
 	renderContext.WaitUntilFinishDrawingToRenderTarget(*RenderTarget::GetMainRenderTarget());
-}
-
-void DefferdRenderingExecute(RenderContext& renderContext) {
-
-	RenderTarget* rts[] = {
-			RenderTarget::GetRenderTarget(enAlbedoMap),   // 0番目のレンダリングターゲット
-			RenderTarget::GetRenderTarget(enNormalAndDepthMap),  // 1番目のレンダリングターゲット
-			RenderTarget::GetRenderTarget(enWorldPosAndLigIDMap) // 2番目のレンダリングターゲット
-	};
-
-	// まず、レンダリングターゲットとして設定できるようになるまで待つ
-	renderContext.WaitUntilToPossibleSetRenderTargets(ARRAYSIZE(rts), rts);
-
-	// レンダリングターゲットを設定
-	renderContext.SetRenderTargets(ARRAYSIZE(rts), rts);
-
-	// レンダリングターゲットをクリア
-	renderContext.ClearRenderTargetViews(ARRAYSIZE(rts), rts);
-
-
-	//モデルの描画
-	GameObjectManager::GetInstance()->ExecuteRender(renderContext);
-
-	LightManager::GetInstance()->m_ligData;
-	int a = 0;
-	// レンダリングターゲットへの書き込み待ち
-	renderContext.WaitUntilFinishDrawingToRenderTargets(ARRAYSIZE(rts), rts);
-}
-
-void InitSpriteToMainRenderTarget(Sprite& sprite) {
-
-	// スプライトの初期化オブジェクトを作成する
-	
 }

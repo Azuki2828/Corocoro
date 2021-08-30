@@ -75,7 +75,8 @@ extern GaussianBlur g_blur;
 void GameObjectManager::DrawShadowMap(RenderContext& rc) {
 
 	//シャドウマップにレンダリング。
-		//レンダリングターゲットをシャドウマップに変更する。
+	// 
+	//レンダリングターゲットをシャドウマップに変更する。
 	rc.WaitUntilToPossibleSetRenderTarget(*RenderTarget::GetShadowMap());
 	rc.SetRenderTargetAndViewport(*RenderTarget::GetShadowMap());
 	rc.ClearRenderTargetView(*RenderTarget::GetShadowMap());
@@ -111,6 +112,7 @@ void GameObjectManager::DrawZPrepassMap(RenderContext& rc) {
 		}
 	}
 
+
 	rc.WaitUntilFinishDrawingToRenderTarget(*RenderTarget::GetZPrepassRenderTarget());
 
 	//深度値を少しあいまいにする。
@@ -120,23 +122,34 @@ void GameObjectManager::ExecuteRender(RenderContext& rc)
 {
 	//レンダラーを変更するならここを改造していくと良い。
 
-	// レンダリングターゲットをmainRenderTargetに変更する
-		// レンダリングターゲットとして利用できるまで待つ
-	//rc.WaitUntilToPossibleSetRenderTarget(*RenderTarget::GetMainRenderTarget());
-	//// レンダリングターゲットを設定
-	//rc.SetRenderTargetAndViewport(*RenderTarget::GetMainRenderTarget());
-	//// レンダリングターゲットをクリア
-	//rc.ClearRenderTargetView(*RenderTarget::GetMainRenderTarget());
-
 	rc.SetRenderMode(RenderContext::Render_Mode::RenderMode_Normal);
 	for (auto& goList : m_gameObjectListArray) {
 		for (auto& go : goList) {
 			go->RenderWrapper(rc);
 		}
 	}
+}
 
-	////書き込み完了待ち。
-	//rc.WaitUntilFinishDrawingToRenderTarget(*RenderTarget::GetMainRenderTarget());
+void GameObjectManager::Execute2DRender(RenderContext& rc)
+{
+	//レンダラーを変更するならここを改造していくと良い。
+
+	rc.SetRenderMode(RenderContext::Render_Mode::RenderMode_Normal);
+	for (auto& goList : m_gameObjectListArray) {
+		for (auto& go : goList) {
+			go->SpriteRenderWrapper(rc);
+		}
+	}
+}
+
+void GameObjectManager::ExecuteBackSpriteRender(RenderContext& rc) {
+
+	rc.SetRenderMode(RenderContext::Render_Mode::RenderMode_BackSprite);
+	for (auto& goList : m_gameObjectListArray) {
+		for (auto& go : goList) {
+			go->RenderWrapper(rc);
+		}
+	}
 }
 
 void GameObjectManager::ExecuteFontRender(RenderContext& rc)

@@ -3,6 +3,8 @@
 
 #include "MiniEngine.h"
 #include "ExEngine.h"
+#include "../GameTemplate/Game/PostEffect.h"
+#include "../GameTemplate/Game/RenderingEngine.h"
 #include "SkinModelRender.h"
 #include "SpriteRender.h"
 #include "FontRender.h"

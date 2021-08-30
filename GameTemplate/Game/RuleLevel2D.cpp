@@ -66,7 +66,7 @@ bool RuleLevel2D::Start() {
 RuleLevel2D::~RuleLevel2D()
 {
 	//タイトル画面に戻るときに画像を全て破棄。
-	for (int i = 0; i < enSprite_Num; i++) {
+	for (int i = 0; i < enRuleSprite_Num; i++) {
 		DeleteGO(m_sprite[i]);
 	}
 }

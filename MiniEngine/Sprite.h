@@ -9,6 +9,7 @@ class Texture;
 const int MAX_TEXTURE = 16;
 //拡張SRVが設定されるレジスタの開始番号。
 const int EXPAND_SRV_REG__START_NO = 10;
+const int EXPAND_SRV_REG__START_NO_2 = 11;
 
 class IShaderResource;
 
@@ -34,6 +35,7 @@ struct SpriteInitData {
 	void* m_expandConstantBuffer = nullptr;					//ユーザー拡張の定数バッファ
 	int m_expandConstantBufferSize = 0;						//ユーザー拡張の定数バッファのサイズ。
 	IShaderResource* m_expandShaderResoruceView = nullptr;	//ユーザー拡張のシェーダーリソース。
+	IShaderResource* m_expandShaderResoruceView_2 = nullptr;//ユーザー拡張のシェーダーリソース。
 	AlphaBlendMode m_alphaBlendMode = AlphaBlendMode_None;	//アルファブレンディングモード。
 	DXGI_FORMAT m_colorBufferFormat = DXGI_FORMAT_R8G8B8A8_UNORM;	//レンダリングするカラーバッファのフォーマット。
 };

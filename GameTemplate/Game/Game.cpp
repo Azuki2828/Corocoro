@@ -69,6 +69,17 @@ bool Game::Start() {
 	m_fontRender->SetColor(Vector4::White);		//白色
 	m_fontRender->SetShadowParam(true, FONT_FLAME, Vector4::Black);
 
+	//メインとなるライトの作成。
+	m_dirLight = NewGO<DirectionLight>(enPriority_Zeroth, NAME_DIRECTION_LIGHT);
+	m_dirLight->SetLigDirection();
+	m_dirLight->SetLigColor({ 5.0f,5.0f,5.0f });
+
+	//カメラ回転時の処理
+	m_camera->changeRotCameraEvent.push_back([&]() {
+		Quaternion m_rotZ;
+		m_rotZ.SetRotationDeg(Vector3::AxisZ, CAMERA_ROT_VALUE);
+		m_rotZ.Apply(*m_dirLight->GetLigDirection());
+		});
 
 	//カウントダウンスプライトを初期化して、非表示状態にしておく。
 	HUD::GetHUD()->Init(enSprite_3,SPRITE_THREE_FILE_PATH, SPRITE_WH.x, SPRITE_WH.y);

@@ -23,7 +23,7 @@ void HUD::Init(int num, const char* filepath, float width, float height, AlphaBl
 		m_spriteData[enData_Zeroth]->initData.m_ddsFilePath[enData_Zeroth] = filepath;
 		m_spriteData[enData_Zeroth]->initData.m_width = width;
 		m_spriteData[enData_Zeroth]->initData.m_height = height;
-		m_spriteData[enData_Zeroth]->initData.m_fxFilePath = SPRITE_SHADER_FILE_PATH;
+		m_spriteData[enData_Zeroth]->initData.m_fxFilePath = HUD_FILE_PATH;
 		m_spriteData[enData_Zeroth]->initData.m_alphaBlendMode = mode;
 		m_spriteData[enData_Zeroth]->prio = prio;
 

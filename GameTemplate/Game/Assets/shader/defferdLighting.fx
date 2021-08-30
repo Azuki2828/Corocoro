@@ -27,8 +27,8 @@ struct ModelOption {
 cbuffer DefferdLightingCb : register(b1) {
 	DirectionalLight directionalLight[MAX_DIRECTION_LIGHT];
 	ModelOption modelOption[MAX_MODEL_OPTION];
-	float3 eyePos;
 	float4x4 mLVP;
+	float3 eyePos;
 };
 
 cbuffer cb : register(b0){
@@ -179,6 +179,7 @@ float SimplexNoise(float3 x)
 		lerp(lerp(hash(n + 113.0), hash(n + 114.0), f.x),
 			lerp(hash(n + 170.0), hash(n + 171.0), f.x), f.y), f.z);
 }
+
 PSInput VSMain(VSInput In) 
 {
 	PSInput psIn;
@@ -196,16 +197,18 @@ float4 PSMain(PSInput In) : SV_Target0
 {
 	float3 normal = normalAndDepthTexture.Sample(g_sampler, In.uv).xyz;
 
-	normal = (normal * 2.0f) - 1.0f;
+	//normal = (normal * 2.0f) - 1.0f;
+	float depth = normalAndDepthTexture.Sample(g_sampler, In.uv).a;
 
-	//return float4(normal.xyz, 1.0f);
+	//return float4(depth, 0.0f, 0.0f, 1.0f);
 
 	float3 worldPos = worldPosAndLigIDTexture.Sample(g_sampler, In.uv).xyz;
 	unsigned int ligID = worldPosAndLigIDTexture.Sample(g_sampler, In.uv).w;
 
 	float uOffset = SimplexNoise(float3(In.uv + modelOption[ligID].uvNoiseOffset, 0.0f) * 256.0f) * 0.5f;
-
+	
 	float4 albedoColor = albedoTexture.Sample(g_sampler, In.uv + uOffset * modelOption[ligID].uvNoiseMul);
+
 	float3 specColor = albedoColor;
 
 	float3 toEye = normalize(eyePos - worldPos);
@@ -222,12 +225,14 @@ float4 PSMain(PSInput In) : SV_Target0
 
 		float3 diffuse = albedoColor * diffuseFromFresnel * lambertDiffuse;
 
+		
 		float3 spec = CookTorranceSpecular(-directionalLight[ligNo].direction,
 			toEye, normal, modelOption[ligID].metaric, 1.0f - modelOption[ligID].smooth) * directionalLight[ligNo].color;
 
 		spec *= lerp(float3(1.0f, 1.0f, 1.0f), specColor, modelOption[ligID].smooth);
 
 		//鏡面反射率を使って、拡散反射光と鏡面反射光を合成する
+		// 
 		//return float4(diffuse, 1.0f);
 		lig += diffuse * (1.0f - modelOption[ligID].smooth) + spec * modelOption[ligID].smooth;
 	}
@@ -237,87 +242,82 @@ float4 PSMain(PSInput In) : SV_Target0
 	float4 finalColor = albedoColor;
 	finalColor.xyz = lig;
 
-	//float4 posInProj = In.pos;
-	//if (modelOption[ligID].edge > 0) {
-	//	//float2 uv = psIn.posInProj.xy * float2(0.5f, -0.5f) + 0.5f;
+	float4 posInProj = In.pos;
+	if (modelOption[ligID].edge > 0) {
+		
+		float2 uvOffset[8] = {
+			float2(0.0f,  0.5f / 720.0f),
+			float2(0.0f, -0.5f / 720.0f),
+			float2(0.5f / 1280.0f,           0.0f),
+			float2(-0.5f / 1280.0f,           0.0f),
+			float2(0.5f / 1280.0f,  0.5f / 720.0f),
+			float2(-0.5f / 1280.0f,  0.5f / 720.0f),
+			float2(0.5f / 1280.0f, -0.5f / 720.0f),
+			float2(-0.5f / 1280.0f, -0.5f / 720.0f)
+		};
 
-	//	float2 uvOffset[8] = {
-	//		float2(0.0f,  0.5f / 720.0f),
-	//		float2(0.0f, -0.5f / 720.0f),
-	//		float2(0.5f / 1280.0f,           0.0f),
-	//		float2(-0.5f / 1280.0f,           0.0f),
-	//		float2(0.5f / 1280.0f,  0.5f / 720.0f),
-	//		float2(-0.5f / 1280.0f,  0.5f / 720.0f),
-	//		float2(0.5f / 1280.0f, -0.5f / 720.0f),
-	//		float2(-0.5f / 1280.0f, -0.5f / 720.0f)
-	//	};
+		float normalX = g_depthTexture.Sample(g_sampler, In.uv).x;
+		float depth2 = 0.0f;
+		for (int i = 0; i < 8; i++) {
+			depth2 += g_depthTexture.Sample(g_sampler, In.uv + uvOffset[i]).x;
+		}
+		depth2 /= 8.0f;
+		if (abs(normalX - depth2) > 0.0005f) {
+			return float4(0.0f, 0.0f, 0.0f, 1.0f);
+		}
 
-	//	float depth = normalAndDepthTexture.Sample(g_sampler, In.uv).w;
-
-	//	float depth2 = 0.0f;
-	//	for (int i = 0; i < 8; i++) {
-	//		depth2 += normalAndDepthTexture.Sample(g_sampler, In.uv + uvOffset[i]).w;
-	//	}
-	//	depth2 /= 8.0f;
-	//	if (abs(depth - depth2) > 0.0005f) {
-	//		return float4(0.0f, 0.0f, 0.0f, 1.0f);
-	//	}
-
-	//	float3 normalDistance1 = g_depthTexture.Sample(g_sampler, In.uv).xyz;
-	//	float3 normalDistance2 = 0.0f;
-	//	for (int i = 0; i < 8; i++) {
-	//		normalDistance2 = g_depthTexture.Sample(g_sampler, In.uv + uvOffset[i]).xyz;
+		float3 normalDistance1 = g_depthTexture.Sample(g_sampler, In.uv).xyz;
+		float3 normalDistance2 = 0.0f;
+		for (int i = 0; i < 8; i++) {
+			normalDistance2 = g_depthTexture.Sample(g_sampler, In.uv + uvOffset[i]).xyz;
 
 
-	//		if (modelOption[ligID].edge == 1) {
-	//			float t = dot(normalDistance1, normalDistance2);
-	//			if (t < 0.5f) {
-	//				//法線が結構違う。
-	//				t = max(0.0f, t);
-	//				t += 0.5f;
-	//				finalColor *= pow(t, modelOption[ligID].powValue);
-	//				break;
-	//			}
-	//		}
-	//		else if (modelOption[ligID].edge == 2) {
+			if (modelOption[ligID].edge == 1) {
+				float t = dot(normalDistance1, normalDistance2);
+				if (t < 0.5f) {
+					//法線が結構違う。
+					t = max(0.0f, t);
+					t += 0.5f;
+					finalColor *= pow(t, modelOption[ligID].powValue);
+					break;
+				}
+			}
+			else if (modelOption[ligID].edge == 2) {
 
-	//			float t = dot(normalDistance1, normalDistance2);
-	//			if (t > 0.5f) {
-	//				//法線が結構違う。
-	//				t = max(0.0f, t);
-	//				t -= 0.5f;
-	//				t *= 2.0f;
-	//				finalColor *= pow(1.0 - t, 0.5f);
-	//				break;
-	//			}
-	//		}
-	//	}
+				float t = dot(normalDistance1, normalDistance2);
+				if (t > 0.5f) {
+					//法線が結構違う。
+					t = max(0.0f, t);
+					t -= 0.5f;
+					t *= 2.0f;
+					finalColor *= pow(1.0 - t, 0.5f);
+					break;
+				}
+			}
+		}
+	}
+	float4 posInLVP = mul(mLVP, float4(worldPos, 1.0f));
 
-	//	//ライトビュースクリーン空間からUV空間に座標変換。
-	//	float2 shadowMapUV = In.uv;
+	//ライトビューの座標系を.wで割ることで正規化スクリーン座標系に変換できる。(重要)
+	float2 shadowMapUV = posInLVP.xy / posInLVP.w;
 
-	//	/*
-	//	ライトビューの座標系を.wで割ることで正規化スクリーン座標系に変換できる。(重要)
-	//	*/
-	//	shadowMapUV *= float2(0.5f, -0.5f);
-	//	shadowMapUV += 0.5f;
+	//ライトビュースクリーン空間からUV空間に座標変換。
+	shadowMapUV *= float2(0.5f, -0.5f);
+	shadowMapUV += 0.5f;
 
-	//	float4 posInLVP = mul(mLVP, float4(worldPos, 1.0f));
+	// ライトビュースクリーン空間でのZ値を計算する。
+	float zInLVP = posInLVP.z / posInLVP.w;
 
-	//	// ライトビュースクリーン空間でのZ値を計算する。
-	//	float zInLVP = posInLVP.z / posInLVP.w;
-
-	//	if (shadowMapUV.x > 0.0f && shadowMapUV.x < 1.0f
-	//		&& shadowMapUV.y > 0.0f && shadowMapUV.y < 1.0f
-	//		&& zInLVP > 0.0f && zInLVP < 1.0f
-	//		) {
-	//		//シャドウマップに描き込まれているZ値と比較する。
-	//		float zInShadowMap = g_shadowMap.Sample(g_sampler, shadowMapUV).r;
-	//		if (zInLVP > zInShadowMap) {
-	//			finalColor.xyz *= 0.5f;
-	//		}
-	//	}
-	//}
+	if (shadowMapUV.x > 0.0f && shadowMapUV.x < 1.0f
+		&& shadowMapUV.y > 0.0f && shadowMapUV.y < 1.0f
+		&& zInLVP > 0.0f && zInLVP < 1.0f
+		) {
+		//シャドウマップに描き込まれているZ値と比較する。
+		float zInShadowMap = g_shadowMap.Sample(g_sampler, shadowMapUV).r;
+		if (zInLVP > zInShadowMap) {
+			finalColor.xyz *= 0.5f;
+		}
+	}
 
 	return finalColor;
 

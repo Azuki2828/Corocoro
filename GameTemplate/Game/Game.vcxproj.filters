@@ -108,6 +108,7 @@
     <ClCompile Include="SoundManager.cpp" />
     <ClCompile Include="TreasureBox.cpp" />
     <ClCompile Include="HUD.cpp" />
+    <ClCompile Include="RenderingEngine.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\ExEngine\ExEngine.h" />
@@ -491,6 +492,7 @@
     <ClInclude Include="ConstValue.h" />
     <ClInclude Include="ConstTriggerBoxValue.h" />
     <ClInclude Include="RuleSceneConstData.h" />
+    <ClInclude Include="RenderingEngine.h" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\MiniEngine\Animation.h">

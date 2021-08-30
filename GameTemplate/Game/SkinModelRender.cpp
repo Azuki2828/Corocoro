@@ -102,6 +102,11 @@ void SkinModelRender::Init() {
 		modelInitData.m_colorBufferFormat = DXGI_FORMAT_R32G32B32A32_FLOAT;
 
 		m_zprepassModel.Init(modelInitData);
+		m_zprepassModel.UpdateWorldMatrix(
+			m_pos,
+			m_rot,
+			m_sca
+		);
 	}
 
 	//作成した初期化データをもとにモデルを初期化する、
@@ -124,6 +129,12 @@ void SkinModelRender::Update() {
 
 
 	m_shadowModel.UpdateWorldMatrix(
+		m_pos,
+		m_rot,
+		m_sca
+	);
+
+	m_zprepassModel.UpdateWorldMatrix(
 		m_pos,
 		m_rot,
 		m_sca

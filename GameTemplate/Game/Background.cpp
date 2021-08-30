@@ -26,6 +26,7 @@ bool BackGround::Start()
 	//背景画像を初期化
 	m_spriteRender = NewGO<SpriteRender>(enPriority_Zeroth);
 	m_spriteRender->SetPosition(Vector3::Zero);
+	m_spriteRender->SetBackSpriteFlg();
 	m_spriteRender->Init(GAME_BACKGROUND_UI, GAME_BACKGROUND_UI_WH.x, GAME_BACKGROUND_UI_WH.y);
 
 

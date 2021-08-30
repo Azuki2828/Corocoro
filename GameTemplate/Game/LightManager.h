@@ -30,9 +30,8 @@ struct ModelOption {
 struct LigData {
 	DirectionLigData directionLigData[MAX_DIRECTION_LIGHT];		//すべてのモデルが受けるディレクションライトのデータ
 	ModelOption modelOption[MAX_MODEL_OPTION];					//モデルオプション
-	Vector3 eyePos = Vector3::Zero;								//視点の座標
-	float pad;													//パディング
 	Matrix m_viewProj;											//プロジェクション行列
+	Vector3 eyePos = Vector3::Zero;								//視点の座標
 };
 //struct LigData {
 //	DirectionLigData m_directionLigData[MAX_DIRECTION_LIGHT];	//ディレクションライトのデータ
@@ -97,8 +96,8 @@ public:
 	 * @return ライトのデータ
 	*/
 	LigData* GetLigData() { return &m_ligData; }
-	LigData m_ligData;									//ライトのデータ
 private:
+	LigData m_ligData;									//ライトのデータ
 	static LightManager* m_lightManager;				//ライトマネージャーのインスタンス
 	std::list<DirectionLigData*> m_directionLights;		//ディレクションライトのデータ
 };
