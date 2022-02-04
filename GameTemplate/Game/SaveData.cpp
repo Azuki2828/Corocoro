@@ -16,8 +16,13 @@ void SaveData::Save()
 {
 	m_result = FindGO<ResultScene>(NAME_RESULT_SCENE);
 
+	//Ž–‘O‚É“o˜^‚µ‚½Å’Z‹L˜^‚ðŽæ“¾B
 	float Record = m_result->GetTime();
+
+	//ƒXƒe[ƒW”Ô†‚ðŽæ“¾B
 	m_stageNum = m_result->GetStageNum();
+
+	//¡‰ñ‚Ì‹L˜^‚ªÅ’Z‹L˜^‚æ‚è‘‚©‚Á‚½‚ç
 	if (m_data.record[m_stageNum] >= Record) {
 		m_newRecordFlg = true;
 
