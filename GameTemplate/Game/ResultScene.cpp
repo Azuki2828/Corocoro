@@ -176,6 +176,7 @@ void ResultScene::Update()
 			if (SoundManager::GetInstance()->IsPlaying(enSE_GameClear)) {
 				SoundManager::GetInstance()->Release(enSE_GameClear);
 			}
+			LightManager::GetInstance()->RemoveLightAll();
 
 			break;
 

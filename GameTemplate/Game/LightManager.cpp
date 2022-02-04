@@ -73,7 +73,10 @@ void LightManager::RemoveLight(LightBase* light)
 		}
 	}
 }
-
+void LightManager::RemoveLightAll()
+{
+	m_directionLights.clear();
+}
 void LightManager::Update() {
 
 	//カメラの座標を更新

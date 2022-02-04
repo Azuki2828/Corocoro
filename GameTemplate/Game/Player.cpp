@@ -95,7 +95,6 @@ bool Player::Start()
 		//tksファイルをロード。
 		m_skinModelRender[i]->SetFileNametks(tksFilePaths[i]);
 		m_skinModelRender[i]->SetShadowCasterFlag(true);
-		m_skinModelRender[i]->SetShadowReceiverFlag(true);
 		m_skinModelRender[i]->SetColorBufferFormat(DXGI_FORMAT_R32G32B32A32_FLOAT);
 		m_skinModelRender[i]->SetUserModelOption(&m_modelOption[i]);
 		m_skinModelRender[i]->SetZprepassFlag(true);

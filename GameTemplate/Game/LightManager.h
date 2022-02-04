@@ -22,9 +22,9 @@ struct ModelOption {
 	int edge = Edge_NULL;
 	float powValue = 0.0f;
 	unsigned int LigID = 0;
-	Vector2 pad;
 	float uvNoiseMul = 0.0f;
 	float uvNoiseOffset = 0.0f;
+	Vector2 pad;
 };
 
 struct LigData {
@@ -59,6 +59,7 @@ public:
 
 		m_lightManager = new LightManager;
 	}
+	
 	/**
 	 * @brief ライトマネージャーのインスタンスを取得する関数。
 	 * @return インスタンス
@@ -90,7 +91,10 @@ public:
 	 * @param light ライトのインスタンス
 	*/
 	void RemoveLight(LightBase* light);
-
+	/**
+	 * @brief 登録されているライトを全て削除。
+	*/
+	void RemoveLightAll();
 	/**
 	 * @brief ライトのデータを取得する関数。
 	 * @return ライトのデータ

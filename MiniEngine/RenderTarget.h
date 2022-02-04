@@ -5,29 +5,34 @@
 
 class GraphicsEngine;
 
+/**
+ * @brief レンダリングターゲットのリスト
+*/
 enum RenderTargetList {
-	enAlbedoMap,
+	enAlbedoAndShadowReceiverFlgMap,
 	enNormalAndDepthMap,
 	enWorldPosAndLigIDMap,
 
 	enRenderTargetNum
 };
 
-/// <summary>
+
 /// レンダリングターゲット。
-/// </summary>
+
 class RenderTarget {
 public:
-	/// <summary>
-	/// レンダリングターゲットの作成。
-	/// </summary>
-	/// <param name="w">レンダリングターゲットの幅</param>
-	/// <param name="h">レンダリングターゲットの高さ</param>
-	/// <param name="mipLevel">ミップマップレベル。0を指定した場合はミップマップがサポートされているGPUでは1*1ピクセルまでのミップマップが作成される。</param>
-	/// <param name="arraySize">テクスチャ配列のサイズ</param>
-	/// <param name="colorFormat">カラーバッファのフォーマット。</param>
-	/// <param name="depthStencilFormat">深度ステンシルバッファのフォーマット。</param>
-	/// <returns>trueが返ってきたら作成成功</returns>
+	
+	/**
+	 * @brief レンダリングターゲットの作成。
+	 * @param w レンダリングターゲットの幅
+	 * @param h レンダリングターゲットの高さ
+	 * @param mipLevel ミップマップレベル。0を指定した場合はミップマップがサポートされているGPUでは1*1ピクセルまでのミップマップが作成される。
+	 * @param arraySize テクスチャ配列のサイズ
+	 * @param colorFormat カラーバッファのフォーマット。
+	 * @param depthStencilFormat 深度ステンシルバッファのフォーマット。
+	 * @param clearColor 初期カラー
+	 * @return trueが返ってきたら作成成功
+	*/
 	bool Create(
 		int w,
 		int h,
@@ -47,7 +52,6 @@ public:
 			RENDER_TARGET_W1280H720.y,
 			MIP_LEVEL1,
 			RENDER_ARRAY_SIZE1,
-			// 【注目】カラーバッファーのフォーマットを32bit浮動小数点にしている
 			DXGI_FORMAT_R32G32B32A32_FLOAT,
 			DXGI_FORMAT_D32_FLOAT
 		);
@@ -65,13 +69,13 @@ public:
 
 	static void CreateAlbedoRenderTarget() {
 
-		m_GBuffer[enAlbedoMap] = new RenderTarget;
+		m_GBuffer[enAlbedoAndShadowReceiverFlgMap] = new RenderTarget;
 
-		m_GBuffer[enAlbedoMap]->Create(
+		m_GBuffer[enAlbedoAndShadowReceiverFlgMap]->Create(
 			RENDER_TARGET_W1280H720.x,
 			RENDER_TARGET_W1280H720.y,
-			1,
-			1,
+			MIP_LEVEL1,
+			RENDER_ARRAY_SIZE1,
 			DXGI_FORMAT_R8G8B8A8_UNORM,
 			DXGI_FORMAT_D32_FLOAT
 		);
@@ -84,8 +88,8 @@ public:
 		m_GBuffer[enNormalAndDepthMap]->Create(
 			RENDER_TARGET_W1280H720.x,
 			RENDER_TARGET_W1280H720.y,
-			1,
-			1,
+			MIP_LEVEL1,
+			RENDER_ARRAY_SIZE1,
 			DXGI_FORMAT_R16G16B16A16_SNORM,
 			DXGI_FORMAT_UNKNOWN
 		);
@@ -98,8 +102,8 @@ public:
 		m_GBuffer[enWorldPosAndLigIDMap]->Create(
 			RENDER_TARGET_W1280H720.x,
 			RENDER_TARGET_W1280H720.y,
-			1,
-			1,
+			MIP_LEVEL1,
+			RENDER_ARRAY_SIZE1,
 			DXGI_FORMAT_R32G32B32A32_FLOAT, // ワールド座標を記録するので、32ビット浮動小数点バッファを利用する
 			DXGI_FORMAT_UNKNOWN
 		);
@@ -112,8 +116,8 @@ public:
 		m_shadowMap->Create(
 			1024,
 			1024,
-			1,
-			1,
+			MIP_LEVEL1,
+			RENDER_ARRAY_SIZE1,
 			DXGI_FORMAT_R32_FLOAT,
 			DXGI_FORMAT_D32_FLOAT,
 			clearColor
@@ -130,8 +134,8 @@ public:
 		m_zprepassRenderTarget->Create(
 			g_graphicsEngine->GetFrameBufferWidth(),
 			g_graphicsEngine->GetFrameBufferHeight(),
-			1,
-			1,
+			MIP_LEVEL1,
+			RENDER_ARRAY_SIZE1,
 			DXGI_FORMAT_R32G32B32A32_FLOAT,
 			DXGI_FORMAT_D32_FLOAT
 		);
@@ -199,58 +203,65 @@ public:
 
 		return m_finalRenderTarget;
 	}
-	/// <summary>
-	/// CPU側のレンダリングターゲットのディスクリプタハンドルを取得。
-	/// </summary>
-	/// <returns></returns>
+	
+	/**
+	 * @brief CPU側のレンダリングターゲットのディスクリプタハンドルを取得。
+	 * @return レンダリングターゲットのディスクリプタハンドル
+	*/
 	D3D12_CPU_DESCRIPTOR_HANDLE GetRTVCpuDescriptorHandle() const
 	{
 		return m_rtvHeap->GetCPUDescriptorHandleForHeapStart();
 	}
-	/// <summary>
-	/// CPU側のデプスステンシルバッファのディスクリプタハンドルを取得。
-	/// </summary>
-	/// <returns></returns>
+
+	/**
+	 * @brief CPU側のデプスステンシルバッファのディスクリプタハンドルを取得。
+	 * @return デプスステンシルバッファのディスクリプタハンドル
+	*/
 	D3D12_CPU_DESCRIPTOR_HANDLE GetDSVCpuDescriptorHandle() const
 	{
 		return m_dsvHeap->GetCPUDescriptorHandleForHeapStart();
 	}
-	/// <summary>
-	/// レンダリングターゲットとなるテクスチャを取得。
-	/// </summary>
-	/// <returns></returns>
+
+	/**
+	 * @brief レンダリングターゲットとなるテクスチャを取得。
+	 * @return レンダリングターゲットとなるテクスチャ
+	*/
 	Texture& GetRenderTargetTexture()
 	{
 		return m_renderTargetTexture;
 	}
-	/// <summary>
-	/// デプスステンシルバッファが存在しているか判定
-	/// </summary>
-	/// <returns></returns>
+
+	/**
+	 * @brief デプスステンシルバッファが存在しているか判定
+	 * @return デプスステンシルバッファが存在している?
+	*/
 	bool IsExsitDepthStencilBuffer() const
 	{
 		return m_depthStencilTexture;
 	}
-	/// <summary>
-	/// レンダリングターゲットの幅を取得。
-	/// </summary>
-	/// <returns></returns>
+
+	/**
+	 * @brief レンダリングターゲットの幅を取得。
+	 * @return レンダリングターゲットの幅
+	*/
 	int GetWidth() const
 	{
 		return m_width;
 	}
-	/// <summary>
-	/// レンダリングターゲットの高さを取得。
-	/// </summary>
-	/// <returns></returns>
+
+	/**
+	 * @brief レンダリングターゲットの高さを取得。
+	 * @return レンダリングターゲットの高さ
+	*/
 	int GetHeight() const
 	{
 		return m_height;
 	}
-	/// <summary>
-	/// カラーバッファのフォーマットを取得。
-	/// </summary>
-	/// <returns></returns>
+
+	/**
+	 * @brief カラーバッファのフォーマットを取得。
+	 * @return カラーバッファのフォーマット
+	*/
 	DXGI_FORMAT GetColorBufferFormat() const
 	{
 		return m_renderTargetTexture.GetFormat();
@@ -264,24 +275,27 @@ public:
 		return m_dsvClearValue;
 	}
 private:
-	/// <summary>
-	/// ディスクリプタヒープを作成。
-	/// </summary>
-	/// <param name="ge">グラフィックエンジン</param>
-	/// <param name="d3dDevice">D3Dデバイス</param>
-	/// <returns></returns>
+
+	/**
+	 * @brief ディスクリプタヒープを作成。
+	 * @param ge グラフィックエンジン
+	 * @param d3dDevice D3Dデバイス
+	 * @return 作成に成功した？
+	*/
 	bool CreateDescriptorHeap(GraphicsEngine& ge, ID3D12Device5*& d3dDevice);
-	/// <summary>
-	/// レンダリングターゲットとなるテクスチャを作成。
-	/// </summary>
-	/// <param name="ge">グラフィックエンジン</param>
-	/// <param name="d3dDevice">D3Dデバイス</param>
-	/// <param name="w">テクスチャの幅</param>
-	/// <param name="h">テクスチャの高さ</param>
-	/// <param name="mipLevel">ミップマップレベル</param>
-	/// <param name="arraySize">テクスチャ配列のサイズ</param>
-	/// <param name="format">テクスチャのフォーマット</param>
-	/// <returns>trueが返ってきたら成功。</returns>
+
+	/**
+	 * @brief レンダリングターゲットとなるテクスチャを作成。
+	 * @param ge グラフィックエンジン
+	 * @param d3dDevice D3Dデバイス
+	 * @param w テクスチャの幅
+	 * @param h テクスチャの高さ
+	 * @param mipLevel ミップマップレベル
+	 * @param arraySize テクスチャ配列のサイズ
+	 * @param format テクスチャのフォーマット
+	 * @param clearColor 初期カラー
+	 * @return 作成に成功した？
+	*/
 	bool CreateRenderTargetTexture(
 		GraphicsEngine& ge,
 		ID3D12Device5*& d3dDevice,
@@ -292,40 +306,38 @@ private:
 		DXGI_FORMAT format,
 		float clearColor[4]
 	);
-	/// <summary>
-	/// 深度ステンシルバッファとなるテクスチャを作成。
-	/// </summary>
-	/// <param name="ge">グラフィックエンジン</param>
-	/// <param name="d3dDevice">D3Dデバイス</param>
-	/// <param name="w">テクスチャの幅</param>
-	/// <param name="h">テクスチャの高さ</param>
-	/// <param name="format">テクスチャのフォーマット</param>
-	/// <returns>trueが返ってきたら成功</returns>
+
+	/**
+	 * @brief 深度ステンシルバッファとなるテクスチャを作成。
+	 * @param ge グラフィックエンジン
+	 * @param d3dDevice D3Dデバイス
+	 * @param w テクスチャの幅
+	 * @param h テクスチャの高さ
+	 * @param format テクスチャのフォーマット
+	 * @return 作成に成功した？
+	*/
 	bool CreateDepthStencilTexture(
 		GraphicsEngine& ge,
 		ID3D12Device5*& d3dDevice,
 		int w,
 		int h,
 		DXGI_FORMAT format);
-	/// <summary>
-	/// ディスクリプタの作成。
-	/// </summary>
-	/// <param name="d3dDevice">D3Dデバイス</param>
-	/// <returns>trueが返ってｋチアら成功。</returns>
+
+	/**
+	 * @brief ディスクリプタの作成。
+	 * @param d3dDevice D3Dデバイス
+	*/
 	void CreateDescriptor(ID3D12Device5*& d3dDevice);
 private:
 	static RenderTarget* m_shadowMap;
 	static RenderTarget* m_mainRenderTarget;
 	static RenderTarget* m_zprepassRenderTarget;
-	static RenderTarget* m_albedoRenderTarget;
-	static RenderTarget* m_normalRenderTarget;
-	static RenderTarget* m_depthRenderTarget;
 	static RenderTarget* m_snapShotRenderTarget;
 	static RenderTarget* m_luminanceRenderTarget;
 	static RenderTarget* m_finalRenderTarget;
 	static RenderTarget* m_GBuffer[enRenderTargetNum];
 
-	Texture m_renderTargetTexture;
+	Texture m_renderTargetTexture;				//レンダリングターゲットのテクスチャ。
 	ID3D12Resource* m_renderTargetTextureDx12;	//レンダリングターゲットとなるテクスチャ。
 	ID3D12Resource* m_depthStencilTexture;		//深度ステンシルバッファとなるテクスチャ。
 	ID3D12DescriptorHeap*		m_rtvHeap;		//RTV用のディスクリプタヒープ。

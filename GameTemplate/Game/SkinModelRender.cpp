@@ -8,8 +8,8 @@ namespace {
 	const char* VS_ENTRY_POINT_DEFAULT = "VSMain";
 	const char* VS_ENTRY_POINT_DEFAULT_SKIN = "VSSkinMain";
 	const char* FX_FILE_PATH_MODEL = "Assets/shader/model.fx";
-	const char* FX_FILE_PATH_SHADOW_RECIEVER_MODEL = "Assets/shader/sampleShadowReciever.fx";
-	const char* FX_FILE_PATH_SHADOW_MAP = "Assets/shader/sampleDrawShadowMap.fx";
+	const char* FX_FILE_PATH_SHADOW_RECIEVER_MODEL = "Assets/shader/shadowReciever.fx";
+	const char* FX_FILE_PATH_SHADOW_MAP = "Assets/shader/drawShadowMap.fx";
 	const char* FX_FILE_PATH_ZPREPASS = "Assets/shader/ZPrepass.fx";
 }
 
@@ -36,11 +36,15 @@ void SkinModelRender::Init() {
 
 
 	if (!m_shadowReceiverFlag) {
-		initData.m_fxFilePath = FX_FILE_PATH_MODEL;
+		initData.m_fxFilePath = FX_FILE_PATH_SHADOW_RECIEVER_MODEL;
+		initData.m_vsEntryPointFunc = VS_ENTRY_POINT_DEFAULT;
+		initData.m_vsSkinEntryPointFunc = VS_ENTRY_POINT_DEFAULT_SKIN;
 		//initData.m_expandConstantBufferSize = sizeof(*LightManager::GetInstance()->GetLigData());
 		//initData.m_expandConstantBufferSize_2 = sizeof(*LightManager::GetInstance()->GetLigData());
 	}
 	else {
+		m_modelData.ShadowRecieverflg = enShadowON;
+
 		initData.m_fxFilePath = FX_FILE_PATH_SHADOW_RECIEVER_MODEL;
 		initData.m_vsEntryPointFunc = VS_ENTRY_POINT_DEFAULT;
 		initData.m_vsSkinEntryPointFunc = VS_ENTRY_POINT_DEFAULT;

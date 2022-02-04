@@ -18,7 +18,7 @@ bool ResultLevel2D::Start() {
 		//–¼‘O‚ªGrayBack‚¾‚Á‚½‚çA
 		else if (objdata.EqualObjectName(SPRITE_NAME_GRAY_BACK)) {
 
-			HUD::GetHUD()->Init(enSprite_GrayBack,objdata.ddsFilePath, objdata.width, objdata.height);
+			HUD::GetHUD()->Init(enSprite_GrayBack,objdata.ddsFilePath, objdata.width, objdata.height, AlphaBlendMode::AlphaBlendMode_Trans, 1);
 			HUD::GetHUD()->SetPosition(enSprite_GrayBack, objdata.position);
 			HUD::GetHUD()->SetScale(enSprite_GrayBack, objdata.scale);
 

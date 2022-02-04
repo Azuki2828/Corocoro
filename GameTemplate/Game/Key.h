@@ -99,7 +99,7 @@ private:
 	bool m_gameClearSoundFlag = true;				//ゲームクリアのサウンド再生を1回だけにするフラグ
 	bool m_keyGetSoundFlag = true;					//鍵取得のサウンド再生を1回だけにするフラグ
 	bool m_startUpTempoSoundFlg = false;			//アップテンポBGMの再生を1回だけにするフラグ
-	int m_delayCount = 0;							//鍵を取得してから鍵取得のサウンド再生が終わるまでの時間を待たせる変数
+	float m_delayCount = 0;							//鍵を取得してから鍵取得のサウンド再生が終わるまでの時間を待たせる変数
 	float m_keyRotTime = 0.0f;						//鍵を回転させる時のタイマー
 	Vector3 m_keyPos = Vector3::Zero;				//鍵の座標
 	Vector3 m_keyScale = Vector3::One;				//鍵の拡大率

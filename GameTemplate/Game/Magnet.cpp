@@ -57,6 +57,8 @@ void Magnet::Update() {
 	m_skinModelRender->SetPosition(m_pos);
 	//プレイヤーに向かって伸びるベクトル(長さ)。
 	m_length = m_player->GetPosition() - m_magnetPos;
+
+
 		PhysicsWorld::GetInstance()->ContactTest(*m_player->GetRigidBody(), [&](const btCollisionObject& contactObject) {
 
 			//トリガーボックスと接触

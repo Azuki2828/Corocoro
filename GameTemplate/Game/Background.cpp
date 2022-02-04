@@ -154,15 +154,6 @@ void BackGround::LevelInit(const char* filePath) {
 			//土台の拡大率を設定。
 			m_key->SetScaleDoor(objData.scale);
 
-			//エフェクトを宝箱の中から発生させる。
-			Effect* treasure = nullptr;
-			treasure = NewGO<Effect>(enPriority_Zeroth);
-			treasure->Init(DEATH_EFFECT_FILE_PATH);
-			treasure->SetScale(EFFECT_SCALE);
-			Vector3 effPos = objData.position;
-			effPos += ADD_EFFECT_POS;
-			treasure->SetPosition(effPos);
-			treasure->Play();
 			return true;
 		}
 		else if (objData.EqualObjectName(GetObjectName(enObject_TreasureBox))) {

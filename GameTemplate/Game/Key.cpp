@@ -194,7 +194,7 @@ void Key::Update() {
 		//鍵取得音再生されていたら
 		if (!m_keyGetSoundFlag) {
 			//
-			m_delayCount += GameTime().GameTimeFunc().GetFrameDeltaTime();
+			m_delayCount += GameTime::GameTimeFunc().GetFrameDeltaTime();
 		}
 
 		if (m_delayCount >= SOUND_DERAY_COUNT) {

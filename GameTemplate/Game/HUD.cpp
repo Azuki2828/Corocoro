@@ -33,13 +33,13 @@ void HUD::Init(int num, const char* filepath, float width, float height, AlphaBl
 	else {
 		auto it = m_spriteData.begin();
 		for (int i = 0; i < m_spriteData.size(); i++) {
-			if (m_spriteData[i]->prio >= prio) {
+			if (m_spriteData[i]->prio <= prio) {
 				it = m_spriteData.insert(it, new SpriteData);
 				m_spriteData[i]->spriteNum = num;
 				m_spriteData[i]->initData.m_ddsFilePath[enData_Zeroth] = filepath;
 				m_spriteData[i]->initData.m_width = width;
 				m_spriteData[i]->initData.m_height = height;
-				m_spriteData[i]->initData.m_fxFilePath = SPRITE_SHADER_FILE_PATH;
+				m_spriteData[i]->initData.m_fxFilePath = HUD_FILE_PATH;
 				m_spriteData[i]->initData.m_alphaBlendMode = mode;
 				m_spriteData[i]->prio = prio;
 
@@ -71,6 +71,7 @@ void HUD::Update() {
 void HUD::Draw(RenderContext& rc) {
 
 	for (int i = 0; i < m_spriteData.size(); i++) {
+
 		//—LŒø‚È‚ç•`‰æ‚·‚éB
 		if (m_spriteData[i]->activate) {
 			m_spriteData[i]->sprite.Draw(rc);

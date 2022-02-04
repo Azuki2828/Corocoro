@@ -179,7 +179,7 @@ namespace {
 	const int PAD_0 = 0;
 	const int NAME_SIZE = 256;										//名前の最大のサイズ
 	const int TEXT_SIZE = 64;										//テキストの標準サイズ
-	const float TEXT_BIT_SIZE = 32.0f;								//テキストのビットサイズ
+	const float TEXT_BIT_SIZE = 16.0f;								//テキストのビットサイズ
 	const float CAMERA_ROT_VALUE = -2.0f;							//カメラの１フレーム当たりの回転数
 
 	const float REVERSE_VECTOR = -1.0f;								//ベクトル反転の定数
@@ -227,8 +227,8 @@ namespace {
 	const int RENDER_ARRAY_SIZE1 = 1;												//レンダリングターゲットで使用するテクスチャ配列のサイズ
 	const int GAUSSIAN_BLUR_NUM = 4;												//ガウシアンブラーをかける回数
 	const int BLUR_POWER = 10;														//ブラーの強さ
-	const char* SPRITE_SHADER_FILE_PATH = "Assets/shader/defferdLighting.fx";		//スプライトシェーダーのファイルパス
-	const char* SPRITE_SHADER_MONOCHROME_FILE_PATH = "Assets/shader/sample2D.fx";	//モノクロ表示用のシェーダーのファイルパス
+	const char* SPRITE_SHADER_FILE_PATH = "Assets/shader/deferredLighting.fx";		//スプライトシェーダーのファイルパス
+	const char* SPRITE_SHADER_MONOCHROME_FILE_PATH = "Assets/shader/sprite.fx";	//モノクロ表示用のシェーダーのファイルパス
 	const char* HUD_FILE_PATH = "Assets/shader/sprite.fx";
 
 	const int INITIALIZE_TIME = 0;

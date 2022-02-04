@@ -45,7 +45,7 @@ void RenderingEngine::InitDifferdRenderingSprite() {
 	SpriteInitData spriteInitData;
 
 	// テクスチャはmainRenderTargetのカラーバッファー
-	spriteInitData.m_textures[enAlbedoMap] = &RenderTarget::GetRenderTarget(enAlbedoMap)->GetRenderTargetTexture();
+	spriteInitData.m_textures[enAlbedoAndShadowReceiverFlgMap] = &RenderTarget::GetRenderTarget(enAlbedoAndShadowReceiverFlgMap)->GetRenderTargetTexture();
 	spriteInitData.m_textures[enNormalAndDepthMap] = &RenderTarget::GetRenderTarget(enNormalAndDepthMap)->GetRenderTargetTexture();
 	spriteInitData.m_textures[enWorldPosAndLigIDMap] = &RenderTarget::GetRenderTarget(enWorldPosAndLigIDMap)->GetRenderTargetTexture();
 	//spriteInitData.m_textures[enShadowMap] = &RenderTarget::GetRenderTarget(enShadowMap)->GetRenderTargetTexture();
@@ -100,7 +100,7 @@ void RenderingEngine::UpdateInstance() {
 void RenderingEngine::DefferdRenderingExecute(RenderContext& renderContext) {
 
 	RenderTarget* rts[] = {
-			RenderTarget::GetRenderTarget(enAlbedoMap),   // 0番目のレンダリングターゲット
+			RenderTarget::GetRenderTarget(enAlbedoAndShadowReceiverFlgMap),   // 0番目のレンダリングターゲット
 			RenderTarget::GetRenderTarget(enNormalAndDepthMap),  // 1番目のレンダリングターゲット
 			RenderTarget::GetRenderTarget(enWorldPosAndLigIDMap) // 2番目のレンダリングターゲット
 	};
@@ -122,8 +122,9 @@ void RenderingEngine::DefferdRenderingExecute(RenderContext& renderContext) {
 	// レンダリングターゲットをクリア
 	renderContext.ClearRenderTargetViews(ARRAYSIZE(rts), rts);
 
-
+	LightManager::GetInstance()->GetLigData();
 	//モデルの描画
+	GameObjectManager::GetInstance()->ExecuteBackSpriteRender(renderContext);
 	GameObjectManager::GetInstance()->ExecuteRender(renderContext);
 
 	// レンダリングターゲットへの書き込み待ち
@@ -192,7 +193,13 @@ void RenderingEngine::ExecuteGaussianBlur(RenderContext& renderContext) {
 
 void RenderingEngine::DrawPostEffect(RenderContext& renderContext) {
 
+	renderContext.SetRenderTarget(
+		RenderTarget::GetFinalRenderTarget()->GetRTVCpuDescriptorHandle(),
+		RenderTarget::GetRenderTarget(enAlbedoAndShadowReceiverFlgMap)->GetDSVCpuDescriptorHandle()
+	);
+
 	EffectEngine::GetInstance()->Draw();									//エフェクト
+	renderContext.SetRenderTargetAndViewport(*RenderTarget::GetFinalRenderTarget());
 	HUD::GetHUD()->Draw(renderContext);										//HUD
 	GameObjectManager::GetInstance()->ExecuteFontRender(renderContext);		//フォント
 	PhysicsWorld::GetInstance()->DebubDrawWorld(renderContext);
@@ -204,7 +211,6 @@ void RenderingEngine::DrawFinalSprite(RenderContext& renderContext) {
 
 	renderContext.SetRenderTargetAndViewport(*RenderTarget::GetFinalRenderTarget());
 
-	GameObjectManager::GetInstance()->ExecuteBackSpriteRender(renderContext);
 	m_copyToMainRenderTargetSprite.Draw(renderContext);
 	DrawPostEffect(renderContext);
 	GameObjectManager::GetInstance()->Execute2DRender(renderContext);
@@ -216,11 +222,16 @@ void RenderingEngine::Render() {
 
 	auto& renderContext = g_graphicsEngine->GetRenderContext();
 
+	//シャドウマップの作成
 	GameObjectManager::GetInstance()->DrawShadowMap(renderContext);
+
+	//深度値テクスチャの作成（このゲームでは法線テクスチャと化している）
 	GameObjectManager::GetInstance()->DrawZPrepassMap(renderContext);
 
-	//描画
+	//ディファードレンダリング(G-Bufferの作成)
 	DefferdRenderingExecute(renderContext);
+
+	//ディファードライティング(G-Bufferとモデルの構造体を元にライト計算)
 	DefferdLightingExecute(renderContext);
 
 
@@ -230,6 +241,8 @@ void RenderingEngine::Render() {
 	//ガウシアンブラーを４回かける。
 	ExecuteGaussianBlur(renderContext);
 
+
+	//最終的にできるスプライト
 	DrawFinalSprite(renderContext);
 
 	//メインレンダリングターゲットの内容をスナップショット。

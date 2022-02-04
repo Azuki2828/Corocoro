@@ -158,6 +158,7 @@ public:
 	void Update();
 
 private:
+	int m_maxPriority = 0;
 	static HUD* m_hud;							//HUDクラスのインスタンス
 	std::vector<SpriteData*> m_spriteData;		//スプライトの総データ。
 };

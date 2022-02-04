@@ -40,7 +40,6 @@ bool Game::Start() {
 
 
 	//デバッグ用。ワイヤーフレーム表示をする
-
 	//PhysicsWorld::GetInstance()->EnableDrawDebugWireFrame();
 
 	//重力を通常のものに設定する。
@@ -76,10 +75,11 @@ bool Game::Start() {
 
 	//カメラ回転時の処理
 	m_camera->changeRotCameraEvent.push_back([&]() {
+
 		Quaternion m_rotZ;
 		m_rotZ.SetRotationDeg(Vector3::AxisZ, CAMERA_ROT_VALUE);
 		m_rotZ.Apply(*m_dirLight->GetLigDirection());
-		});
+	});
 
 	//カウントダウンスプライトを初期化して、非表示状態にしておく。
 	HUD::GetHUD()->Init(enSprite_3,SPRITE_THREE_FILE_PATH, SPRITE_WH.x, SPRITE_WH.y);
@@ -111,6 +111,9 @@ Game::~Game()
 	//フォントレンダークラスを削除
 	DeleteGO(m_fontRender);
 	m_fontRender = nullptr;
+	//ディレクションライトクラスを削除
+	DeleteGO(m_dirLight);
+	m_dirLight = nullptr;
 }
 
 void Game::Update() {

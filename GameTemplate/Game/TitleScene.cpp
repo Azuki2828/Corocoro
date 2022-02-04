@@ -14,6 +14,8 @@ bool TitleScene::Start()
 
 	m_ButtonScale = DEFAULT_SPRITE_SCALE.x;
 
+	
+
 	//タイトル画面表示
 	m_titleLevel2D = NewGO<TitleLevel2D>(enPriority_Zeroth, NAME_TITLE_LEVEL2D);
 

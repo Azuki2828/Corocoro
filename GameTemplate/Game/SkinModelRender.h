@@ -2,6 +2,10 @@
 
 class SkinModelRender : public IGameObject
 {
+	enum shadowReceiverFlg {
+		enShadowOFF,
+		enShadowON
+	};
 	struct LightCameraData{
 		Matrix m_viewProj;
 		Vector3 eyePos;
@@ -9,6 +13,7 @@ class SkinModelRender : public IGameObject
 
 	struct SModelData {
 		int ligID = 0;
+		int ShadowRecieverflg = enShadowOFF;
 	};
 public:
 	//SkinModelRender();

@@ -209,7 +209,7 @@ void DeathBlock::Init(const char* name)
 	//ノイズの強さを設定。
 	m_modelOption.uvNoiseMul = UV_NOISE_MUL;
 	
-	m_modelOption.LigID = enGameObject_TreasureBox;
+	m_modelOption.LigID = enGameObject_DeathBlock;
 	//ユーザー定義のライト情報を設定。
 	m_skinModelRender->SetUserModelOption(&m_modelOption);
 	//カラーバッファのフォーマットを指定。
