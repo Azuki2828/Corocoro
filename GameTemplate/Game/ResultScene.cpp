@@ -24,6 +24,14 @@ bool ResultScene::Start()
 	//最高記録を取得。
 	m_bestTime = m_game->GetBestTime();
 
+	//最高記録を更新。
+	if (m_nowTime < m_bestTime)
+	{
+		//最高記録だったら新記録！を表示するフラグをたてる
+		m_newRecordFlg = true;
+		m_bestTime = m_nowTime;
+	}
+
 	//今回の記録のテキストを生成。
 	m_fontNowTime = NewGO<FontRender>(enPriority_Second);
 
@@ -45,13 +53,7 @@ bool ResultScene::Start()
 	m_fontBestTime->SetShadowParam(true, TEXT_SHADOW_THICKNESS, Vector4::Black);
 	m_fontBestTime->SetPosition({ TEXT_BEST_TIME_POS.x - TEXT_BIT_SIZE * GetDigit(m_bestTime), TEXT_BEST_TIME_POS.y });
 
-	//最高記録を更新。
-	if (m_nowTime < m_bestTime)
-	{
-		//最高記録だったら新記録！を表示するフラグをたてる
-		m_newRecordFlg = true;
-		m_bestTime = m_nowTime;
-	}
+	
 
 	//セーブデータのクラスを探し出す。
 	m_saveData = FindGO<SaveData>(NAME_SAVE_DATA);

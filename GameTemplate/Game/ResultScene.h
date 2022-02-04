@@ -21,6 +21,15 @@ public:
 	}
 
 	/**
+	 * @brief 今回のタイムを記録する関数
+	 * @param time 今回のタイム
+	*/
+	void SetTime(const float time) {
+
+		m_time = time;
+	}
+
+	/**
 	 * @brief ステージ番号を設定する関数。
 	 * @param num ステージ番号
 	*/

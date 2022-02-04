@@ -221,8 +221,15 @@ void Game::Update() {
 
 			//ゲームクリアのサウンドを再生。
 			SoundManager::GetInstance()->Play(enSE_GameClear);
+
+			//リザルトシーンへ移行。
 			m_resultScene = NewGO<ResultScene>(enPriority_Zeroth, NAME_RESULT_SCENE);
+
+			//ステージ番号を記録。
 			m_resultScene->SetStageNum(m_stageNum);
+
+			//今回のタイムを記録。
+			m_resultScene->SetTime(m_time);
 		}
 	}
 
