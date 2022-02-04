@@ -1,5 +1,22 @@
 #pragma once
 
+namespace {
+	const Vector3 SEESAW_LIG_DIRECTION = { 0.0f,1.0f,1.0f };
+	const Vector4 SEESAW_LIG_COLOR = { 10.0f, 10.0f, 10.0f, 1.0f };
+	const Vector3 SEESAW_AMBIENT = { 0.8f, 0.8f, 0.8f };
+	const float SEESAW_METARIC = 1.0f;
+	const float SEESAW_SMOOTH = 0.35f;
+	const float SEESAW_POW_VALUE = 0.7f;
+
+	const Vector3 SEESAW_COLLIDER_SIZE = { 400.0f,25.0f,400.0f };
+	const float SEESAW_MASS = 1.0f;
+	const Vector3 SEESAW_LOCAL_INTERIA = { 0.0f,0.0f,3000.0f };
+	const float SEESAW_FRICTION = 10.0f;
+	const Vector3 SEESAW_LINIOR_FACTOR = { 0.0f,0.0f,0.0f };
+	const Vector3 SEESAW_ANGULAR_FACTOR = { 0.0f,0.0f,1.0f };
+	const Vector3 SEESAW_ANGULAR_VELOCITY = { 0.0f,0.0f,0.0f };
+}
+
 class Seesaw : public IGameObject
 {
 private:
@@ -9,24 +26,26 @@ private:
 
 public:
 	void Init(const char* name) {
-		char filePathtkm[256];
+		char filePathtkm[NAME_SIZE];
 		sprintf(filePathtkm, "Assets/modelData/tkm/%s.tkm", name);
-		m_skinModelRender = NewGO<SkinModelRender>(0);
+		m_skinModelRender = NewGO<SkinModelRender>(enPriority_Zeroth);
 		m_skinModelRender->SetFileNametkm(filePathtkm);
 		m_skinModelRender->SetShadowReceiverFlag(true);
 		m_skinModelRender->SetZprepassFlag(true);
 
-		m_ligData.m_directionLigData[0].Dir.Set(0, 1, 1);
-		m_ligData.m_directionLigData[0].Dir.Normalize();
-		m_ligData.m_directionLigData[0].Col.Set(10.0f, 10.0f, 10.0f, 1.0f);
-		m_ligData.ambient.Set(0.8f, 0.8f, 0.8f);
-		m_ligData.metaric = 1.0f;
-		m_ligData.smooth = 0.35f;
-		m_ligData.edge = Edge_1;
-		m_ligData.powValue = 0.7f;
+		m_modelOption.directionLigData[enData_Zeroth].Dir.Set(SEESAW_LIG_DIRECTION);
+		m_modelOption.directionLigData[enData_Zeroth].Dir.Normalize();
+		m_modelOption.directionLigData[enData_Zeroth].Col.Set(SEESAW_LIG_COLOR);
+		m_modelOption.ambient.Set(SEESAW_AMBIENT);
+		m_modelOption.metaric = SEESAW_METARIC;
+		m_modelOption.smooth = SEESAW_SMOOTH;
+		m_modelOption.edge = Edge_1;
+		m_modelOption.powValue = SEESAW_POW_VALUE;
+		m_modelOption.LigID = enGameObject_Seesaw;
 
-		m_skinModelRender->SetUserLigData(&m_ligData);
+		m_skinModelRender->SetUserModelOption(&m_modelOption);
 		m_skinModelRender->SetColorBufferFormat(DXGI_FORMAT_R32G32B32A32_FLOAT);
+		m_skinModelRender->SetLigID(enGameObject_Seesaw);
 		m_skinModelRender->Init();
 
 		m_skinModelRender->UpdateWorldMatrix();
@@ -57,7 +76,7 @@ private:
 	Quaternion m_startRot = Quaternion::Identity;
 	BoxCollider m_boxCollider;
 	RigidBody m_rigidBody;
-	LigData m_ligData;
+	ModelOption m_modelOption;
 
 	/**
 	 * @brief それぞれのクラスのポインタ

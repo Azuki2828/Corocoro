@@ -5,6 +5,7 @@
 
 bool Result::Start()
 {
+	
 	m_game = FindGO<Game>("game");
 	m_time = m_game->GetTime();		//Game‚ÅŽæ“¾‚µ‚½ƒ^ƒCƒ€
 	SaveData* savedata = FindGO<SaveData>("savedata");

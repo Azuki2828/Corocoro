@@ -313,7 +313,6 @@
     <ClCompile Include="..\..\MiniEngine\tkFile\TksFile.cpp" />
     <ClCompile Include="..\..\MiniEngine\VertexBuffer.cpp" />
     <ClCompile Include="Background.cpp" />
-    <ClCompile Include="Background2.cpp" />
     <ClCompile Include="DeathBlock.cpp" />
     <ClCompile Include="DirectionLight.cpp" />
     <ClCompile Include="FontRender.cpp" />
@@ -324,15 +323,13 @@
     <ClCompile Include="Key.cpp" />
     <ClCompile Include="Level.cpp" />
     <ClCompile Include="LightBase.cpp" />
-    <ClCompile Include="LightCamera.cpp" />
     <ClCompile Include="LightManager.cpp" />
     <ClCompile Include="Magnet.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MainCamera.cpp" />
     <ClCompile Include="MapChip.cpp" />
-    <ClCompile Include="MoveObject.cpp" />
-    <ClCompile Include="PhysicsBall.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="RenderingEngine.cpp" />
     <ClCompile Include="ResultLevel2D.cpp" />
     <ClCompile Include="RuleLevel2D.cpp" />
     <ClCompile Include="RuleScene.cpp" />
@@ -434,7 +431,8 @@
     <ClInclude Include="..\..\MiniEngine\tkFile\TksFile.h" />
     <ClInclude Include="..\..\MiniEngine\VertexBuffer.h" />
     <ClInclude Include="Background.h" />
-    <ClInclude Include="Background2.h" />
+    <ClInclude Include="ConstTriggerBoxValue.h" />
+    <ClInclude Include="ConstValue.h" />
     <ClInclude Include="DeathBlock.h" />
     <ClInclude Include="DirectionLight.h" />
     <ClInclude Include="FontRender.h" />
@@ -450,10 +448,10 @@
     <ClInclude Include="Magnet.h" />
     <ClInclude Include="MainCamera.h" />
     <ClInclude Include="MapChip.h" />
-    <ClInclude Include="MoveObject.h" />
-    <ClInclude Include="PhysicsBall.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="RenderingEngine.h" />
     <ClInclude Include="ResultLevel2D.h" />
+    <ClInclude Include="RuleSceneConstData.h" />
     <ClInclude Include="RuleLevel2D.h" />
     <ClInclude Include="RuleScene.h" />
     <ClInclude Include="ResultScene.h" />

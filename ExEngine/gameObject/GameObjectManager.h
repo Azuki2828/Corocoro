@@ -55,10 +55,18 @@ public:
 	/// 更新処理を実行
 	/// </summary>
 	void ExecuteUpdate();
+
+	void DrawShadowMap(RenderContext& rc);
+
+	void DrawZPrepassMap(RenderContext& rc);
+
 	/// <summary>
 	/// 描画処理を実行。
 	/// </summary>
 	void ExecuteRender(RenderContext& rc);
+	void Execute2DRender(RenderContext& rc);
+
+	void ExecuteBackSpriteRender(RenderContext& rc);
 	/// <summary>
 	/// フォントの描画処理を実行。
 	/// </summary>

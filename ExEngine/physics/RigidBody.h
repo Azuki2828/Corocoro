@@ -118,7 +118,7 @@ public:
 		Vector3 v = { x, y, z };
 		SetLinearFactor(v);
 	}
-	void SetLinearFactor(Vector3& linearFactor)
+	void SetLinearFactor(const Vector3& linearFactor)
 	{
 		btVector3 v;
 		v.setValue(linearFactor.x, linearFactor.y, linearFactor.z);

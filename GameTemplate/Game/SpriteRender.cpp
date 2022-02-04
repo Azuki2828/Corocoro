@@ -8,9 +8,9 @@ bool SpriteRender::Start() {
 }
 void SpriteRender::Init(const char* filepath, float width, float height, AlphaBlendMode mode) {
 
-	m_initData.m_ddsFilePath[0] = filepath;
-	m_initData.m_width = width;
-	m_initData.m_height = height;
+	m_initData.m_ddsFilePath[enData_Zeroth] = filepath;
+	m_initData.m_width = static_cast<UINT>(width);
+	m_initData.m_height = static_cast<UINT>(height);
 	m_initData.m_fxFilePath = "Assets/shader/sprite.fx";
 	m_initData.m_alphaBlendMode = mode;
 
@@ -23,13 +23,25 @@ void SpriteRender::Update() {
 	m_sprite.Update(m_pos, m_rot, m_sca);
 }
 
+//void SpriteRender::Render(RenderContext& rc) {
+//
+//	switch (rc.GetRenderMode()) {
+//	case RenderContext::Render_Mode::RenderMode_Shadow:
+//		break;
+//	case RenderContext::Render_Mode::RenderMode_Normal:
+//		m_sprite.Draw(rc);
+//		break;
+//	}
+//}
+
 void SpriteRender::Render(RenderContext& rc) {
 
 	switch (rc.GetRenderMode()) {
-	case RenderContext::Render_Mode::RenderMode_Shadow:
-		break;
-	case RenderContext::Render_Mode::RenderMode_Normal:
-		m_sprite.Draw(rc);
+	case RenderContext::Render_Mode::RenderMode_BackSprite:
+
+		if (m_backSpriteFlag) {
+			m_sprite.Draw(rc);
+		}
 		break;
 	}
 }
@@ -37,10 +49,12 @@ void SpriteRender::Render(RenderContext& rc) {
 void SpriteRender::RenderSprite(RenderContext& rc) {
 
 	switch (rc.GetRenderMode()) {
-	case RenderContext::Render_Mode::RenderMode_Shadow:
-		break;
 	case RenderContext::Render_Mode::RenderMode_Normal:
-		m_sprite.Draw(rc);
+
+		if (!m_backSpriteFlag) {
+			m_sprite.Draw(rc);
+		}
 		break;
 	}
 }
+

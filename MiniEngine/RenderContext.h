@@ -18,6 +18,7 @@ public:
 		RenderMode_Shadow,
 		RenderMode_ZPrepass,
 		RenderMode_Font,
+		RenderMode_BackSprite,
 
 		RenderMode_Num
 	}Render_Mode;

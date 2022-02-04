@@ -1,80 +1,71 @@
 #include "stdafx.h"
 #include "TitleLevel2D.h"
 
-
+namespace {
+	const char* TITLE_LEVEL_2D_NAME = "Assets/level2D/TitleScene.casl";
+	const char* SPRITE_NAME_BACK_GROUND = "eheheNS";
+	const char* SPRITE_NAME_TITLE = "Title";
+	const char* SPRITE_NAME_START = "Start";
+	const char* SPRITE_NAME_RULE_BUTTON = "RuleButton";
+	const char* SPRITE_NAME_SETTING_BUTTON = "Setting";
+	const char* SPRITE_NAME_END = "End";
+}
 bool TitleLevel2D::Start()
 {
 	//TitleSceneレベルを読み込む。
-	m_level2D.Init("Assets/level2D/TitleScene.casl", [&](Level2DObjectData& objdata) {
+	m_level2D.Init(TITLE_LEVEL_2D_NAME, [&](Level2DObjectData& objdata) {
 
 		//名前がeheheNSだったら、(背景画)
-		if (objdata.EqualObjectName("eheheNS")) {
+		if (objdata.EqualObjectName(SPRITE_NAME_BACK_GROUND)) {
 
-			m_sprite[0] = NewGO<SpriteRender>(0);
-			//Sprite初期化オブジェクトを使用して、Spriteを初期化する
-			m_sprite[0]->Init(objdata.ddsFilePath, objdata.width, objdata.height, AlphaBlendMode_Trans);
-			m_sprite[0]->SetPosition(objdata.position);
-			m_sprite[0]->SetScale(objdata.scale);
-			//m_sprite[0]->SetMulColor({ 1.0f, 1.0f, 1.0f, 0.5f });
+			m_spriteRender[enTitleSprite_BackScreen] = NewGO<SpriteRender>(enPriority_Zeroth);
+			m_spriteRender[enTitleSprite_BackScreen]->Init(objdata.ddsFilePath, objdata.width, objdata.height);
+			m_spriteRender[enTitleSprite_BackScreen]->SetPosition(objdata.position);
+			m_spriteRender[enTitleSprite_BackScreen]->SetScale(objdata.scale);
 
 			return true;
 		}
 		//名前がTitleだったら、
-		else if (objdata.EqualObjectName("Title")) {
+		else if (objdata.EqualObjectName(SPRITE_NAME_TITLE)) {
 
-			m_sprite[1] = NewGO<SpriteRender>(1);
-			//Sprite初期化オブジェクトを使用して、Spriteを初期化する
-			m_sprite[1]->Init(objdata.ddsFilePath, objdata.width, objdata.height, AlphaBlendMode_Trans);
-			m_sprite[1]->SetPosition(objdata.position);
-			m_sprite[1]->SetScale(objdata.scale);
-			//m_sprite[1]->SetMulColor({ 1.0f, 1.0f, 1.0f, 0.5f });
+			m_spriteRender[enTitleSprite_TitleLogo] = NewGO<SpriteRender>(enPriority_First);
+			m_spriteRender[enTitleSprite_TitleLogo]->Init(objdata.ddsFilePath, objdata.width, objdata.height);
+			m_spriteRender[enTitleSprite_TitleLogo]->SetPosition(objdata.position);
+			m_spriteRender[enTitleSprite_TitleLogo]->SetScale(objdata.scale);
 
 			return true;
 		}
 		//名前がStartだったら、
-		else if (objdata.EqualObjectName("Start")) {
+		else if (objdata.EqualObjectName(SPRITE_NAME_START)) {
 
-			m_sprite[2] = NewGO<SpriteRender>(1);
-			//Sprite初期化オブジェクトを使用して、Spriteを初期化する
-			m_sprite[2]->Init(objdata.ddsFilePath, objdata.width, objdata.height, AlphaBlendMode_Trans);
-			m_sprite[2]->SetPosition(objdata.position);
-			m_sprite[2]->SetScale(objdata.scale);
-			m_sprite[2]->SetMulColor({ 1.0f, 1.0f, 1.0f, 0.5f });
+			m_spriteRender[enTitleSprite_StartButton] = NewGO<SpriteRender>(enPriority_First);
+			m_spriteRender[enTitleSprite_StartButton]->Init(objdata.ddsFilePath, objdata.width, objdata.height);
+			m_spriteRender[enTitleSprite_StartButton]->SetPosition(objdata.position);
+			m_spriteRender[enTitleSprite_StartButton]->SetScale(objdata.scale);
 
 			return true;
 		}
 		//名前がRuleだったら、
-		else if (objdata.EqualObjectName("RuleButton")) {
+		else if (objdata.EqualObjectName(SPRITE_NAME_RULE_BUTTON)) {
 
-			m_sprite[3] = NewGO<SpriteRender>(1);
-			//Sprite初期化オブジェクトを使用して、Spriteを初期化する
-			m_sprite[3]->Init(objdata.ddsFilePath, objdata.width, objdata.height, AlphaBlendMode_Trans);
-			m_sprite[3]->SetPosition(objdata.position);
-			m_sprite[3]->SetScale(objdata.scale);
-			m_sprite[3]->SetMulColor({ 1.0f, 1.0f, 1.0f, 0.5f });
+			m_spriteRender[enTitleSprite_RuleButton] = NewGO<SpriteRender>(enPriority_First);
+			m_spriteRender[enTitleSprite_RuleButton]->Init(objdata.ddsFilePath, objdata.width, objdata.height);
+			m_spriteRender[enTitleSprite_RuleButton]->SetPosition(objdata.position);
+			m_spriteRender[enTitleSprite_RuleButton]->SetScale(objdata.scale);
 
 			return true;
 		}
 		//もし名前Settingだったら、
-		else if (objdata.EqualObjectName("Setting")) {
-		
-			//m_sprite[4] = NewGO<SpriteRender>(1);
-			////Sprite初期化オブジェクトを使用して、Spriteを初期化する
-			//m_sprite[4]->Init(objdata.ddsFilePath, objdata.width, objdata.height, AlphaBlendMode_Trans);
-			//m_sprite[4]->SetPosition(objdata.position);
-			//m_sprite[4]->SetScale(objdata.scale);
-			//m_sprite[4]->SetMulColor({ 1.0f, 1.0f, 1.0f, 0.5f });
+		else if (objdata.EqualObjectName(SPRITE_NAME_SETTING_BUTTON)) {
 		
 			return true;
 		}
-		else if (objdata.EqualObjectName("End")) {
+		else if (objdata.EqualObjectName(SPRITE_NAME_END)) {
 
-			m_sprite[4] = NewGO<SpriteRender>(1);
-			//Sprite初期化オブジェクトを使用して、Spriteを初期化する
-			m_sprite[4]->Init(objdata.ddsFilePath, objdata.width, objdata.height, AlphaBlendMode_Trans);
-			m_sprite[4]->SetPosition(objdata.position);
-			m_sprite[4]->SetScale(objdata.scale);
-			m_sprite[4]->SetMulColor({ 1.0f, 1.0f, 1.0f, 0.5f });
+			m_spriteRender[enTitleSprite_EndButton] = NewGO<SpriteRender>(enPriority_First);
+			m_spriteRender[enTitleSprite_EndButton]->Init(objdata.ddsFilePath, objdata.width, objdata.height);
+			m_spriteRender[enTitleSprite_EndButton]->SetPosition(objdata.position);
+			m_spriteRender[enTitleSprite_EndButton]->SetScale(objdata.scale);
 
 			return true;
 		}
@@ -89,9 +80,10 @@ bool TitleLevel2D::Start()
 
 TitleLevel2D::~TitleLevel2D()
 {
-	//ゲーム画面に遷移するときに画像を全て破棄。
-	for (int i = 0; i < 5; i++) {
-		DeleteGO(m_sprite[i]);
+	for (auto& i : m_spriteRender) {
+		if (i != nullptr) {
+			DeleteGO(i);
+		}
 	}
 }
 

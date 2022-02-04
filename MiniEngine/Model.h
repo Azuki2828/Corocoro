@@ -21,7 +21,9 @@ struct ModelInitData {
 	const char* m_psEntryPointFunc = "PSMain";						//ピクセルシェーダーのエントリーポイント。
 	const char* m_fxFilePath = nullptr;								//.fxファイルのファイルパス。
 	void* m_expandConstantBuffer = nullptr;							//ユーザー拡張の定数バッファ。
+	void* m_expandConstantBuffer_2 = nullptr;
 	int m_expandConstantBufferSize = 0;								//ユーザー拡張の定数バッファのサイズ。
+	int m_expandConstantBufferSize_2 = 0;							//ユーザー拡張の定数バッファのサイズ。
 	IShaderResource* m_expandShaderResoruceView = nullptr;			//ユーザー拡張のシェーダーリソース。
 	IShaderResource* m_expandShaderResoruceView_2 = nullptr;		//ユーザー拡張のシェーダーリソース。
 	Skeleton* m_skeleton = nullptr;									//スケルトン。

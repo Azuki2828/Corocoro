@@ -9,8 +9,11 @@
 
 bool Key::Start() {
 
-	m_player = FindGO<Player>("player");
-	m_game = FindGO<Game>("game");
+	//必要なクラスのオブジェクトを探し出す。
+	m_player = FindGO<Player>(NAME_PLAYER);
+	m_game = FindGO<Game>(NAME_GAME);
+
+	//鍵の当たり判定と衝突しないようにする。
 	m_player->GetRigidBody()->GetBody()->setIgnoreCollisionCheck(m_ghostBox.GetGhostObject(), true);
 	
 	//鍵があったら座標を登録。
@@ -19,13 +22,9 @@ bool Key::Start() {
 		m_skinModelRender_Key->SetPosition(m_keyPos);
 		m_skinModelRender_Key->SetScale(m_keyScale);
 		m_skinModelRender_Key->UpdateWorldMatrix();
-		//m_physicsStaticObject.CreateFromModel(
-		//	*m_skinModelRender_Key->GetModel(),
-		//	m_skinModelRender_Key->GetModel()->GetWorldMatrix()
-		//);
 	}
 
-	//ドアがあったら座標を登録+当たり判定を付ける。
+	//宝箱の床が存在するなら座標を登録+当たり判定を付ける。
 	if (m_skinModelRender_Door != nullptr) {
 		m_skinModelRender_Door->SetPosition(m_doorPos);
 		m_skinModelRender_Door->SetScale(m_doorScale);
@@ -41,134 +40,142 @@ bool Key::Start() {
 }
 
 Key::~Key() {
+
+	//オブジェクトを破棄。
 	DeleteGO(m_skinModelRender_Key);
 	DeleteGO(m_skinModelRender_Door);
 }
 
 void Key::InitKey(const char* name) {
-	char filePathtkm[256];
 
+	//鍵の名前文字列の箱
+	char filePathtkm[NAME_SIZE];
+
+	//鍵の情報を初期化する。
 	sprintf(filePathtkm, "Assets/modelData/tkm/%s.tkm", name);
-	m_skinModelRender_Key = NewGO<SkinModelRender>(0);
+	m_skinModelRender_Key = NewGO<SkinModelRender>(enPriority_Zeroth);
 	m_skinModelRender_Key->SetFileNametkm(filePathtkm);
+	//シャドウレシーバーフラグをONにする。
 	m_skinModelRender_Key->SetShadowReceiverFlag(true);
+	//ZプレパスフラグをONにする。
 	m_skinModelRender_Key->SetZprepassFlag(true);
+	//カラーバッファのフォーマットを指定する。
 	m_skinModelRender_Key->SetColorBufferFormat(DXGI_FORMAT_R32G32B32A32_FLOAT);
-	m_ligKeyData.m_directionLigData[0].Dir.Set(1, -1, 1);
-	m_ligKeyData.m_directionLigData[0].Dir.Normalize();
-	m_ligKeyData.m_directionLigData[0].Col.Set(20.0f, 20.0f, 0.0f, 1.0f);
+	m_skinModelRender_Key->SetLigID(enGameObject_Key);
 
-	m_ligKeyData.m_directionLigData[1].Dir.Set(1, 1, 1);
-	m_ligKeyData.m_directionLigData[1].Dir.Normalize();
-	m_ligKeyData.m_directionLigData[1].Col.Set(10.0f, 10.0f, 0.0f, 1.0f);
+	//鍵の1本目のライトの情報を設定する。
+	m_keyModelOption.directionLigData[enData_Zeroth].Dir.Set(KEY_LIG_FIRST_DIRECTION);
+	m_keyModelOption.directionLigData[enData_Zeroth].Dir.Normalize();
+	m_keyModelOption.directionLigData[enData_Zeroth].Col.Set(KEY_LIG_FIRST_COLOR);
 
-	m_ligKeyData.metaric = 1.0f;
-	m_ligKeyData.smooth = 0.6f;
-	m_ligKeyData.ambient.Set(0.2f, 0.2f, 0.2f);
-	m_ligKeyData.edge = Edge_1;
-	m_ligKeyData.powValue = 0.7f;
-	m_skinModelRender_Key->SetUserLigData(&m_ligKeyData);
-	m_skinModelRender_Key->Init(true, false);
+	//鍵の2本目のライトの情報を設定する。
+	m_keyModelOption.directionLigData[enData_First].Dir.Set(KEY_LIG_SECOND_DIRECTION);
+	m_keyModelOption.directionLigData[enData_First].Dir.Normalize();
+	m_keyModelOption.directionLigData[enData_First].Col.Set(KEY_LIG_SECOND_COLOR);
+
+	//鍵自身の影響を設定する。
+	m_keyModelOption.metaric = KEY_METARIC;
+	m_keyModelOption.smooth = KEY_SMOOTH;
+	m_keyModelOption.ambient.Set(KEY_AMBIENT);
+	m_keyModelOption.edge = Edge_1;
+	m_keyModelOption.powValue = KEY_POW_VALUE;
+	m_keyModelOption.LigID = enGameObject_Key;
+	m_skinModelRender_Key->SetUserModelOption(&m_keyModelOption);
+	m_skinModelRender_Key->Init();
 }
 
 void Key::InitDoor(const char* name) {
 
-	char filePathtkm[256];
+	//宝箱の床の名前文字列の箱。
+	char filePathtkm[NAME_SIZE];
 
+	//宝箱の床の情報を初期化する。
 	sprintf(filePathtkm, "Assets/modelData/tkm/%s.tkm", name);
-	m_skinModelRender_Door = NewGO<SkinModelRender>(0);
+	m_skinModelRender_Door = NewGO<SkinModelRender>(enPriority_Zeroth);
 	m_skinModelRender_Door->SetFileNametkm(filePathtkm);
+	//シャドウレシーバーフラグをONにする。
 	m_skinModelRender_Door->SetShadowReceiverFlag(true);
-	//m_skinModelRender_Door->SetZprepassFlag(true);
-	m_ligDoorData.m_directionLigData[0].Dir.Set(-1, -1, -1);
-	m_ligDoorData.m_directionLigData[0].Dir.Normalize();
-	m_ligDoorData.m_directionLigData[0].Col.Set(10.0f, 10.0f, 10.0f, 1.0f);
 
-	m_ligDoorData.ambient.Set(0.8f, 0.8f, 0.8f);
-	m_ligDoorData.metaric = 1.0f;
-	m_ligDoorData.smooth = 0.35f;
-	//m_ligDoorData.edge = Edge_1;
-	//m_ligDoorData.powValue = 10.0f;
-	m_skinModelRender_Door->SetUserLigData(&m_ligDoorData);
-	//m_skinModelRender->SetExpandShaderResourceView_2(&RenderTarget::GetZPrepassRenderTarget()->GetRenderTargetTexture());
+	//宝箱の床のライトの情報を設定する。
+	m_doorModelOption.directionLigData[enData_Zeroth].Dir.Set(TREASURE_BOX_FLOOR_LIG_DIRECTION);
+	m_doorModelOption.directionLigData[enData_Zeroth].Dir.Normalize();
+	m_doorModelOption.directionLigData[enData_Zeroth].Col.Set(TREASURE_BOX_FLOOR_LIG_COLOR);
+
+	//カラーバッファのフォーマットを指定する。
 	m_skinModelRender_Door->SetColorBufferFormat(DXGI_FORMAT_R32G32B32A32_FLOAT);
+	m_skinModelRender_Door->SetLigID(enGameObject_Door);
 
-	auto mainCamera = FindGO<MainCamera>("maincamera");
+	//宝箱の床自身の影響を設定する。
+	m_doorModelOption.metaric = TREASURE_BOX_FLOOR_METARIC;
+	m_doorModelOption.smooth = TREASURE_BOX_FLOOR_SMOOTH;
+	m_doorModelOption.ambient.Set(TREASURE_BOX_FLOOR_AMBIENT);
+	m_doorModelOption.LigID = enGameObject_Door;
+	m_skinModelRender_Door->SetUserModelOption(&m_doorModelOption);
+
+	//カメラが回転したときの処理を設定する。
+	auto mainCamera = FindGO<MainCamera>(NAME_MAIN_CAMERA);
 	mainCamera->changeRotCameraEvent.push_back([&]() {
+
+		//少しずつ回転（180度になるまで）。
 		Quaternion m_rotZ;
-		m_rotZ.SetRotationDeg(Vector3::AxisZ, -2.0f);
-		m_rotZ.Apply(m_ligKeyData.m_directionLigData[0].Dir);
-		m_rotZ.Apply(m_ligDoorData.m_directionLigData[0].Dir);
+		m_rotZ.SetRotationDeg(Vector3::AxisZ, CAMERA_ROT_VALUE);
+		m_rotZ.Apply(m_keyModelOption.directionLigData[enData_Zeroth].Dir);
+		m_rotZ.Apply(m_doorModelOption.directionLigData[enData_Zeroth].Dir);
 	});
 
-	m_skinModelRender_Door->SetUserLigData(&m_ligDoorData);
-	m_skinModelRender_Door->Init(true, false);
+	m_skinModelRender_Door->SetUserModelOption(&m_doorModelOption);
+	m_skinModelRender_Door->Init();
 }
 
 void Key::Update() {
 
-	static float keyTime = 0.0f;
-
 	if (m_skinModelRender_Key != nullptr) {
 		
-		keyTime += GameTime::GameTimeFunc().GetFrameDeltaTime();
-		static Quaternion rot;
-		rot.SetRotationDeg(Vector3::AxisY, 180.0f * keyTime);
-		m_skinModelRender_Key->SetRotation(rot);
-		if (keyTime >= 4.0f) {
-			keyTime = 0.0f;
-		}
+		//鍵を少しずつ回転させる。
+		m_keyRotTime += GameTime::GameTimeFunc().GetFrameDeltaTime();
+		m_keyRot.SetRotationDeg(Vector3::AxisY, BASE_KEY_ROT_VALUE * m_keyRotTime);
+		m_skinModelRender_Key->SetRotation(m_keyRot);
 	}
 
-	////3m以内なら鍵取得。
-	//Vector3 keyLength;
-	//
-	//keyLength = m_player->GetPosition() - m_keyPos;
-
-	if (m_game->GetTime() > 3.0f) {
+	if (m_game->GetTime() > KEY_GET_START_TIME) {
 		PhysicsWorld::GetInstance()->ContactTest(*m_player->GetRigidBody(), [&](const btCollisionObject& contactObject) {
 
-			if (m_ghostBox.IsSelf(contactObject) == true && !m_player->GetKeyFlg()) {
+			//鍵を取得したら
+			if (m_ghostBox.IsSelf(contactObject) && !m_player->GetKeyFlg()) {
 
 				//鍵を消去して取得効果音を再生。
 				DeleteGO(m_skinModelRender_Key);
 
-				//MainCameraクラスのフラグ。ステージの回転をカメラと重力を回転させることで実装する。
-				//クラスにアクセスし、情報をもらう。
-				maincamera = FindGO<MainCamera>("maincamera");
-				//MainCameraクラスのRotFlg変数をtrueに。
-				maincamera->SetRotFlg(true);
+				//メインカメラクラスにアクセスする
+				m_mainCamera = FindGO<MainCamera>(NAME_MAIN_CAMERA);
 
+				//MainCameraクラスの回転フラグをtrueに設定する。
+				m_mainCamera->SetRotFlg(true);
 
-				if (m_keyGetSoundFlag == true) {
+				//1回だけ実行。
+				if (m_keyGetSoundFlag) {
 
 					//通常BGMを削除。
-					BackGround* background = FindGO<BackGround>("background");
-					SoundManager::GetInstance()->Release(BGM_Game);
+					BackGround* background = FindGO<BackGround>(NAME_BACK_GROUND);
+					SoundManager::GetInstance()->Release(enBGM_Game);
 
 					//エフェクト再生
 					Effect* ChangeState = nullptr;
-					ChangeState = NewGO<Effect>(0);
-					ChangeState->Init(u"Assets/effect/KeyGet.efk");
-					ChangeState->SetScale({ 200.0f,200.0f,200.0f });
+					ChangeState = NewGO<Effect>(enPriority_Zeroth);
+					ChangeState->Init(KEY_GET_EFFECT_FILE_PATH);
+					ChangeState->SetScale(KEY_GET_EFFECT_SCALE);
 					Vector3 effPos = m_keyPos;
-					effPos.y += 150.0f;
+					effPos += KEY_GET_EFFECT_ADD_POS;
 					ChangeState->SetPosition(effPos);
 					ChangeState->Play();
 
+					m_gameLevel2D = FindGO<GameLevel2D>(NAME_GAME_LEVEL2D);
 
-					//GameScreen_NoGetKey.casl��폜���AGameScreen_YesGetKey.casl��ĂԂ��ƂŌ��擾��UI��쐬����B
-
-					//GameLevel2DクラスのNoGetKeyFlagをfalseに変更。
-					//※余裕があったら、NoGetKeyFlagをprivateにして関数で変更してください。
-					GameLevel2D* gamescreenlevel2d = FindGO<GameLevel2D>("gamescreenlevel2d");
-					gamescreenlevel2d->SetKeyFlg(false);
-					////�O�̌���Q�b�g���Ă��Ȃ��Ƃ���UI��폜�B
-					//DeleteGO(gamescreenlevel2d->m_sprite);
-
-					//���擾���̌�ʉ��Đ��B
-
-					SoundManager::GetInstance()->Play(SE_KeyGet);
+					//鍵を取得し終わったのでfalseに設定。
+					m_gameLevel2D->SetKeyFlg(false);
+					
+					//鍵取得効果音を再生。
+					SoundManager::GetInstance()->Play(enSE_KeyGet);
 
 					//falseにして抜ける。
 					m_keyGetSoundFlag = false;
@@ -180,86 +187,31 @@ void Key::Update() {
 			}
 			});
 	}
-	//if (keyLength.Length() <= 100.0f && !m_player->GetKeyFlg()) {
+	
+	//1回だけ実行。
+	if (!m_startUpTempoSoundFlg) {
+		
+		//鍵取得音再生されていたら
+		if (!m_keyGetSoundFlag) {
+			//
+			m_delayCount += GameTime::GameTimeFunc().GetFrameDeltaTime();
+		}
 
-	//	//鍵を消去して取得効果音を再生。
-	//	DeleteGO(m_skinModelRender_Key);
-
-	//	//MainCameraクラスのフラグ。ステージの回転をカメラと重力を回転させることで実装する。
-	//	//クラスにアクセスし、情報をもらう。
-	//	maincamera = FindGO<MainCamera>("maincamera");
-	//	//MainCameraクラスのRotFlg変数をtrueに。
-	//	maincamera->RotFlg = true;
-
-
-	//	if (KeyGetSoundFlag == true) {
-
-	//		//通常BGMを削除。
-	//		Background* background = FindGO<Background>("background");
-	//		SoundManager::GetInstance()->Release(BGM_Game);
-
-	//		//エフェクト再生
-	//		Effect* ChangeState = nullptr;
-	//		ChangeState = NewGO<Effect>(0);
-	//		ChangeState->Init(u"Assets/effect/KeyGet.efk");
-	//		ChangeState->SetScale({ 200.0f,200.0f,200.0f });
-	//		Vector3 effPos = m_keyPos;
-	//		effPos.y += 150.0f;
-	//		ChangeState->SetPosition(effPos);
-	//		ChangeState->Play();
-
-
-	//		//GameScreen_NoGetKey.casl��폜���AGameScreen_YesGetKey.casl��ĂԂ��ƂŌ��擾��UI��쐬����B
-
-	//		//GameLevel2DクラスのNoGetKeyFlagをfalseに変更。
-	//		//※余裕があったら、NoGetKeyFlagをprivateにして関数で変更してください。
-	//		GameLevel2D* gamescreenlevel2d = FindGO<GameLevel2D>("gamescreenlevel2d");
-	//		gamescreenlevel2d->NoGetKeyFlag = false;
-	//		////�O�̌���Q�b�g���Ă��Ȃ��Ƃ���UI��폜�B
-	//		//DeleteGO(gamescreenlevel2d->m_sprite);
-
-	//		//���擾���̌�ʉ��Đ��B
-
-	//		SoundManager::GetInstance()->Play(SE_KeyGet);
-
-	//		//falseにして抜ける。
-	//		KeyGetSoundFlag = false;
-	//	}
-
-	//	//鍵取得フラグをtrueに。
-	//	m_player->SetKeyFlg(true);
-	//}
-
-	//KeyGetSoundFlagがfalseになったら、
-	if(m_keyGetSoundFlag ==false) {
-		m_delayCount++;
-	}
-
-	if (m_delayCount == 120) {
-		//通常BGMのアップテンポ版を再生し変化をつけ、焦らす演出。
-		SoundManager::GetInstance()->Play(BGM_GameUpTempo);
+		if (m_delayCount >= SOUND_DERAY_COUNT) {
+			//通常BGMのアップテンポ版を再生し変化をつけ、焦らす演出。
+			SoundManager::GetInstance()->Play(enBGM_GameUpTempo);
+			m_startUpTempoSoundFlg = true;
+		}
 	}
 
 	//鍵を取得しているうえでドアとの距離が3m以内ならドアを破壊。
 
 		if (m_player->GetTreasureFlg()) {
 
-			if (m_gameClearSoundFlag == true) {
-
-				
+			if (m_gameClearSoundFlag) {
 
 				//falseにして抜ける。
 				m_gameClearSoundFlag = false;
 			}
-
-			//Clear文字表示
-			//m_fontRender = NewGO<FontRender>(2);
-			//m_fontRender->Init(L"Clear!!", { 50.0),25.0f });
-
-			//ドアのモデルデータを削除。
-			//DeleteGO(m_skinModelRender_Door);
-
-			//ドアの当たり判定を削除。
-			//m_physicsStaticObject.Release();
 		}
 }

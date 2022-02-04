@@ -6,160 +6,216 @@
 #include "Background.h"
 #include "Game.h"
 
+namespace {
+
+	const Vector3 ADD_GHOST_POS = { 50.0f,50.0f,-200.0f };			//トリガーボックスの座標を合わせるための定数
+	const Vector3 GHOST_SIZE = { 100.0f,100.0f,400.0f };			//トリガーボックスの元のサイズ
+
+	const float ADD_UV_NOISE_OFFSET = 0.01f;						//ノイズを発生させるためのオフセットの変化幅
+	const float TIMER_CLEAR = 0.0f;									//タイマーを初期化させるための定数
+	const float HIT_TIMER_VALUE[] = { 2.5f,3.0f };					//タイマーの途中経過の定数
+
+
+	const Vector3 DEATH_BLOCK_LIG_DIR = { -1.0f, -1.0f, -1.0f };	//ライトの方向
+	const Vector3 DEATH_BLOCK_LIG_AMBIENT = { 0.8f, 0.8f, 0.8f };	//環境光の強さ
+	const float DEATH_BLOCK_METARIC = 1.0f;							//金属度
+	const float DEATH_BLOCK_SMOOTH = 0.1f;							//滑らかさ
+	const float DEATH_BLOCK_POW_VALUE = 10.0f;						//絞る強さ
+	const float UV_NOISE_MUL = 1.0f;								//ノイズに乗算する値
+
+	const char* DEATH_BLOCK_STANDARD_FILE_PATH = "Assets/modelData/tkm/%s.tkm";		//基準となるtkmファイルのファイルパス
+}
+
 bool DeathBlock::Start() {
 
-	m_player = FindGO<Player>("player");
-	m_key = FindGO<Key>("key");
-	m_backGround = FindGO<BackGround>("background");
-	m_game = FindGO<Game>("game");
-	m_skinModelRender->SetPosition(m_pos);
+	//それぞれのクラスを探し出す。
+	m_player = FindGO<Player>(NAME_PLAYER);
+	m_key = FindGO<Key>(NAME_KEY);
+	m_backGround = FindGO<BackGround>(NAME_BACK_GROUND);
+	m_game = FindGO<Game>(NAME_GAME);
 
-	m_skinModelRender->SetScale(m_sca);
 
-	m_death = NewGO<Effect>(0);
-	m_death->Init(u"Assets/effect/death.efk");
-	m_death->SetScale({ 100.0f,100.0f,100.0f });
+	//死んだときのエフェクトを初期化。
+	m_death = NewGO<Effect>(enPriority_Zeroth);
+	m_death->Init(DEATH_EFFECT_FILE_PATH);
+	//エフェクトの拡大率を設定。
+	m_death->SetScale(EFFECT_SCALE);
 
-	m_skinModelRender->SetScale(m_sca);
-	auto mainCamera = FindGO<MainCamera>("maincamera");
+	//カメラが回転したときのデスブロックの処理。
+	auto mainCamera = FindGO<MainCamera>(NAME_MAIN_CAMERA);
 	mainCamera->changeRotCameraEvent.push_back([&]() {
 		Quaternion m_rotZ;
-		m_rotZ.SetRotationDeg(Vector3::AxisZ, -2.0f);
-		m_rotZ.Apply(m_ligData.m_directionLigData[0].Dir);
+		m_rotZ.SetRotationDeg(Vector3::AxisZ, CAMERA_ROT_VALUE);
+		m_rotZ.Apply(m_modelOption.directionLigData[enData_Zeroth].Dir);
 		});
 
+	//デスブロックの当たり判定を設定。
 	m_ghostPos = m_pos;
-	m_ghostPos.x += 50.0f * m_sca.x;
-	m_ghostPos.y += 50.0f * m_sca.y;
+	m_ghostPos.x += ADD_GHOST_POS.x * m_sca.x;
+	m_ghostPos.y += ADD_GHOST_POS.y * m_sca.y;
+	m_ghostPos.z += ADD_GHOST_POS.z;
 
-	m_ghostPos.z -= 200.0f;
+	//デスブロックの当たり判定の初期化。
 	m_ghostBox.CreateBox(
-		m_ghostPos,	//第一引数は座標。
-		Quaternion::Identity,		//第二引数は回転クォータニオン。
-		{ 100.0f * m_sca.x, 100.0f * m_sca.y, 400.0f * m_sca.z}	//第三引数はボックスのサイズ。
+		m_ghostPos,																	//第一引数は座標。
+		Quaternion::Identity,														//第二引数は回転クォータニオン。
+		{ GHOST_SIZE.x * m_sca.x, GHOST_SIZE.y * m_sca.y, GHOST_SIZE.z * m_sca.z}	//第三引数はボックスのサイズ。
 	);
 
+	//座標を設定。
+	m_skinModelRender->SetPosition(m_pos);
+	//拡大率を設定。
+	m_skinModelRender->SetScale(m_sca);
+	//ワールド行列を更新。
 	m_skinModelRender->UpdateWorldMatrix();
 	return true;
 }
 
 DeathBlock::~DeathBlock() {
+
+	//デスブロックのモデルを削除。
 	DeleteGO(m_skinModelRender);
 }
 
 void DeathBlock::Update() {
 
-	if (m_moveFlg) {
-		static bool move = false;
-		if (!move) {
-			Vector3 length = m_movePos[1] - m_pos;
-			length.Normalize();
-			m_pos += length;
-			m_ghostPos += length;
-			if (m_pos.x >= m_movePos[1].x) {
-				move = true;
-			}
-		}
-		else {
-			Vector3 length = m_movePos[0] - m_pos;
-			length.Normalize();
-			m_pos += length;
-			m_ghostPos += length;
-			if (m_pos.x <= m_movePos[0].x) {
-				move = false;
-			}
-		}
-		m_skinModelRender->SetPosition(m_pos);
-		m_ghostBox.SetPosition(m_ghostPos);
-	}
-	Vector3 effPos;
-
 
 	PhysicsWorld::GetInstance()->ContactTest(*m_player->GetRigidBody(), [&](const btCollisionObject& contactObject) {
-		m_ligData.uvNoiseOffset += 0.01f;
+		//ノイズをかけていく。
+		m_modelOption.uvNoiseOffset += ADD_UV_NOISE_OFFSET;
 		float t;
-		m_ligData.uvNoiseOffset = modf(m_ligData.uvNoiseOffset, &t);
-		if (m_ghostBox.IsSelf(contactObject) == true) {
+		m_modelOption.uvNoiseOffset = modf(m_modelOption.uvNoiseOffset, &t);
 
-			//m_ghostObjectとぶつかった
-			//m_pointLig->SetActiveFlag(true);	//ポイントライトをつける。
-			//m_ghostBox.SetPosition({ 700.0f,405.0f,0.0f });
+		//プレイヤーと当たったか。
+		if (m_ghostBox.IsSelf(contactObject)) {
+			//当たったフラグをtrueに。
 			m_hitPlayer = true;
-			if (m_player != nullptr) {
-				effPos = m_player->GetPosition();
-			}
-			//if (m_player->GetKeyFlg()) {
-			//	m_player->SetPosition(m_key->GetKeyPos());
-			//}
 		}
 		});
 
 
+	//プレイヤーと当たった。
 	if (m_hitPlayer && !m_player->GetTreasureFlg())
 	{
-		//死ぬエフェクト再生と効果音
-		if (m_player->Getrespawn() == false) {
-			Effect* m_death = NewGO<Effect>(0);
-			m_death->Init(u"Assets/effect/death.efk");
-			m_death->SetScale({ 100.0f,100.0f,100.0f });
-			m_player->Setrespawn(true);
+		
+		if (!m_player->GetRespawn()) {
+			//死亡エフェクトを再生。
+			Effect* m_death = NewGO<Effect>(enPriority_Zeroth);
+			m_death->Init(DEATH_EFFECT_FILE_PATH);
+			m_death->SetScale(EFFECT_SCALE);
 			m_death->SetPosition(m_player->GetPosition());
-			m_deathActiveState = m_player->DeactivatePlayerModel();
 			m_death->Play();
+
+			//死亡SEを再生。
+			SoundManager::GetInstance()->Play(enSE_Death);
+
+			//プレイヤーのリスポーンフラグを設定。
+			m_player->SetRespawn(true);
+			m_deathActiveState = m_player->DeactivatePlayerModel();
 			m_deathFlg = true;
-
-			SoundManager::GetInstance()->Play(SE_Death);
-
-			/*m_timer++;
-			if (m_timer == 60) {
-				g_engine->SetGameState(GameState::State_Game);
-				m_timer = 0;*/
 		}
-		m_timer++;
-		if (m_timer >= 90)
+
+		//プレイヤーと当たってからの時間（１フレーム当たり）を加算。
+		m_hitTimer += GameTime().GameTimeFunc().GetFrameDeltaTime();
+
+		//３秒経過。
+		if (m_hitTimer >= HIT_TIMER_VALUE[enData_First])
 		{
-			SoundManager::GetInstance()->Play(SE_ReStart);
-			m_player->Setrespawn(false);
-			m_timer = 0;
-			m_backGround->SetStart(true);
+			//リスポーンSEを再生。
+			SoundManager::GetInstance()->Play(enSE_ReStart);
+			//プレイヤーのリスポーンフラグを再設定。
+			m_player->SetRespawn(false);
 			m_hitPlayer = false;
 			m_respawnEfk = false;
+			//シーソーの回転率を元に戻す。
+			m_backGround->SetStart(true);
+
+			//タイマーを元に戻す。
+			m_hitTimer = TIMER_CLEAR;
 
 		}
-		else if (m_timer >= 80) {
+		//2.5秒経過。
+		else if (m_hitTimer >= HIT_TIMER_VALUE[enData_Zeroth]) {
 
+			//プレイヤーが既に鍵を取得しているなら
 			if (m_player->GetKeyFlg()) {
-				m_key = FindGO<Key>("key");
+				m_key = FindGO<Key>(NAME_KEY);
+				//プレイヤーを鍵の位置に設定。
 				m_player->SetPosition(m_key->GetKeyPos());
+				//プレイヤーを有効にする。
 				m_player->ActivatePlayerModel(m_deathActiveState);
 				m_deathFlg = false;
 			}
+			//プレイヤーが鍵を取得していないなら
 			else {
+				//プレイヤーをスタート地点に設定。
 				m_player->SetPosition(m_player->GetStartPos());
+				//プレイヤーを有効にする。
 				m_player->ActivatePlayerModel(m_deathActiveState);
 				m_deathFlg = false;
 			}
-			//m_hitPlayer = false;
+			//リスポーンのエフェクトが生成されていないなら。
 			if (!m_respawnEfk) {
-				m_efkRespawn = NewGO<Effect>(0);
-				m_efkRespawn->Init(u"Assets/effect/respawn.efk");
-				m_efkRespawn->SetScale({ 100.0f,100.0f,100.0f });
-				Vector3 effPos = m_player->GetPosition();
-				m_efkRespawn->SetPosition(effPos);
-				//treasure->Update();
+				//エフェクトを生成。
+				m_efkRespawn = NewGO<Effect>(enPriority_Zeroth);
+				m_efkRespawn->Init(DEATH_EFFECT_FILE_PATH);
+				m_efkRespawn->SetScale(EFFECT_SCALE);
+				m_efkRespawn->SetPosition(m_player->GetPosition());
 				m_efkRespawn->Play();
 				m_respawnEfk = true;
 			}
 		}
 		else {
+			//プレイヤーの座標をその場に設定。
 			m_player->SetPosition(m_player->GetPosition());
 		}
+		//プレイヤーにかかる力を無効にする。
 		m_player->ClearPower();
 
 		if (m_efkRespawn != nullptr) {
+			//リスポーンエフェクトの発生場所をプレイヤーの場所にする。
 			m_efkRespawn->SetPosition(m_player->GetPosition());
 		}
-		//g_engine->SetGameState(GameState::State_Dead);
 	}
+}
+
+void DeathBlock::Init(const char* name)
+{
+	char filePathtkm[NAME_SIZE];
+	sprintf(filePathtkm, DEATH_BLOCK_STANDARD_FILE_PATH, name);
+	m_skinModelRender = NewGO<SkinModelRender>(enPriority_Zeroth);
+	//tkmファイルを設定。
+	m_skinModelRender->SetFileNametkm(filePathtkm);
+	//シャドウレシーバーフラグを設定。
+	m_skinModelRender->SetShadowReceiverFlag(true);
+	//Zプリパスを設定。
+	m_skinModelRender->SetZprepassFlag(true);
+
+	//ディレクションライトの向きを設定。
+	m_modelOption.directionLigData[enData_Zeroth].Dir.Set(DEATH_BLOCK_LIG_DIR);
+	//正規化。
+	m_modelOption.directionLigData[enData_Zeroth].Dir.Normalize();
+
+	//環境光を設定。
+	m_modelOption.ambient.Set(DEATH_BLOCK_LIG_AMBIENT);
+	//金属度を設定。
+	m_modelOption.metaric = DEATH_BLOCK_METARIC;
+	//なめらかさを設定。
+	m_modelOption.smooth = DEATH_BLOCK_SMOOTH;
+	//輪郭線のタイプを設定。
+	m_modelOption.edge = Edge_1;
+	//絞り率を設定。
+	m_modelOption.powValue = DEATH_BLOCK_POW_VALUE;
+	//ノイズの強さを設定。
+	m_modelOption.uvNoiseMul = UV_NOISE_MUL;
+	
+	m_modelOption.LigID = enGameObject_DeathBlock;
+	//ユーザー定義のライト情報を設定。
+	m_skinModelRender->SetUserModelOption(&m_modelOption);
+	//カラーバッファのフォーマットを指定。
+	m_skinModelRender->SetColorBufferFormat(DXGI_FORMAT_R32G32B32A32_FLOAT);
+	m_skinModelRender->SetLigID(enGameObject_DeathBlock);
+	//モデルを初期化。
+	m_skinModelRender->Init();
 }
 

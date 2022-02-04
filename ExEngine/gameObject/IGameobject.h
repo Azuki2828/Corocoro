@@ -49,8 +49,8 @@ public:
 	{
 		(void)renderContext;
 	}
-
-	virtual void RenderSprite(RenderContext& renderContext) {
+	virtual void RenderSprite(RenderContext& renderContext)
+	{
 		(void)renderContext;
 	}
 
@@ -112,11 +112,13 @@ public:
 		}
 	}
 
-	void RenderSpriteWrapper(RenderContext& renderContext) {
+	void SpriteRenderWrapper(RenderContext& renderContext) {
+
 		if (m_isActive && m_isStart && !m_isDead) {
 			RenderSprite(renderContext);
 		}
 	}
+
 
 	void UpdateWrapper()
 	{

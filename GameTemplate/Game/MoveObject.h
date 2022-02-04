@@ -1,7 +1,10 @@
 #pragma once
-/**
- * @brief 
-*/
+
+namespace {
+
+	const float TIME_EQUAL = 100.0f;
+}
+
 class MoveObject : IGameObject
 {
 private:

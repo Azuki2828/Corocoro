@@ -12,7 +12,7 @@ public:
 
 private:
 	typedef struct {
-		float record[4];
+		float record[Stage_Num];
 	}filesave_t;
 
 	bool m_newRecordFlg = false;

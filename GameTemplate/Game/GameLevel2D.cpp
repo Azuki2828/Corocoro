@@ -4,29 +4,38 @@
 bool GameLevel2D::Start()
 {
 		//レベルを読み込む。
-		m_level2D.Init("Assets/level2D/GameScreen_NoGetKey.casl", [&](Level2DObjectData& objdata) {
+		m_level2D.Init(GAME_SCREEN_NO_KEY_FILE_PATH, [&](Level2DObjectData& objdata) {
 
 			//名前がGetKeyNOだったら。
-			if (objdata.EqualObjectName("GetKeyNO")) {
+			if (objdata.EqualObjectName(SPRITE_NAME_NO_GET_KEY)) {
 
-				m_sprite = NewGO<SpriteRender>(0);
-				//Sprite初期化オブジェクトを使用して、Spriteを初期化する
-				m_sprite->Init(objdata.ddsFilePath, objdata.width, objdata.height, AlphaBlendMode_Trans);
-				m_sprite->SetPosition(objdata.position);
-				m_sprite->SetScale(objdata.scale);
+				HUD::GetHUD()->Init(enSprite_NoKey, objdata.ddsFilePath, objdata.width, objdata.height);
+				HUD::GetHUD()->SetPosition(enSprite_NoKey, objdata.position);
+				HUD::GetHUD()->SetScale(enSprite_NoKey, objdata.scale);
+
+
+				//m_sprite = NewGO<SpriteRender>(enPriority_Zeroth);
+				////Sprite初期化オブジェクトを使用して、Spriteを初期化する
+				//m_sprite->Init(objdata.ddsFilePath, objdata.width, objdata.height, AlphaBlendMode_Trans);
+				//m_sprite->SetPosition(objdata.position);
+				//m_sprite->SetScale(objdata.scale);
 
 				m_flagSprite = true;
 
 				return true;
 			}
 			//名前がTimeBackだったら。
-			else if (objdata.EqualObjectName("TimeBack")) {
+			else if (objdata.EqualObjectName(SPRITE_NAME_TIME_BACK)) {
 
-				m_sprite1 = NewGO<SpriteRender>(0);
-				//Sprite初期化オブジェクトを使用して、Spriteを初期化する
-				m_sprite1->Init(objdata.ddsFilePath, objdata.width, objdata.height, AlphaBlendMode_Trans);
-				m_sprite1->SetPosition(objdata.position);
-				m_sprite1->SetScale(objdata.scale);
+				HUD::GetHUD()->Init(enSprite_TimeBack, objdata.ddsFilePath, objdata.width, objdata.height);
+				HUD::GetHUD()->SetPosition(enSprite_TimeBack, objdata.position);
+				HUD::GetHUD()->SetScale(enSprite_TimeBack, objdata.scale);
+
+				//m_sprite1 = NewGO<SpriteRender>(enPriority_Zeroth);
+				////Sprite初期化オブジェクトを使用して、Spriteを初期化する
+				//m_sprite1->Init(objdata.ddsFilePath, objdata.width, objdata.height, AlphaBlendMode_Trans);
+				//m_sprite1->SetPosition(objdata.position);
+				//m_sprite1->SetScale(objdata.scale);
 
 				m_flagSprite1 = true;
 
@@ -44,80 +53,67 @@ bool GameLevel2D::Start()
 
 GameLevel2D::~GameLevel2D()
 {
-	if (m_flagSprite == true) {
+
+	//スプライトを消去
+	/*if (m_flagSprite) {
 		DeleteGO(m_sprite);
 		m_flagSprite = false;
 	}
-	if (m_flagSprite1 == true) {
+	if (m_flagSprite1) {
 		DeleteGO(m_sprite1);
 		m_flagSprite1 = false;
 	}
-	if (m_flagSprite2 == true) {
+	if (m_flagSprite2) {
 		DeleteGO(m_sprite2);
 		m_flagSprite2 = false;
 	}
-	if (m_flagSprite3 == true) {
+	if (m_flagSprite3) {
 		DeleteGO(m_sprite3);
 		m_flagSprite3 = false;
-	}
+	}*/
 }
 
 void GameLevel2D::Update()
 {
 
 	//NoGetKeyがfalse、つまり鍵が取得されているとき、
-	if (m_getKeyFlag == false) {
+	if (!m_getKeyFlag) {
 
 		//レベルを読み込む。
-		m_level2D.Init("Assets/level2D/GameScreen_YesGetKey.casl", [&](Level2DObjectData& objdata) {
+		m_level2D.Init(GAME_SCREEN_YES_KEY_FILE_PATH, [&](Level2DObjectData& objdata) {
 
 			//名前がGetKeyNOだったら。
-			if (objdata.EqualObjectName("KeyGet")) {
+			if (objdata.EqualObjectName(SPRITE_NAME_YES_GET_KEY)) {
 
-				SpriteInitData data;
-				//DDSファイル(画像データ)のファイルパスを指定する。
-				data.m_ddsFilePath[0] = objdata.ddsFilePath;
-				//Sprite表示用のシェーダーのファイルパスを指定する。
-				data.m_fxFilePath = "Assets/shader/sprite.fx";
-				//スプライトの幅と高さを取得する。
-				data.m_width = objdata.width;
-				data.m_height = objdata.height;
-				data.m_alphaBlendMode = AlphaBlendMode_Trans;
+				HUD::GetHUD()->Init(enSprite_YesKey, objdata.ddsFilePath, objdata.width, objdata.height);
+				HUD::GetHUD()->SetPosition(enSprite_YesKey, objdata.position);
+				HUD::GetHUD()->SetScale(enSprite_YesKey, objdata.scale);
 
-				m_sprite2 = NewGO<SpriteRender>(0);
-				//Sprite初期化オブジェクトを使用して、Spriteを初期化する
-				m_sprite2->Init(objdata.ddsFilePath, objdata.width, objdata.height, AlphaBlendMode_Trans);
-				m_sprite2->SetPosition(objdata.position);
-				m_sprite2->SetScale(objdata.scale);
+				//m_sprite2 = NewGO<SpriteRender>(enPriority_Zeroth);
+				////Sprite初期化オブジェクトを使用して、Spriteを初期化する
+				//m_sprite2->Init(objdata.ddsFilePath, objdata.width, objdata.height, AlphaBlendMode_Trans);
+				//m_sprite2->SetPosition(objdata.position);
+				//m_sprite2->SetScale(objdata.scale);
 
 				m_flagSprite2 = true;
 
 				//鍵の点線のやつを削除
-				if (m_flagSprite == true) {
-					DeleteGO(m_sprite);
+				if (m_flagSprite) {
+					HUD::GetHUD()->Deactivate(enSprite_NoKey);
+					//DeleteGO(m_sprite);
 					m_flagSprite = false;
 				}
 
 				return true;
 			}
 			//名前がTimeBackだったら。
-			else if (objdata.EqualObjectName("TimeBack")) {
+			else if (objdata.EqualObjectName(SPRITE_NAME_TIME_BACK)) {
 
-				SpriteInitData data;
-				//DDSファイル(画像データ)のファイルパスを指定する。
-				data.m_ddsFilePath[0] = objdata.ddsFilePath;
-				//Sprite表示用のシェーダーのファイルパスを指定する。
-				data.m_fxFilePath = "Assets/shader/sprite.fx";
-				//スプライトの幅と高さを取得する。
-				data.m_width = objdata.width;
-				data.m_height = objdata.height;
-				data.m_alphaBlendMode = AlphaBlendMode_Trans;
-
-				m_sprite3 = NewGO<SpriteRender>(0);
-				//Sprite初期化オブジェクトを使用して、Spriteを初期化する
-				m_sprite3->Init(objdata.ddsFilePath, objdata.width, objdata.height, AlphaBlendMode_Trans);
-				m_sprite3->SetPosition(objdata.position);
-				m_sprite3->SetScale(objdata.scale);
+				//m_sprite3 = NewGO<SpriteRender>(enPriority_Zeroth);
+				////Sprite初期化オブジェクトを使用して、Spriteを初期化する
+				//m_sprite3->Init(objdata.ddsFilePath, objdata.width, objdata.height, AlphaBlendMode_Trans);
+				//m_sprite3->SetPosition(objdata.position);
+				//m_sprite3->SetScale(objdata.scale);
 
 				m_flagSprite3 = true;
 
@@ -133,7 +129,6 @@ void GameLevel2D::Update()
 	}
 
 
-	//m_sprite.Update(m_position, Quaternion::Identity, m_scale);
 	//レベル2DクラスのSpriteの更新処理。
 	m_level2D.Update();
 }

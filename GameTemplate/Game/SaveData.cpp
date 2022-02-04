@@ -3,61 +3,66 @@
 #include "Game.h"
 #include "ResultScene.h"
 
+namespace {
+	const float INIT_DATA_SCORE = 999.9f;
+
+	const char* SAVE_DATA_NAME = "Save_Data.dat";
+	const char* FILE_TYPE_WB = "wb";
+	const char* FILE_TYPE_RB = "rb";
+	const int ELEMENT_COUNT = 1;
+}
+
 void SaveData::Save()
 {
-	m_result = FindGO<ResultScene>("resultscene");
+	m_result = FindGO<ResultScene>(NAME_RESULT_SCENE);
 
 	float Record = m_result->GetTime();
-	m_stageNum = m_result->GetStageNum() - 1;
-	//float Record = 1000.0f;
+	m_stageNum = m_result->GetStageNum();
 	if (m_data.record[m_stageNum] >= Record) {
 		m_newRecordFlg = true;
-		//新記録の文字を流す
-
 
 		//新記録を入れ替える
 		m_data.record[m_stageNum] = Record;
-		int a = 0;
 	}
 
 
-	filesave_t data = { m_data.record[0],m_data.record[1],m_data.record[2],m_data.record[3] };
-	FILE* fp = fopen("Save_Data.dat", "wb");
+	filesave_t data = { m_data.record[Stage_One],m_data.record[Stage_Two],m_data.record[Stage_Three],m_data.record[Stage_Four] };
+	FILE* fp = fopen(SAVE_DATA_NAME, FILE_TYPE_WB);
 	if (fp == NULL) {
 
 	}
-	fwrite(&data, sizeof(data), 1, fp);
+	fwrite(&data, sizeof(data), ELEMENT_COUNT, fp);
 	fclose(fp);
 }
 
 void SaveData::Load() {
 
-	m_game = FindGO<Game>("game");
+	m_game = FindGO<Game>(NAME_GAME);
 
-	const char* pname = "Save_Data.dat";
-	FILE* fp = fopen("Save_Data.dat", "rb");
+	const char* pname = SAVE_DATA_NAME;
+	FILE* fp = fopen(SAVE_DATA_NAME, FILE_TYPE_RB);
 
-	if ((fp = fopen(pname, "rb")) == NULL) {
+	if ((fp = fopen(pname, FILE_TYPE_RB)) == NULL) {
 
-		FILE* fp = fopen("Save_Data.dat", "wb");
+		FILE* fp = fopen(SAVE_DATA_NAME, FILE_TYPE_WB);
 
-		float Record = 999.9f;
+		float Record = INIT_DATA_SCORE;
 		m_time = Record;
-		for (int i = 0; i < 4; i++) {
+		for (int i = 0; i < Stage_Num; i++) {
 			m_data.record[i] = Record;
 		}
 		if (fp == NULL) {
 
 		}
-		fwrite(&m_data, sizeof(m_data), 1, fp);
-		for (int i = 0; i < 4; i++) {
+		fwrite(&m_data, sizeof(m_data), ELEMENT_COUNT, fp);
+		for (int i = 0; i < Stage_Num; i++) {
 			m_game->SetResultTime(i, m_data.record[i]);
 		}
 		fclose(fp);
 	}
 	else {
-		fread(&m_data, sizeof(m_data), 1, fp);
-		for (int i = 0; i < 4; i++) {
+		fread(&m_data, sizeof(m_data), ELEMENT_COUNT, fp);
+		for (int i = 0; i < Stage_Num; i++) {
 			m_game->SetResultTime(i, m_data.record[i]);
 		}
 

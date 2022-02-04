@@ -4,32 +4,28 @@
 #include "Key.h"
 #include "Game.h"
 #include "MainCamera.h"
+#include "ConstTriggerBoxValue.h"
+
 bool Magnet::Start() {
-
 	
+	//座標を登録
 	m_skinModelRender->SetPosition(m_pos);
+	//回転率を登録
 	m_skinModelRender->SetRotation(m_rot);
+	//拡大率を登録
 	m_skinModelRender->SetScale(m_sca);
-	m_key = FindGO<Key>("key");
-	m_game = FindGO<Game>("game");
+	//各クラスのインスタンスを探す
+	m_key = FindGO<Key>(NAME_KEY);
+	m_game = FindGO<Game>(NAME_GAME);
+	m_player = FindGO<Player>(NAME_PLAYER);
 
-	auto mainCamera = FindGO<MainCamera>("maincamera");
+	//カメラが半回転したときの処理
+	auto mainCamera = FindGO<MainCamera>(NAME_MAIN_CAMERA);
 	mainCamera->changeRotCameraEvent.push_back([&]() {
 		Quaternion m_rotZ;
-		m_rotZ.SetRotationDeg(Vector3::AxisZ, -2.0f);
-		m_rotZ.Apply(m_ligData.m_directionLigData[0].Dir);
+		m_rotZ.SetRotationDeg(Vector3::AxisZ, CAMERA_ROT_VALUE);
+		m_rotZ.Apply(m_modelOption.directionLigData[enData_Zeroth].Dir);
 	});
-	/*
-	名前分けしようとしてたときのやつ。
-	////自身の名前によってステートを分けて初期化する。
-	//if (strcmp(this->m_name.c_str(), "N_Magnet") == 0) {
-	//	mState = State_N;
-	//}
-	//else if (strcmp(this->m_name.c_str(), "S_Magnet") == 0) {
-	//	mState = State_S;
-	//}
-
-	*/
 
 	
 	//動く物体じゃないなら座標を更新して当たり判定を付ける。
@@ -39,108 +35,52 @@ bool Magnet::Start() {
 			*m_skinModelRender->GetModel(),
 			m_skinModelRender->GetModel()->GetWorldMatrix()
 		);
-		m_physicsStaticObject.SetFriction(10.0f);
+		m_physicsStaticObject.SetFriction(MAGNET_FRICTION);
 	}
 
-
-	//動く物体じゃないなら動く速さだけ設定。
-	if (m_moveFlg) {
-		m_moveSpeed = (m_moveRange_back - m_moveRange_front) /= 150.0f;
-	}
-
-	//プレイヤーのオブジェクトを探す。
-	m_player = FindGO<Player>("player");
-
+	//磁力を影響範囲を設定する。
 	SetMagnetTriggerBox(m_game->GetStageNum());
+
+	//トリガーボックスとプレイヤーが接触しないように設定する。
 	m_player->GetRigidBody()->GetBody()->setIgnoreCollisionCheck(m_ghostBox.GetGhostObject(), true);
 	return true;
 }
 
 Magnet::~Magnet() {
+	//モデルを削除する。
 	DeleteGO(m_skinModelRender);
 }
 
 void Magnet::Update() {
-	
-	m_ligData.eyePos = g_camera3D->GetPosition();
-
-	//動く物体なら
-	if (m_moveFlg) {
-
-
-		m_pos += m_moveSpeed;
-
-		//設定された右端まできたら動く向きを逆にする。
-		if (m_pos.x > m_moveRange_back.x) {
-			m_pos.x = m_moveRange_back.x;
-		
-		m_timer++;								//
-		if (m_timer == 60) {					//<変更>動く磁石が1秒間一時停止するようにif文追加
-			m_moveSpeed *= -1.0f;
-			m_timer = 0;						//
-			}
-		}
-		//設定された左端まできたら動く向きを逆にする。
-		if (m_pos.x < m_moveRange_front.x) {
-			m_pos.x = m_moveRange_front.x;
-
-		m_timer++;								//
-		if (m_timer == 60) {					//<変更>動く磁石が1秒間停止するようにif文追加
-			m_moveSpeed *= -1.0f;
-			m_timer = 0;						//
-			}
-		}
-	}
 
 	//座標を登録。
 	m_skinModelRender->SetPosition(m_pos);
 	//プレイヤーに向かって伸びるベクトル(長さ)。
 	m_length = m_player->GetPosition() - m_magnetPos;
-	
-	//if (!m_key->GetdoorbreakFlg()) {
-		//プレイヤーとの距離が６m以内だったら力を与える関数を呼び出す。
-	//if (m_length.Length() <= 1000.0f) {
-	//	SetMagnetPower();
-	//}
-	//static float triggerTime = 0.0f;
 
-	//triggerTime += GameTime::GameTimeFunc().GetFrameDeltaTime();
-	//if (triggerTime >= 1.0f) {
+
 		PhysicsWorld::GetInstance()->ContactTest(*m_player->GetRigidBody(), [&](const btCollisionObject& contactObject) {
 
-			if (m_ghostBox.IsSelf(contactObject) == true) {
-				//m_ghostObjectとぶつかった
-				//m_pointLig->SetActiveFlag(true);	//ポイントライトをつける。
-				//m_ghostBox.SetPosition({ 700.0f,405.0f,0.0f });
+			//トリガーボックスと接触
+			if (m_ghostBox.IsSelf(contactObject)) {
+
+				//磁力を与える。
 				SetMagnetPower();
-				//if (m_magnetNum == 42) {
-				//	MessageBoxA(nullptr, "まだ存在しないサウンドです。先にInit()関数を呼んでください。", "エラー", MB_OK);
-				//}
 			}
 		});
-		//triggerTime = 0.0f;
-	//}
-	//m_skinModelRender->SetPosition(m_pos);
 
 }
 
 void Magnet::SetMagnetPower() {
 
-	//基礎磁力の強さ。
-	float magnetPower = 100000.0f;
-
 	//プレイヤーと自身の磁磁極が同じなら自身に向かって伸びるベクトルにする。
-	if (m_MagState != m_player->GetPlayerState()) {
-		m_length *= -1.0f;
+	if (m_magState != m_player->GetPlayerState()) {
+		m_length *= REVERSE_VECTOR;
 	}
 
 	//力を定数倍する。
-	float power = (1 / m_length.Length()) * magnetPower;
+	float power = ReturnReciprocal(m_length.Length()) * MAGNET_POWER;
 
-	//強い磁石なら磁力を1.5倍に。
-	if (m_plusFlg) {
-		power *= 1.5f;
-	}
 	//ベクトルを正規化する。
 	m_length.Normalize();
 
@@ -148,7 +88,7 @@ void Magnet::SetMagnetPower() {
 	m_length *= power;
 
 	//Z方向への力を０にする。
-	m_length.z = 0.0f;
+	m_length.z = MAGNET_Z_POWER;
 
 	//プレイヤーに力を与える。
 	m_player->ReceivePower(m_length);
@@ -156,363 +96,364 @@ void Magnet::SetMagnetPower() {
 
 void Magnet::SetMagnetTriggerBox(int stageNum) {
 
+	//磁力の影響範囲を決める
 	Vector3 ghostPos = m_pos;
-	ghostPos.z -= 200.0f;
+	ghostPos += MAGNET_TRIGGER_BOX_ADD_POS_BASE;
 	switch (stageNum) {		//ステージ番号
 
-	case 1:
+	case Stage_One:
 
 
 		switch (m_magnetNum) {		//磁石番号
 
-		case 1:
-		case 2:
-		case 3:
-		case 4:
-		case 9:
-		case 26:
-		case 34:
-		case 35:
-		case 36:
-		case 37:
+		case enMagnet_First:
+		case enMagnet_Second:
+		case enMagnet_Third:
+		case enMagnet_Fourth:
+		case enMagnet_Nineth:
+		case enMagnet_TwentySixth:
+		case enMagnet_ThirtyFourth:
+		case enMagnet_ThirtyFifth:
+		case enMagnet_ThirtySixth:
+		case enMagnet_ThirtySeventh:
 			CreateTriggerBox(Left3);
 			break;
-		case 11:
-		case 24:
-		case 27:
+		case enMagnet_Eleventh:
+		case enMagnet_TwentyFourth:
+		case enMagnet_TwentySeventh:
 			CreateTriggerBox(Down3);
 			break;
-		case 6:
-		case 7:
-		case 8:
-		case 10:
-		case 12:
-		case 13:
-		case 14:
-		case 17:
-		case 18:
-		case 19:
-		case 22:
-		case 31:
-		case 32:
-		case 33:
+		case enMagnet_Sixth:
+		case enMagnet_Seventh:
+		case enMagnet_Eighth:
+		case enMagnet_Tenth:
+		case enMagnet_Twelfth:
+		case enMagnet_Thirteenth:
+		case enMagnet_Fourteenth:
+		case enMagnet_Seventeenth:
+		case enMagnet_Eighteenth:
+		case enMagnet_Nineteenth:
+		case enMagnet_TwentySecond:
+		case enMagnet_ThirtyFirst:
+		case enMagnet_ThirtySecond:
+		case enMagnet_ThirtyThird:
 			CreateTriggerBox(Right3);
 			break;
-		case 23:
-		case 29:
-		case 30:
+		case enMagnet_TwentyThird:
+		case enMagnet_TwentyNineth:
+		case enMagnet_Thirtieth:
 			CreateTriggerBox(Up3);
 			break;
-		case 0:
-			ghostPos.x += 100.0f;
-			ghostPos.y -= 100.0f;
+		case enMagnet_Zero:
+			ghostPos.x += ADD_POS_100;
+			ghostPos.y -= ADD_POS_100;
 			m_ghostBox.CreateBox(
 				ghostPos,	//第一引数は座標。
 				Quaternion::Identity,		//第二引数は回転クォータニオン。
-				{ 600.0f, 400.0f, 400.0f }	//第三引数はボックスのサイズ。
+				TYPE_644	//第三引数はボックスのサイズ。
 			);
 			break;
-		case 5:
-			ghostPos.x -= 100.0f;
-			ghostPos.y -= 150.0f;
+		case enMagnet_Fifth:
+			ghostPos.x -= ADD_POS_100;
+			ghostPos.y -= ADD_POS_150;
 			m_ghostBox.CreateBox(
 				ghostPos,	//第一引数は座標。
 				Quaternion::Identity,		//第二引数は回転クォータニオン。
-				{ 400.0f, 300.0f, 400.0f }	//第三引数はボックスのサイズ。
+				TYPE_434	//第三引数はボックスのサイズ。
 			);
 			break;
-		case 15:
-			ghostPos.x += 200.0f;
-			ghostPos.y -= 150.0f;
+		case enMagnet_Fifteenth:
+			ghostPos.x += ADD_POS_200;
+			ghostPos.y -= ADD_POS_150;
 			m_ghostBox.CreateBox(
 				ghostPos,	//第一引数は座標。
 				Quaternion::Identity,		//第二引数は回転クォータニオン。
-				{ 400.0f, 300.0f, 400.0f }	//第三引数はボックスのサイズ。
+				TYPE_434	//第三引数はボックスのサイズ。
 			);
 			break;
-		case 16:
-			ghostPos.x += 100.0f;
-			ghostPos.y += 100.0f;
+		case enMagnet_Sixteenth:
+			ghostPos.x += ADD_POS_100;
+			ghostPos.y += ADD_POS_100;
 			m_ghostBox.CreateBox(
 				ghostPos,	//第一引数は座標。
 				Quaternion::Identity,		//第二引数は回転クォータニオン。
-				{ 600.0f, 400.0f, 400.0f }	//第三引数はボックスのサイズ。
+				TYPE_644	//第三引数はボックスのサイズ。
 			);
 			break;
-		case 20:
-			ghostPos.x += 200.0f;
-			ghostPos.y += 250.0f;
+		case enMagnet_Twentieth:
+			ghostPos.x += ADD_POS_200;
+			ghostPos.y += ADD_POS_250;
 			m_ghostBox.CreateBox(
 				ghostPos,	//第一引数は座標。
 				Quaternion::Identity,		//第二引数は回転クォータニオン。
-				{ 400.0f, 300.0f, 400.0f }	//第三引数はボックスのサイズ。
+				TYPE_434	//第三引数はボックスのサイズ。
 			);
 			break;
-		case 21:
-			ghostPos.x -= 100.0f;
-			ghostPos.y += 250.0f;
+		case enMagnet_TwentyFirst:
+			ghostPos.x -= ADD_POS_100;
+			ghostPos.y += ADD_POS_250;
 			m_ghostBox.CreateBox(
 				ghostPos,	//第一引数は座標。
 				Quaternion::Identity,		//第二引数は回転クォータニオン。
-				{ 400.0f, 300.0f, 400.0f }	//第三引数はボックスのサイズ。
+				TYPE_434	//第三引数はボックスのサイズ。
 			);
 			break;
-		case 25:
-			ghostPos.x -= 50.0f;
-			ghostPos.y -= 150.0f;
+		case enMagnet_TwentyFifth:
+			ghostPos.x -= ADD_POS_50;
+			ghostPos.y -= ADD_POS_150;
 			m_ghostBox.CreateBox(
 				ghostPos,	//第一引数は座標。
 				Quaternion::Identity,		//第二引数は回転クォータニオン。
-				{ 300.0f, 300.0f, 400.0f }	//第三引数はボックスのサイズ。
+				TYPE_334	//第三引数はボックスのサイズ。
 			);
 			break;
-		case 28:
-			ghostPos.x -= 50.0f;
-			ghostPos.y += 250.0f;
+		case enMagnet_TwentyEighth:
+			ghostPos.x -= ADD_POS_50;
+			ghostPos.y += ADD_POS_250;
 			m_ghostBox.CreateBox(
 				ghostPos,	//第一引数は座標。
 				Quaternion::Identity,		//第二引数は回転クォータニオン。
-				{ 300.0f, 300.0f, 400.0f }	//第三引数はボックスのサイズ。
+				TYPE_334	//第三引数はボックスのサイズ。
 			);
 			break;
 		}
 		break;
-	case 2:
+	case Stage_Two:
 		switch (m_magnetNum) {
-		case 1:
-		case 3:
-		case 10:
-		case 11:
+		case enMagnet_First:
+		case enMagnet_Third:
+		case enMagnet_Tenth:
+		case enMagnet_Eleventh:
 			CreateTriggerBox(Up4);
 			break;
-		case 4:
-		case 5:
-		case 6:
+		case enMagnet_Fourth:
+		case enMagnet_Fifth:
+		case enMagnet_Sixth:
 			CreateTriggerBox(Right3);
 			break;
-		case 7:
-		case 8:
-		case 9:
+		case enMagnet_Seventh:
+		case enMagnet_Eighth:
+		case enMagnet_Nineth:
 			CreateTriggerBox(Right4);
 			break;
-		case 13:
-		case 14:
+		case enMagnet_Thirteenth:
+		case enMagnet_Fourteenth:
 			CreateTriggerBox(Down4);
 			break;
-		case 16:
-		case 17:
-		case 18:
+		case enMagnet_Sixteenth:
+		case enMagnet_Seventeenth:
+		case enMagnet_Eighteenth:
 			CreateTriggerBox(Left3);
 			break;
-		case 19:
-		case 20:
-		case 21:
+		case enMagnet_Nineteenth:
+		case enMagnet_Twentieth:
+		case enMagnet_TwentyFirst:
 			CreateTriggerBox(Left5);
 			break;
-		case 0:
-		case 2:
-			ghostPos.x -= 50.0f;
-			ghostPos.y += 300.0f;
+		case enMagnet_Zero:
+		case enMagnet_Second:
+			ghostPos.x -= ADD_POS_50;
+			ghostPos.y += ADD_POS_300;
 			m_ghostBox.CreateBox(
 				ghostPos,	//第一引数は座標。
 				Quaternion::Identity,		//第二引数は回転クォータニオン。
-				{ 300.0f, 400.0f, 400.0f }	//第三引数はボックスのサイズ。
+				TYPE_344	//第三引数はボックスのサイズ。
 			);
 			break;
-		case 12:
-			ghostPos.x -= 50.0f;
-			ghostPos.y -= 200.0f;
+		case enMagnet_Twelfth:
+			ghostPos.x -= ADD_POS_50;
+			ghostPos.y -= ADD_POS_200;
 			m_ghostBox.CreateBox(
 				ghostPos,	//第一引数は座標。
 				Quaternion::Identity,		//第二引数は回転クォータニオン。
-				{ 300.0f, 400.0f, 400.0f }	//第三引数はボックスのサイズ。
+				TYPE_344	//第三引数はボックスのサイズ。
 			);
 			break;
-		case 15:
-			ghostPos.x += 150.0f;
-			ghostPos.y -= 200.0f;
+		case enMagnet_Fifteenth:
+			ghostPos.x += ADD_POS_150;
+			ghostPos.y -= ADD_POS_200;
 			m_ghostBox.CreateBox(
 				ghostPos,	//第一引数は座標。
 				Quaternion::Identity,		//第二引数は回転クォータニオン。
-				{ 300.0f, 400.0f, 400.0f }	//第三引数はボックスのサイズ。
+				TYPE_344	//第三引数はボックスのサイズ。
 			);
 			break;
-		case 22:
-			ghostPos.x += 50.0f;
-			ghostPos.y += 200.0f;
+		case enMagnet_TwentySecond:
+			ghostPos.x += ADD_POS_50;
+			ghostPos.y += ADD_POS_200;
 			m_ghostBox.CreateBox(
 				ghostPos,	//第一引数は座標。
 				Quaternion::Identity,		//第二引数は回転クォータニオン。
-				{ 500.0f, 200.0f, 400.0f }	//第三引数はボックスのサイズ。
+				TYPE_524	//第三引数はボックスのサイズ。
 			);
 			break;
-		case 23:
-			ghostPos.x += 50.0f;
-			ghostPos.y -= 100.0f;
+		case enMagnet_TwentyThird:
+			ghostPos.x += ADD_POS_50;
+			ghostPos.y -= ADD_POS_100;
 			m_ghostBox.CreateBox(
 				ghostPos,	//第一引数は座標。
 				Quaternion::Identity,		//第二引数は回転クォータニオン。
-				{ 500.0f, 200.0f, 400.0f }	//第三引数はボックスのサイズ。
+				TYPE_524	//第三引数はボックスのサイズ。
 			);
 			break;
-		case 24:
-			ghostPos.x += 50.0f;
-			ghostPos.y -= 50.0f;
+		case enMagnet_TwentyFourth:
+			ghostPos.x += ADD_POS_50;
+			ghostPos.y -= ADD_POS_50;
 			m_ghostBox.CreateBox(
 				ghostPos,	//第一引数は座標。
 				Quaternion::Identity,		//第二引数は回転クォータニオン。
-				{ 300.0f, 500.0f, 400.0f }	//第三引数はボックスのサイズ。
+				TYPE_354	//第三引数はボックスのサイズ。
 			);
 			break;
 		}
 
 		break;
-	case 3:
+	case Stage_Three:
 		switch (m_magnetNum) {
-		case 0:
-		case 1:
-		case 2:
-		case 3:
-		case 4:
-		case 5:
-		case 6:
-		case 7:
-		case 8:
+		case enMagnet_Zero:
+		case enMagnet_First:
+		case enMagnet_Second:
+		case enMagnet_Third:
+		case enMagnet_Fourth:
+		case enMagnet_Fifth:
+		case enMagnet_Sixth:
+		case enMagnet_Seventh:
+		case enMagnet_Eighth:
 			CreateTriggerBox(Right4);
 			break;
-		case 9:
-		case 10:
-		case 11:
+		case enMagnet_Nineth:
+		case enMagnet_Tenth:
+		case enMagnet_Eleventh:
 			CreateTriggerBox(Up3);
 			break;
-		case 14:
-		case 15:
-		case 16:
-		case 17:
-		case 18:
-		case 19:
+		case enMagnet_Fourteenth:
+		case enMagnet_Fifteenth:
+		case enMagnet_Sixteenth:
+		case enMagnet_Seventeenth:
+		case enMagnet_Eighteenth:
+		case enMagnet_Nineteenth:
 			CreateTriggerBox(Left4);
 			break;
-		case 20:
-		case 21:
-		case 22:
+		case enMagnet_Twentieth:
+		case enMagnet_TwentyFirst:
+		case enMagnet_TwentySecond:
 			CreateTriggerBox(Down2);
 			break;
-		case 12:
-		case 13:
-			ghostPos.x += 100.0f;
-			ghostPos.y += 150.0f;
+		case enMagnet_Twelfth:
+		case enMagnet_Thirteenth:
+			ghostPos.x += ADD_POS_100;
+			ghostPos.y += ADD_POS_150;
 			m_ghostBox.CreateBox(
 				ghostPos,	//第一引数は座標。
 				Quaternion::Identity,		//第二引数は回転クォータニオン。
-				{ 200.0f, 300.0f, 400.0f }	//第三引数はボックスのサイズ。
+				TYPE_234	//第三引数はボックスのサイズ。
 			);
 			break;
-		case 23:
-			ghostPos.x += 200.0f;
-			ghostPos.y -= 50.0f;
+		case enMagnet_TwentyThird:
+			ghostPos.x += ADD_POS_200;
+			ghostPos.y -= ADD_POS_50;
 			m_ghostBox.CreateBox(
 				ghostPos,	//第一引数は座標。
 				Quaternion::Identity,		//第二引数は回転クォータニオン。
-				{ 400.0f, 300.0f, 400.0f }	//第三引数はボックスのサイズ。
+				TYPE_434	//第三引数はボックスのサイズ。
 			);
 			break;
-		case 24:
-			ghostPos.x -= 100.0f;
-			ghostPos.y += 50.0f;
+		case enMagnet_TwentyFourth:
+			ghostPos.x -= ADD_POS_100;
+			ghostPos.y += ADD_POS_50;
 			m_ghostBox.CreateBox(
 				ghostPos,	//第一引数は座標。
 				Quaternion::Identity,		//第二引数は回転クォータニオン。
-				{ 400.0f, 500.0f, 400.0f }	//第三引数はボックスのサイズ。
+				TYPE_454	//第三引数はボックスのサイズ。
 			);
 			break;
-		case 25:
-		case 26:
-			ghostPos.x += 50.0f;
-			ghostPos.y += 50.0f;
+		case enMagnet_TwentyFifth:
+		case enMagnet_TwentySixth:
+			ghostPos.x += ADD_POS_50;
+			ghostPos.y += ADD_POS_50;
 			m_ghostBox.CreateBox(
 				ghostPos,	//第一引数は座標。
 				Quaternion::Identity,		//第二引数は回転クォータニオン。
-				{ 100.0f, 500.0f, 400.0f }	//第三引数はボックスのサイズ。
+				TYPE_154	//第三引数はボックスのサイズ。
 			);
 			break;
-		case 27:
-			ghostPos.x += 50.0f;
-			ghostPos.y += 50.0f;
+		case enMagnet_TwentySeventh:
+			ghostPos.x += ADD_POS_50;
+			ghostPos.y += ADD_POS_50;
 			m_ghostBox.CreateBox(
 				ghostPos,	//第一引数は座標。
 				Quaternion::Identity,		//第二引数は回転クォータニオン。
-				{ 500.0f, 300.0f, 400.0f }	//第三引数はボックスのサイズ。
+				TYPE_534	//第三引数はボックスのサイズ。
 			);
 			break;
 		}
 		break;
-	case 4:
+	case Stage_Four:
 		switch (m_magnetNum) {
-		case 0:
-		case 1:
+		case enMagnet_Zero:
+		case enMagnet_First:
 			CreateTriggerBox(Up3);
 			break;
-		case 2:
-		case 3:
-		case 4:
+		case enMagnet_Second:
+		case enMagnet_Third:
+		case enMagnet_Fourth:
 			CreateTriggerBox(Down2);
 			break;
-		case 5:
-			ghostPos.x -= 50.0f;
-			ghostPos.y -= 100.0f;
+		case enMagnet_Fifth:
+			ghostPos.x -= ADD_POS_50;
+			ghostPos.y -= ADD_POS_100;
 			m_ghostBox.CreateBox(
 				ghostPos,	//第一引数は座標。
 				Quaternion::Identity,		//第二引数は回転クォータニオン。
-				{ 300.0f, 200.0f, 400.0f }	//第三引数はボックスのサイズ。
+				TYPE_324	//第三引数はボックスのサイズ。
 			);
 			break;
-		case 6:
-		case 10:
+		case enMagnet_Sixth:
+		case enMagnet_Tenth:
 			CreateTriggerBox(Left3);
 			break;
-		case 7:
-		case 8:
-		case 9:
-		case 33:
-		case 34:
-		case 35:
+		case enMagnet_Seventh:
+		case enMagnet_Eighth:
+		case enMagnet_Nineth:
+		case enMagnet_ThirtyThird:
+		case enMagnet_ThirtyFourth:
+		case enMagnet_ThirtyFifth:
 			CreateTriggerBox(Right3);
 			break;
-		case 11:
-		case 36:
-		case 37:
-			ghostPos.x += 150.0f;
-			ghostPos.y += 150.0f;
+		case enMagnet_Eleventh:
+		case enMagnet_ThirtySixth:
+		case enMagnet_ThirtySeventh:
+			ghostPos.x += ADD_POS_150;
+			ghostPos.y += ADD_POS_150;
 			m_ghostBox.CreateBox(
 				ghostPos,	//第一引数は座標。
 				Quaternion::Identity,		//第二引数は回転クォータニオン。
-				{ 300.0f, 300.0f, 400.0f }	//第三引数はボックスのサイズ。
+				TYPE_334	//第三引数はボックスのサイズ。
 			);
 			break;
-		case 12:
-		case 13:
-		case 14:
-		case 15:
-		case 16:
-		case 17:
-		case 18:
-		case 19:
+		case enMagnet_Twelfth:
+		case enMagnet_Thirteenth:
+		case enMagnet_Fourteenth:
+		case enMagnet_Fifteenth:
+		case enMagnet_Sixteenth:
+		case enMagnet_Seventeenth:
+		case enMagnet_Eighteenth:
+		case enMagnet_Nineteenth:
 			CreateTriggerBox(Up2);
 			break;
-		case 20:
-		case 21:
-		case 22:
-		case 23:
-		case 24:
-		case 25:
-		case 26:
-		case 27:
-		case 28:
-		case 29:
-		case 30:
-		case 31:
-		case 32:
+		case enMagnet_Twentieth:
+		case enMagnet_TwentyFirst:
+		case enMagnet_TwentySecond:
+		case enMagnet_TwentyThird:
+		case enMagnet_TwentyFourth:
+		case enMagnet_TwentyFifth:
+		case enMagnet_TwentySixth:
+		case enMagnet_TwentySeventh:
+		case enMagnet_TwentyEighth:
+		case enMagnet_TwentyNineth:
+		case enMagnet_Thirtieth:
+		case enMagnet_ThirtyFirst:
+		case enMagnet_ThirtySecond:
 			CreateTriggerBox(Down3);
 			break;
 		}
@@ -522,106 +463,107 @@ void Magnet::SetMagnetTriggerBox(int stageNum) {
 
 void Magnet::CreateTriggerBox(int type) {
 
+	//磁力の影響範囲のサンプル
 	Vector3 ghostPos = m_pos;
-	ghostPos.z -= 200.0f;
+	ghostPos += MAGNET_TRIGGER_BOX_ADD_POS_BASE;
 	switch (type) {
 	case Left3:
-		ghostPos.x -= 150.0f;
-		ghostPos.y += 50.0f;
+		ghostPos.x -= ADD_POS_150;
+		ghostPos.y += ADD_POS_50;
 		m_ghostBox.CreateBox(
 			ghostPos,	//第一引数は座標。
 			Quaternion::Identity,		//第二引数は回転クォータニオン。
-			{ 300.0f, 100.0f, 400.0f }	//第三引数はボックスのサイズ。
+			TYPE_314	//第三引数はボックスのサイズ。
 		);
 		break;
 	case Left4:
-		ghostPos.x -= 200.0f;
-		ghostPos.y += 50.0f;
+		ghostPos.x -= ADD_POS_200;
+		ghostPos.y += ADD_POS_50;
 		m_ghostBox.CreateBox(
 			ghostPos,	//第一引数は座標。
 			Quaternion::Identity,		//第二引数は回転クォータニオン。
-			{ 400.0f, 100.0f, 400.0f }	//第三引数はボックスのサイズ。
+			TYPE_414	//第三引数はボックスのサイズ。
 		);
 		break;
 	case Left5:
-		ghostPos.x -= 250.0f;
-		ghostPos.y += 50.0f;
+		ghostPos.x -= ADD_POS_250;
+		ghostPos.y += ADD_POS_50;
 		m_ghostBox.CreateBox(
 			ghostPos,	//第一引数は座標。
 			Quaternion::Identity,		//第二引数は回転クォータニオン。
-			{ 500.0f, 100.0f, 400.0f }	//第三引数はボックスのサイズ。
+			TYPE_514	//第三引数はボックスのサイズ。
 		);
 		break;
 	case Right3:
-		ghostPos.x += 250.0f;
-		ghostPos.y += 50.0f;
+		ghostPos.x += ADD_POS_250;
+		ghostPos.y += ADD_POS_50;
 		m_ghostBox.CreateBox(
 			ghostPos,	//第一引数は座標。
 			Quaternion::Identity,		//第二引数は回転クォータニオン。
-			{ 300.0f, 100.0f, 400.0f }	//第三引数はボックスのサイズ。
+			TYPE_314	//第三引数はボックスのサイズ。
 		);
 		break;
 	case Right4:
-		ghostPos.x += 300.0f;
-		ghostPos.y += 50.0f;
+		ghostPos.x += ADD_POS_300;
+		ghostPos.y += ADD_POS_50;
 		m_ghostBox.CreateBox(
 			ghostPos,	//第一引数は座標。
 			Quaternion::Identity,		//第二引数は回転クォータニオン。
-			{ 400.0f, 100.0f, 400.0f }	//第三引数はボックスのサイズ。
+			TYPE_414	//第三引数はボックスのサイズ。
 		);
 		break;
 	case Down2:
-		ghostPos.x += 50.0f;
-		ghostPos.y -= 100.0f;
+		ghostPos.x += ADD_POS_50;
+		ghostPos.y -= ADD_POS_100;
 		m_ghostBox.CreateBox(
 			ghostPos,	//第一引数は座標。
 			Quaternion::Identity,		//第二引数は回転クォータニオン。
-			{ 100.0f, 200.0f, 400.0f }	//第三引数はボックスのサイズ。
+			TYPE_124	//第三引数はボックスのサイズ。
 		);
 		break;
 	case Down3:
-		ghostPos.x += 50.0f;
-		ghostPos.y -= 150.0f;
+		ghostPos.x += ADD_POS_50;
+		ghostPos.y -= ADD_POS_150;
 		m_ghostBox.CreateBox(
 			ghostPos,	//第一引数は座標。
 			Quaternion::Identity,		//第二引数は回転クォータニオン。
-			{ 100.0f, 300.0f, 400.0f }	//第三引数はボックスのサイズ。
+			TYPE_134	//第三引数はボックスのサイズ。
 		);
 		break;
 	case Down4:
-		ghostPos.x += 50.0f;
-		ghostPos.y -= 200.0f;
+		ghostPos.x += ADD_POS_50;
+		ghostPos.y -= ADD_POS_200;
 		m_ghostBox.CreateBox(
 			ghostPos,	//第一引数は座標。
 			Quaternion::Identity,		//第二引数は回転クォータニオン。
-			{ 100.0f, 400.0f, 400.0f }	//第三引数はボックスのサイズ。
+			TYPE_144	//第三引数はボックスのサイズ。
 		);
 		break;
 	case Up2:
-		ghostPos.x += 50.0f;
-		ghostPos.y += 200.0f;
+		ghostPos.x += ADD_POS_50;
+		ghostPos.y += ADD_POS_200;
 		m_ghostBox.CreateBox(
 			ghostPos,	//第一引数は座標。
 			Quaternion::Identity,		//第二引数は回転クォータニオン。
-			{ 100.0f, 200.0f, 400.0f }	//第三引数はボックスのサイズ。
+			TYPE_124	//第三引数はボックスのサイズ。
 		);
 		break;
 	case Up3:
-		ghostPos.x += 50.0f;
-		ghostPos.y += 250.0f;
+		ghostPos.x += ADD_POS_50;
+		ghostPos.y += ADD_POS_250;
 		m_ghostBox.CreateBox(
 			ghostPos,	//第一引数は座標。
 			Quaternion::Identity,		//第二引数は回転クォータニオン。
-			{ 100.0f, 300.0f, 400.0f }	//第三引数はボックスのサイズ。
+			TYPE_134	//第三引数はボックスのサイズ。
 		);
 		break;
 	case Up4:
-		ghostPos.x += 50.0f;
-		ghostPos.y += 300.0f;
+		ghostPos.x += ADD_POS_50;
+		ghostPos.y += ADD_POS_300;
 		m_ghostBox.CreateBox(
 			ghostPos,	//第一引数は座標。
 			Quaternion::Identity,		//第二引数は回転クォータニオン。
-			{ 100.0f, 400.0f, 400.0f }	//第三引数はボックスのサイズ。
+			TYPE_144	//第三引数はボックスのサイズ。
 		);
 		break;
 	}

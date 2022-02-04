@@ -20,7 +20,7 @@ public:
 		spriteInitData.m_height = FRAME_BUFFER_H;
 
 		// ディファードライティングで使用するテクスチャを設定
-		spriteInitData.m_textures[0] = &RenderTarget::GetRenderTarget(enAlbedoAndShadowReceiverFlgMap)->GetRenderTargetTexture();
+		spriteInitData.m_textures[0] = &RenderTarget::GetRenderTarget(enAlbedoMap)->GetRenderTargetTexture();
 		spriteInitData.m_textures[1] = &RenderTarget::GetRenderTarget(enNormalAndDepthMap)->GetRenderTargetTexture();
 		spriteInitData.m_textures[2] = &RenderTarget::GetRenderTarget(enWorldPosAndLigIDMap)->GetRenderTargetTexture();
 

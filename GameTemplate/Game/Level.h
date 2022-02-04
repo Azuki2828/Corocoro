@@ -13,9 +13,12 @@ struct LevelObjectData {
 	*@param[in]	objName		調べる名前。
 	*@return	名前が同じ場合にtrueを返します。
 	*/
-	bool EqualObjectName(const wchar_t* objName)
+	bool EqualObjectName(const char* objName)
 	{
-		return wcscmp(objName, name) == 0;
+		char objNameBase[256];
+		wcstombs(objNameBase, name, 256);
+
+		return strcmp(objName, objNameBase) == 0;
 	}
 	/*!
 	* @brief	名前が前方一致するか調べる。
